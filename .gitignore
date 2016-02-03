@@ -7,9 +7,9 @@ runTRB.bat
 runTRB.sh
 
 #privacy
-config/
 database/
 test/
+trbpath.py
 
 # Folder config file
 Desktop.ini

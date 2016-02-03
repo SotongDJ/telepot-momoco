@@ -2,11 +2,11 @@ import sys
 import time
 import pprint
 import telepot
-
+import trbpath
 #def mode(text,idnum):
 #    if 'non' in
 #    if '/list' in text:
-#        rcd=open("./config/mode/"+idnum,'w')
+#        rcd=open(config+idnum,'w')
 #        rcd.write('list')
 #        rcd.close()
 #    elif '/'
