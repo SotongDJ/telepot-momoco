@@ -9,6 +9,7 @@ runTRB.sh
 #privacy
 config/
 database/
+test/
 
 # Folder config file
 Desktop.ini

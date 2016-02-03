@@ -3,10 +3,21 @@ import time
 import pprint
 import telepot
 
+#def mode(text,idnum):
+#    if 'non' in
+#    if '/list' in text:
+#        rcd=open("./config/mode/"+idnum,'w')
+#        rcd.write('list')
+#        rcd.close()
+#    elif '/'
+
 def handle(msg):
     print(msg)
     # Do your stuff here ...
     #postmsg=msg[]
+    # mode
+#    mode(msg['text'],msg['from']['id'])
+
     if 'forward_from' in msg.keys():
         bot.sendMessage(msg['from']['id'], "\""+msg['from']['first_name']+" "+msg['from']['last_name']+"\" foward the msg of \""+msg['forward_from']['first_name']+" "+msg['forward_from']['last_name']+"\" that said: \n"+msg['text'])
     else:
