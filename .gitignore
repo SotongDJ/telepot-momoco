@@ -4,6 +4,7 @@ ehthumbs.db
 
 # API Key
 runTRB.bat
+runTRB.sh
 
 # Folder config file
 Desktop.ini
