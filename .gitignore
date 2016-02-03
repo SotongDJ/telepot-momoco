@@ -10,6 +10,7 @@ runTRB.sh
 database/
 test/
 trbpath.py
+trbpath.pyc
 
 # Folder config file
 Desktop.ini
