@@ -6,6 +6,10 @@ ehthumbs.db
 runTRB.bat
 runTRB.sh
 
+#privacy
+config/
+database/
+
 # Folder config file
 Desktop.ini
 
