@@ -23,8 +23,11 @@ def handle(msg):
         bot.sendMessage(msg['from']['id'], "\""+msg['from']['first_name']+" "+msg['from']['last_name']+"\" foward the msg of \""+msg['forward_from']['first_name']+" "+msg['forward_from']['last_name']+"\" that said: \n"+msg['text'])
     else:
         bot.sendMessage(msg['from']['id'], msg['from']['first_name']+" "+msg['from']['last_name']+" say: "+msg['text'])
+
+    #Remote terminate robot
     #if "/exit" in msg['text']:
         #if msg['from']['id'] == trbpath.tgid("stdj"):
+            #
 # Getting the token from command-line is better than embedding it in code,
 # because tokens are supposed to be kept secret.
 TOKEN = sys.argv[1]
