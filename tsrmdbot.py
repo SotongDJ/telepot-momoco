@@ -1,8 +1,4 @@
-import sys
-import time
-import pprint
-import telepot
-import trbpath
+import os, sys, signal, time, pprint, telepot, trbpath
 
 def mode(text,idstr):
     #if 'non' in
@@ -24,16 +20,16 @@ def handle(msg):
     else:
         bot.sendMessage(msg['from']['id'], msg['from']['first_name']+" "+msg['from']['last_name']+" say: "+msg['text'])
 
-    #Remote terminate robot
-    #if "/exit" in msg['text']:
-        #if msg['from']['id'] == trbpath.tgid("stdj"):
-            #
+def handler(signum, frame):
+    print 'Signal handler called with signal', signum
+
 # Getting the token from command-line is better than embedding it in code,
 # because tokens are supposed to be kept secret.
 TOKEN = sys.argv[1]
 
 bot = telepot.Bot(TOKEN)
 bot.notifyOnMessage(handle)
+signal.signal(signal.SIGINT, handler)
 print('Listening ...')
 
 # Keep the program running.
