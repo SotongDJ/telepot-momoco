@@ -5,6 +5,7 @@ import telepot
 import externa
 def handle(msg):
     content_type, chat_type, chat_id = telepot.glance(msg)
+    datetime = str(msg['date'])
     print(content_type, chat_type, chat_id)
     os.system("mkdir -p ./database/"+str(chat_id)+"/")
     moda=externa.check("mode",chat_id)
@@ -42,7 +43,7 @@ def handle(msg):
             print("level="+str(level)+", limit="+str(limit))
             if level > limit:
                 fif=open(externa.path("analisi/feel",str(chat_id))+"feeling.csv","a")
-                fif.write(str(chat_id)+","+str(msg['date'])+",\""+msg['text']+"\"\n")
+                fif.write(str(chat_id)+","+datetime+",\""+msg['text']+"\"\n")
                 fif.close()
                 bot.sendMessage(chat_id, "Recorded, Original message:\n\""+msg['text']+"\"")
             elif level > 0:
