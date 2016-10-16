@@ -12,6 +12,7 @@ test/
 trbpath.py
 trbpath.pyc
 externa.py
+externa.pyc
 
 # Folder config file
 Desktop.ini
