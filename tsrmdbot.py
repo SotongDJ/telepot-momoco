@@ -1,36 +1,41 @@
-import os, sys, signal, time, pprint, telepot, trbpath
-
-def mode(text,idstr):
-    #if 'non' in
-    if '/list' in text:
-        rcd=open(trbpath.path("mode")+str(idstr),'w')
-        rcd.write('list')
-        rcd.close()
-    #elif '/'
-
+import sys
+import os
+import time
+import telepot
+import trbpath
+global moda,modaOld
 def handle(msg):
-    print(msg)
-    # Do your stuff here ...
-    #postmsg=msg[]
-    # mode
-    mode(msg['text'],msg['from']['id'])
+    content_type, chat_type, chat_id = telepot.glance(msg)
+    print(content_type, chat_type, chat_id)
+    if moda == "feel-analisi":
+        os.system("mkdir "+trbpath.path("analisi",str(chat_id)))
+        if content_type == 'text':
+            if "feel" in msg['text']:
+                fif=open(trbpath.path("analisi",str(chat_id))+"feeling.csv","a")
+                fif.write(str(chat_id)+",\""+msg['text']+"\"\n")
+                fif.close()
+                bot.sendMessage(chat_id, msg['text'])
+    elif moda == "none":
+        if content_type == 'text':
+            if msg['text']=="/help":
+                bot.sendMessage(chat_id, "Commands:\n/help\n    Show this document\n/start\n    Choose moda\n")
+            elif msg['text']=="/feel":
+                modaOld=moda
+                moda="feel-analisi"
+                bot.sendMessage(chat_id,"Mode change from \""+modaOld+"\" to \""+moda+"\"")
+                modaOld=""
+            else:
+                bot.sendMessage(chat_id, msg['text'])
 
-    if 'forward_from' in msg.keys():
-        bot.sendMessage(msg['from']['id'], "\""+msg['from']['first_name']+" "+msg['from']['last_name']+"\" foward the msg of \""+msg['forward_from']['first_name']+" "+msg['forward_from']['last_name']+"\" that said: \n"+msg['text'])
-    else:
-        bot.sendMessage(msg['from']['id'], msg['from']['first_name']+" "+msg['from']['last_name']+" say: "+msg['text'])
-
-def handler(signum, frame):
-    print 'Signal handler called with signal', signum
-
-# Getting the token from command-line is better than embedding it in code,
-# because tokens are supposed to be kept secret.
-TOKEN = sys.argv[1]
+TOKEN = sys.argv[1]  # get token from command-line
 
 bot = telepot.Bot(TOKEN)
-bot.notifyOnMessage(handle)
-signal.signal(signal.SIGINT, handler)
-print('Listening ...')
+bot.message_loop(handle)
+#
+moda="none"
+modaOld=""
+#
+print ('Listening ...')
 
 # Keep the program running.
 while 1:

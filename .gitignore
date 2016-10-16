@@ -11,6 +11,7 @@ database/
 test/
 trbpath.py
 trbpath.pyc
+externa.py
 
 # Folder config file
 Desktop.ini
