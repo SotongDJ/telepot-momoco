@@ -3,10 +3,11 @@ import os
 import time
 import telepot
 import externa
+import module/id4feel
 def handle(msg):
     content_type, chat_type, chat_id = telepot.glance(msg)
     datetime = str(msg['date'])
-    print(content_type, chat_type, chat_id)
+    print(content_type, chat_type, chat_id, datatime)
     os.system("mkdir -p ./database/"+str(chat_id)+"/")
     moda=externa.check("mode",chat_id)
 
@@ -34,19 +35,16 @@ def handle(msg):
             bot.sendMessage(chat_id,"Successfully quit mode from \""+moda+"\"")
 
         elif moda == "analisi/feel":
-            level=0
-            limit=1
-            plus=2
-            for keyword in ["Feel","feel"]:
-                if keyword in msg['text']:
-                    level=level+plus
+            mark=idenFeel(msg['text'])
+            level=mark['level']
+            limit=mark['limit']
             print("level="+str(level)+", limit="+str(limit))
-            if level > limit:
+            if abs(level) > limit:
                 fif=open(externa.path("analisi/feel",str(chat_id))+"feeling.csv","a")
                 fif.write(str(chat_id)+","+datetime+",\""+msg['text']+"\"\n")
                 fif.close()
                 bot.sendMessage(chat_id, "Recorded, Original message:\n\""+msg['text']+"\"")
-            elif level > 0:
+            elif level != 0:
                 bot.sendMessage(chat_id, "Recognized but lower the threshold, Original message:\n\""+msg['text']+"\"")
             elif level == 0:
                 bot.sendMessage(chat_id, "Can't recognize, Original message:\n\""+msg['text']+"\"")
