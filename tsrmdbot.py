@@ -3,11 +3,12 @@ import os
 import time
 import telepot
 import externa
-import module/id4feel
+import id4feel
 def handle(msg):
     content_type, chat_type, chat_id = telepot.glance(msg)
     datetime = str(msg['date'])
-    print(content_type, chat_type, chat_id, datatime)
+    datetimeInt=msg['date']
+    print(content_type, chat_type, chat_id, datetime)
     os.system("mkdir -p ./database/"+str(chat_id)+"/")
     moda=externa.check("mode",chat_id)
 
@@ -35,13 +36,14 @@ def handle(msg):
             bot.sendMessage(chat_id,"Successfully quit mode from \""+moda+"\"")
 
         elif moda == "analisi/feel":
-            mark=idenFeel(msg['text'])
+            mark=id4feel.idenFeel(msg['text'])
             level=mark['level']
             limit=mark['limit']
+            keywos=mark['keyword']
             print("level="+str(level)+", limit="+str(limit))
             if abs(level) > limit:
                 fif=open(externa.path("analisi/feel",str(chat_id))+"feeling.csv","a")
-                fif.write(str(chat_id)+","+datetime+",\""+msg['text']+"\"\n")
+                fif.write(str(chat_id)+","+datetime+","+"-".join(keywos)+","+str(level)+",\""+msg['text']+"\",\""+time.asctime(time.localtime(datetimeInt))+"\"\n")
                 fif.close()
                 bot.sendMessage(chat_id, "Recorded, Original message:\n\""+msg['text']+"\"")
             elif level != 0:
