@@ -40,8 +40,8 @@ def handle(msg):
 
         elif msg['text']=="/keywo":
             if moda == "analisi/feel":
-                bot.sendMessage(chat_id,open("./database/keywo/"+modol+"/dicto").read())
-                bot.sendMessage(chat_id,open("./database/keywo/"+modol+"/dikta").read())
+                bot.sendMessage(chat_id,open("./database/keywo/"+moda+"/dicto").read())
+                bot.sendMessage(chat_id,open("./database/keywo/"+moda+"/dikta").read())
 
         elif moda == "analisi/feel":
             mark=id4feel.idenFeel(msg['text'])
