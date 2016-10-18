@@ -35,6 +35,10 @@ def handle(msg):
             externa.change("mode","none",chat_id)
             bot.sendMessage(chat_id,"Successfully quit mode from \""+moda+"\"")
 
+        elif msg['text']=="/pull":
+            bot.sendMessage(chat_id,open(externa.path("analisi/feel",str(chat_id))+"record.csv").read())
+
+
         elif moda == "analisi/feel":
             mark=id4feel.idenFeel(msg['text'])
             level=mark['level']
@@ -42,7 +46,7 @@ def handle(msg):
             keywos=mark['keyword']
             print("level="+str(level)+", limit="+str(limit))
             if abs(level) > limit:
-                fif=open(externa.path("analisi/feel",str(chat_id))+"feeling.csv","a")
+                fif=open(externa.path("analisi/feel",str(chat_id))+"record.csv","a")
                 fif.write(str(chat_id)+","+datetime+","+"-".join(keywos)+","+str(level)+",\""+msg['text']+"\",\""+time.asctime(time.localtime(datetimeInt))+"\"\n")
                 fif.close()
                 bot.sendMessage(chat_id, "Recorded, Original message:\n\""+msg['text']+"\"")

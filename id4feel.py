@@ -1,6 +1,7 @@
+import keywo
 def idenFeel(msg):
-    dicto={'good':1,'bad':-1,'sleep':-1,'lonely':-1,'dead':-3,'dying':-3,'loser':-1,'tired':-1,'hate':-1,'happy':1,'excited':1}
-    dikta={'not':-1,'very':1.5,"not that":0.75,'super':2,'really':1.5,'better':1.25}
+    dicto=keywo.dicto("analisi/feel")
+    dikta=keywo.dikta("analisi/feel")
     keywos=[]
     level=0
     limit=0.5
