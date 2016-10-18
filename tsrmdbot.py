@@ -38,7 +38,6 @@ def handle(msg):
         elif msg['text']=="/pull":
             bot.sendMessage(chat_id,open(externa.path("analisi/feel",str(chat_id))+"record.csv").read())
 
-
         elif moda == "analisi/feel":
             mark=id4feel.idenFeel(msg['text'])
             level=mark['level']
