@@ -15,6 +15,7 @@ externa.py
 externa.pyc
 id4feel.pyc
 keywo.pyc
+auth.py
 
 # Folder config file
 Desktop.ini
