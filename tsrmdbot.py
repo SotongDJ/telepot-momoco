@@ -44,7 +44,7 @@ def handle(msg):
                 bot.sendMessage(chat_id,open("./database/keywo/"+moda+"/dicto").read())
                 bot.sendMessage(chat_id,open("./database/keywo/"+moda+"/dikta").read())
 
-        elif msg['text']=="/keywo":
+        elif msg['text']=="/temp":
             if auth.admin(chat_id):
                 os.system("/opt/vc/bin/vcgencmd measure_temp>./database/temp")
                 bot.sendMessage(chat_id,open("./database/temp").read())
