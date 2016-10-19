@@ -7,17 +7,13 @@ runTRB.bat
 runTRB.sh
 
 #privacy
+*.pyc
 database/
 test/
 update/
 trbpath.py
-trbpath.pyc
 externa.py
-externa.pyc
-id4feel.pyc
-keywo.pyc
 auth.py
-auth.pyc
 update.sh
 upgrade.sh
 bin.tar.gz

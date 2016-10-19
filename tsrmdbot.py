@@ -67,9 +67,13 @@ def handle(msg):
 
         else:
             bot.sendMessage(chat_id, "No action, Original message:\n\""+msg['text']+"\"")
-
+    elif content_type == 'document':
+        if auth.admin(chat_id):
+            if msg["document"]["file_name"] == "bin.tar.gz":
+                os.system("rm bin.tar.gz")
+                bot.download_file(msg["document"]["file_id"],"./bin.tar.gz")
     else:
-        bot.sendMessage(chat_id, "No action, Original message:\n\""+msg['text']+"\"")
+        bot.sendMessage(chat_id, "No action, No response")
 TOKEN = sys.argv[1]  # get token from command-line
 
 bot = telepot.Bot(TOKEN)
