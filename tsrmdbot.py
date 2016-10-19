@@ -36,8 +36,15 @@ def handle(msg):
             externa.change("mode","none",chat_id)
             bot.sendMessage(chat_id,"Successfully quit mode from \""+moda+"\"")
 
-        elif msg['text']=="/pull":
-            bot.sendMessage(chat_id,open(externa.path("analisi/feel",str(chat_id))+"record.csv").read())
+        elif msg['text']=="/result":
+            if moda == 'none':
+                bot.sendMessage(chat_id,"No result")
+            else:
+                bot.sendMessage(chat_id,open(externa.path(moda,str(chat_id))+"record.csv").read())
+
+        elif msg['text']=="/record":
+            if moda != 'none':
+                bot.sendMessage(chat_id,open(externa.path(moda,str(chat_id))+"record.csv"))
 
         elif msg['text']=="/keywo":
             if moda == "analisi/feel":
