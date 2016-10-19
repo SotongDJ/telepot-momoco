@@ -9,6 +9,7 @@ runTRB.sh
 #privacy
 database/
 test/
+update/
 trbpath.py
 trbpath.pyc
 externa.py
@@ -16,6 +17,8 @@ externa.pyc
 id4feel.pyc
 keywo.pyc
 auth.py
+update.sh
+upgrade.sh
 
 # Folder config file
 Desktop.ini
