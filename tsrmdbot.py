@@ -4,6 +4,7 @@ import time
 import telepot
 import externa
 import id4feel
+import auth
 def handle(msg):
     content_type, chat_type, chat_id = telepot.glance(msg)
     datetime = str(msg['date'])
@@ -42,6 +43,11 @@ def handle(msg):
             if moda == "analisi/feel":
                 bot.sendMessage(chat_id,open("./database/keywo/"+moda+"/dicto").read())
                 bot.sendMessage(chat_id,open("./database/keywo/"+moda+"/dikta").read())
+
+        elif msg['text']=="/keywo":
+            if auth.admin(chat_id):
+                os.system("/opt/vc/bin/vcgencmd measure_temp>./database/temp")
+                bot.sendMessage(chat_id,open("./database/temp").read())
 
         elif moda == "analisi/feel":
             mark=id4feel.idenFeel(msg['text'])
