@@ -11,11 +11,6 @@ runTRB.sh
 database/
 test/
 update/
-trbpath.py
-externa.py
-auth.py
-update.sh
-upgrade.sh
 bin.tar.gz
 
 # Folder config file

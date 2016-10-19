@@ -48,6 +48,10 @@ def handle(msg):
             if auth.admin(chat_id):
                 os.system("/opt/vc/bin/vcgencmd measure_temp>./database/temp")
                 bot.sendMessage(chat_id,open("./database/temp").read())
+        elif msg['text']=="/admin":
+            if auth.admin(chat_id):
+                bot.sendMessage(chat_id,auth.check().read())
+
 
         elif moda == "analisi/feel":
             mark=id4feel.idenFeel(msg['text'])
@@ -72,6 +76,8 @@ def handle(msg):
             if msg["document"]["file_name"] == "bin.tar.gz":
                 os.system("rm bin.tar.gz")
                 bot.download_file(msg["document"]["file_id"],"./bin.tar.gz")
+                bot.sendMessage(auth.id(), str(chat_id)+": I am updating Server ")
+                os.system("setsid ./upgrade.sh")
     else:
         bot.sendMessage(chat_id, "No action, No response")
 TOKEN = sys.argv[1]  # get token from command-line
@@ -79,6 +85,7 @@ TOKEN = sys.argv[1]  # get token from command-line
 bot = telepot.Bot(TOKEN)
 bot.message_loop(handle)
 #
+bot.sendMessage(auth.id(), "Server Starting")
 print ('Listening ...')
 
 # Keep the program running.
