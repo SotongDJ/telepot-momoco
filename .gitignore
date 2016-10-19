@@ -17,8 +17,10 @@ externa.pyc
 id4feel.pyc
 keywo.pyc
 auth.py
+auth.pyc
 update.sh
 upgrade.sh
+bin.tar.gz
 
 # Folder config file
 Desktop.ini
