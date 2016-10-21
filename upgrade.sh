@@ -1,3 +1,3 @@
 pkill python
 tar -zxvf bin.tar.gz
-setsid ./runTRB.sh
+./para.sh "setsid ./runTRB.sh" "setsid ./runRUOK.sh"

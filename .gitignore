@@ -3,8 +3,8 @@ Thumbs.db
 ehthumbs.db
 
 # API Key
-runTRB.bat
 runTRB.sh
+runRUOK.sh
 
 #privacy
 *.pyc
