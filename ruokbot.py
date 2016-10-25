@@ -81,5 +81,5 @@ while 1:
     if tomin == 0:
         if tohour in [8,12,18,20]:
             for userid in auth.user():
-                bot.sendMessage(, "What is your feeling now?")
+                bot.sendMessage(userid, "What is your feeling now?")
     time.sleep(60)
