@@ -12,3 +12,6 @@ def check():
 
 def id():
     return open("database/admin").read()
+
+def user():
+    #list a user list (return  a list of userid)

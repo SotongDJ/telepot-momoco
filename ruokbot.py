@@ -10,7 +10,6 @@ def handle(msg):
     datetime = str(msg['date'])
     datetimeInt=msg['date']
     print(content_type, chat_type, chat_id, datetime)
-    os.system("mkdir -p ./database/"+str(chat_id)+"/")
     moda=externa.check("mode",chat_id)
 
     if moda == "":
@@ -78,4 +77,9 @@ print ('Listening ...')
 
 # Keep the program running.
 while 1:
-    time.sleep(10)
+    toyear,tomonth,today,tohour,tomin,tosec,widay,yeday,isds=time.localtime()
+    if tomin == 0:
+        if tohour in [8,12,18,20]:
+            for userid in auth.user():
+                bot.sendMessage(, "What is your feeling now?")
+    time.sleep(60)

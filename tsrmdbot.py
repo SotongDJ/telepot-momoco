@@ -10,7 +10,6 @@ def handle(msg):
     datetime = str(msg['date'])
     datetimeInt=msg['date']
     print(content_type, chat_type, chat_id, datetime)
-    os.system("mkdir -p ./database/"+str(chat_id)+"/")
     moda=externa.check("mode",chat_id)
 
     if moda == "":
