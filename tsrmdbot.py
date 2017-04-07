@@ -15,7 +15,7 @@ def handle(msg):
     if moda == "":
         tool.change("mode","none",chat_id)
 
-    if auth.admin(chat_id):
+    if chat_id == auth.id():
         if content_type == 'text':
             if msg['text']=="/help":
                 helpmsg=tool.msg("tsrmd-help")
@@ -37,7 +37,8 @@ def handle(msg):
                 bot.sendMessage(chat_id,open("./database/temp").read())
 
             elif msg['text']=="/admin":
-                bot.sendMessage(chat_id,auth.check(id).read())
+                warnMsg="User["+str(chat_id)+"] is calling you, pls reply"
+                bot.sendMessage(auth.id,warnMsg)
 
             elif msg['text']=="/restart":
                 #remsg=tool.msg("tsrmd-restart")

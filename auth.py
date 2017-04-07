@@ -1,18 +1,7 @@
 import os
-def admin(id):
-    if id == int(open("database/admin").read()):
-        return True
-    else:
-        return False
-
-def check(id):
-    if id == str(open("database/admin").read()):
-        return "Admin id is: "+open("database/admin").read()
-    else:
-        return "Require permision"
-
 def id():
-    return open("database/admin").read()
+    sets=open("database/admin").read().split("=")
+    return int(sets[1])
 
 def user():
     #list a user list (return  a list of userid)

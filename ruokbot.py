@@ -3,13 +3,15 @@ import os
 import time
 import telepot
 import tool
+import log
 import id4feel
 import auth
 def handle(msg):
     content_type, chat_type, chat_id = telepot.glance(msg)
     datetime = str(msg['date'])
     datetimeInt=msg['date']
-    print(content_type, chat_type, chat_id, datetime)
+    logmsg="Receive Msg: "+msg['text']+"\n        content_type="+content_type+", chat_type="+chat_type+", chat_id="+str(chat_id)+", date="+datetime
+    log.log4g(auth.id(),logmsg,"log")
     moda=tool.check("mode",chat_id)
 
     if moda == "":
