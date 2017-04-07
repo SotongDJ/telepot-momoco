@@ -2,7 +2,7 @@ import sys
 import os
 import time
 import telepot
-import externa
+import tool
 import id4feel
 import auth
 def handle(msg):
@@ -10,38 +10,38 @@ def handle(msg):
     datetime = str(msg['date'])
     datetimeInt=msg['date']
     print(content_type, chat_type, chat_id, datetime)
-    moda=externa.check("mode",chat_id)
+    moda=tool.check("mode",chat_id)
 
     if moda == "":
-        externa.change("mode\n","analisi/feel",chat_id)
+        tool.change("mode\n","analisi/feel",chat_id)
     elif moda == "none":
-        externa.change("mode","analisi/feel",chat_id)
+        tool.change("mode","analisi/feel",chat_id)
 
     if content_type == 'text':
         if msg['text']=="/help":
-            helpmsg=externa.msg("ruok-help")
+            helpmsg=tool.msg("ruok-help")
             bot.sendMessage(chat_id, helpmsg)
 
         elif msg['text']=="/start":
-            startmsg=externa.msg("ruok-start")
+            startmsg=tool.msg("ruok-start")
             bot.sendMessage(chat_id,startmsg)
 
         elif msg['text']=="/mode":
             bot.sendMessage(chat_id,"Current mode is \""+moda+"\"")
 
         elif msg['text']=="/feel":
-            externa.change("mode","analisi/feel",chat_id)
+            tool.change("mode","analisi/feel",chat_id)
             bot.sendMessage(chat_id,"Mode change from \""+moda+"\" to \"Analisi/Feel\"")
 
         elif msg['text']=="/quit":
-            externa.change("mode","none",chat_id)
+            tool.change("mode","none",chat_id)
             bot.sendMessage(chat_id,"Successfully quit mode from \""+moda+"\"")
 
         elif msg['text']=="/result":
             if moda == 'none':
                 bot.sendMessage(chat_id,"No result")
             else:
-                bot.sendMessage(chat_id,open(externa.path(moda,str(chat_id))+"record.csv").read())
+                bot.sendMessage(chat_id,open(tool.path(moda,str(chat_id))+"record.csv").read())
 
         elif msg['text']=="/keywo":
             if moda == "analisi/feel":
@@ -54,7 +54,7 @@ def handle(msg):
             keywos=mark['keyword']
             print("level="+str(level)+", limit="+str(limit))
             if abs(level) > limit:
-                fif=open(externa.path("analisi/feel",str(chat_id))+"record.csv","a")
+                fif=open(tool.path("analisi/feel",str(chat_id))+"record.csv","a")
                 fif.write(str(chat_id)+","+datetime+","+"-".join(keywos)+","+str(level)+",\""+msg['text']+"\",\""+time.asctime(time.localtime(datetimeInt))+"\"\n")
                 fif.close()
                 bot.sendMessage(chat_id, "Recorded, Original message:\n\""+msg['text']+"\"")

@@ -2,7 +2,7 @@ import sys
 import os
 import time
 import telepot
-import externa
+import tool
 import id4feel
 import auth
 def handle(msg):
@@ -10,26 +10,26 @@ def handle(msg):
     datetime = str(msg['date'])
     datetimeInt=msg['date']
     print(content_type, chat_type, chat_id, datetime)
-    moda=externa.check("mode",chat_id)
+    moda=tool.check("mode",chat_id)
 
     if moda == "":
-        externa.change("mode","none",chat_id)
+        tool.change("mode","none",chat_id)
 
     if auth.admin(chat_id):
         if content_type == 'text':
             if msg['text']=="/help":
-                helpmsg=externa.msg("tsrmd-help")
+                helpmsg=tool.msg("tsrmd-help")
                 bot.sendMessage(chat_id, helpmsg)
 
             elif msg['text']=="/start":
-                startmsg=externa.msg("tsrmd-start")
+                startmsg=tool.msg("tsrmd-start")
                 bot.sendMessage(chat_id,startmsg)
 
             elif msg['text']=="/mode":
                 bot.sendMessage(chat_id,"Current mode is \""+moda+"\"")
 
             elif msg['text']=="/quit":
-                externa.change("mode","none",chat_id)
+                tool.change("mode","none",chat_id)
                 bot.sendMessage(chat_id,"Successfully quit mode from \""+moda+"\"")
 
             elif msg['text']=="/temp":
@@ -40,7 +40,7 @@ def handle(msg):
                 bot.sendMessage(chat_id,auth.check(id).read())
 
             elif msg['text']=="/restart":
-                #remsg=externa.msg("tsrmd-restart")
+                #remsg=tool.msg("tsrmd-restart")
                 #bot.sendMessage(chat_id, remsg)
                 os.system("setsid ./restart.sh "+target)
             #elif msg['text']=="/re-":
