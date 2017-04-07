@@ -5,11 +5,11 @@ def admin(id):
     else:
         return False
 
-def check():
+def check(id):
     if id == str(open("database/admin").read()):
         return "Admin id is: "+open("database/admin").read()
     else:
-        return "No permision"
+        return "Require permision"
 
 def id():
     return open("database/admin").read()

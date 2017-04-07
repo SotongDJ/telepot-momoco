@@ -13,7 +13,7 @@ def handle(msg):
     moda=externa.check("mode",chat_id)
 
     if moda == "":
-        externa.change("mode","analisi/feel",chat_id)
+        externa.change("mode\n","analisi/feel",chat_id)
     elif moda == "none":
         externa.change("mode","analisi/feel",chat_id)
 
@@ -64,9 +64,9 @@ def handle(msg):
                 bot.sendMessage(chat_id, "Can't recognize, Original message:\n\""+msg['text']+"\"")
 
         else:
-            bot.sendMessage(chat_id, "No action, Original message:\n\""+msg['text']+"\"")
+            bot.sendMessage(chat_id, "Unacceptable command, return recent msg:\n\""+msg['text']+"\"")
     else:
-        bot.sendMessage(chat_id, "No action, No response")
+        bot.sendMessage(chat_id, "Unacceptable info type")
 TOKEN = sys.argv[1]  # get token from command-line
 
 bot = telepot.Bot(TOKEN)

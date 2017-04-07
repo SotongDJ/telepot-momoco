@@ -37,7 +37,7 @@ def handle(msg):
                 bot.sendMessage(chat_id,open("./database/temp").read())
 
             elif msg['text']=="/admin":
-                bot.sendMessage(chat_id,auth.check().read())
+                bot.sendMessage(chat_id,auth.check(id).read())
 
             elif msg['text']=="/restart":
                 #remsg=externa.msg("tsrmd-restart")
