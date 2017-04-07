@@ -1,17 +1,12 @@
-import sys
-import os
-import time
-import telepot
-import tool
-import log
+import sys, os, time, telepot, tool, auth, log
 import id4feel
-import auth
+
 def handle(msg):
     content_type, chat_type, chat_id = telepot.glance(msg)
     datetime = str(msg['date'])
     datetimeInt=msg['date']
     logmsg="Receive Msg: "+msg['text']+"\n        content_type="+content_type+", chat_type="+chat_type+", chat_id="+str(chat_id)+", date="+datetime
-    log.log4g(auth.id(),logmsg,"log")
+    log.logging(auth.id(),logmsg,"ruokbot")
     moda=tool.check("mode",chat_id)
 
     if moda == "":
@@ -74,8 +69,9 @@ TOKEN = sys.argv[1]  # get token from command-line
 bot = telepot.Bot(TOKEN)
 bot.message_loop(handle)
 #
-bot.sendMessage(auth.id(), "Server Starting")
-print ('Listening ...')
+bootmsg="Server Starting,\nListening ..."
+bot.sendMessage(auth.id(), bootmsg)
+log.logging(auth.id(),bootmsg,"ruokbot")
 
 # Keep the program running.
 while 1:

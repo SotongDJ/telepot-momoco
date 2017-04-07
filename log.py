@@ -1,6 +1,6 @@
 import tool
-def log4g(id,lines,location):
-    nana=open(tool.path("log",id)+"general","a")
+def logging(id,lines,source):
+    nana=open(tool.path("log",id)+source,"a")
     nana.write(lines+"\n")
     nana.close()
     print(lines)
