@@ -42,8 +42,8 @@ Reply:
 """)
 
     def _msg(self,msg,statu):
-        ma="Status:\n"+statu+"\nInput:\n"+msg["text"]+"\n-------------------------"
-        mb="\nPending: "+self._tem
+        ma="Status: "+statu+"\nInput: "+msg["text"]
+        mb="\nPending: "+self._tem+"\n-------------------------"
         mc="\n/Product : "+self._mem["namma"]+"\n/Class : "+self._mem["klass"]+"\n/Seller : "+self._mem["shoop"]
         md="\n/Date : "+self._mem["datte"]+" (yyyy-mm-dd)"
         me="\n/Price : "+self._mem["price"]
@@ -63,9 +63,12 @@ Reply:
                 self.close()
         for key in trans.keys():
             if key in text:
-                self._mem[trans[key]]=self._tem
-                self._tem=""
-                self.sender.sendMessage(self._msg(msg,"Assign value from "+key))
+                if self._tem == "":
+                    self.sender.sendMessage(self._msg(msg,"Error: empty value"))
+                else:
+                    self._mem[trans[key]]=self._tem
+                    self._tem=""
+                    self.sender.sendMessage(self._msg(msg,"Assign value from "+key))
         if "/Discard" in text:
             self._tem = ""
             for key in self._mem.keys():
