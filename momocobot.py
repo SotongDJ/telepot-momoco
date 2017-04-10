@@ -38,7 +38,7 @@ Reply /help to learn more~""")
         elif "/help" in text:
             self.sender.sendMessage("""This chatbot is under constructing...
 Reply:
-    /Setting to change the setting
+    /setting to change the setting
 """)
 
     def _msg(self,msg,statu):
