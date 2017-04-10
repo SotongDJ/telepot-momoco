@@ -37,7 +37,7 @@ Reply:
         me="\n/Price : "+self._mem["price"]
         mf="\n/Currency : "+"\nSpent from: (which /Account )\n    /Choose_In_Acc\nTarget account: (If have)\n    /Choose_Out_Acc"# from self._setting
         mg="\n-------------------------"+"\nTotal spent today:"
-        mh="\n-------------------------"+"\n/Save to save the record\n/Discard to discard"+"\n/help for more command"
+        mh="\n-------------------------"+"\n/Save to save the record\n/Discard to discard\n/help for more command\n/List to list your previous records"
         return ma+mb+mc+md+me+mf+mg+mh
 
     def _comme(self,msg):
