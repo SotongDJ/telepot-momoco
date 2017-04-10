@@ -1,17 +1,5 @@
-import sys, os, traceback, telepot, time, tool, auth, log
+import sys, os, traceback, telepot, time, json, tool, auth, log
 from telepot.delegate import per_chat_id, create_open, pave_event_space
-
-def datte(nun):
-    daate=[str(time.localtime(time.time())[0]),'','']
-    for n in [1,2]:
-        if time.localtime(time.time())[n] < 10 :
-            daate[n]="0"+str(time.localtime(time.time())[n])
-        else:
-            daate[n]=str(time.localtime(time.time())[n])
-    if nun == 1 :
-        return "-".join(daate)
-    elif nun == 0 :
-        return daate
 
 class User(telepot.helper.ChatHandler):
     def __init__(self, *args, **kwargs):
@@ -53,9 +41,10 @@ Reply:
         return ma+mb+mc+md+me+mf+mg+mh
 
     def _comme(self,msg):
+        content_type, chat_type, chat_id = telepot.glance(msg)
         asske=["/start", "/help"]
         trans={"/Product":"namma", "/Class":"klass", "/Seller":"shoop", "/Price":"price"}
-        #comme=["/Date","/Currency","/Account","/setting", "/discard", "/save"]
+        #comme=["/Date","/Currency","/Account","/setting", "/discard", "/Save"]
         text=msg['text']
         for key in asske:
             if key in text:
@@ -74,11 +63,30 @@ Reply:
             for key in self._mem.keys():
                 self._mem[key]=""
             self.sender.sendMessage("Status:\n    Discard changes, record removed\nInput:\n"+msg['text'])
+        if "/Save" in text:
+            recod={}
 
+            try:
+                faale = open(tool.path("momoco",chat_id)+self._mem["datte"]+".json","r")
+                recod = json.load(faale)
+                print("---Old Record---")
+                print(recod)
+                faale.close()
+            except FileNotFoundError:
+                record = {}
+
+            recod[tool.date(4)] = self._mem
+            print("---Add Record---")
+            print(recod)
+            faale = open(tool.path("momoco",chat_id)+self._mem["datte"]+".json","w")
+            json.dump(recod,faale)
+            faale.close()
+            self.sender.sendMessage(self._msg(msg,"New record saved"))
+            self.close()
     def open(self, initial_msg, seed): # Welcome Region
         # self.sender.sendMessage('Guess my number')
         content_type, chat_type, chat_id = telepot.glance(initial_msg)
-        print("-------")
+        print("---New---")
         print(initial_msg)
         print(self._tem)
         print(self._mem)
@@ -87,7 +95,7 @@ Reply:
             self.sender.sendMessage("Status:\n    Received wrong message\nInput:\n    Undetactable content type\n")
             self.close()
             return
-        self._mem["datte"] = datte(1)
+        self._mem["datte"] = tool.date(1)
         try:
             numo = int(initial_msg["text"])
             self._tem = initial_msg["text"]
@@ -102,7 +110,7 @@ Reply:
 
     def on_chat_message(self, msg): # Each Msg
         content_type, chat_type, chat_id = telepot.glance(msg)
-        print("-------")
+        print("---Received---")
         print(msg)
         print(self._tem)
         print(self._mem)
