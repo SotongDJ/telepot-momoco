@@ -5,6 +5,7 @@ ehthumbs.db
 # API Key
 runTRB.sh
 runRUOK.sh
+runMOMOCO.sh
 
 #privacy
 *.pyc
