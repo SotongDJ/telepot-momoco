@@ -47,6 +47,7 @@ class User(telepot.helper.ChatHandler):
             self.sender.sendMessage(mmcmsg.setting())
         elif "/New" in text:
             if len(self._mod) == 0:
+                self._mem["datte"] = tool.date(1)
                 self.sender.sendMessage(mmcmsg.new(self._mem))
                 if self._tem != "":
                     self.sender.sendMessage(mmcmsg.newKeywo(self._tem))
@@ -99,7 +100,7 @@ class User(telepot.helper.ChatHandler):
                 recod={}
 
                 try:
-                    faale = open(tool.path("momoco",chat_id)+self._mem["datte"]+".json","r")
+                    faale = open(tool.path("momoco",chat_id)+"record.json","r")
                     recod = json.load(faale)
                     self.bugpra("Old Record",recod)
                     faale.close()
@@ -109,7 +110,7 @@ class User(telepot.helper.ChatHandler):
                 #try:
                 recod[tool.date(4)] = self._mem
                 self.bugpra("Add Record",recod)
-                faale = open(tool.path("momoco",chat_id)+self._mem["datte"]+".json","w")
+                faale = open(tool.path("momoco",chat_id)+"record.json","w")
                 json.dump(recod,faale)
                 faale.close()
 
@@ -128,8 +129,6 @@ class User(telepot.helper.ChatHandler):
             self.sender.sendMessage("Status:\n    Received wrong message\nInput:\n    Undetactable content type\n")
             self.close()
             return
-
-        self._mem["datte"] = tool.date(1)
 
         if "/" in initial_msg["text"]:
             self.comme(initial_msg)
