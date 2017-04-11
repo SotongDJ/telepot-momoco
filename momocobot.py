@@ -18,7 +18,6 @@ class User(telepot.helper.ChatHandler):
         }
     #
     def bugpri(self,text): # need migrate to momoco.py
-        log.logging(auth.id(),logmsg,"tsrmdbot")
         log.logging(auth.id(),"\n---"+text+"---","momocobot")
         log.logging(auth.id(),"_tem = "+self._tem,"momocobot")
         log.logging(auth.id(),self._mem,"momocobot")
