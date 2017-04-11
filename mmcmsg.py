@@ -5,6 +5,9 @@ def chstr(a,b,c,d): # if a == b, return c; else return d
         return c
     else:
         return d
+def warn():
+    final = "This chatbot is under constructing..."
+    return final
 
 """--------------------------------------------------------
         self.sender.sendMessage(mmcmsg.start())
@@ -12,6 +15,7 @@ def chstr(a,b,c,d): # if a == b, return c; else return d
 def start():
     final="""  Welcome
 ----------------------------
+
 This is Money Money Come Chatbot.
 It can help you to trace your money flow moreeasily (Sure? )
 
@@ -19,9 +23,7 @@ Pls setup before using:
   Account setup = /set_Account
   Currency setup = /set_Currency
 ----------------------------
-    /help    /Setting
-
-This chatbot is under constructing...
+  /help  /Setting
 """
     return final
 
@@ -31,19 +33,18 @@ This chatbot is under constructing...
 def help():
     final="""  Help
 ----------------------------
-/start
+  /start
     Welcome Card
-/help
+  /help
     Command List Card
-/New
+  /New
     Creating  Card
-/List
+  /List
     Record Showing Card
-/Setting
+  /Setting
     Setting Card
-----------------------------
-
-This chatbot is under constructing...
+  /Whats_Now
+    Check current work status
 """
     return final
 
@@ -54,18 +55,17 @@ def setting(): # will replace by Start Card after finished Account Card and Curr
     final="""Setting Card
 ----------------------------
 Account Setting:
-    /set_Account
+  /set_Account
 Currency Setting:
-    /set_Currency
+  /set_Currency
 ----------------------------
 P.S. You still can use the last card
-
-This chatbot is under constructing...
+  /Whats_Now
 """
     return final
 
 """--------------------------------------------------------
-        self.sender.sendMessage(mmcmsg.newStart(self._mem,keywo))
+        self.sender.sendMessage(mmcmsg.new(self._mem))
             self._mem = {
                 "namma":"", "klass":"", "shoop":"",
                 "datte":"", "price":"",
@@ -74,36 +74,31 @@ This chatbot is under constructing...
             }
             keywo = ""
 """
-def newStart(dicto,keywo):
+def new(dicto):
     final="""New Record
 ----------------------------
+
 Date: """+dicto["datte"]+"""
 Product: """+dicto["namma"]+"""
 Class: """+dicto["klass"]+"""
 Seller: """+dicto["shoop"]+"""
-Price: """+dicto["price"]+"""
-
-Currency: """+dicto["karen"]+"""
+Price: """+dicto["price"]+" "+dicto["karen"]+"""
     ( /change_Currency )
 
+----------------------------
 Spent from which Account:
-"""+chstr(dicto["fromm"],"    ( /choose_Acc_From )",dicto["fromm"]+"\n    ( /choose_Acc_From )")+"""
-
-Transfer to which Account: (if have)
-"""+chstr(dicto["toooo"],"    ( /choose_Acc_To )",dicto["toooo"]+"\n    ( /choose_Acc_To )")+"""
-
+"""+chstr(dicto["fromm"],"","    ( /choose_Acc_From )",dicto["fromm"]+"\n    ( /choose_Acc_From )")+"""
+Transfer to which Account:
+"""+chstr(dicto["toooo"],"","    ( /choose_Acc_To )",dicto["toooo"]+"\n    ( /choose_Acc_To )")+"""
 ----------------------------
-Keyword: """+keywo+"""
-/set_as_Date (format: yyyy-mm-dd) /set_as_Product /set_as_Class /set_as_Seller /set_as_Price
+  /Discard  /Save  /List  /Setting
 ----------------------------
-/Discard /Save /List /Setting
-
-This chatbot is under constructing...
+P.S. Give me a word or a number
 """
     return final
 
 """--------------------------------------------------------
-        self.sender.sendMessage(mmcmsg.newConti(self._mem,keywo))
+        self.sender.sendMessage(mmcmsg.newKeywo(self._mem,keywo))
             self._mem = {
                 "namma":"", "klass":"", "shoop":"",
                 "datte":"", "price":"",
@@ -112,31 +107,21 @@ This chatbot is under constructing...
             }
             keywo = ""
 """
-def newConti(dicto,keywo):
-    final="""Filling the blank (Creating Card)
+def newKeywo(keywo):
+    final="""Filling the blank
 ----------------------------
-Date: """+dicto["datte"]+"""
-Product: """+dicto["namma"]+"""
-Class: """+dicto["klass"]+"""
-Seller: """+dicto["shoop"]+"""
-Price: """+dicto["price"]+"""
 
-Currency: """+dicto["karen"]+"""
-    ( /change_Currency )
+Keyword:
+  """+keywo+"""
 
-Spent from which Account:
-"""+chstr(dicto["fromm"],"    ( /choose_Acc_From )",dicto["fromm"]+"\n    ( /choose_Acc_From )")+"""
-
-Transfer to which Account: (if have)
-"""+chstr(dicto["toooo"],"    ( /choose_Acc_To )",dicto["toooo"]+"\n    ( /choose_Acc_To )")+"""
+  /set_as_Date (format: yyyy-mm-dd)
+  /set_as_Product
+  /set_as_Class
+  /set_as_Seller
+  /set_as_Price
 
 ----------------------------
-Keyword: """+keywo+"""
-/set_as_Date (format: yyyy-mm-dd) /set_as_Product /set_as_Class /set_as_Seller /set_as_Price
-----------------------------
-/Discard /Save /List /Setting
-
-This chatbot is under constructing...
+  /Discard  /Save  /List  /Setting
 """
     return final
 
@@ -150,26 +135,23 @@ This chatbot is under constructing...
             }
 """
 def newFinis(dicto):
-    final="""New Record Saved (Creating Card)
+    final="""New Record Saved
 ----------------------------
+
 Date: """+dicto["datte"]+"""
 Product: """+dicto["namma"]+"""
 Class: """+dicto["klass"]+"""
 Seller: """+dicto["shoop"]+"""
-Price: """+dicto["price"]+"""
-
-Currency: """+dicto["karen"]+"""
-
-Spent from which Account:
-"""+dicto["fromm"]+"""
-
-Transfer to which Account: (if have)
-"""+dicto["toooo"]+"""
+Price: """+dicto["price"]+" "+dicto["karen"]+"""
+    ( /change_Currency )
 
 ----------------------------
-/Edit  /List  /Setting
-
-This chatbot is under constructing...
+Spent from which Account:
+"""+dicto["fromm"]+"""
+Transfer to which Account:
+"""+dicto["toooo"]+"""
+----------------------------
+  /Edit  /List  /Setting
 """
     return final
 
@@ -180,12 +162,10 @@ def newDiscard():
     final="""¡ Discard !
 ----------------------------
 
-    Closed Creating Card
+  Closed Creating Card
 
 ----------------------------
-  /Whats_Now  /Setting
-
-This chatbot is under constructing...
+  /Setting  /help
 """
     return final
 
@@ -195,16 +175,14 @@ This chatbot is under constructing...
 
 """
 def lisFilte(dicto):
-    final="""Filtering Card (Listing Card)
+    final="""Filtering Card
 ----------------------------
 Date range:"""+dicto["datte"]+"""
-/Today /This_Week
-/This_Month /This_Year
+  /Today /This_Week
+  /This_Month /This_Year
 
 ----------------------------
-/Discard  /Sumit  /Setting
-
-This chatbot is under constructing...
+  /Discard  /Sumit  /Setting
 """
     return final
 
@@ -215,29 +193,27 @@ def lisDiscard():
     final="""¡ Discard !
 ----------------------------
 
-    Closed Listing Card
+  Closed Listing Card
 
 ----------------------------
   /Whats_Now  /Setting
-
-This chatbot is under constructing...
 """
     return final
 
 """--------------------------------------------------------
-        self.sender.sendMessage(mmcmsg.home(keywo))
-            keywo = ""
+        self.sender.sendMessage(mmcmsg.home(self._tem))
+            self._tem=""
 """
 def home(keywo): # will replace by Start Card after finished Account Card and Currency Card
     final="""Home Card (Temporary)
 ----------------------------
-Welcome Home !
-Keyword : """+keywo+"""
-    /New    /List
-----------------------------
-    /Setting    /help
 
-This chatbot is under constructing...
+    Welcome Home !
+
+Keyword: """+keywo+"""
+  /New  /List
+----------------------------
+  /Setting  /help
 """
     return final
 
@@ -248,7 +224,5 @@ def timesout(): # will replace by Start Card after finished Account Card and Cur
     final="""Time's Out
 ----------------------------
 Previous unsave work was clean out.
-
-This chatbot is under constructing...
 """
     return final

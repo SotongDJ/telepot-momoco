@@ -37,21 +37,23 @@ class User(telepot.helper.ChatHandler):
         text=msg['text']
         if "/start" in text:
             self.sender.sendMessage(mmcmsg.start())
-            if self._mod[len(self._mod)-1] == "":
+            if len(self._mod) == 0:
                 self.close()
         elif "/help" in text:
             self.sender.sendMessage(mmcmsg.help())
-            if self._mod[len(self._mod)-1] == "":
+            if len(self._mod) == 0:
                 self.close()
         elif "/Setting" in text:
             self.sender.sendMessage(mmcmsg.setting())
         elif "/New" in text:
-            if self._mod[len(self._mod)-1] == "":
-                self.sender.sendMessage(mmcmsg.newStart(self._mem,self._tem))
-                self._mod=momoco.chmod(0,self._mod,"")
+            if len(self._mod) == 0:
+                self.sender.sendMessage(mmcmsg.new(self._mem))
+                if self._tem != "":
+                    self.sender.sendMessage(mmcmsg.newKeywo(self._tem))
+                self._mod=momoco.chmod(0,self._mod,"new")
         elif "/List" in text:
             self.sender.sendMessage(mmcmsg.lisFilte(self._mem))
-            self._mod=momoco.chmod(0,self._mod,"")
+            self._mod=momoco.chmod(0,self._mod,"list")
 
         elif self._mod[len(self._mod)-1] == "list":
             if "/Whats_Now" in text:
@@ -63,22 +65,24 @@ class User(telepot.helper.ChatHandler):
         elif self._mod[len(self._mod)-1] == "new":
 
             if "/Whats_Now" in text:
-                self.sender.sendMessage(mmcmsg.newConti(self._mem,self._tem))
+                self.sender.sendMessage(mmcmsg.new(self._mem))
+                if self._tem != "":
+                    self.sender.sendMessage(mmcmsg.newKeywo(self._tem))
             elif "/set_as_Date" in text:
-                dicto["datte"]=self._tem
-                self.sender.sendMessage(mmcmsg.newConti(self._mem,self._tem))
+                self._mem["datte"]=self._tem
+                self.sender.sendMessage(mmcmsg.new(self._mem))
             elif "/set_as_Product" in text:
-                dicto["namma"]=self._tem
-                self.sender.sendMessage(mmcmsg.newConti(self._mem,self._tem))
+                self._mem["namma"]=self._tem
+                self.sender.sendMessage(mmcmsg.new(self._mem))
             elif "/set_as_Class" in text:
-                dicto["klass"]=self._tem
-                self.sender.sendMessage(mmcmsg.newConti(self._mem,self._tem))
+                self._mem["klass"]=self._tem
+                self.sender.sendMessage(mmcmsg.new(self._mem))
             elif "/set_as_Seller" in text:
-                dicto["shoop"]=self._tem
-                self.sender.sendMessage(mmcmsg.newConti(self._mem,self._tem))
+                self._mem["shoop"]=self._tem
+                self.sender.sendMessage(mmcmsg.new(self._mem))
             elif "/set_as_Price" in text:
-                dicto["price"]=self._tem
-                self.sender.sendMessage(mmcmsg.newConti(self._mem,self._tem))
+                self._mem["price"]=self._tem
+                self.sender.sendMessage(mmcmsg.new(self._mem))
 
             elif "/Discard" in text:
                 self._tem = ""
@@ -109,7 +113,7 @@ class User(telepot.helper.ChatHandler):
                 json.dump(recod,faale)
                 faale.close()
 
-                self.sender.sendMessage(mmcmsg.newConti(self._mem))
+                self.sender.sendMessage(mmcmsg.newFinis(self._mem))
                 self.close()
 
     def open(self, initial_msg, seed): # Welcome Region
@@ -118,7 +122,7 @@ class User(telepot.helper.ChatHandler):
         self.bugpri("New Start")
         self.bugpra("inti_msg",initial_msg)
         self._mod = []
-        self._tem = initial_msg["text"]
+        self.sender.sendMessage(mmcmsg.warn())
 
         if content_type != 'text':
             self.sender.sendMessage("Status:\n    Received wrong message\nInput:\n    Undetactable content type\n")
@@ -130,6 +134,8 @@ class User(telepot.helper.ChatHandler):
         if "/" in initial_msg["text"]:
             self.comme(initial_msg)
         else:
+            if "/" not in initial_msg["text"]:
+                self._tem = initial_msg["text"]
             self.sender.sendMessage(mmcmsg.home(self._tem))
 
         return True  # prevent on_message() from being called on the initial message
@@ -138,7 +144,7 @@ class User(telepot.helper.ChatHandler):
         content_type, chat_type, chat_id = telepot.glance(msg)
         self.bugpri("Received")
         self.bugpra("msg",msg)
-        self._tem = msg["text"]
+        self.sender.sendMessage(mmcmsg.warn())
 
         if content_type != 'text':
             self.sender.sendMessage("Status:\n    Received wrong message\nInput:\n    Undetactable content type\n")
@@ -148,13 +154,14 @@ class User(telepot.helper.ChatHandler):
         if "/" in msg["text"]:
             self.comme(msg)
         else:
-            if self._mod[len(self._mod)-1] == "":
+            if "/" not in msg["text"]:
                 self._tem = msg["text"]
+            if len(self._mod) == 0:
                 self.sender.sendMessage(mmcmsg.home(self._tem))
 #            elif self._mod[len(self._mod)-1] == "list":
             elif self._mod[len(self._mod)-1] == "new":
-                self._tem = msg["text"]
-                self.sender.sendMessage(mmcmsg.newConti(self._mem,self._tem))
+                self.sender.sendMessage(mmcmsg.new(self._mem))
+                self.sender.sendMessage(mmcmsg.newKeywo(self._tem))
 
 
     def on__idle(self, event): # Timeout Region

@@ -10,7 +10,7 @@ import tool, json
             self._mod = []
             mode_text = ""
 """
-def chmod(self,num,mode,text):
+def chmod(num,mode,text):
     if num == 0:
         mode.append(text)
         return mode
