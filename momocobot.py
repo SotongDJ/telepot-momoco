@@ -28,50 +28,70 @@ class User(telepot.helper.ChatHandler):
         print(" --"+text+"-- ")
         print(thin)
 
-    def _comme(self,msg):
+    """--------------------------------------------------------
+        momoco.comme(msg)
+"""
+
+    def comme(self,msg):
         content_type, chat_type, chat_id = telepot.glance(msg)
-        asske=["/start", "/help"]
-        trans={"/Product":"namma", "/Class":"klass", "/Seller":"shoop", "/Price":"price"}
-        #comme=["/Date","/Currency","/Account","/setting", "/discard", "/Save"]
         text=msg['text']
-        for key in asske:
-            if key in text:
-                self._ask(text)
+        if "/start" in text:
+            self.sender.sendMessage(mmcmsg.start())
+            if self._mod[len(self._mod)-1] == "":
                 self.close()
+        elif "/help" in text:
+            self.sender.sendMessage(mmcmsg.help())
+            if self._mod[len(self._mod)-1] == "":
+                self.close()
+        elif "/Setting" in text:
+            self.sender.sendMessage(mmcmsg.setting())
+        elif "/New" in text:
+            if self._mod[len(self._mod)-1] == "":
+                self.sender.sendMessage(mmcmsg.newStart(self._mem,self._tem))
+                self._mod=momoco.chmod(0,self._mod,"")
+        elif "/List" in text:
+            self.sender.sendMessage(mmcmsg.lisFilte(self._mem))
+            self._mod=momoco.chmod(0,self._mod,"")
 
-        for key in trans.keys():
-            if key in text:
-                if self._tem == "":
-                    self.sender.sendMessage(self._msg(msg,"Error: empty value"))
-                else:
-                    self._mem[trans[key]]=self._tem
-                    self._tem=""
-                    self.sender.sendMessage(self._msg(msg,"Assign value from "+key))
+        elif self._mod[len(self._mod)-1] == "list":
+            if "/Whats_Now" in text:
+                self.sender.sendMessage(mmcmsg.lisFilte(self._mem))
+            elif "/Discard" in text:
+                self.sender.sendMessage(mmcmsg.lisDiscard())
+                self._mod=momoco.chmod(1,self._mod,"")
 
-        if "/Discard" in text:
-            self._tem = ""
-            for key in self._mem.keys():
-                self._mem[key]=""
+        elif self._mod[len(self._mod)-1] == "new":
 
-            if self._mod["mode"] == "recording":
+            if "/Whats_Now" in text:
+                self.sender.sendMessage(mmcmsg.newConti(self._mem,self._tem))
+            elif "/set_as_Date" in text:
+                dicto["datte"]=self._tem
+                self.sender.sendMessage(mmcmsg.newConti(self._mem,self._tem))
+            elif "/set_as_Product" in text:
+                dicto["namma"]=self._tem
+                self.sender.sendMessage(mmcmsg.newConti(self._mem,self._tem))
+            elif "/set_as_Class" in text:
+                dicto["klass"]=self._tem
+                self.sender.sendMessage(mmcmsg.newConti(self._mem,self._tem))
+            elif "/set_as_Seller" in text:
+                dicto["shoop"]=self._tem
+                self.sender.sendMessage(mmcmsg.newConti(self._mem,self._tem))
+            elif "/set_as_Price" in text:
+                dicto["price"]=self._tem
+                self.sender.sendMessage(mmcmsg.newConti(self._mem,self._tem))
+
+            elif "/Discard" in text:
+                self._tem = ""
+                for key in self._mem.keys():
+                    self._mem[key]=""
+
                 self.bugpri("Discard recod")
-                self.sender.sendMessage("Status:\n    Discard changes, record removed\nInput:\n"+msg['text'])
-            else:
-                self.bugpri("Discard else")
-                self.sender.sendMessage("Status:\n    Discard changes\nInput:\n"+msg['text'])
+                self.sender.sendMessage(mmcmsg.newDiscard())
 
-            self.bugpri("Change back mode")
-            self._mod["mode"] = self._mod["pmod"]
-            self._mod["pmod"] = ""
-            self.bugpri("Restored")
+                self._mod=momoco.chmod(mode_num,self._mod,mode_text)
+                self.bugpri("Changed back mode")
 
-        if "/List" in text:
-            self._mod["pmod"]=self._mod["mode"]
-            self._mod["mode"]="list"
-            self._ask(text)
-
-        if self._mod["mode"] == "recording":
-            if "/Save" in text:
+            elif "/Save" in text:
                 recod={}
 
                 try:
@@ -82,12 +102,14 @@ class User(telepot.helper.ChatHandler):
                 except FileNotFoundError:
                     record = {}
 
+                #try:
                 recod[tool.date(4)] = self._mem
                 self.bugpra("Add Record",recod)
                 faale = open(tool.path("momoco",chat_id)+self._mem["datte"]+".json","w")
                 json.dump(recod,faale)
                 faale.close()
-                self.sender.sendMessage(self._msg(msg,"New record saved"))
+
+                self.sender.sendMessage(mmcmsg.newConti(self._mem))
                 self.close()
 
     def open(self, initial_msg, seed): # Welcome Region
@@ -95,7 +117,8 @@ class User(telepot.helper.ChatHandler):
         content_type, chat_type, chat_id = telepot.glance(initial_msg)
         self.bugpri("New Start")
         self.bugpra("inti_msg",initial_msg)
-        self._mod["mode"] = ""
+        self._mod = []
+        self._tem = initial_msg["text"]
 
         if content_type != 'text':
             self.sender.sendMessage("Status:\n    Received wrong message\nInput:\n    Undetactable content type\n")
@@ -105,11 +128,9 @@ class User(telepot.helper.ChatHandler):
         self._mem["datte"] = tool.date(1)
 
         if "/" in initial_msg["text"]:
-            self._comme(initial_msg)
+            self.comme(initial_msg)
         else:
-            self._tem = initial_msg["text"]
-            self.sender.sendMessage(self._msg(initial_msg,"Creating new record"))
-            self._mod["mode"] = "recording"
+            self.sender.sendMessage(mmcmsg.home(self._tem))
 
         return True  # prevent on_message() from being called on the initial message
 
@@ -117,36 +138,27 @@ class User(telepot.helper.ChatHandler):
         content_type, chat_type, chat_id = telepot.glance(msg)
         self.bugpri("Received")
         self.bugpra("msg",msg)
+        self._tem = msg["text"]
 
         if content_type != 'text':
             self.sender.sendMessage("Status:\n    Received wrong message\nInput:\n    Undetactable content type\n")
             self.close()
             return
 
-        if self._mod["mode"] == "recording":
-
-            if "/" in msg["text"]:
-                self._comme(msg)
-            else:
+        if "/" in msg["text"]:
+            self.comme(msg)
+        else:
+            if self._mod[len(self._mod)-1] == "":
                 self._tem = msg["text"]
-                self.sender.sendMessage(self._msg(msg,"Receive word"))
-
-        if self._mod["mode"] == "":
-
-            if "/" in msg["text"]:
-                self._comme(msg)
-            else:
+                self.sender.sendMessage(mmcmsg.home(self._tem))
+#            elif self._mod[len(self._mod)-1] == "list":
+            elif self._mod[len(self._mod)-1] == "new":
                 self._tem = msg["text"]
-                self.sender.sendMessage(self._msg(msg,"Creating new record"))
-                self._mod["mode"] = "recording"
+                self.sender.sendMessage(mmcmsg.newConti(self._mem,self._tem))
 
-        if self._mod["mode"] == "list":
-
-            if "/" in msg["text"]:
-                self._comme(msg)
 
     def on__idle(self, event): # Timeout Region
-        self.sender.sendMessage("Time's out")
+        self.sender.sendMessage(mmcmsg.timesout())
         self.close()
 
 

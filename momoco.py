@@ -1,20 +1,7 @@
 import tool, json
 
-
 """--------------------------------------------------------
-        momoco.chmod(mode_num,self._mod,mode_text)
-            mode_num
-                = 0
-                    change mode to mode_text
-                = 1
-                    change mode back to previous
-            self._mod = []
-            mode_text = ""
-"""
-def comme():
-
-"""--------------------------------------------------------
-        momoco.chmod(mode_num,self._mod,mode_text)
+        self._mod=momoco.chmod(mode_num,self._mod,mode_text)
             mode_num
                 = 0
                     change mode to mode_text
