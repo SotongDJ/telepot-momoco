@@ -1,13 +1,11 @@
-import sys, os, traceback, telepot, time, json, tool, auth, log, momoco
+import sys, os, traceback, telepot, time, json, tool, auth, log, momoco, mmcmsg
 from telepot.delegate import per_chat_id, create_open, pave_event_space
 
 class User(telepot.helper.ChatHandler):
     def __init__(self, *args, **kwargs):
         super(User, self).__init__(*args, **kwargs)
         self._tem = ""
-        self._mod = {
-            "mode":"", "pmod":"" # Previous mode
-        }
+        self._mod = []
         self._mem = {
             "namma":"", "klass":"", "shoop":"",
             "datte":"", "price":"",
@@ -29,44 +27,6 @@ class User(telepot.helper.ChatHandler):
     def bugpra(self,text,thin): # need migrate to momoco.py
         print(" --"+text+"-- ")
         print(thin)
-
-    def _ask(self,text):  # need migrate to momoco.py
-        if "/start" in text:
-            self.sender.sendMessage("""Welcome!
-This is Money Money Come Chatbot.
-It can help you to trace your money flow more easily (Sure?)
-Reply /help to learn more~""")
-        elif "/help" in text:
-            self.sender.sendMessage("""This chatbot is under constructing...
-Reply:
-    /setting to change the setting
-""")
-        elif "/List" in text:
-            self.sender.sendMessage("""List :
-Filter by Time:
-/All /Day /Week /Year
-Filter by Class:
-/All /"""+" /".join(self._lem["klass"])+"""
-Filter by Seller:
-/All /"""+" /".join(self._lem["shoop"])+"""
-Filter by Account:
-/All /"""+" /".join(self._lem["accnt"])+"""
-Filter by Currency:
-/All /"""+" /".join(self._lem["karen"])+"""
-----------------------------------------------
-/Discard to discard changes or cancel
-""")
-
-    def _msg(self,msg,statu):  # need migrate to momoco.py
-        ma="Status: "+statu+"\nInput: "+msg["text"]
-        mb="\nPending: "+self._tem+"\n-------------------------"
-        mc="\n/Product : "+self._mem["namma"]+"\n/Class : "+self._mem["klass"]+"\n/Seller : "+self._mem["shoop"]
-        md="\n/Date : "+self._mem["datte"]+" (yyyy-mm-dd)"
-        me="\n/Price : "+self._mem["price"]
-        mf="\n/Currency : "+"\nSpent from: (which /Account )\n    /Choose_In_Acc\nTarget account: (If have)\n    /Choose_Out_Acc"# from self._setting
-        mg="\n-------------------------"+"\nTotal spent today:"
-        mh="\n-------------------------"+"\n/Save to save the record\n/Discard to discard\n/help for more command\n/List to list your previous records"
-        return ma+mb+mc+md+me+mf+mg+mh
 
     def _comme(self,msg):
         content_type, chat_type, chat_id = telepot.glance(msg)
