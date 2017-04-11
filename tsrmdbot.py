@@ -25,13 +25,6 @@ def handle(msg):
             elif msg['text']=="/temp":
                 os.system("/opt/vc/bin/vcgencmd measure_temp>./database/temp")
                 bot.sendMessage(chat_id,open("./database/temp").read())
-
-            """elif msg['text']=="/restart":
-                os.system("setsid ./restart.sh")
-
-            elif msg['text']=="/killsh":
-                os.system("pkill sh")"""
-
             else:
                 bot.sendMessage(chat_id, "unrecgonizable command, Original message:\n\""+msg['text']+"\"")
 
