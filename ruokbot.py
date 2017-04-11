@@ -1,4 +1,4 @@
-import sys, os, time, telepot, tool, auth, log
+import sys, os, time, telepot, json, tool, auth, log
 import id4feel
 
 def handle(msg):
@@ -64,7 +64,9 @@ def handle(msg):
             bot.sendMessage(chat_id, "Unacceptable command, return recent msg:\n\""+msg['text']+"\"")
     else:
         bot.sendMessage(chat_id, "Unacceptable info type")
-TOKEN = sys.argv[1]  # get token from command-line
+
+key=json.load(open("database/key","r"))
+TOKEN = key["ruokbot"]
 
 bot = telepot.Bot(TOKEN)
 bot.message_loop(handle)

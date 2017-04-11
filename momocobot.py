@@ -168,8 +168,8 @@ class User(telepot.helper.ChatHandler):
         self.sender.sendMessage(mmcmsg.timesout())
         self.close()
 
-
-TOKEN = sys.argv[1]
+key=json.load(open("database/key","r"))
+TOKEN = key["momocobot"]
 
 bot = telepot.DelegatorBot(TOKEN, [pave_event_space()(
     per_chat_id(), create_open, User, timeout=100),]

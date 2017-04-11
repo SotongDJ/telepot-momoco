@@ -1,4 +1,4 @@
-import sys, os, time, telepot, tool, auth, log
+import sys, os, time, telepot, json, tool, auth, log
 
 #def respon(msg):
 
@@ -39,7 +39,8 @@ def handle(msg):
                 os.system("setsid ./upgrade.sh")
     else:
         bot.sendMessage(chat_id, "No action, No response")
-TOKEN = sys.argv[1]  # get token from command-line
+key=json.load(open("database/key","r"))
+TOKEN = key["tsrmdbot"]
 
 bot = telepot.Bot(TOKEN)
 bot.message_loop(handle)
