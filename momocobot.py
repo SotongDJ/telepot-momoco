@@ -92,7 +92,7 @@ class User(telepot.helper.ChatHandler):
                 self.bugpri("Discard recod")
                 self.sender.sendMessage(mmcmsg.newDiscard())
 
-                self._mod=momoco.chmod(mode_num,self._mod,mode_text)
+                self._mod=momoco.chmod(1,self._mod,"")
                 self.bugpri("Changed back mode")
 
             elif "/Save" in text:
