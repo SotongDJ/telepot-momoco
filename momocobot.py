@@ -159,7 +159,7 @@ class User(telepot.helper.ChatHandler):
             self.comme(initial_msg)
         else:
             if "/" not in initial_msg["text"]:
-                self._tem = initial_msg["text"]
+                self._tem = initial_msg["text"].replace(" ","_")
             self.sender.sendMessage(mmcmsg.home(self._tem))
 
         return True  # prevent on_message() from being called on the initial message
@@ -179,7 +179,8 @@ class User(telepot.helper.ChatHandler):
             self.comme(msg)
         else:
             if "/" not in msg["text"]:
-                self._tem = msg["text"]
+                self._tem = msg["text"].replace(" ","_")
+            
             if len(self._mod) == 0:
                 self.sender.sendMessage(mmcmsg.home(self._tem))
 #            elif self._mod[len(self._mod)-1] == "list":
