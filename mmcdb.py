@@ -29,9 +29,11 @@ def writedb(fille,keywo,lib):
     json.dump(source,filla)
     filla.close()
 
-#def rfdb():
+#def refesRan():
 
-def addkey(ketta,seque,rangs,desti,libra):
+#def refesKey():
+
+def addKey(ketta,seque,rangs,desti,libra):
     for setta in rangs:
         try:
             if libra[desti] == {}:

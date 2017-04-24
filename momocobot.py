@@ -111,7 +111,7 @@ class User(telepot.helper.ChatHandler):
                 #try:
                 timta = tool.date(3,'0000')
                 record["raw"][timta] = self._mem
-                record=mmcdb.addkey(timta,self._mem,list(self._rnem.keys()),'key',record)
+                record=mmcdb.addKey(timta,self._mem,list(self._rnem.keys()),'key',record)
                 self.bugpra("Add Record",record)
                 faale = open(tool.path("momoco",chat_id)+"record.json","w")
                 json.dump(record,faale)
