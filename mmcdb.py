@@ -1,6 +1,6 @@
 import json, pprint, tool
 # fille = __
-# lib4idb.write(fille,'raw',lib4idb.opendb(fille,','))
+# mmcdb.write(fille,'raw',mmcdb.opendb(fille,','))
 
 def opendb(fille,keywo):
     result = {}
