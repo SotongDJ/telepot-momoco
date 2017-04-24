@@ -1,4 +1,4 @@
-import tool, json
+import tool, json, pprint
 
 """--------------------------------------------------------
         self._mod=momoco.chmod(mode_num,self._mod,mode_text)
@@ -24,11 +24,7 @@ def chmod(num,mode,text):
     else:
         print("Missing mode_num")
 
-
 def check(file_name):
     a=open(file_name,"r")
     b=json.load(a)
-    for n in b.keys():
-        print(n)
-        for m in b[n].keys():
-            print("    "+m+" : "+b[n][m])
+    pprint(b)

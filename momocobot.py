@@ -8,13 +8,25 @@ class User(telepot.helper.ChatHandler):
         self._mod = []
         self._mem = {
             "namma":"", "klass":"", "shoop":"",
-            "datte":"", "price":"",
-            "karen":"",
+            "datte":"",
+            "price":"", "karen":"",
             "fromm":"", "toooo":"",
+            "desci":"",
+            "tpric":"",	"tkare":"",
         }
         self._lem = {
             "klass":[""], "shoop":[""],
             "accnt":[""], "karen":[""]
+        }
+        self._rnem = {
+            "namma":[], "klass":[], "shoop":[],
+            "price":[],
+            "fromm":[], "toooo":[],
+        }
+        self._sf = {
+            "n":"namma", "k":"klass", "s":"shoop",
+            "f":"fromm","p":"price",
+            "t":"toooo","r":"tpric",
         }
     #
     def bugpri(self,text): # need migrate to momoco.py
@@ -65,57 +77,70 @@ class User(telepot.helper.ChatHandler):
 
         elif self._mod[len(self._mod)-1] == "new":
 
-            if "/Whats_Now" in text:
-                self.sender.sendMessage(mmcmsg.new(self._mem))
-                if self._tem != "":
-                    self.sender.sendMessage(mmcmsg.newKeywo(self._tem))
-            elif "/set_as_Date" in text:
-                self._mem["datte"]=self._tem
-                self.sender.sendMessage(mmcmsg.new(self._mem))
-            elif "/set_as_Product" in text:
-                self._mem["namma"]=self._tem
-                self.sender.sendMessage(mmcmsg.new(self._mem))
-            elif "/set_as_Class" in text:
-                self._mem["klass"]=self._tem
-                self.sender.sendMessage(mmcmsg.new(self._mem))
-            elif "/set_as_Seller" in text:
-                self._mem["shoop"]=self._tem
-                self.sender.sendMessage(mmcmsg.new(self._mem))
-            elif "/set_as_Price" in text:
-                self._mem["price"]=self._tem
-                self.sender.sendMessage(mmcmsg.new(self._mem))
-
-            elif "/Discard" in text:
+            if "/Discard" in text:
                 self._tem = ""
                 for key in self._mem.keys():
                     self._mem[key]=""
 
-                self.bugpri("Discard recod")
+                self.bugpri("Discard record")
                 self.sender.sendMessage(mmcmsg.newDiscard())
 
                 self._mod=momoco.chmod(1,self._mod,"")
                 self.bugpri("Changed back mode")
 
             elif "/Save" in text:
-                recod={}
+                record = {"raw":{}}
 
                 try:
                     faale = open(tool.path("momoco",chat_id)+"record.json","r")
-                    recod = json.load(faale)
-                    self.bugpra("Old Record",recod)
+                    record = json.load(faale)
+                    self.bugpra("Old Record",record)
                     faale.close()
                 except FileNotFoundError:
-                    record = {}
+                    record = {
+                        "raw":{},
+                        "namma":{}, "klass":{}, "shoop":{},
+                        "fromm":{}, "price":{},
+                        "toooo":{},
+                    }
 
                 #try:
-                recod[tool.date(4)] = self._mem
-                self.bugpra("Add Record",recod)
+                record["raw"][tool.date(4)] = self._mem
+                self.bugpra("Add Record",record)
                 faale = open(tool.path("momoco",chat_id)+"record.json","w")
-                json.dump(recod,faale)
+                json.dump(record,faale)
                 faale.close()
 
                 self.sender.sendMessage(mmcmsg.newFinis(self._mem))
                 self.close()
+
+            elif "/set_as" in text :
+                if "/set_as_Date" in text:
+                    self._mem["datte"]=self._tem
+                elif "/set_as_Product" in text:
+                    self._mem["namma"]=self._tem
+                elif "/set_as_Class" in text:
+                    self._mem["klass"]=self._tem
+                elif "/set_as_Seller" in text:
+                    self._mem["shoop"]=self._tem
+                elif "/set_as_Price" in text:
+                    self._mem["price"]=self._tem
+                elif "/set_as_Notes" in text:
+                    self._mem["desci"]=self._tem
+
+                self.sender.sendMessage(mmcmsg.new(self._mem))
+
+            elif "/rg_" in text :
+                for sette in text.split(" "):
+                    if "/rg_" in sette:
+                        self._mem[self._sf[sette[4]]] = sette[6:len(sette)]
+                        self.sender.sendMessage(mmcmsg.new(self._mem))
+
+            elif "/Whats_Now" in text:
+                self.sender.sendMessage(mmcmsg.new(self._mem))
+                if self._tem != "":
+                    self.sender.sendMessage(mmcmsg.newKeywo(self._tem))
+
 
     def open(self, initial_msg, seed): # Welcome Region
         # self.sender.sendMessage('Guess my number')

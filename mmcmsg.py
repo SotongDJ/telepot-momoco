@@ -5,6 +5,7 @@ def chstr(a,b,c,d): # if a == b, return c; else return d
         return c
     else:
         return d
+
 def warn():
     final = "This chatbot is under constructing..."
     return final
@@ -84,6 +85,8 @@ Class: """+dicto["klass"]+"""
 Seller: """+dicto["shoop"]+"""
 Price: """+dicto["price"]+" "+dicto["karen"]+"""
     ( /change_Currency )
+Notes:
+"""+dicto["desci"]+"""
 
 ----------------------------
 Spent from which Account:
@@ -119,6 +122,7 @@ Keyword:
   /set_as_Class
   /set_as_Seller
   /set_as_Price
+  /set_as_Notes
 
 ----------------------------
   /Discard  /Save  /List  /Setting
@@ -144,6 +148,8 @@ Class: """+dicto["klass"]+"""
 Seller: """+dicto["shoop"]+"""
 Price: """+dicto["price"]+" "+dicto["karen"]+"""
     ( /change_Currency )
+Notes:
+"""+dicto["desci"]+"""
 
 ----------------------------
 Spent from which Account:
