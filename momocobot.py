@@ -1,4 +1,5 @@
-import sys, os, traceback, telepot, time, json, tool, auth, log, momoco, mmcmsg
+import sys, os, traceback, telepot, time, json
+import tool, auth, log, momoco, mmcmsg, mmcdb
 from telepot.delegate import per_chat_id, create_open, pave_event_space
 
 class User(telepot.helper.ChatHandler):
@@ -20,8 +21,8 @@ class User(telepot.helper.ChatHandler):
         }
         self._rnem = {
             "namma":[], "klass":[], "shoop":[],
-            "price":[],
-            "fromm":[], "toooo":[],
+            "price":[], "fromm":[],
+            "toooo":[], "tpric":[]
         }
         self._sf = {
             "n":"namma", "k":"klass", "s":"shoop",
@@ -89,7 +90,11 @@ class User(telepot.helper.ChatHandler):
                 self.bugpri("Changed back mode")
 
             elif "/Save" in text:
-                record = {"raw":{}}
+                record = {
+                    'raw':{},
+                    'key':{},
+                    'rank':{}
+                    }
 
                 try:
                     faale = open(tool.path("momoco",chat_id)+"record.json","r")
@@ -98,14 +103,15 @@ class User(telepot.helper.ChatHandler):
                     faale.close()
                 except FileNotFoundError:
                     record = {
-                        "raw":{},
-                        "namma":{}, "klass":{}, "shoop":{},
-                        "fromm":{}, "price":{},
-                        "toooo":{},
-                    }
+                        'raw':{},
+                        'key':{},
+                        'rank':{}
+                        }
 
                 #try:
-                record["raw"][tool.date(3,'0000')] = self._mem
+                timta = tool.date(3,'0000')
+                record["raw"][timta] = self._mem
+                record=mmcdb.addkey(timta,self._mem,list(self._rnem.keys()),'key',record)
                 self.bugpra("Add Record",record)
                 faale = open(tool.path("momoco",chat_id)+"record.json","w")
                 json.dump(record,faale)
@@ -134,7 +140,7 @@ class User(telepot.helper.ChatHandler):
                 for sette in text.split(" "):
                     if "/rg_" in sette:
                         self._mem[self._sf[sette[4]]] = sette[6:len(sette)]
-                        self.sender.sendMessage(mmcmsg.new(self._mem))
+                self.sender.sendMessage(mmcmsg.new(self._mem))
 
             elif "/Whats_Now" in text:
                 self.sender.sendMessage(mmcmsg.new(self._mem))
@@ -180,7 +186,7 @@ class User(telepot.helper.ChatHandler):
         else:
             if "/" not in msg["text"]:
                 self._tem = msg["text"].replace(" ","_")
-            
+
             if len(self._mod) == 0:
                 self.sender.sendMessage(mmcmsg.home(self._tem))
 #            elif self._mod[len(self._mod)-1] == "list":

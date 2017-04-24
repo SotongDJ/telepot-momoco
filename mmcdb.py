@@ -28,3 +28,38 @@ def writedb(fille,keywo,lib):
     filla = open(fille,"w")
     json.dump(source,filla)
     filla.close()
+
+#def rfdb():
+
+def addkey(ketta,seque,rangs,desti,libra):
+    for setta in rangs:
+        try:
+            if libra[desti] == {}:
+                print('a-')
+            else:
+                print('a+')
+        except KeyError:
+            libra[desti] = {}
+
+        try:
+            if libra[desti][setta] == {}:
+                print('b-')
+            else:
+                print('b+')
+        except KeyError:
+            libra[desti][setta]={}
+
+        try:
+            if libra[desti][setta][seque[setta]] == []:
+                print('c-')
+            else:
+                print('c+')
+        except KeyError:
+            libra[desti][setta][seque[setta]] = []
+
+        if seque[setta] != "":
+            if libra[desti][setta][seque[setta]] != []:
+                libra[desti][setta][seque[setta]].append(ketta)
+            else:
+                libra[desti][setta][seque[setta]]=[ketta]
+    return libra
