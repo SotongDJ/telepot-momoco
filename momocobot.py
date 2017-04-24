@@ -59,7 +59,7 @@ class User(telepot.helper.ChatHandler):
             self.sender.sendMessage(mmcmsg.setting())
         elif "/New" in text:
             if len(self._mod) == 0:
-                self._mem["datte"] = tool.date(1)
+                self._mem["datte"] = tool.date(1,'-')
                 self.sender.sendMessage(mmcmsg.new(self._mem))
                 if self._tem != "":
                     self.sender.sendMessage(mmcmsg.newKeywo(self._tem))
@@ -105,7 +105,7 @@ class User(telepot.helper.ChatHandler):
                     }
 
                 #try:
-                record["raw"][tool.date(4)] = self._mem
+                record["raw"][tool.date(3,'0000')] = self._mem
                 self.bugpra("Add Record",record)
                 faale = open(tool.path("momoco",chat_id)+"record.json","w")
                 json.dump(record,faale)

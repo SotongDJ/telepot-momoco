@@ -1,5 +1,5 @@
 import os, time, random
-def date(mode):
+def date(mode,text):
     a,b,c,d,e,f,g,h,i = time.localtime(time.time())
     j=[]
     for n in [a,b,c,d,e,f]:
@@ -9,15 +9,13 @@ def date(mode):
             j[n]="0"+j[n]
     if mode == 0 : # output: ["yyyy","mm","dd","hh","mm","ss"]
         return j
-    elif mode == 1 : # output: "yyyy-mm-dd"
-        return "-".join(j[0:3])
-    elif mode == 2 : # output: "yyyy-mm-dd hh:mm:ss"
-        return "-".join(j[0:2])+" "+":".join(j[3:6])
+    elif mode == 1 : # output: "yyyy-mm-dd" if text = '-'
+        return text.join(j[0:3])
+    elif mode == 2 : # output: "yyyy-mm-dd hh:mm:ss" if text = '-:'
+        return text[0].join(j[0:2])+" "+text[1].join(j[3:6])
     elif mode == 3 : # output: "yyyymmddhhmmss"
-        return "".join(j)
-    elif mode == 4 : # output: "yyyymmddhhmmss0000"
-        return "".join(j)+'0000'
-    elif mode == 5 : # output: "yyyymmddhhmmssrrrrrrrr" rrrr is eight digit random number
+        return "".join(j)+text
+    elif mode == 4 : # output: "yyyymmddhhmmssrrrrrrrr" rrrr is eight digit random number
         zero = '0000'
         numo = str(random.choice(range(0,10000)))
         return "".join(j)+zero[0:4-len(numo)]+numo

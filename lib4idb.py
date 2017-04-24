@@ -9,8 +9,8 @@ def opendb(fille,keywo):
         if "!" in linne:
             keys = linne.replace("!","").split(keywo)
         elif "#" not in linne:
-            zero = '1000'
-            uri = tool.date(3)
+            zero = '9000'
+            uri = tool.date(3,'')
             nama = uri+zero[0:4-len(str(numo))]+str(numo)
             result[nama]={}
             word = linne.split(keywo)
