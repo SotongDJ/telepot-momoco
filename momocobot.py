@@ -157,7 +157,7 @@ class User(telepot.helper.ChatHandler):
         self.sender.sendMessage(mmcmsg.warn())
 
         if content_type != 'text':
-            self.sender.sendMessage("Status:\n    Received wrong message\nInput:\n    Undetactable content type\n")
+            self.sender.sendMessage(mmcmsg.error())
             self.close()
             return
 
@@ -177,7 +177,7 @@ class User(telepot.helper.ChatHandler):
         self.sender.sendMessage(mmcmsg.warn())
 
         if content_type != 'text':
-            self.sender.sendMessage("Status:\n    Received wrong message\nInput:\n    Undetactable content type\n")
+            self.sender.sendMessage(mmcmsg.error())
             self.close()
             return
 

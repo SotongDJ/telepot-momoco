@@ -232,3 +232,11 @@ def timesout(): # will replace by Start Card after finished Account Card and Cur
 Previous unsave work was clean out.
 """
     return final
+
+def error():
+    final=""""Status:
+Received wrong message
+Input:
+    Undetactable content type
+"""
+    return final
