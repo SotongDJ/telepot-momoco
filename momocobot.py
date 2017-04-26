@@ -1,5 +1,5 @@
 import sys, os, traceback, telepot, time, json
-import tool, auth, log, momoco, mmcmsg, mmcdb
+import tool, auth, log, mmctool, mmcmsg, mmcdb
 from telepot.delegate import per_chat_id, create_open, pave_event_space
 
 class User(telepot.helper.ChatHandler):
@@ -31,19 +31,19 @@ class User(telepot.helper.ChatHandler):
             "t":"toooo","r":"tpric",
         }
     #
-    def bugpri(self,text): # need migrate to momoco.py
+    def bugpri(self,text): # need migrate to mmctool.py
         print("\n---"+text+"---")
         print("_tem = "+self._keywo)
         print(self._temra)
         print(self._lista)
         print(self._mod)
 
-    def bugpra(self,text,thin): # need migrate to momoco.py
+    def bugpra(self,text,thin): # need migrate to mmctool.py
         print(" --"+text+"-- ")
         print(thin)
 
     """--------------------------------------------------------
-        momoco.comme(msg)
+        mmctool.comme(msg)
 """
 
     def comme(self,msg):
@@ -65,17 +65,17 @@ class User(telepot.helper.ChatHandler):
                 self.sender.sendMessage(mmcmsg.outo(self._temra))
                 if self._keywo != "":
                     self.sender.sendMessage(mmcmsg.outoKeywo(self._keywo))
-                self._mod=momoco.chmod(0,self._mod,"outo")
+                self._mod=mmctool.chmod(0,self._mod,"outo")
         elif "/List" in text:
             self.sender.sendMessage(mmcmsg.lisFilte(self._temra))
-            self._mod=momoco.chmod(0,self._mod,"list")
+            self._mod=mmctool.chmod(0,self._mod,"list")
 
         elif self._mod[len(self._mod)-1] == "list":
             if "/Whats_Now" in text:
                 self.sender.sendMessage(mmcmsg.lisFilte(self._temra))
             elif "/Discard" in text:
                 self.sender.sendMessage(mmcmsg.lisDiscard())
-                self._mod=momoco.chmod(1,self._mod,"")
+                self._mod=mmctool.chmod(1,self._mod,"")
 
         elif self._mod[len(self._mod)-1] == "outo":
 
@@ -87,7 +87,7 @@ class User(telepot.helper.ChatHandler):
                 self.bugpri("Discard record")
                 self.sender.sendMessage(mmcmsg.outoDiscard())
 
-                self._mod=momoco.chmod(1,self._mod,"")
+                self._mod=mmctool.chmod(1,self._mod,"")
                 self.bugpri("Changed back mode")
 
             elif "/Save" in text:
