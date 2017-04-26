@@ -66,8 +66,8 @@ P.S. You still can use the last card
     return final
 
 """--------------------------------------------------------
-        self.sender.sendMessage(mmcmsg.new(self._mem))
-            self._mem = {
+        self.sender.sendMessage(mmcmsg.outo(self._temra))
+            self._temra = {
                 "namma":"", "klass":"", "shoop":"",
                 "datte":"", "price":"",
                 "karen":"",
@@ -75,7 +75,7 @@ P.S. You still can use the last card
             }
             keywo = ""
 """
-def new(dicto):
+def outo(dicto):
     final="""New Record
 ----------------------------
 
@@ -83,16 +83,13 @@ Date: """+dicto["datte"]+"""
 Product: """+dicto["namma"]+"""
 Class: """+dicto["klass"]+"""
 Seller: """+dicto["shoop"]+"""
-Price: """+dicto["price"]+" "+dicto["karen"]+"""
+Price: """+dicto["karen"]+" "+dicto["price"]+"""
     ( /change_Currency )
+Spent from which Account:
+"""+chstr(dicto["fromm"],"","    ( /choose_Acc_From )",dicto["fromm"]+"\n    ( /choose_Acc_From )")+"""
 Notes:
 """+dicto["desci"]+"""
 
-----------------------------
-Spent from which Account:
-"""+chstr(dicto["fromm"],"","    ( /choose_Acc_From )",dicto["fromm"]+"\n    ( /choose_Acc_From )")+"""
-Transfer to which Account:
-"""+chstr(dicto["toooo"],"","    ( /choose_Acc_To )",dicto["toooo"]+"\n    ( /choose_Acc_To )")+"""
 ----------------------------
   /Discard  /Save  /List  /Setting
 ----------------------------
@@ -101,8 +98,8 @@ P.S. Give me a word or a number
     return final
 
 """--------------------------------------------------------
-        self.sender.sendMessage(mmcmsg.newKeywo(self._mem,keywo))
-            self._mem = {
+        self.sender.sendMessage(mmcmsg.outoKeywo(self._temra,keywo))
+            self._temra = {
                 "namma":"", "klass":"", "shoop":"",
                 "datte":"", "price":"",
                 "karen":"",
@@ -110,7 +107,7 @@ P.S. Give me a word or a number
             }
             keywo = ""
 """
-def newKeywo(keywo):
+def outoKeywo(keywo):
     final="""Filling the blank
 ----------------------------
 
@@ -130,15 +127,15 @@ Keyword:
     return final
 
 """--------------------------------------------------------
-        self.sender.sendMessage(mmcmsg.newConti(self._mem))
-            self._mem = {
+        self.sender.sendMessage(mmcmsg.outoConti(self._temra))
+            self._temra = {
                 "namma":"", "klass":"", "shoop":"",
                 "datte":"", "price":"",
                 "karen":"",
                 "fromm":"", "toooo":"",
             }
 """
-def newFinis(dicto):
+def outoFinis(dicto):
     final="""New Record Saved
 ----------------------------
 
@@ -162,9 +159,9 @@ Transfer to which Account:
     return final
 
 """--------------------------------------------------------
-        self.sender.sendMessage(mmcmsg.newDiscard())
+        self.sender.sendMessage(mmcmsg.outoDiscard())
 """
-def newDiscard():
+def outoDiscard():
     final="""¡ Discard !
 ----------------------------
 
@@ -176,7 +173,7 @@ def newDiscard():
     return final
 
 """--------------------------------------------------------
-        self.sender.sendMessage(mmcmsg.lisFilte(self._mem))
+        self.sender.sendMessage(mmcmsg.lisFilte(self._temra))
 
 
 """
@@ -207,8 +204,8 @@ def lisDiscard():
     return final
 
 """--------------------------------------------------------
-        self.sender.sendMessage(mmcmsg.home(self._tem))
-            self._tem=""
+        self.sender.sendMessage(mmcmsg.home(self._keywo))
+            self._keywo=""
 """
 def home(keywo): # will replace by Start Card after finished Account Card and Currency Card
     final="""Home Card (Temporary)
