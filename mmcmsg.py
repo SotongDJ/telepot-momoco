@@ -1,10 +1,4 @@
-import tool, json
-
-def chstr(a,b,c,d): # if a == b, return c; else return d
-    if a == b :
-        return c
-    else:
-        return d
+import tool, json, mmcdb, mmctool
 
 def warn():
     final = "This chatbot is under constructing..."
@@ -80,13 +74,13 @@ def outo(dicto):
 ----------------------------
 
 Date: """+dicto["datte"]+"""
-Product: """+dicto["namma"]+"""
-Class: """+dicto["klass"]+"""
+Item: """+dicto["namma"]+"""
+Category: """+dicto["klass"]+"""
 Seller: """+dicto["shoop"]+"""
 Price: """+dicto["karen"]+" "+dicto["price"]+"""
     ( /change_Currency )
 Spent from which Account:
-"""+chstr(dicto["fromm"],"","    ( /choose_Acc_From )",dicto["fromm"]+"\n    ( /choose_Acc_From )")+"""
+"""+mmctool.chstr(dicto["fromm"],"","    ( /choose_Acc_From )",dicto["fromm"]+"\n    ( /choose_Acc_From )")+"""
 Notes:
 """+dicto["desci"]+"""
 
@@ -98,13 +92,7 @@ P.S. Give me a word or a number
     return final
 
 """--------------------------------------------------------
-        self.sender.sendMessage(mmcmsg.outoKeywo(self._temra,keywo))
-            self._temra = {
-                "namma":"", "klass":"", "shoop":"",
-                "datte":"", "price":"",
-                "karen":"",
-                "fromm":"", "toooo":"",
-            }
+        self.sender.sendMessage(mmcmsg.outoKeywo(keywo))
             keywo = ""
 """
 def outoKeywo(keywo):
@@ -115,14 +103,34 @@ Keyword:
   """+keywo+"""
 
   /set_as_Date (format: yyyy-mm-dd)
-  /set_as_Product
-  /set_as_Class
+  /set_as_Item
+  /set_as_Category
   /set_as_Seller
   /set_as_Price
   /set_as_Notes
 
 ----------------------------
   /Discard  /Save  /List  /Setting
+
+"""
+    return final
+
+"""--------------------------------------------------------
+        self.sender.sendMessage(mmcmsg.outoRecom(self._temra,self._keys,self._keywo,self._fs,chat_id))
+            namma, klass, shoop, price
+"""
+def outoRecom(txt,keywo):
+    final="""Recommend Card
+----------------------------
+
+Last Keyword: (Typing)
+    """+keywo+"""
+Recommend List:
+"""+txt+"""
+
+----------------------------
+  /Discard  /Save  /List  /Setting
+P.S. Choose above or type other keyword
 """
     return final
 
@@ -136,12 +144,12 @@ Keyword:
             }
 """
 def outoFinis(dicto):
-    final="""New Record Saved
+    final="""New #Record Saved
 ----------------------------
 
 Date: """+dicto["datte"]+"""
-Product: """+dicto["namma"]+"""
-Class: """+dicto["klass"]+"""
+Item: """+dicto["namma"]+"""
+Category: """+dicto["klass"]+"""
 Seller: """+dicto["shoop"]+"""
 Price: """+dicto["price"]+" "+dicto["karen"]+"""
     ( /change_Currency )
@@ -155,6 +163,7 @@ Transfer to which Account:
 """+dicto["toooo"]+"""
 ----------------------------
   /Edit  /List  /Setting
+
 """
     return final
 
@@ -216,7 +225,8 @@ def home(keywo): # will replace by Start Card after finished Account Card and Cu
 Keyword: """+keywo+"""
   /New  /List
 ----------------------------
-  /Setting  /help
+  /Setting  /help #Record
+
 """
     return final
 
@@ -226,7 +236,9 @@ Keyword: """+keywo+"""
 def timesout(): # will replace by Start Card after finished Account Card and Currency Card
     final="""Time's Out
 ----------------------------
+
 Previous unsave work was clean out.
+
 """
     return final
 

@@ -10,19 +10,27 @@ import tool, json, pprint
             self._mod = []
             mode_text = ""
 """
-def chmod(num,mode,text):
-    if num == 0:
-        mode.append(text)
+def apmod(mode,text):
+    mode.append(text)
+    return mode
+
+def ckmod(mode):
+    modo = mode[-1]
+    return modo
+
+def chmod(mode):
+    try:
+        mode.pop()
         return mode
-    elif num == 1:
-        try:
-            mode.pop()
-            return mode
-        except IndexError:
-            print("IndexError: pop from empty list")
-            return mode
+    except IndexError:
+        print("IndexError: pop from empty list")
+        return mode
+
+def chstr(a,b,c,d): # if a == b, return c; else return d
+    if a == b :
+        return c
     else:
-        print("Missing mode_num")
+        return d
 
 def check(file_name):
     a=open(file_name,"r")

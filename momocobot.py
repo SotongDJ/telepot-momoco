@@ -20,11 +20,7 @@ class User(telepot.helper.ChatHandler):
             "klass":[""], "shoop":[""],
             "accnt":[""], "karen":[""],
         }
-        self._recom = {
-            "namma":[], "klass":[], "shoop":[],
-            "fromm":[], "price":[],
-            "toooo":[], "tpric":[],
-        }
+        self._recom = {}
         self._sf = {
             "d":"datte",
             "n":"namma", "k":"klass", "s":"shoop",
@@ -72,19 +68,23 @@ class User(telepot.helper.ChatHandler):
                 self.sender.sendMessage(mmcmsg.outo(self._temra))
                 if self._keywo != "":
                     self.sender.sendMessage(mmcmsg.outoKeywo(self._keywo))
-                self._mod=mmctool.chmod(0,self._mod,"outo")
+                self._mod=mmctool.apmod(self._mod,"outo")
         elif "/List" in text:
             self.sender.sendMessage(mmcmsg.lisFilte(self._temra))
-            self._mod=mmctool.chmod(0,self._mod,"list")
+            self._mod=mmctool.apmod(self._mod,"list")
 
-        elif self._mod[len(self._mod)-1] == "list":
+        elif len(self._mod) == 0:
+            self.sender.sendMessage(mmcmsg.help())
+            self.close()
+
+        elif self._mod[-1] == "list":
             if "/Whats_Now" in text:
                 self.sender.sendMessage(mmcmsg.lisFilte(self._temra))
             elif "/Discard" in text:
                 self.sender.sendMessage(mmcmsg.lisDiscard())
-                self._mod=mmctool.chmod(1,self._mod,"")
+                self._mod=mmctool.chmod(self._mod)
 
-        elif self._mod[len(self._mod)-1] == "outo":
+        elif self._mod[-1] == "outo":
 
             if "/Discard" in text:
                 self._keywo = ""
@@ -94,61 +94,48 @@ class User(telepot.helper.ChatHandler):
                 self.bugpri("Discard record")
                 self.sender.sendMessage(mmcmsg.outoDiscard())
 
-                self._mod=mmctool.chmod(1,self._mod,"")
+                self._mod=mmctool.chmod(self._mod)
                 self.bugpri("Changed back mode")
 
             elif "/Save" in text:
-                record = {
-                    'raw':{},
-                    'key':{},
-                    'rank':{}
-                    }
-
-                try:
-                    faale = open(tool.path("momoco",chat_id)+"record.json","r")
-                    record = json.load(faale)
-                    self.bugpra("Old Record",record)
-                    faale.close()
-                except FileNotFoundError:
-                    record = {
-                        'raw':{},
-                        'key':{},
-                        'rank':{}
-                        }
-
-                #try:
-                timta = tool.date(3,'0000')
-                record["raw"][timta] = self._temra
-                record=mmcdb.addKey(timta,self._temra,'key',record)
-                self.bugpra("Add Record",record)
-                faale = open(tool.path("momoco",chat_id)+"record.json","w")
-                json.dump(record,faale)
-                faale.close()
-
+                record = mmcdb.addRaw(chat_id,self._temra)
+                mmcdb.refesKey(tool.path("momoco",chat_id)+"record.json")
                 self.sender.sendMessage(mmcmsg.outoFinis(self._temra))
                 self.close()
 
             elif "/set_as" in text :
                 if "/set_as_Date" in text:
                     self._temra["datte"]=self._keywo
-                elif "/set_as_Product" in text:
+                    self._keys='datte'
+                elif "/set_as_Item" in text:
                     self._temra["namma"]=self._keywo
-                elif "/set_as_Class" in text:
+                    self._keys='namma'
+                elif "/set_as_Category" in text:
                     self._temra["klass"]=self._keywo
+                    self._keys='klass'
                 elif "/set_as_Seller" in text:
                     self._temra["shoop"]=self._keywo
+                    self._keys='shoop'
                 elif "/set_as_Price" in text:
                     self._temra["price"]=self._keywo
+                    self._keys='price'
                 elif "/set_as_Notes" in text:
                     self._temra["desci"]=self._keywo
+                    self._keys='desci'
 
                 self.sender.sendMessage(mmcmsg.outo(self._temra))
+                if self._keys in ['namma', 'klass', 'shoop', 'price', 'fromm']:
+                    self._recom = mmcdb.recomtxt(self._temra,self._keys,self._keywo,['namma','klass','shoop','price'],self._fs,chat_id)
+                    self.sender.sendMessage(mmcmsg.outoRecom(self._recom[1],self._keywo))
 
-            elif "/rg_" in text :
+            elif "/rg" in text :
                 for sette in text.split(" "):
-                    if "/rg_" in sette:
+                    if "/rgs_" in sette:
+                        self._temra[self._sf[sette[5]]] = self._recom[2][sette[7:len(sette)]]
+                    elif "/rg_" in sette:
                         self._temra[self._sf[sette[4]]] = sette[6:len(sette)]
                 self.sender.sendMessage(mmcmsg.outo(self._temra))
+                self.sender.sendMessage(mmcmsg.outoRecom(self._recom[1],self._keywo))
 
             elif "/Whats_Now" in text:
                 self.sender.sendMessage(mmcmsg.outo(self._temra))
@@ -198,7 +185,7 @@ class User(telepot.helper.ChatHandler):
             if len(self._mod) == 0:
                 self.sender.sendMessage(mmcmsg.home(self._keywo))
 #            elif self._mod[len(self._mod)-1] == "list":
-            elif self._mod[len(self._mod)-1] == "outo":
+            elif self._mod[-1] == "outo":
                 self.sender.sendMessage(mmcmsg.outo(self._temra))
                 self.sender.sendMessage(mmcmsg.outoKeywo(self._keywo))
 
