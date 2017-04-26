@@ -6,6 +6,7 @@ class User(telepot.helper.ChatHandler):
     def __init__(self, *args, **kwargs):
         super(User, self).__init__(*args, **kwargs)
         self._keywo = ""
+        self._keys = ""
         self._mod = []
         self._temra = {
             "datte":"",
@@ -27,8 +28,14 @@ class User(telepot.helper.ChatHandler):
         self._sf = {
             "d":"datte",
             "n":"namma", "k":"klass", "s":"shoop",
-            "f":"fromm","p":"price",
-            "t":"toooo","r":"tpric",
+            "f":"fromm", "p":"price",
+            "t":"toooo", "r":"tpric",
+        }
+        self._fs = {
+            "datte":"d",
+            "namma":"n", "klass":"k", "shoop":"s",
+            "fromm":"f", "price":"p",
+            "toooo":"t", "tpric":"r",
         }
     #
     def bugpri(self,text): # need migrate to mmctool.py
@@ -112,7 +119,7 @@ class User(telepot.helper.ChatHandler):
                 #try:
                 timta = tool.date(3,'0000')
                 record["raw"][timta] = self._temra
-                record=mmcdb.addKey(timta,self._temra,list(self._recom.keys()),'key',record)
+                record=mmcdb.addKey(timta,self._temra,'key',record)
                 self.bugpra("Add Record",record)
                 faale = open(tool.path("momoco",chat_id)+"record.json","w")
                 json.dump(record,faale)

@@ -1,8 +1,13 @@
 import json, pprint, tool
 # fille = __
-# mmcdb.write(fille,'raw',mmcdb.opendb(fille,','))
+# mmcdb.writedb(fille,'raw',mmcdb.opencsv(fille,','))
 
-def opendb(fille,keywo):
+def opendb(fille):
+    fit = open(fille,'r')
+    libra = json.load(fit)
+    return libra
+
+def opencsv(fille,keywo):
     result = {}
     numo = 0
     for linne in open(fille).read().splitlines():
@@ -29,33 +34,50 @@ def writedb(fille,keywo,lib):
     json.dump(source,filla)
     filla.close()
 
+def recom(keys,libra):
+    listo = []
+    try:
+        for veluo in list(libra[keys].keys()):
+            for uuid in libra[keys][veluo]:
+                listo.append(veluo)
+    except KeyError:
+        print("KeyError")
+    lista = []
+    setto = set(listo)
+    for n in [1,2,3,4,5]:
+        try:
+            dan = max(setto,key=listo.count)
+            lista.append(dan)
+            setto.remove(dan)
+        except ValueError:
+            print("No keywo")
+    return lista
 #def refesRan():
 
-#def refesKey():
-
-def addKey(ketta,seque,rangs,desti,libra):
-    for setta in rangs:
+def addKey(ketta,seque,desti,libra):
+    pri="start:"
+    for setta in list(seque.keys()):
         try:
             if libra[desti] == {}:
-                print('a-')
+                pri=pri+"a-"
             else:
-                print('a+')
+                pri=pri+"a+"
         except KeyError:
             libra[desti] = {}
 
         try:
             if libra[desti][setta] == {}:
-                print('b-')
+                pri=pri+"b-"
             else:
-                print('b+')
+                pri=pri+"b+"
         except KeyError:
             libra[desti][setta]={}
 
         try:
             if libra[desti][setta][seque[setta]] == []:
-                print('c-')
+                pri=pri+"c-"
             else:
-                print('c+')
+                pri=pri+"c+"
         except KeyError:
             libra[desti][setta][seque[setta]] = []
 
@@ -64,4 +86,14 @@ def addKey(ketta,seque,rangs,desti,libra):
                 libra[desti][setta][seque[setta]].append(ketta)
             else:
                 libra[desti][setta][seque[setta]]=[ketta]
+        pri=pri+"  "
+    print(pri)
+    return libra
+
+def refesKey(fille):
+    faale = open(fille,'r')
+    libra = json.load(faale)
+    libra['key']={}
+    for uuid in list(libra['raw'].keys()):
+        libra=addKey(uuid,libra['raw'][uuid],'key',libra)
     return libra
