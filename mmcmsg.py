@@ -60,6 +60,108 @@ P.S. You still can use the last card
     return final
 
 """--------------------------------------------------------
+        self.sender.sendMessage(mmcmsg.defAccList(self._setting))
+"""
+def defAccList(setting): # will replace by Start Card after finished Account Card and Currency Card
+    final="""Account Setting Card
+----------------------------
+Default Income: (E.g. Bank Account)
+  """+setting['dinco']+""" /change_i
+
+Default Expense: (E.g. Cash)
+  """+setting['dexpe']+""" /change_e
+----------------------------
+General Income Source:(E.g. Income)
+  """+setting['genis']+""" /change_g
+
+Overall Expense Destination: (E.g. Expense)
+  """+setting['ovede']+""" /change_o
+----------------------------
+Normal Income:
+    G.I.S. ---> Bank A Account
+Normal Expense:
+    Cash ---> O.E.D.
+Withdrawal:
+    Bank A ---> Cash
+Deposit:
+    Cash ---> Bank A
+Tranfer:
+    Bank A ---> Bank B
+----------------------------
+    /Discard /Save
+Note: Changing setting now
+"""
+    return final
+
+"""--------------------------------------------------------
+        self.sender.sendMessage(mmcmsg.defAccSet(self._defac))
+"""
+def defAccSel(txt): # will replace by Start Card after finished Account Card and Currency Card
+    final="""Account Setting Card
+----------------------------
+Account List:
+"""+txt+"""
+----------------------------
+    /Discard /Save  /set_Account
+P.S. Select above or type another selection
+"""
+    return final
+
+"""--------------------------------------------------------
+        self.sender.sendMessage(mmcmsg.defAccSet())
+
+"""
+def defAccSet(keywo,teksi):
+    final="""Select Position
+----------------------------
+Keyword: """+keywo+"""
+
+Position:
+    Default Income
+        ( """+teksi[1][0]+"i"+teksi[1][1]+""" )
+    Default Expense
+        ( """+teksi[1][0]+"e"+teksi[1][1]+""" )
+    General Income Source
+        ( """+teksi[1][0]+"g"+teksi[1][1]+""" )
+    Overall Expense Destination
+        ( """+teksi[1][0]+"o"+teksi[1][1]+""" )
+----------------------------
+  /Discard  /Save /set_Account
+
+"""
+    return final
+
+"""--------------------------------------------------------
+        self.sender.sendMessage(mmcmsg.defAccFins(self._setting))
+"""
+def defAccFins(setting): # will replace by Start Card after finished Account Card and Currency Card
+    final="""Account Setting Saved
+----------------------------
+Default Income: """+setting['dinco']+"""
+Default Expense: """+setting['dexpe']+"""
+General Income Source: """+setting['genis']+"""
+Overall Expense Destination: """+setting['ovede']+"""
+----------------------------
+    /Setting /Help /Whats_Now
+Note: Changing setting now
+"""
+    return final
+
+"""--------------------------------------------------------
+        self.sender.sendMessage(mmcmsg.defAccDis())
+"""
+def defAccDis():
+    final="""¡ Discard !
+----------------------------
+
+  Closed Account Setting Card
+
+----------------------------
+  /Setting  /help
+"""
+    return final
+
+"""--------------------------------------------------------
         self.sender.sendMessage(mmcmsg.outo(self._temra))
             self._temra = {
                 "namma":"", "klass":"", "shoop":"",
@@ -72,7 +174,6 @@ P.S. You still can use the last card
 def outo(dicto):
     final="""New Record
 ----------------------------
-
 Date: """+dicto["datte"]+"""
 Item: """+dicto["namma"]+"""
 Category: """+dicto["klass"]+"""
@@ -83,7 +184,6 @@ Spent from which Account:
 """+mmctool.chstr(dicto["fromm"],"","    ( /choose_Acc_From )",dicto["fromm"]+"\n    ( /choose_Acc_From )")+"""
 Notes:
 """+dicto["desci"]+"""
-
 ----------------------------
   /Discard  /Save  /List  /Setting
 ----------------------------
@@ -98,7 +198,6 @@ P.S. Give me a word or a number
 def outoKeywo(keywo):
     final="""Filling the blank
 ----------------------------
-
 Keyword:
   """+keywo+"""
 
@@ -108,7 +207,6 @@ Keyword:
   /set_as_Seller
   /set_as_Price
   /set_as_Notes
-
 ----------------------------
   /Discard  /Save  /List  /Setting
 
@@ -130,7 +228,7 @@ Recommend List:
 
 ----------------------------
   /Discard  /Save  /List  /Setting
-P.S. Choose above or type other keyword
+P.S. Choose above or type another keyword
 """
     return final
 
@@ -146,21 +244,15 @@ P.S. Choose above or type other keyword
 def outoFinis(dicto):
     final="""New #Record Saved
 ----------------------------
-
 Date: """+dicto["datte"]+"""
 Item: """+dicto["namma"]+"""
 Category: """+dicto["klass"]+"""
 Seller: """+dicto["shoop"]+"""
-Price: """+dicto["price"]+" "+dicto["karen"]+"""
-    ( /change_Currency )
-Notes:
-"""+dicto["desci"]+"""
-
-----------------------------
+Price: """+dicto["karen"]+" "+dicto["price"]+"""
 Spent from which Account:
 """+dicto["fromm"]+"""
-Transfer to which Account:
-"""+dicto["toooo"]+"""
+Notes:
+"""+dicto["desci"]+"""
 ----------------------------
   /Edit  /List  /Setting
 
@@ -225,7 +317,7 @@ def home(keywo): # will replace by Start Card after finished Account Card and Cu
 Keyword: """+keywo+"""
   /New  /List
 ----------------------------
-  /Setting  /help #Record
+  /Setting  /help 
 
 """
     return final

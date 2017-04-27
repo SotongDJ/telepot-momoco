@@ -1,4 +1,4 @@
-import sys, os, traceback, telepot, time, json
+import sys, os, traceback, telepot, time, json, random
 import tool, auth, log, mmctool, mmcmsg, mmcdb
 from telepot.delegate import per_chat_id, create_open, pave_event_space
 
@@ -21,17 +21,26 @@ class User(telepot.helper.ChatHandler):
             "accnt":[""], "karen":[""],
         }
         self._recom = {}
+        self._defac = {}
+        self._setting = {
+            "dinco":"", "dexpe":"",
+            "genis":"", "ovede":"",
+        }
         self._sf = {
             "d":"datte",
             "n":"namma", "k":"klass", "s":"shoop",
             "f":"fromm", "p":"price",
             "t":"toooo", "r":"tpric",
+            "i":"dinco", "e":"dexpe",
+            "g":"genis", "o":"ovede",
         }
         self._fs = {
             "datte":"d",
             "namma":"n", "klass":"k", "shoop":"s",
             "fromm":"f", "price":"p",
             "toooo":"t", "tpric":"r",
+            "dinco":"i", "dexpe":"e",
+            "genis":"g", "ovede":"o",
         }
     #
     def bugpri(self,text): # need migrate to mmctool.py
@@ -65,6 +74,8 @@ class User(telepot.helper.ChatHandler):
         elif "/New" in text:
             if len(self._mod) == 0:
                 self._temra["datte"] = tool.date(1,'-')
+                self._temra['fromm'] = self._setting['dexpe']
+                self._temra['toooo'] = self._setting['ovede']
                 self.sender.sendMessage(mmcmsg.outo(self._temra))
                 if self._keywo != "":
                     self.sender.sendMessage(mmcmsg.outoKeywo(self._keywo))
@@ -72,6 +83,14 @@ class User(telepot.helper.ChatHandler):
         elif "/List" in text:
             self.sender.sendMessage(mmcmsg.lisFilte(self._temra))
             self._mod=mmctool.apmod(self._mod,"list")
+
+        elif "/set_Account" in text:
+            if len(self._mod) == 0:
+                self._mod=mmctool.apmod(self._mod,"defAcc")
+            else:
+                if self._mod[-1] != "defAcc":
+                    self._mod=mmctool.apmod(self._mod,"defAcc")
+            self.sender.sendMessage(mmcmsg.defAccList(self._setting))
 
         elif len(self._mod) == 0:
             self.sender.sendMessage(mmcmsg.help())
@@ -99,7 +118,7 @@ class User(telepot.helper.ChatHandler):
 
             elif "/Save" in text:
                 record = mmcdb.addRaw(chat_id,self._temra)
-                mmcdb.refesKey(tool.path("momoco",chat_id)+"record.json")
+                mmcdb.refesKey(chat_id)
                 self.sender.sendMessage(mmcmsg.outoFinis(self._temra))
                 self.close()
 
@@ -124,14 +143,19 @@ class User(telepot.helper.ChatHandler):
                     self._keys='desci'
 
                 self.sender.sendMessage(mmcmsg.outo(self._temra))
-                if self._keys in ['namma', 'klass', 'shoop', 'price', 'fromm']:
+                if self._keys in ['namma', 'klass', 'shoop', 'price']:
                     self._recom = mmcdb.recomtxt(self._temra,self._keys,self._keywo,['namma','klass','shoop','price'],self._fs,chat_id)
-                    self.sender.sendMessage(mmcmsg.outoRecom(self._recom[1],self._keywo))
+                    if self._recom[1] !="" :
+                        self.sender.sendMessage(mmcmsg.outoRecom(self._recom[1],self._keywo))
 
             elif "/rg" in text :
                 for sette in text.split(" "):
                     if "/rgs_" in sette:
-                        self._temra[self._sf[sette[5]]] = self._recom[2][sette[7:len(sette)]]
+                        try:
+                            self._temra[self._sf[sette[5]]] = self._recom[2][sette[7:len(sette)]]
+                        except KeyError:
+                                self.sender.sendMessage("Expected Error : Doesn't Exist or Expired")
+                                print("KeyError : Doesn't Exist or Expired")
                     elif "/rg_" in sette:
                         self._temra[self._sf[sette[4]]] = sette[6:len(sette)]
                 self.sender.sendMessage(mmcmsg.outo(self._temra))
@@ -141,14 +165,51 @@ class User(telepot.helper.ChatHandler):
                 self.sender.sendMessage(mmcmsg.outo(self._temra))
                 if self._keywo != "":
                     self.sender.sendMessage(mmcmsg.outoKeywo(self._keywo))
+        elif self._mod[-1] == "defAcc":
 
+            if "/Discard" in text:
+                self._keywo = ""
+                for key in self._temra.keys():
+                    self._temra[key]=""
+
+                self.bugpri("Discard Account Setting")
+                self.sender.sendMessage(mmcmsg.defAccDis())
+
+                self._mod=mmctool.chmod(self._mod)
+                self.bugpri("Changed back mode")
+
+            elif "/Save" in text:
+                mmcdb.refesSetting(self._setting,chat_id)
+                self.sender.sendMessage(mmcmsg.defAccFins(self._setting))
+                mmctool.chmod(self._mod)
+                self.close()
+
+            elif "/change_" in text:
+                keywo = text[8]
+                self._defac = {}
+                self._defac = mmcdb.listAcc(keywo,chat_id)
+                if self._defac[1] !="" :
+                    self.sender.sendMessage(mmcmsg.defAccSel(self._defac[1]))
+
+            elif "/ch" in text:
+                for sette in text.split(" "):
+                    if "/chu_" in sette:
+                        try:
+                            self._setting[self._sf[sette[5]]] = self._defac[2][sette[7:len(sette)]]
+                        except KeyError:
+                                self.sender.sendMessage("Expected Error : Doesn't Exist or Expired")
+                                print("KeyError : Doesn't Exist or Expired")
+                    elif "/ch_" in sette:
+                        self._setting[self._sf[sette[4]]] = sette[6:len(sette)]
+                self.sender.sendMessage(mmcmsg.defAccList(self._setting))
 
     def open(self, initial_msg, seed): # Welcome Region
         # self.sender.sendMessage('Guess my number')
         content_type, chat_type, chat_id = telepot.glance(initial_msg)
-        self.bugpri("outo Start")
+        self.bugpri("Intitial")
         self.bugpra("inti_msg",initial_msg)
         self._mod = []
+        self._setting = mmcdb.openSetting(chat_id)
         self.sender.sendMessage(mmcmsg.warn())
 
         if content_type != 'text':
@@ -188,7 +249,15 @@ class User(telepot.helper.ChatHandler):
             elif self._mod[-1] == "outo":
                 self.sender.sendMessage(mmcmsg.outo(self._temra))
                 self.sender.sendMessage(mmcmsg.outoKeywo(self._keywo))
-
+            elif self._mod[-1] == "defAcc":
+                numme = str(random.choice(range(10,100)))
+                self._defac={}
+                try:
+                    self._keywo.encode('latin-1')
+                    self._defac={1:["/ch_","_"+self._keywo],2:[]}
+                except UnicodeEncodeError:
+                    self._defac={1:["/chu_","_"+numme+" "+self._keywo],2:{numme:self._keywo}}
+                self.sender.sendMessage(mmcmsg.defAccSet(self._keywo,self._defac))
 
     def on__idle(self, event): # Timeout Region
         self.sender.sendMessage(mmcmsg.timesout())

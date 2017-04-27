@@ -2,10 +2,31 @@ import json, pprint, tool, random
 # fille = __
 # mmcdb.writedb(fille,'raw',mmcdb.opencsv(fille,','))
 
-def opendb(fille):
-    fit = open(fille,'r')
-    libra = json.load(fit)
-    return libra
+def opendb(usrid):
+    try:
+        faale = open(tool.path("momoco",usrid)+"record.json","r")
+        record = json.load(faale)
+        print("Load Record")
+        faale.close()
+        return record
+    except FileNotFoundError:
+        print('FileNotFoundError')
+        return {'raw':{},'key':{}}
+
+def openSetting(usrid):
+    try:
+        faale = open(tool.path("momoco",usrid)+"setting.json","r")
+        setting = json.load(faale)
+        print("Load Setting")
+        faale.close()
+        return setting
+    except FileNotFoundError:
+        print('FileNotFoundError')
+        setting = {
+            "dinco":"", "dexpe":"",
+            "genis":"", "ovede":"",
+        }
+        return setting
 
 def opencsv(fille,keywo):
     result = {}
@@ -38,19 +59,7 @@ def appenddb(fille,keywo,lib):
         record = mmcdb.addRaw(chat_id,self._temra)
 """
 def addRaw(usrid,temra):
-    record = {
-        'raw':{},
-        'key':{}
-        }
-
-    try:
-        faale = open(tool.path("momoco",usrid)+"record.json","r")
-        record = json.load(faale)
-        print("Load Old Record")
-        faale.close()
-    except FileNotFoundError:
-        print('FileNotFoundError')
-
+    record = opendb(usrid)
     timta = tool.date(3,'0000')
     record["raw"][timta] = temra
     print("Add Record")
@@ -59,7 +68,58 @@ def addRaw(usrid,temra):
     faale.close()
     return record
 
-def recoma(keys,libra):
+def addKey(ketta,seque,desti,libra):
+    pri="start:"
+    for setta in list(seque.keys()):
+        try:
+            if libra[desti] == {}:
+                pri=pri+"a-"
+            else:
+                pri=pri+"a+"
+        except KeyError:
+            libra[desti] = {}
+
+        try:
+            if libra[desti][setta] == {}:
+                pri=pri+"b-"
+            else:
+                pri=pri+"b+"
+        except KeyError:
+            libra[desti][setta]={}
+
+        try:
+            if libra[desti][setta][seque[setta]] == []:
+                pri=pri+"c-"
+            else:
+                pri=pri+"c+"
+        except KeyError:
+            libra[desti][setta][seque[setta]] = []
+
+        if seque[setta] != "":
+            if libra[desti][setta][seque[setta]] != []:
+                libra[desti][setta][seque[setta]].append(ketta)
+            else:
+                libra[desti][setta][seque[setta]]=[ketta]
+        pri=pri+"  "
+    print(pri)
+    return libra
+
+"""--------------------------------------------------------
+        mmcdb.refesKey(chat_id)
+"""
+def refesKey(usrid):
+    libra = opendb(usrid)
+    libra['key']={}
+    for uuid in list(libra['raw'].keys()):
+        libra=addKey(uuid,libra['raw'][uuid],'key',libra)
+    faale = open(tool.path("momoco",usrid)+"record.json",'w')
+    json.dump(libra,faale)
+    faale.close()
+
+
+def recoma(keys,usrid):
+    refesKey(usrid)
+    libra = opendb(usrid)
     listo = []
     try:
         for veluo in list(libra[keys].keys()):
@@ -79,7 +139,8 @@ def recoma(keys,libra):
     return lista
 
 def recomb(srckey,veluo,deskey,usrid):
-    libre = opendb(tool.path("momoco",usrid)+"record.json")
+    refesKey(usrid)
+    libre = opendb(usrid)
     listo = []
     try:
         for uuid in libre['key'][srckey][veluo]:
@@ -121,51 +182,30 @@ def recomtxt(temra,keysa,keywo,deset,fsdic,usrid):
                 #           finno=finno+rgkey+rgkey.join(setto)+"\n"
     return { 1:finno , 2:conta}
 
-def addKey(ketta,seque,desti,libra):
-    pri="start:"
-    for setta in list(seque.keys()):
-        try:
-            if libra[desti] == {}:
-                pri=pri+"a-"
-            else:
-                pri=pri+"a+"
-        except KeyError:
-            libra[desti] = {}
-
-        try:
-            if libra[desti][setta] == {}:
-                pri=pri+"b-"
-            else:
-                pri=pri+"b+"
-        except KeyError:
-            libra[desti][setta]={}
-
-        try:
-            if libra[desti][setta][seque[setta]] == []:
-                pri=pri+"c-"
-            else:
-                pri=pri+"c+"
-        except KeyError:
-            libra[desti][setta][seque[setta]] = []
-
-        if seque[setta] != "":
-            if libra[desti][setta][seque[setta]] != []:
-                libra[desti][setta][seque[setta]].append(ketta)
-            else:
-                libra[desti][setta][seque[setta]]=[ketta]
-        pri=pri+"  "
-    print(pri)
-    return libra
-
 """--------------------------------------------------------
-        refesKey(tool.path("momoco",chat_id)+"record.json")
+        listAcc(keywo,chat_id)
 """
-def refesKey(fille):
-    faale = open(fille,'r')
-    libra = json.load(faale)
-    libra['key']={}
-    for uuid in list(libra['raw'].keys()):
-        libra=addKey(uuid,libra['raw'][uuid],'key',libra)
-    faale = open(fille,'w')
+def listAcc(keywo,usrid):
+    listo = []
+    finno = ""
+    conta = {}
+    numme = str(random.choice(range(10,100)))
+    nodda = 0
+    refesKey(usrid)
+    libro = opendb(usrid)
+    listo = list(set(list(libro['key']['fromm'].keys())+list(libro['key']['toooo'].keys())))
+    for intta in listo:
+        if intta != '':
+            try:
+                intta.encode('latin-1')
+                finno = finno + "    /ch_"+keywo+"_"+intta+"\n"
+            except UnicodeEncodeError:
+                conta[numme+str(nodda)]=intta
+                finno = finno + "    /chu_"+keywo+"_"+numme+str(nodda)+" "+intta+"\n"
+                nodda = nodda + 1
+    return {1:finno,2:conta}
+
+def refesSetting(libra,usrid):
+    faale = open(tool.path("momoco",usrid)+"setting.json",'w')
     json.dump(libra,faale)
     faale.close()
