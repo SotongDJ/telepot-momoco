@@ -33,9 +33,11 @@ def help():
   /help
     Command List Card
   /New
-    Creating  Card
+    Creating New Card
   /List
-    Record Showing Card
+    Review Card
+  /Statics
+    Analytic Card
   /Setting
     Setting Card
   /Whats_Now
@@ -135,7 +137,7 @@ Position:
         self.sender.sendMessage(mmcmsg.defAccFins(self._setting))
 """
 def defAccFins(setting): # will replace by Start Card after finished Account Card and Currency Card
-    final="""Account Setting Saved
+    final="""Account Setting #Saved
 ----------------------------
 Default Income: """+setting['dinco']+"""
 Default Expense: """+setting['dexpe']+"""
@@ -172,7 +174,7 @@ def defAccDis():
             keywo = ""
 """
 def outo(dicto):
-    final="""New Record
+    final="""New Expense Card
 ----------------------------
 Date: """+dicto["datte"]+"""
 Item: """+dicto["namma"]+"""
@@ -184,6 +186,9 @@ Spent from which Account:
 """+mmctool.chstr(dicto["fromm"],"","    ( /choose_Acc_From )",dicto["fromm"]+"\n    ( /choose_Acc_From )")+"""
 Notes:
 """+dicto["desci"]+"""
+----------------------------
+  /change_to_Income Card
+  /change_to_Transfer Card
 ----------------------------
   /Discard  /Save  /List  /Setting
 ----------------------------
@@ -242,7 +247,7 @@ P.S. Choose above or type another keyword
             }
 """
 def outoFinis(dicto):
-    final="""New #Record Saved
+    final="""New #Expense Record #Saved
 ----------------------------
 Date: """+dicto["datte"]+"""
 Item: """+dicto["namma"]+"""
@@ -317,7 +322,7 @@ def home(keywo): # will replace by Start Card after finished Account Card and Cu
 Keyword: """+keywo+"""
   /New  /List
 ----------------------------
-  /Setting  /help 
+  /Setting  /help
 
 """
     return final
