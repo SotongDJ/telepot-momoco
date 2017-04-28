@@ -116,8 +116,15 @@ def fixAcc(liboh,usrid):
                 if liboh[sekio]['tpric'] == "":
                     liboh[sekio]['tpric'] = setti['price']
             except KeyError:
-                liboh[sekio]['tpric'] = "0"
-                liboh[sekio]['price'] = "0"
+                try:
+                    if liboh[sekio]['price'] != "":
+                        liboh[sekio]['tpric'] = setti['price']
+                    else:
+                        liboh[sekio]['tpric'] = "0"
+                        liboh[sekio]['price'] = "0"
+                except KeyError:
+                    liboh[sekio]['tpric'] = "0"
+                    liboh[sekio]['price'] = "0"
 
     return liboh
 
