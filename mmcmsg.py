@@ -15,8 +15,10 @@ This is Money Money Come Chatbot.
 It can help you to trace your money flow moreeasily (Sure? )
 
 Pls setup before using:
-  Account setup = /set_Account
-  Currency setup = /set_Currency
+  /set_Account
+    Account setup
+  /set_Currency
+    Currency setup
 ----------------------------
   /help  /Setting
 """
@@ -187,8 +189,10 @@ Spent from which Account:
 Notes:
 """+dicto["desci"]+"""
 ----------------------------
-  /change_to_Income Card
-  /change_to_Transfer Card
+  /change_to_Income
+    Change to Income Card
+  /change_to_Transfer
+    Change to Transfer Card
 ----------------------------
   /Discard  /Save  /List  /Setting
 ----------------------------
@@ -206,11 +210,16 @@ def outoKeywo(keywo):
 Keyword:
   """+keywo+"""
 
-  /set_as_Date (format: yyyy-mm-dd)
+  /set_as_Date
+    (format: yyyy-mm-dd)
   /set_as_Item
+
   /set_as_Category
+
   /set_as_Seller
+
   /set_as_Price
+
   /set_as_Notes
 ----------------------------
   /Discard  /Save  /List  /Setting
@@ -218,10 +227,8 @@ Keyword:
 """
     return final
 
-"""--------------------------------------------------------
-        self.sender.sendMessage(mmcmsg.outoRecom(self._temra,self._keys,self._keywo,self._fs,chat_id))
-            namma, klass, shoop, price
-"""
+""" self.sender.sendMessage(mmcmsg.outoRecom(self._temra,self._keys,self._keywo,self._fs,chat_id))
+            namma, klass, shoop, price"""
 def outoRecom(txt,keywo):
     final="""Recommend Card
 ----------------------------

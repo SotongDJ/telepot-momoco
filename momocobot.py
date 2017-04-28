@@ -54,10 +54,6 @@ class User(telepot.helper.ChatHandler):
         print(" --"+text+"-- ")
         print(thin)
 
-    """--------------------------------------------------------
-        mmctool.comme(msg)
-"""
-
     def comme(self,msg):
         content_type, chat_type, chat_id = telepot.glance(msg)
         text=msg['text']
@@ -104,7 +100,6 @@ class User(telepot.helper.ChatHandler):
                 self._mod=mmctool.chmod(self._mod)
 
         elif self._mod[-1] == "outo":
-
             if "/Discard" in text:
                 self._keywo = ""
                 for key in self._temra.keys():
@@ -118,7 +113,7 @@ class User(telepot.helper.ChatHandler):
 
             elif "/Save" in text:
                 record = mmcdb.addRaw(chat_id,self._temra)
-                mmcdb.refesKey(chat_id)
+                mmcdb.refesdb(chat_id)
                 self.sender.sendMessage(mmcmsg.outoFinis(self._temra))
                 self.close()
 
@@ -165,8 +160,8 @@ class User(telepot.helper.ChatHandler):
                 self.sender.sendMessage(mmcmsg.outo(self._temra))
                 if self._keywo != "":
                     self.sender.sendMessage(mmcmsg.outoKeywo(self._keywo))
-        elif self._mod[-1] == "defAcc":
 
+        elif self._mod[-1] == "defAcc":
             if "/Discard" in text:
                 self._keywo = ""
                 for key in self._temra.keys():
@@ -211,6 +206,7 @@ class User(telepot.helper.ChatHandler):
         self._mod = []
         self._setting = mmcdb.openSetting(chat_id)
         self.sender.sendMessage(mmcmsg.warn())
+        mmcdb.refesdb(chat_id)
 
         if content_type != 'text':
             self.sender.sendMessage(mmcmsg.error())

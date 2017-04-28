@@ -1,4 +1,4 @@
-import json, pprint, tool, random
+import json, pprint, tool, random, hashlib
 # fille = __
 # mmcdb.writedb(fille,'raw',mmcdb.opencsv(fille,','))
 
@@ -11,7 +11,7 @@ def opendb(usrid):
         return record
     except FileNotFoundError:
         print('FileNotFoundError')
-        return {'raw':{},'key':{}}
+        return {'raw':{},'key':{},'hash':{}}
 
 def openSetting(usrid):
     try:
@@ -28,6 +28,7 @@ def openSetting(usrid):
         }
         return setting
 
+""" mmcdb.opencsv( ,',')"""
 def opencsv(fille,keywo):
     result = {}
     numo = 0
@@ -45,17 +46,7 @@ def opencsv(fille,keywo):
             numo = numo + 1
     return result
 
-def appendRaw(usrid,lib):
-    source = opendb(usrid)
-    for namma in list(lib.keys()):
-        source['raw'][namma]=lib[namma]
-    filla = open(tool.path("momoco",usrid)+"record.json","w")
-    json.dump(source,filla)
-    filla.close()
-
-"""--------------------------------------------------------
-        record = mmcdb.addRaw(chat_id,self._temra)
-"""
+""" record = mmcdb.addRaw(chat_id,self._temra)"""
 def addRaw(usrid,temra):
     record = opendb(usrid)
     timta = tool.date(3,'0000')
@@ -66,57 +57,100 @@ def addRaw(usrid,temra):
     faale.close()
     return record
 
-def addKey(ketta,seque,desti,libra):
+""" addKey(uuid,libra) """
+def addKey(ketta,libra):
     pri="start:"
-    for setta in list(seque.keys()):
+    for setta in list(libra['raw'][ketta].keys()):
         try:
-            if libra[desti] == {}:
-                pri=pri+"a-"
-            else:
-                pri=pri+"a+"
-        except KeyError:
-            libra[desti] = {}
-
-        try:
-            if libra[desti][setta] == {}:
+            if libra['key'][setta] == {}:
                 pri=pri+"b-"
             else:
                 pri=pri+"b+"
         except KeyError:
-            libra[desti][setta]={}
+            libra['key'][setta]={}
 
         try:
-            if libra[desti][setta][seque[setta]] == []:
+            if libra['key'][setta][libra['raw'][ketta][setta]] == []:
                 pri=pri+"c-"
             else:
                 pri=pri+"c+"
         except KeyError:
-            libra[desti][setta][seque[setta]] = []
+            libra['key'][setta][libra['raw'][ketta][setta]] = []
 
-        if seque[setta] != "":
-            if libra[desti][setta][seque[setta]] != []:
-                libra[desti][setta][seque[setta]].append(ketta)
+        if libra['raw'][ketta][setta] != "":
+            if libra['key'][setta][libra['raw'][ketta][setta]] != []:
+                libra['key'][setta][libra['raw'][ketta][setta]].append(ketta)
             else:
-                libra[desti][setta][seque[setta]]=[ketta]
+                libra['key'][setta][libra['raw'][ketta][setta]]=[ketta]
         pri=pri+"  "
     print(pri)
     return libra
 
-"""--------------------------------------------------------
-        mmcdb.refesKey(chat_id)
-"""
-def refesKey(usrid):
-    libra = opendb(usrid)
-    libra['key']={}
+""" addHash(libra)"""
+def addHash(libra):
     for uuid in list(libra['raw'].keys()):
-        libra=addKey(uuid,libra['raw'][uuid],'key',libra)
+        hasa = hashlib.sha512()
+        if libra['raw'][uuid] != {}:
+            hasa.update((",".join(list(set(list(libra['raw'][uuid].values())))).encode("utf-8")))
+            libra['hash'][uuid] = hasa.hexdigest()
+    return libra
+
+""" fixAcc(libra[raw],usrid)"""
+def fixAcc(liboh,usrid):
+    setti = openSetting(usrid)
+    for sekio in list(liboh.keys()):
+        if liboh[sekio] != {}:
+            try:
+                if liboh[sekio]['fromm'] == "":
+                    liboh[sekio]['fromm'] = setti['genis']
+            except KeyError:
+                liboh[sekio]['fromm'] = setti['genis']
+
+            try:
+                if liboh[sekio]['toooo'] == "":
+                    liboh[sekio]['toooo'] = setti['ovede']
+            except KeyError:
+                liboh[sekio]['toooo'] = setti['ovede']
+
+            try:
+                if liboh[sekio]['tpric'] == "":
+                    liboh[sekio]['tpric'] = setti['price']
+            except KeyError:
+                liboh[sekio]['tpric'] = "0"
+                liboh[sekio]['price'] = "0"
+
+    return liboh
+
+""" mmcdb.refesdb(chat_id)"""
+def refesdb(usrid):
+    libra = opendb(usrid)
+    libra['raw']=fixAcc(libra['raw'],usrid)
+    libra['key']={}
+    libra['hash']={}
+    for uuid in list(libra['raw'].keys()):
+        libra=addKey(uuid,libra)
+    libra=addHash(libra)
     faale = open(tool.path("momoco",usrid)+"record.json",'w')
     json.dump(libra,faale)
     faale.close()
 
+""" appendRaw(usrid,lib)"""
+def appendRaw(usrid,lib):
+    refesdb(usrid)
+    lib=fixAcc(lib,usrid)
+    source = opendb(usrid)
+    for uuid in list(lib.keys()):
+        hasa = hashlib.sha512()
+        if lib[uuid] != {}:
+            hasa.update((",".join(list(set(list(lib[uuid].values()))))).encode("utf-8"))
+            if hasa.hexdigest() not in list(source['hash'].values()):
+                source['raw'][uuid]=lib[uuid]
+    filla = open(tool.path("momoco",usrid)+"record.json","w")
+    json.dump(source,filla)
+    filla.close()
 
 def recoma(keys,usrid):
-    refesKey(usrid)
+    refesdb(usrid)
     libra = opendb(usrid)
     listo = []
     try:
@@ -137,7 +171,7 @@ def recoma(keys,usrid):
     return lista
 
 def recomb(srckey,veluo,deskey,usrid):
-    refesKey(usrid)
+    refesdb(usrid)
     libre = opendb(usrid)
     listo = []
     try:
@@ -180,16 +214,14 @@ def recomtxt(temra,keysa,keywo,deset,fsdic,usrid):
                 #           finno=finno+rgkey+rgkey.join(setto)+"\n"
     return { 1:finno , 2:conta}
 
-"""--------------------------------------------------------
-        listAcc(keywo,chat_id)
-"""
+""" listAcc(keywo,chat_id)"""
 def listAcc(keywo,usrid):
     listo = []
     finno = ""
     conta = {}
     numme = str(random.choice(range(10,100)))
     nodda = 0
-    refesKey(usrid)
+    refesdb(usrid)
     libro = opendb(usrid)
     listo = list(set(list(libro['key']['fromm'].keys())+list(libro['key']['toooo'].keys())))
     for intta in listo:
