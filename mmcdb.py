@@ -46,9 +46,7 @@ def opencsv(fille,keywo):
     return result
 
 def appendRaw(usrid,lib):
-    filla = open(tool.path("momoco",usrid)+"record.json","r")
-    source = json.load(filla)
-    filla.close()
+    source = opendb(usrid)
     for namma in list(lib.keys()):
         source['raw'][namma]=lib[namma]
     filla = open(tool.path("momoco",usrid)+"record.json","w")
