@@ -45,13 +45,13 @@ def opencsv(fille,keywo):
             numo = numo + 1
     return result
 
-def appenddb(fille,keywo,lib):
-    filla = open(fille,"r")
+def appendRaw(usrid,lib):
+    filla = open(tool.path("momoco",usrid)+"record.json","r")
     source = json.load(filla)
     filla.close()
     for namma in list(lib.keys()):
-        source[keywo][namma]=lib[namma]
-    filla = open(fille,"w")
+        source['raw'][namma]=lib[namma]
+    filla = open(tool.path("momoco",usrid)+"record.json","w")
     json.dump(source,filla)
     filla.close()
 
