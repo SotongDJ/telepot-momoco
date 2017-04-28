@@ -35,7 +35,7 @@ def opencsv(fille,keywo):
     for linne in open(fille).read().splitlines():
         if "!" in linne:
             keys = linne.replace("!","").split(keywo)
-        elif "#" not in linne:
+        elif linne[0] != "#":
             zero = '9000'
             uri = tool.date(3,'')
             nama = uri+zero[0:4-len(str(numo))]+str(numo)
