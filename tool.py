@@ -19,7 +19,8 @@ def date(mode,text):
         zero = '0000'
         numo = str(random.choice(range(0,10000)))
         return "".join(j)+zero[0:4-len(numo)]+numo
-
+    elif mode == 5 : # output: "yyyy-mm-dd-hh" if text = '-'
+        return text.join(j[0:4])
 
 def path(glass,id):
     os.system("mkdir -p ./database/usr/"+str(id)+"/"+glass)

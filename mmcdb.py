@@ -1,4 +1,5 @@
-import json, pprint, tool, random, hashlib
+import json, random, hashlib
+import tool, mmctool
 # fille = __
 # mmcdb.writedb(fille,'raw',mmcdb.opencsv(fille,','))
 
@@ -6,22 +7,22 @@ def opendb(usrid):
     try:
         faale = open(tool.path("momoco",usrid)+"record.json","r")
         record = json.load(faale)
-        print("Load Record")
+        mmctool.printbug("Load Record",'',usrid)
         faale.close()
         return record
     except FileNotFoundError:
-        print('FileNotFoundError')
+        mmctool.printbug('FileNotFoundError','',usrid)
         return {'raw':{},'key':{},'hash':{}}
 
 def openSetting(usrid):
     try:
         faale = open(tool.path("momoco",usrid)+"setting.json","r")
         setting = json.load(faale)
-        print("Load Setting")
+        mmctool.printbug("Load Setting",'',usrid)
         faale.close()
         return setting
     except FileNotFoundError:
-        print('FileNotFoundError')
+        mmctool.printbug('FileNotFoundError','',usrid)
         setting = {
             "dinco":"", "dexpe":"",
             "genis":"", "ovede":"",
@@ -52,39 +53,41 @@ def addRaw(usrid,temra):
     record = opendb(usrid)
     timta = tool.date(3,'0000')
     record["raw"][timta] = temra
-    print("Add Record")
+    mmctool.printbug("Add Record",'',usrid)
     faale = open(tool.path("momoco",usrid)+"record.json","w")
     json.dump(record,faale)
     faale.close()
     return record
 
 """ addKey(uuid,libra) """
-def addKey(ketta,libra):
-    pri="start:"
+def addKey(ketta,libra,usrid):
+    pri="inti : "
     for setta in list(libra['raw'][ketta].keys()):
         try:
             if libra['key'][setta] == {}:
-                pri=pri+"b-"
+                pri=pri+"key>blank,"
             else:
-                pri=pri+"b+"
+                pri=pri+"key>exist,"
         except KeyError:
             libra['key'][setta]={}
+            pri=pri+"key>create,"
 
         try:
             if libra['key'][setta][libra['raw'][ketta][setta]] == []:
-                pri=pri+"c-"
+                pri=pri+"crosskey>blank,"
             else:
-                pri=pri+"c+"
+                pri=pri+"crosskey>exist,"
         except KeyError:
             libra['key'][setta][libra['raw'][ketta][setta]] = []
+            pri=pri+"crosskey>create,"
 
         if libra['raw'][ketta][setta] != "":
             if libra['key'][setta][libra['raw'][ketta][setta]] != []:
                 libra['key'][setta][libra['raw'][ketta][setta]].append(ketta)
             else:
                 libra['key'][setta][libra['raw'][ketta][setta]]=[ketta]
-        pri=pri+"  "
-    print(pri)
+        pri=pri+". "
+    mmctool.printbug('addkey\n    pri',pri,usrid)
     return libra
 
 """ addHash(libra)"""
@@ -136,7 +139,7 @@ def refesdb(usrid):
     libra['key']={}
     libra['hash']={}
     for uuid in list(libra['raw'].keys()):
-        libra=addKey(uuid,libra)
+        libra=addKey(uuid,libra,usrid)
     libra=addHash(libra)
     faale = open(tool.path("momoco",usrid)+"record.json",'w')
     json.dump(libra,faale)
@@ -177,7 +180,7 @@ def recoma(keys,usrid):
             for uuid in libra[keys][veluo]:
                 listo.append(veluo)
     except KeyError:
-        print("KeyError")
+        mmctool.printbug("KeyError",'',usrid)
     lista = []
     setto = set(listo)
     for n in [1,2,3,4,5]:
@@ -186,9 +189,9 @@ def recoma(keys,usrid):
             lista.append(dan)
             setto.remove(dan)
         except ValueError:
-            print("No keywo")
+            mmctool.printbug("No keywo",'',usrid)
     return lista
-
+""" recomb(self._keys,self._keywo,deskey,usrid) """
 def recomb(srckey,veluo,deskey,usrid):
     refesdb(usrid)
     libre = opendb(usrid)
@@ -197,7 +200,7 @@ def recomb(srckey,veluo,deskey,usrid):
         for uuid in libre['key'][srckey][veluo]:
             listo.append(libre['raw'][uuid][deskey])
     except KeyError:
-        print("KeyError")
+        mmctool.printbug("KeyError",'',usrid)
     lista = []
     setto = set(listo)
     for n in [1,2,3,4]:
@@ -206,9 +209,10 @@ def recomb(srckey,veluo,deskey,usrid):
             lista.append(dan)
             setto.remove(dan)
         except ValueError:
-            print("No keywo")
+            mmctool.printbug("No keywo",'',usrid)
     return lista
 
+""" mmcdb.recomtxt(self._temra,self._keys,self._keywo,['namma','klass','shoop','price'],self._fs,chat_id) """
 def recomtxt(temra,keysa,keywo,deset,fsdic,usrid):
     setto = []
     finno = ""
@@ -216,10 +220,10 @@ def recomtxt(temra,keysa,keywo,deset,fsdic,usrid):
     numme = str(random.choice(range(10,100)))
     nodda = 0
     for deskey in deset:
-        print('temra[deskey] = '+temra[deskey])
+        mmctool.printbug('temra[deskey]',temra[deskey],usrid)
         if temra[deskey] == "":
             setto = recomb(keysa,keywo,deskey,usrid)
-            pprint.pprint(setto)
+            mmctool.printbug('setto',setto,usrid)
             if setto != []:
                 for itema in setto:
                     try:
@@ -233,12 +237,12 @@ def recomtxt(temra,keysa,keywo,deset,fsdic,usrid):
                 #           finno=finno+rgkey+rgkey.join(setto)+"\n"
     return { 1:finno , 2:conta}
 
-""" listSett(keywo,chat_id)"""
-def listSett(keywo,usrid):
+""" mmcdb.listAcc('ch','chu',keywo,chat_id)"""
+def listAcc(pref,prefs,keywo,usrid):
     listo = []
     finno = ""
     conta = {}
-    numme = str(random.choice(range(10,100)))
+    numme = str(random.choice(range(100,1000)))
     nodda = 0
     refesdb(usrid)
     libro = opendb(usrid)
@@ -247,10 +251,52 @@ def listSett(keywo,usrid):
         if intta != '':
             try:
                 intta.encode('latin-1')
-                finno = finno + "    /ch_"+keywo+"_"+intta+"\n"
+                finno = finno + "    /"+pref+"_"+keywo+"_"+intta+"\n"
             except UnicodeEncodeError:
                 conta[numme+str(nodda)]=intta
-                finno = finno + "    /chu_"+keywo+"_"+numme+str(nodda)+" "+intta+"\n"
+                finno = finno + "    /"+prefs+"_"+keywo+"_"+numme+str(nodda)+" "+intta+"\n"
+                nodda = nodda + 1
+    return {1:finno,2:conta}
+
+""" mmcdb.listKas('ch','chu',keywo,chat_id)"""
+def listKas(pref,prefs,keywo,usrid):
+    listo = []
+    finno = ""
+    conta = {}
+    numme = str(random.choice(range(100,1000)))
+    nodda = 0
+    refesdb(usrid)
+    libro = opendb(usrid)
+    listo = set(list(libro['key']['klass'].keys()))
+    for intta in listo:
+        if intta != '':
+            try:
+                intta.encode('latin-1')
+                finno = finno + "    /"+pref+"_"+keywo+"_"+intta+"\n"
+            except UnicodeEncodeError:
+                conta[numme+str(nodda)]=intta
+                finno = finno + "    /"+prefs+"_"+keywo+"_"+numme+str(nodda)+" "+intta+"\n"
+                nodda = nodda + 1
+    return {1:finno,2:conta}
+
+""" mmcdb.listKen('ch','chu',keywo,chat_id)"""
+def listKen(pref,prefs,keywo,usrid):
+    listo = []
+    finno = ""
+    conta = {}
+    numme = str(random.choice(range(10,100)))
+    nodda = 0
+    refesdb(usrid)
+    libro = opendb(usrid)
+    listo = set(list(libro['key']['karen'].keys())+list(libro['key']['tkare'].keys()))
+    for intta in listo:
+        if intta != '':
+            try:
+                intta.encode('latin-1')
+                finno = finno + "    /"+pref+"_"+keywo+"_"+intta+"\n"
+            except UnicodeEncodeError:
+                conta[numme+str(nodda)]=intta
+                finno = finno + "    /"+prefs+"_"+keywo+"_"+numme+str(nodda)+" "+intta+"\n"
                 nodda = nodda + 1
     return {1:finno,2:conta}
 

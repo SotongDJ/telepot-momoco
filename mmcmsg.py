@@ -12,13 +12,11 @@ def start():
 This is Money Money Come Chatbot.
 It can help you to trace your money flow moreeasily (Sure? )
 
-Pls setup before using:
-  /modify_Setting
-    Account setup
-  /set_Currency
-    Currency setup
+Notes:
+  /Setting
+    Please Setup before using
 ----------------------------
-  /help  /Setting
+  /help
 """
     return final
 
@@ -31,7 +29,7 @@ def help():
   /help
     Command List Card
   /New
-    Creating New Card
+    Creating New Record
   /List
     Review Card
   /Statics
@@ -43,108 +41,157 @@ def help():
 """
     return final
 
-""" self.sender.sendMessage(mmcmsg.setting()) """
-def setting(): # will replace by Start Card after finished Account Card and Currency Card
-    final="""Setting Card
-----------------------------
-Account Setting:
-  /modify_Setting
-Currency Setting:
-  /set_Currency
-----------------------------
-P.S. You still can use the last card
-  /Whats_Now
+""" self.sender.sendMessage(mmcmsg.bored())"""
+def bored():
+    final="""  I am free ~
+------------------
+My "Job"
+------------------
+  /start
+    Welcome Card
+  /New
+    Creating New Record
+  /List
+    Review Card
+  /Statics
+    Analystic Card
+  /Setting
+    Setting Card
 """
     return final
 
-"""--------------------------------------------------------
-        self.sender.sendMessage(mmcmsg.defSettList(self._setting))
+""" self.sender.sendMessage(mmcmsg.setting()) """
+def setting(setting): # will replace by Start Card after finished Account Card and Currency Card
+    final="""Setting Card
+----------------------------
+Account:
+    Default Income: """+setting['dinco']+"""
+    Default Expense: """+setting['dexpe']+"""
+    General Income Source: """+setting['genis']+"""
+    Overall Expense Destination: """+setting['ovede']+"""
+
+Category:
+    Default Income: """+setting['tanfe']+"""
+    Default Transfer: """+setting['incom']+"""
+
+Curency:
+    Default Currency: """+setting['karen']+"""
+----------------------------
+P.S. You still can use the last card
+  /modify_Setting  /Whats_Now
 """
-def defSettList(setting): # will replace by Start Card after finished Account Card and Currency Card
-    final="""Account Setting Card
-----------------------------
-Default Income: (E.g. Bank Account)
-  """+setting['dinco']+""" /change_i
+    return final
 
-Default Expense: (E.g. Cash)
-  """+setting['dexpe']+""" /change_e
-----------------------------
-General Income Source:(E.g. Income)
-  """+setting['genis']+""" /change_g
-
-Overall Expense Destination: (E.g. Expense)
-  """+setting['ovede']+""" /change_o
+""" self.sender.sendMessage(mmcmsg.defSettList(self._setting)) """
+def defSettWarn():
+    final="""
 ----------------------------
 Normal Income:
-    G.I.S. ---> Bank A Account
+    G.I.S. ---> Bank A , Category: Income
 Normal Expense:
-    Cash ---> O.E.D.
+    Cash ---> O.E.D. , Category: Expense
 Withdrawal:
-    Bank A ---> Cash
+    Bank A ---> Cash , Category: Transfer
 Deposit:
-    Cash ---> Bank A
+    Cash ---> Bank A , Category: Transfer
 Tranfer:
-    Bank A ---> Bank B
+    Bank A ---> Bank B , Category: Transfer
 ----------------------------
-    /Discard /Save
+Chatbot are using G.I.S. and O.E.D for Analystic Purpose"""
+    return final
+
+""" self.sender.sendMessage(mmcmsg.defSettList(self._setting)) """
+def defSettList(setting): # will replace by Start Card after finished Account Card and Currency Card
+    final="""Account Setting Card
+-------------- Account --------------
+Default Income: (E.g. Bank A)
+  """+setting['dinco']+""" /change_in
+Default Expense: (E.g. Cash)
+  """+setting['dexpe']+""" /change_ex
+
+General Income Source:(E.g. "Income")
+  """+setting['genis']+""" /change_gi
+Overall Expense Destination: (E.g. "Expense")
+  """+setting['ovede']+""" /change_oe
+
+-------------- Category --------------
+Default Income:(E.g. "Income")
+  """+setting['incom']+""" /change_ic
+Default Transfer:(E.g. "Transfer")
+  """+setting['tanfe']+""" /change_tf
+-------------- Curency --------------
+  Default Currency: (For Expense)
+  """+setting['karen']+""" /change_kr
+----------------------------
+    /Discard /Save /Explain
 Note: Changing setting now
 """
     return final
 
-""" self.sender.sendMessage(mmcmsg.defSettSel(self._defSett,'Account Setting Card'))"""
+""" self.sender.sendMessage(mmcmsg.defSettSel(self._defSett,'Account'))"""
 def defSettSel(txt,titil):
-    final=titil+"""
+    final="Select "+titil+"""
 ----------------------------
-Account List:
+"""+titil+""" List:
 """+txt+"""
 ----------------------------
-    /Discard /Save  /modify_Setting
+    /Discard /Save  /Back
 P.S. Select above or type another selection
 """
     return final
 
-"""--------------------------------------------------------
-        self.sender.sendMessage(mmcmsg.defSettSet())
-
-"""
+""" self.sender.sendMessage(mmcmsg.defSettSet()) """
 def defSettSet(keywo,teksi):
     final="""Select Position
 ----------------------------
 Keyword: """+keywo+"""
 
-Position:
+Account:
     Default Income
-        ( """+teksi[1][0]+"i"+teksi[1][1]+""" )
+        ( """+teksi[1][0]+"in"+teksi[1][1]+""" )
     Default Expense
-        ( """+teksi[1][0]+"e"+teksi[1][1]+""" )
+        ( """+teksi[1][0]+"ex"+teksi[1][1]+""" )
     General Income Source
-        ( """+teksi[1][0]+"g"+teksi[1][1]+""" )
+        ( """+teksi[1][0]+"gi"+teksi[1][1]+""" )
     Overall Expense Destination
-        ( """+teksi[1][0]+"o"+teksi[1][1]+""" )
+        ( """+teksi[1][0]+"oe"+teksi[1][1]+""" )
+
+Category:
+    Default Income
+      ( """+teksi[1][0]+"ic"+teksi[1][1]+""" )
+    Default Transfer
+      ( """+teksi[1][0]+"tf"+teksi[1][1]+""" )
+
+Curency:
+    Default Currency
+      ( """+teksi[1][0]+"kr"+teksi[1][1]+""" )
 ----------------------------
-  /Discard  /Save /modify_Setting
+  /Discard  /Save /Back
 
 """
     return final
 
-""" self.sender.sendMessage(mmcmsg.defAccFins(self._setting))"""
-def defAccFins(setting): # will replace by Start Card after finished Account Card and Currency Card
+""" self.sender.sendMessage(mmcmsg.defSettFins(self._setting))"""
+def defSettFins(setting): # will replace by Start Card after finished Account Card and Currency Card
     final="""Account Setting #Saved
 ----------------------------
 Default Income: """+setting['dinco']+"""
 Default Expense: """+setting['dexpe']+"""
 General Income Source: """+setting['genis']+"""
 Overall Expense Destination: """+setting['ovede']+"""
+
+Default Income: """+setting['tanfe']+"""
+Default Transfer: """+setting['incom']+"""
+
+Default Currency: """+setting['karen']+"""
 ----------------------------
     /Setting /Help /Whats_Now
 Note: Changing setting now
 """
     return final
 
-"""--------------------------------------------------------
-        self.sender.sendMessage(mmcmsg.defAccDis())
-"""
-def defAccDis():
+""" self.sender.sendMessage(mmcmsg.defSettDis()) """
+def defSettDis():
     final="""¡ Discard !
 ----------------------------
 
@@ -175,7 +222,7 @@ Seller: """+dicto["shoop"]+"""
 Price: """+dicto["karen"]+" "+dicto["price"]+"""
     ( /change_Currency )
 Spent from which Account:
-"""+mmctool.chstr(dicto["fromm"],"","    ( /choose_Acc_From )",dicto["fromm"]+"\n    ( /choose_Acc_From )")+"""
+"""+mmctool.chstr(dicto["fromm"],"","    ( /change_Acc_From )",'    '+dicto["fromm"]+"  ( /change_Acc_From )")+"""
 Notes:
 """+dicto["desci"]+"""
 ----------------------------
@@ -217,8 +264,7 @@ Keyword:
 """
     return final
 
-""" self.sender.sendMessage(mmcmsg.outoRecom(self._temra,self._keys,self._keywo,self._fs,chat_id))
-            namma, klass, shoop, price"""
+""" self.sender.sendMessage(self._recom[1],self._keywo) """
 def outoRecom(txt,keywo):
     final="""Recommend Card
 ----------------------------
@@ -234,15 +280,19 @@ P.S. Choose above or type another keyword
 """
     return final
 
-"""--------------------------------------------------------
-        self.sender.sendMessage(mmcmsg.outoConti(self._temra))
-            self._temra = {
-                "namma":"", "klass":"", "shoop":"",
-                "datte":"", "price":"",
-                "karen":"",
-                "fromm":"", "toooo":"",
-            }
+""" self.sender.sendMessage(mmcmsg.outoSel(recom,'Account')) """
+def outoSel(txt,titil):
+    final="Select "+titil+"""
+----------------------------
+"""+titil+""" List:
+"""+txt+"""
+----------------------------
+    /Discard /Save  /Back
+P.S. Select above or type another selection
 """
+    return final
+
+""" self.sender.sendMessage(mmcmsg.outoConti(self._temra)) """
 def outoFinis(dicto):
     final="""New #Expense Record #Saved
 ----------------------------
