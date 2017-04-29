@@ -12,7 +12,7 @@ class User(telepot.helper.ChatHandler):
             "datte":"",
             "namma":"", "klass":"", "shoop":"",
             "fromm":"", "price":"", "karen":"",
-            "toooo":"", "tpric":"",	"tkare":"",
+            "toooo":"", "tpric":"", "tkare":"",
             "desci":"",
         }
         self._recom = {}
