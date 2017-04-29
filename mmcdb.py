@@ -25,6 +25,7 @@ def openSetting(usrid):
         setting = {
             "dinco":"", "dexpe":"",
             "genis":"", "ovede":"",
+            "tanfe":"", "incom":""
         }
         return setting
 
@@ -91,7 +92,7 @@ def addHash(libra):
     for uuid in list(libra['raw'].keys()):
         hasa = hashlib.sha512()
         if libra['raw'][uuid] != {}:
-            hasa.update((",".join(list(set(list(libra['raw'][uuid].values())))).encode("utf-8")))
+            hasa.update((",".join(set(list(libra['raw'][uuid].values())))).encode("utf-8"))
             libra['hash'][uuid] = hasa.hexdigest()
     return libra
 
@@ -141,6 +142,17 @@ def refesdb(usrid):
     json.dump(libra,faale)
     faale.close()
 
+""" mmcdb.upgradeSetting(self._setting,chat_id)"""
+def upgradeSetting(lib,usrid):
+    libra = openSetting(usrid)
+    if set(libra.keys()) == set(lib.keys()):
+        return libra
+    else:
+        for keywo in libra.keys():
+            lib[keywo]=libra[keywo]
+        changeSetting(lib,usrid)
+        return lib
+
 """ appendRaw(usrid,lib)"""
 def appendRaw(usrid,lib):
     refesdb(usrid)
@@ -149,7 +161,7 @@ def appendRaw(usrid,lib):
     for uuid in list(lib.keys()):
         hasa = hashlib.sha512()
         if lib[uuid] != {}:
-            hasa.update((",".join(list(set(list(lib[uuid].values()))))).encode("utf-8"))
+            hasa.update((",".join(set(list(lib[uuid].values())))).encode("utf-8"))
             if hasa.hexdigest() not in list(source['hash'].values()):
                 source['raw'][uuid]=lib[uuid]
     filla = open(tool.path("momoco",usrid)+"record.json","w")
@@ -221,8 +233,8 @@ def recomtxt(temra,keysa,keywo,deset,fsdic,usrid):
                 #           finno=finno+rgkey+rgkey.join(setto)+"\n"
     return { 1:finno , 2:conta}
 
-""" listAcc(keywo,chat_id)"""
-def listAcc(keywo,usrid):
+""" listSett(keywo,chat_id)"""
+def listSett(keywo,usrid):
     listo = []
     finno = ""
     conta = {}
@@ -230,7 +242,7 @@ def listAcc(keywo,usrid):
     nodda = 0
     refesdb(usrid)
     libro = opendb(usrid)
-    listo = list(set(list(libro['key']['fromm'].keys())+list(libro['key']['toooo'].keys())))
+    listo = set(list(libro['key']['fromm'].keys())+list(libro['key']['toooo'].keys()))
     for intta in listo:
         if intta != '':
             try:
@@ -242,7 +254,7 @@ def listAcc(keywo,usrid):
                 nodda = nodda + 1
     return {1:finno,2:conta}
 
-def refesSetting(libra,usrid):
+def changeSetting(libra,usrid):
     faale = open(tool.path("momoco",usrid)+"setting.json",'w')
     json.dump(libra,faale)
     faale.close()

@@ -4,9 +4,7 @@ def warn():
     final = "This chatbot is under constructing..."
     return final
 
-"""--------------------------------------------------------
-        self.sender.sendMessage(mmcmsg.start())
-"""
+""" self.sender.sendMessage(mmcmsg.start()) """
 def start():
     final="""  Welcome
 ----------------------------
@@ -15,7 +13,7 @@ This is Money Money Come Chatbot.
 It can help you to trace your money flow moreeasily (Sure? )
 
 Pls setup before using:
-  /set_Account
+  /modify_Setting
     Account setup
   /set_Currency
     Currency setup
@@ -24,9 +22,7 @@ Pls setup before using:
 """
     return final
 
-"""--------------------------------------------------------
-        self.sender.sendMessage(mmcmsg.help())
-"""
+""" self.sender.sendMessage(mmcmsg.help())"""
 def help():
     final="""  Help
 ----------------------------
@@ -47,14 +43,12 @@ def help():
 """
     return final
 
-"""--------------------------------------------------------
-        self.sender.sendMessage(mmcmsg.setting())
-"""
+""" self.sender.sendMessage(mmcmsg.setting()) """
 def setting(): # will replace by Start Card after finished Account Card and Currency Card
     final="""Setting Card
 ----------------------------
 Account Setting:
-  /set_Account
+  /modify_Setting
 Currency Setting:
   /set_Currency
 ----------------------------
@@ -64,9 +58,9 @@ P.S. You still can use the last card
     return final
 
 """--------------------------------------------------------
-        self.sender.sendMessage(mmcmsg.defAccList(self._setting))
+        self.sender.sendMessage(mmcmsg.defSettList(self._setting))
 """
-def defAccList(setting): # will replace by Start Card after finished Account Card and Currency Card
+def defSettList(setting): # will replace by Start Card after finished Account Card and Currency Card
     final="""Account Setting Card
 ----------------------------
 Default Income: (E.g. Bank Account)
@@ -97,25 +91,23 @@ Note: Changing setting now
 """
     return final
 
-"""--------------------------------------------------------
-        self.sender.sendMessage(mmcmsg.defAccSet(self._defac))
-"""
-def defAccSel(txt): # will replace by Start Card after finished Account Card and Currency Card
-    final="""Account Setting Card
+""" self.sender.sendMessage(mmcmsg.defSettSel(self._defSett,'Account Setting Card'))"""
+def defSettSel(txt,titil):
+    final=titil+"""
 ----------------------------
 Account List:
 """+txt+"""
 ----------------------------
-    /Discard /Save  /set_Account
+    /Discard /Save  /modify_Setting
 P.S. Select above or type another selection
 """
     return final
 
 """--------------------------------------------------------
-        self.sender.sendMessage(mmcmsg.defAccSet())
+        self.sender.sendMessage(mmcmsg.defSettSet())
 
 """
-def defAccSet(keywo,teksi):
+def defSettSet(keywo,teksi):
     final="""Select Position
 ----------------------------
 Keyword: """+keywo+"""
@@ -130,14 +122,12 @@ Position:
     Overall Expense Destination
         ( """+teksi[1][0]+"o"+teksi[1][1]+""" )
 ----------------------------
-  /Discard  /Save /set_Account
+  /Discard  /Save /modify_Setting
 
 """
     return final
 
-"""--------------------------------------------------------
-        self.sender.sendMessage(mmcmsg.defAccFins(self._setting))
-"""
+""" self.sender.sendMessage(mmcmsg.defAccFins(self._setting))"""
 def defAccFins(setting): # will replace by Start Card after finished Account Card and Currency Card
     final="""Account Setting #Saved
 ----------------------------
@@ -285,27 +275,49 @@ def outoDiscard():
 """
     return final
 
-"""--------------------------------------------------------
-        self.sender.sendMessage(mmcmsg.lisFilte(self._temra))
-
-
-"""
-def lisFilte(dicto):
-    final="""Filtering Card
+""" self.sender.sendMessage(mmcmsg.listMain(self._temra)) """
+def listMain(dicto):
+    final="""Listing Card
 ----------------------------
-Date range:"""+dicto["datte"]+"""
-  /Today /This_Week
-  /This_Month /This_Year
-
+Date:"""+dicto["datte"]+"""
+List:
+"""+"""
 ----------------------------
-  /Discard  /Sumit  /Setting
+Current Mode:
+    """+"""
+  /change_Range
+----------------------------
+  /Discard
 """
     return final
 
-"""--------------------------------------------------------
-        self.sender.sendMessage(mmcmsg.lisDiscard())
+""" self.sender.sendMessage(mmcmsg.listSect(uuid,usrid,libra)) """
+def listSect(uuid,usrid,libra):
+    final="""Single record Card
+----------------------------
+ID: """+"""
+Date: """+libra['raw'][uuid]["datte"]+"""
+Item: """+libra['raw'][uuid]["namma"]+"""
+Category: """+libra['raw'][uuid]["klass"]+"""
+Seller: """+libra['raw'][uuid]["shoop"]+"""
+"""+"""
+Price: """+libra['raw'][uuid]["karen"]+" "+libra['raw'][uuid]["price"]+"""
+Spent from which Account:
+"""+libra['raw'][uuid]["fromm"]+"""
+Transfer to which Account:
+"""+libra['raw'][uuid]["toooo"]+"""
+"""+libra['raw'][uuid]["tkare"]+" "+libra['raw'][uuid]["tpric"]+"""
+
+"""+"""Notes:
+"""+dicto["desci"]+"""
+----------------------------
+   /List  /Edit  /Delete  /Setting
+
 """
-def lisDiscard():
+    return final
+
+""" self.sender.sendMessage(mmcmsg.listDisca()) """
+def listDisca():
     final="""¡ Discard !
 ----------------------------
 
