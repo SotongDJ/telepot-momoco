@@ -1,5 +1,6 @@
 import sys, os, traceback, telepot, time, json, random, pprint
 import tool, auth, log, mmctool, mmcmsg, mmcdb
+from mmcmsg import mmcmsg, outomsg, incomsg, transmsg,
 from telepot.delegate import per_chat_id, create_open, pave_event_space
 
 class User(telepot.helper.ChatHandler):
@@ -124,7 +125,7 @@ setting: """+pprint.pformat(self._setting)+"""
                 self.sender.sendMessage(mmcmsg.listDisca())
                 self._mod=mmctool.chmod(self._mod)
 
-        elif self._mod[-1] == "outo":
+        elif self._mod[-1] in ["outo",'inco','tans']:
             if "/Discard" in text:
                 self._keywo = ""
                 for key in self._temra.keys():
@@ -191,7 +192,9 @@ setting: """+pprint.pformat(self._setting)+"""
                         self.sender.sendMessage(mmcmsg.outoRecom(self._recom[1],self._keywo))
 
             elif "/change" in text:
-                if "/change_to_" not in text:
+                if "/change_to_" in text:
+
+                else:
                     self._recom = {}
                     if "/change_Currency" in text:
                         keywo = 'kr'
@@ -202,12 +205,12 @@ setting: """+pprint.pformat(self._setting)+"""
                         keywo = 'fr'
                         self.sender.sendMessage('Refreshing database...')
                         self._recom = mmcdb.listAcc('rg','rgs',keywo,chat_id)
-                        self.sender.sendMessage(mmcmsg.outoSel(self._recom[1],'Account'))
+                        self.sender.sendMessage(mmcmsg.outoSel(self._recom[1],'Account (From)'))
                     elif "/change_Acc_To" in text:
                         keywo = 'to'
                         self.sender.sendMessage('Refreshing database...')
                         self._recom = mmcdb.listAcc('rg','rgs',keywo,chat_id)
-                        self.sender.sendMessage(mmcmsg.outoSel(self._recom[1],'Account'))
+                        self.sender.sendMessage(mmcmsg.outoSel(self._recom[1],'Account (To)'))
 
             elif "/Whats_Now" in text:
                 self.sender.sendMessage(mmcmsg.outo(self._temra))

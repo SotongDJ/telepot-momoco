@@ -1,4 +1,4 @@
-import tool, json, mmcdb, mmctool
+import tool, json, mmctool
 
 def warn():
     final = "This chatbot is under constructing..."
@@ -202,16 +202,7 @@ def defSettDis():
 """
     return final
 
-"""--------------------------------------------------------
-        self.sender.sendMessage(mmcmsg.outo(self._temra))
-            self._temra = {
-                "namma":"", "klass":"", "shoop":"",
-                "datte":"", "price":"",
-                "karen":"",
-                "fromm":"", "toooo":"",
-            }
-            keywo = ""
-"""
+""" self.sender.sendMessage(mmcmsg.outo(self._temra)) """
 def outo(dicto):
     final="""New Expense Card
 ----------------------------
@@ -237,10 +228,7 @@ P.S. Give me a word or a number
 """
     return final
 
-"""--------------------------------------------------------
-        self.sender.sendMessage(mmcmsg.outoKeywo(keywo))
-            keywo = ""
-"""
+""" self.sender.sendMessage(mmcmsg.outoKeywo(keywo)) """
 def outoKeywo(keywo):
     final="""Filling the blank
 ----------------------------
@@ -249,13 +237,9 @@ Keyword:
 
   /set_as_Date
     (format: yyyy-mm-dd)
-  /set_as_Item
+  /set_as_Item  /set_as_Category
 
-  /set_as_Category
-
-  /set_as_Seller
-
-  /set_as_Price
+  /set_as_Seller  /set_as_Price
 
   /set_as_Notes
 ----------------------------
