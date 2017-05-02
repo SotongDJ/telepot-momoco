@@ -6,7 +6,8 @@ def update(targetBot):
         stat = json.load(statfl)
         statfl.close()
     except FileNotFoundError:
-        temp = open('bot.json','w')
+        subprocess.call(['mkdir','-p'，'database/opt'])
+        temp = open('database/opt/bot.json','w')
         temp.close()
         temp = open('database/opt/bot.pid','w')
         temp.close()
