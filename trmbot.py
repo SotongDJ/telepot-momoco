@@ -29,7 +29,7 @@ class User(telepot.helper.ChatHandler):
             self.close()
         elif "/temp" in text:
             subprocess.call(['/opt/vc/bin/vcgencmd', 'measure_temp'], stdout=open('database/temp', 'w'))
-            bot.sendMessage(open("./database/temp").read())
+            self.sender.sendMessage(open("database/temp").read())
         elif "/update" in text:
             daemon.update('momocobot')
 
