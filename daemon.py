@@ -8,6 +8,8 @@ def update(targetBot):
     except FileNotFoundError:
         temp = open('bot.json','w')
         temp.close()
+        temp = open('database/opt/bot.pid','w')
+        temp.close()
         stat = {targetBot+'.py':''}
 
     if stat[targetBot+'.py'] != '':
