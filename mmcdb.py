@@ -228,10 +228,10 @@ def recomtxt(temra,keysa,keywo,deset,fsdic,usrid):
                 for itema in setto:
                     try:
                         itema.encode('latin-1')
-                        finno = finno + "    /rg_"+fsdic[deskey]+"_"+itema+"\n"
+                        finno = finno + "    /rg_"+fsdic[deskey]+"_"+itema+"\n\n"
                     except UnicodeEncodeError:
                         conta[numme+str(nodda)]=itema
-                        finno = finno + "    /rgs_"+fsdic[deskey]+"_"+numme+str(nodda)+" "+itema+"\n"
+                        finno = finno + "    /rgs_"+fsdic[deskey]+"_"+numme+str(nodda)+" "+itema+"\n\n"
                         nodda = nodda + 1
                 # old time :rgkey=" /rg_"+fsdic[deskey]+"_"
                 #           finno=finno+rgkey+rgkey.join(setto)+"\n"

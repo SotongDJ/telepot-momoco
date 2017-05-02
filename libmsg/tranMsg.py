@@ -9,6 +9,7 @@ def main(dicto):
 Date: """+dicto["datte"]+"""
 Remind: """+dicto["namma"]+"""
 Category: """+dicto["klass"]+"""
+Place: """+dicto["shoop"]+"""
 Amount(From) : """+dicto["karen"]+" "+dicto["price"]+"""
     ( /change_Currency )
 Amount(To) : """+dicto["tkare"]+" "+dicto["tpric"]+"""
@@ -37,9 +38,11 @@ def keyword(keywo):
 Keyword:
   """+keywo+"""
 
-  /set_as_Date
+  /set_as_Date  /set_as_Place
     (Format of Date: yyyy-mm-dd)
-  /set_as_Amount_From /set_as_Amount_To
+  /set_as_Amount_From
+
+  /set_as_Amount_To
 
   /set_as_Remind  /set_as_Notes
 ----------------------------
@@ -54,6 +57,7 @@ def finis(dicto):
 Date: """+dicto["datte"]+"""
 Remind: """+dicto["namma"]+"""
 Category: """+dicto["klass"]+"""
+Place: """+dicto["shoop"]+"""
 Amount(From) : """+dicto["karen"]+" "+dicto["price"]+"""
 Amount(To) : """+dicto["tkare"]+" "+dicto["tpric"]+"""
 Transfer from which Account:

@@ -168,6 +168,9 @@ setting: """+pprint.pformat(self._setting)+"""
                 elif "/set_as_Seller" in text:
                     self._temra["shoop"]=self._keywo
                     self._keys='shoop'
+                elif "/set_as_Place" in text:
+                    self._temra["shoop"]=self._keywo
+                    self._keys='shoop'
                 elif "/set_as_Source" in text:
                     self._temra["shoop"]=self._keywo
                     self._keys='shoop'
