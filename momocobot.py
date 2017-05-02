@@ -84,7 +84,7 @@ setting: """+pprint.pformat(self._setting)+"""
             if len(self._mod) == 0:
                 self.close()
         elif "/Setting" in text:
-            self.sender.sendMessage(mmcMsg.setting(self._setting))
+            self.sender.sendMessage(defSettMsg.main(self._setting))
         elif "/exit" in text:
             self.sender.sendMessage("See you next time! Bye!")
             self.close()
