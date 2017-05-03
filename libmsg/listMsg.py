@@ -1,10 +1,10 @@
 """ self.sender.sendMessage(mmcmsg.listMain(self._temra)) """
-def main(dicto):
+def main(datte,text):
     final="""Listing Card
 ----------------------------
-Date:"""+dicto["datte"]+"""
+Date:"""+datte+"""
 List:
-"""+"""
+"""+text+"""
 ----------------------------
 Current Mode:
     """+"""
@@ -18,21 +18,20 @@ Current Mode:
 def single(uuid,usrid,libra):
     final="""Single record Card
 ----------------------------
-ID: """+"""
+ID: """+uuid+"""
 Date: """+libra['raw'][uuid]["datte"]+"""
 Item: """+libra['raw'][uuid]["namma"]+"""
 Category: """+libra['raw'][uuid]["klass"]+"""
 Seller: """+libra['raw'][uuid]["shoop"]+"""
 """+"""
-Price: """+libra['raw'][uuid]["karen"]+" "+libra['raw'][uuid]["price"]+"""
+
 Spent from which Account:
-"""+libra['raw'][uuid]["fromm"]+"""
+"""+libra['raw'][uuid]["fromm"]+' ('+libra['raw'][uuid]["karen"]+" "+libra['raw'][uuid]["price"]+""")
 Transfer to which Account:
-"""+libra['raw'][uuid]["toooo"]+"""
-"""+libra['raw'][uuid]["tkare"]+" "+libra['raw'][uuid]["tpric"]+"""
+"""+libra['raw'][uuid]["toooo"]+' ('+libra['raw'][uuid]["tkare"]+" "+libra['raw'][uuid]["tpric"]+""")
 
 """+"""Notes:
-"""+dicto["desci"]+"""
+"""+libra['raw'][uuid]["desci"]+"""
 ----------------------------
    /List  /Edit  /Delete  /Setting
 

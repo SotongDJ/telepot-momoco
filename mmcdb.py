@@ -99,6 +99,11 @@ def addHash(libra):
             libra['hash'][uuid] = hasa.hexdigest()
     return libra
 
+def changeSetting(libra,usrid):
+    faale = open(tool.path("momoco",usrid)+"setting.json",'w')
+    json.dump(libra,faale)
+    faale.close()
+
 """ fixAcc(libra[raw],usrid)"""
 def fixAcc(liboh,usrid):
     setti = openSetting(usrid)
@@ -129,6 +134,20 @@ def fixAcc(liboh,usrid):
                 except KeyError:
                     liboh[sekio]['tpric'] = "0"
                     liboh[sekio]['price'] = "0"
+
+            try:
+                if liboh[sekio]['tkare'] == "":
+                    liboh[sekio]['tkare'] = liboh[sekio]['karen']
+            except KeyError:
+                try:
+                    if liboh[sekio]['karen'] == "":
+                        liboh[sekio]['tkare'] = setti['karen']
+                        liboh[sekio]['karen'] = setti['karen']
+                    else:
+                        liboh[sekio]['tkare'] = liboh[sekio]['karen']
+                except KeyError:
+                    liboh[sekio]['tkare'] = setti['karen']
+                    liboh[sekio]['karen'] = setti['karen']
 
     return liboh
 
@@ -193,7 +212,7 @@ def recoma(keys,usrid):
     return lista
 """ recomb(self._keys,self._keywo,deskey,usrid) """
 def recomb(srckey,veluo,deskey,usrid):
-    refesdb(usrid)
+    #refesdb(usrid)
     libre = opendb(usrid)
     listo = []
     try:
@@ -214,6 +233,7 @@ def recomb(srckey,veluo,deskey,usrid):
 
 """ mmcdb.recomtxt(self._temra,self._keys,self._keywo,['namma','klass','shoop','price'],self._fs,chat_id) """
 def recomtxt(temra,keysa,keywo,deset,fsdic,usrid):
+    refesdb(usrid)
     setto = []
     finno = ""
     conta = {}
@@ -300,7 +320,19 @@ def listKen(pref,prefs,keywo,usrid):
                 nodda = nodda + 1
     return {1:finno,2:conta}
 
-def changeSetting(libra,usrid):
-    faale = open(tool.path("momoco",usrid)+"setting.json",'w')
-    json.dump(libra,faale)
-    faale.close()
+def listList(lista,usrid):
+    tasta=""
+    lista.sort()
+    try:
+        libron = opendb(usrid)
+        for datta in lista:
+            for n in libron['key']['datte'][datta]:
+                tasta = tasta + '/uuid_'+n+'\n    '
+                tasta = tasta + libron['raw'][n]['datte']+'  '
+                tasta = tasta + libron['raw'][n]['namma']+'  '
+                tasta = tasta + libron['raw'][n]['klass']+'  '
+                tasta = tasta + libron['raw'][n]['karen']+' '
+                tasta = tasta + libron['raw'][n]['price']+'\n'
+        return tasta
+    except IndexError :
+        return ''
