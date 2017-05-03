@@ -70,22 +70,22 @@ def main(usrid,setto):
                     pri[-1]=pri[-1]+miro*(lim-rok)
                     #print(pri[-1])
                     nota = nota + rok - lim
-                    if nota > lim:
-                        tik = int(nota/lim)
-                        tok = nota % lim
-                        for n in range(0,tik):
-                    #        print(tank[pro]*10)
-                    #        pri.append(tank[pro]*lim)
-                            pri.append(miro*lim)
-                    #    pri.append(tank[pro]*tok)
-                        pri.append(miro*tok)
-                        #pro=pro+1
-                        pprint.pprint([itei,nota,rok,lim])
-                    elif nota <= lim:
-                    #    pri.append(tank[pro]*nume)miro
-                        pri.append(miro*nota)
-                        #pro=pro+1
-                        pprint.pprint([itei,nota,rok,lim])
+                if nota > lim:
+                    tik = int(nota/lim)
+                    tok = nota % lim
+                    for n in range(0,tik):
+                #        print(tank[pro]*10)
+                #        pri.append(tank[pro]*lim)
+                        pri.append(miro*lim)
+                #    pri.append(tank[pro]*tok)
+                    pri.append(miro*tok)
+                    #pro=pro+1
+                    pprint.pprint([itei,nota,rok,lim])
+                elif nota <= lim:
+                #    pri.append(tank[pro]*nume)miro
+                    pri.append(miro*nota)
+                    #pro=pro+1
+                    pprint.pprint([itei,nota,rok,lim])
             elif nota + rok <= lim:
                 #pri[-1]=pri[-1]+tank[pro]*nume
                 pri[-1]=pri[-1]+miro*nota
