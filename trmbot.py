@@ -1,5 +1,5 @@
 import telepot, time, json, pprint, subprocess
-import tool, auth, daemon
+import tool, auth, datran
 from telepot.delegate import per_chat_id, create_open, pave_event_space
 
 class User(telepot.helper.ChatHandler):
@@ -30,13 +30,16 @@ class User(telepot.helper.ChatHandler):
         elif "/temp" in text:
             subprocess.call(['/opt/vc/bin/vcgencmd', 'measure_temp'], stdout=open('database/temp', 'w'))
             self.sender.sendMessage(open("database/temp").read())
+        elif "/gitpull" in text:
+            subprocess.call(['git','pull'],stdout=open(tool.path('log',chat_id)+"git.log",'w'))
+            self.sender.sendMessage('\n'.join(open(tool.path('log',chat_id)+"git.log").read().splitlines()))
         elif "/update" in text:
-            daemon.update('momocobot')
+            subprocess.Popen(['python3.4', 'daemon.py'])
         elif "/ckpy" in text:
             fille = json.load(open("database/opt/bot.json",'r'))
             self.sender.sendMessage(pprint.pformat(fille))
             subprocess.call(['pgrep', 'python'], stdout=open('database/opt/bot.pid', 'w'))
-            self.sender.sendMessage(pprint.pformat(''.join(open("database/opt/bot.pid").read().splitlines())))
+            self.sender.sendMessage('\n'.join(open("database/opt/bot.pid").read().splitlines()))
 
         elif len(self._mod) == 0:
             self.sender.sendMessage("I don't know that you said")
