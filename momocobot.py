@@ -169,7 +169,8 @@ setting: """+pprint.pformat(self._setting)+"""
                 self.sender.sendMessage(listMsg.main(', '.join(self._list['datte']),mmcdb.listList(self._list['datte'],chat_id)))
             elif '/analitempo ' in text:
                 keywo=text.replace('/analitempo ','')
-                self.sender.sendMessage(analyTrial.main(chat_id,keywo))
+                for n in analyTrial.main(chat_id,keywo):
+                    self.sender.sendMessage(n)
             elif '/analitempohow' in text:
                 self.sender.sendMessage('at time key value limit_key karen amount')
         elif self._mod[-1] in ["outo",'inco','tran']:

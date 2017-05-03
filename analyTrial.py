@@ -26,8 +26,8 @@ def main(usrid,setto):
         for uid in libra['key']['datte'][tim]:
             if libra['raw'][uid]['karen'] == karen:
                 if libra['raw'][uid][conda] == conde:
-                    tat=libra['raw'][uid]['datte']+'  '+libra['raw'][uid]['namma']+'  '+libra['raw'][uid]['shoop']+'\n        '
-                    tat=tat+'  '+libra['raw'][uid]['klass']+'  '+libra['raw'][uid]['fromm']+'  '+karen+'  '+libra['raw'][uid]['price']
+                    tat=libra['raw'][uid]['datte']+'　'+libra['raw'][uid]['namma']+'　'+libra['raw'][uid]['shoop']+'\n　　　　　　　　'
+                    tat=tat+'　'+libra['raw'][uid]['klass']+'　'+libra['raw'][uid]['fromm']+'　'+karen+' '+libra['raw'][uid]['price']
                     uuid.append(tat)
                     try:
                         gas[libra['raw'][uid][targe]] = gas[libra['raw'][uid][targe]] + int(libra['raw'][uid]['price'])
@@ -80,17 +80,13 @@ def main(usrid,setto):
                 #print(pri[-1])
                 #pro=pro+1
     des=""
-    for nana in list(gas):
-        des=des+'  '+nana[0]+'  '+nana+'\n          '+karen+' '+str(gas[nana])+' ('+gus[nana]+'%)\n'
-    final = """Analytics Card
-——————————
-Record:
-  """+'\n  '.join(uuid)+"""
-
-——————————
-"""+'\n'.join(pri)+"""
-
-——————————
-Description:
-"""+des
+    for m in nanga:
+        for n in gis[m]:
+            nana = n
+            des=des+'　'+nana[0]+'　'+nana+'\n　　　'+karen+' '+str(gas[nana])+' ('+gus[nana]+'%)\n'
+    final = [
+        'Analytics Card',
+        'Record:\n——————————\n  '+'\n  '.join(uuid)+'\n',
+        'Graph of Ratio:\n——————————\n'+'\n'.join(pri)+'\n',
+        'Description:\n——————————\n'+des]
     return final
