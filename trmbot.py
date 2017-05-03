@@ -35,7 +35,8 @@ class User(telepot.helper.ChatHandler):
         elif "/ckpy" in text:
             fille = json.load(open("database/opt/bot.json",'r'))
             self.sender.sendMessage(pprint.pformat(fille))
-            self.sender.sendMessage(pprint.pformat(open("database/opt/bot.pid").read()))
+            subprocess.call(['pgrep', 'python'], stdout=open('database/opt/bot.pid', 'w'))
+            self.sender.sendMessage(pprint.pformat(''.join(open("database/opt/bot.pid").read().splitlines())))
 
         elif len(self._mod) == 0:
             self.sender.sendMessage("I don't know that you said")
