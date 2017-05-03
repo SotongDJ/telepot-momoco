@@ -167,9 +167,11 @@ setting: """+pprint.pformat(self._setting)+"""
                 datta.sort()
                 self._list['datte'] = datta
                 self.sender.sendMessage(listMsg.main(', '.join(self._list['datte']),mmcdb.listList(self._list['datte'],chat_id)))
-            elif '/analitempo_' in text:
-                keywo=text.replace('/analitempo_','')
+            elif '/analitempo ' in text:
+                keywo=text.replace('/analitempo ','')
                 self.sender.sendMessage(analyTrial.main(chat_id,keywo))
+            elif '/analitempohow' in text:
+                self.sender.sendMessage('at time key value limit_key karen amount')
         elif self._mod[-1] in ["outo",'inco','tran']:
             if "/Discard" in text:
                 self._keywo = ""
