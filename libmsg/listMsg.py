@@ -6,11 +6,20 @@ Date:"""+datte+"""
 List:
 """+text+"""
 ----------------------------
-Current Mode:
-    """+"""
-  /change_Range
+  /Choose_day /Choose_month  /Choose_year
 ----------------------------
-  /Discard
+  /Close
+"""
+    return final
+
+def change(keywo,text):
+    final='Choose '+keywo+"""
+----------------------------
+List:
+
+"""+text+"""
+----------------------------
+  /Back
 """
     return final
 
@@ -33,7 +42,7 @@ Transfer to which Account:
 """+"""Notes:
 """+libra['raw'][uuid]["desci"]+"""
 ----------------------------
-   /List  /Edit  /Delete  /Setting
+   /Back  /Edit  /Delete  /Setting
 
 """
     return final

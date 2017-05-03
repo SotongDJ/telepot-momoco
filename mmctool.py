@@ -9,7 +9,7 @@ def ckmod(mode):
     modo = mode[-1]
     return modo
 
-def chmod(mode):
+def popmod(mode):
     try:
         mode.pop()
         return mode

@@ -26,7 +26,7 @@ Notes:
   /change_to_Income
     Change to Income Card
 ----------------------------
-  /Discard  /Save  /List  /Setting
+  /Discard  /Save  /Setting
 ----------------------------
 P.S. Give me a word or a number
 """
@@ -46,7 +46,7 @@ Keyword:
 
   /set_as_Remind  /set_as_Notes
 ----------------------------
-  /Discard  /Save  /List  /Setting
+  /Discard  /Save  /Setting
 
 """
     return final

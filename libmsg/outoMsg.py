@@ -22,7 +22,7 @@ Notes:
   /change_to_Transfer
     Change to Transfer Card
 ----------------------------
-  /Discard  /Save  /List  /Setting
+  /Discard  /Save  /Setting
 ----------------------------
 P.S. Give me a word or a number
 """
@@ -43,7 +43,7 @@ Keyword:
 
   /set_as_Notes
 ----------------------------
-  /Discard  /Save  /List  /Setting
+  /Discard  /Save  /Setting
 
 """
     return final
@@ -59,7 +59,7 @@ Recommend List:
 """+txt+"""
 
 ----------------------------
-  /Discard  /Save  /List  /Setting
+  /Discard  /Save  /Setting
 P.S. Choose above or type another keyword
 """
     return final

@@ -19,7 +19,7 @@ class User(telepot.helper.ChatHandler):
         self._recom = {}
         self._defSett = {}
         self._list = {
-            'datte':[]
+            'datte':[],
             'uuid' : ''
         }
         self._setting = {
@@ -40,6 +40,7 @@ class User(telepot.helper.ChatHandler):
             "in":"dinco", "ex":"dexpe",
             "gi":"genis", "oe":"ovede",
             "tf":"tanfe", "ic":"incom",
+
         }
         self._fs = {
             "datte":"dt",
@@ -50,6 +51,7 @@ class User(telepot.helper.ChatHandler):
             "dinco":"in", "dexpe":"ex",
             "genis":"gi", "ovede":"oe",
             "tanfe":"tf", "incom":"ic",
+
         }
         self._klass = {
             'Acc':['fr','to','in','ex','gi','oe'],
@@ -99,18 +101,22 @@ setting: """+pprint.pformat(self._setting)+"""
                 self._temra['toooo'] = self._setting['ovede']
                 self._temra['karen'] = self._setting['karen']
                 self._temra['tkare'] = self._setting['karen']
-                self.sender.sendMessage(outoMsg.main(self._temra))
-                if self._keywo != "":
+            self.sender.sendMessage(outoMsg.main(self._temra))
+            if self._keywo != "":
+                if '/' not in self._keywo:
                     self.sender.sendMessage(outoMsg.keyword(self._keywo))
-                self._mod=mmctool.apmod(self._mod,"outo")
+            self._mod=mmctool.popmod(self._mod)
+            self._mod=mmctool.apmod(self._mod,"outo")
         elif "/List" in text:
-            lastdate = list(mmcdb.opendb(chat_id)['key']['datte'])
-            lastdate.sort()
-            try:
-                self._list['datte'] = [lastdate[-1]]
-            except IndexError :
-                self._list['datte'] = ['']
+            if len(self._mod) == 0:
+                lastdate = list(mmcdb.opendb(chat_id)['key']['datte'])
+                lastdate.sort()
+                try:
+                    self._list['datte'] = [lastdate[-1]]
+                except IndexError :
+                    self._list['datte'] = ['']
             self.sender.sendMessage(listMsg.main(','.join(self._list['datte']),mmcdb.listList(self._list['datte'],chat_id)))
+            self._mod=mmctool.popmod(self._mod)
             self._mod=mmctool.apmod(self._mod,"list")
         elif "/modify_Setting" in text:
             if len(self._mod) == 0:
@@ -133,14 +139,34 @@ setting: """+pprint.pformat(self._setting)+"""
                 self.sender.sendMessage(listMsg.main(','.join(self._list['datte']),mmcdb.listList(self._list['datte'],chat_id)))
             elif "/Back" in text:
                 self.sender.sendMessage(listMsg.main(','.join(self._list['datte']),mmcdb.listList(self._list['datte'],chat_id)))
-            elif "/Discard" in text:
+            elif "/Close" in text:
                 self.sender.sendMessage(listMsg.disca())
-                self._mod=mmctool.chmod(self._mod)
-            elif "/uuid_":
-                for sette in text.split(" "):
+                self._mod=mmctool.popmod(self._mod)
+            elif "/uuid_" in text:
+                print('uuid')
+                for sette in text.split(' '):
                     if "/uuid_" in sette:
-                        self._list['uuid'] = sette.replace('/uuid','')
+                        self._list['uuid'] = sette.replace('/uuid_','')
                         self.sender.sendMessage(listMsg.single(self._list['uuid'],chat_id,mmcdb.opendb(chat_id)))
+            elif "/Choose_" in text:
+                for sette in text.split(' '):
+                    if "/Choose_" in sette:
+                        keywo = sette.replace("/Choose_",'')
+                setta = mmcdb.filteDate(list(mmcdb.opendb(chat_id)['key']['datte']),keywo)
+                testa = mmcdb.cmdzDate(setta)
+                self.sender.sendMessage(listMsg.change(keywo,testa))
+            elif "/ch_" in text:
+                tasta = ''
+                for takso in text.split(' '):
+                    if '/ch_' in takso:
+                        tasta = takso.replace('/ch_','').replace('_','-')
+                datta = []
+                for n in list(mmcdb.opendb(chat_id)['key']['datte']):
+                    if tasta in n:
+                        datta.append(n)
+                datta.sort()
+                self._list['datte'] = datta
+                self.sender.sendMessage(listMsg.main(', '.join(self._list['datte']),mmcdb.listList(self._list['datte'],chat_id)))
 
         elif self._mod[-1] in ["outo",'inco','tran']:
             if "/Discard" in text:
@@ -152,7 +178,7 @@ setting: """+pprint.pformat(self._setting)+"""
                 self.sender.sendMessage(outoMsg.discard())
 
 
-                self._mod=mmctool.chmod(self._mod)
+                self._mod=mmctool.popmod(self._mod)
                 mmctool.printbug("Changed back mode\n mod",self._mod,chat_id)
 
             elif "/Save" in text:
@@ -263,7 +289,7 @@ setting: """+pprint.pformat(self._setting)+"""
                         self._temra['klass'] = self._setting['incom']
                         self.sender.sendMessage(incoMsg.main(self._temra))
                         self.sender.sendMessage('Give me a word or a number')
-                        self._mod=mmctool.chmod(self._mod)
+                        self._mod=mmctool.popmod(self._mod)
                         self._mod=mmctool.apmod(self._mod,"inco")
                     elif '/change_to_Transfer' in text:
                         self._temra['fromm'] = self._setting['dinco']
@@ -272,7 +298,7 @@ setting: """+pprint.pformat(self._setting)+"""
                         self._temra['klass'] = self._setting['tanfe']
                         self.sender.sendMessage(tranMsg.main(self._temra))
                         self.sender.sendMessage('Give me a word or a number')
-                        self._mod=mmctool.chmod(self._mod)
+                        self._mod=mmctool.popmod(self._mod)
                         self._mod=mmctool.apmod(self._mod,"tran")
                     elif '/change_to_Expense' in text:
                         self._temra['fromm'] = self._setting['dexpe']
@@ -280,7 +306,7 @@ setting: """+pprint.pformat(self._setting)+"""
                         self._temra['klass'] = self._setting['']
                         self.sender.sendMessage(outoMsg.main(self._temra))
                         self.sender.sendMessage('Give me a word or a number')
-                        self._mod=mmctool.chmod(self._mod)
+                        self._mod=mmctool.popmod(self._mod)
                         self._mod=mmctool.apmod(self._mod,"outo")
 
                 else:
@@ -335,13 +361,13 @@ setting: """+pprint.pformat(self._setting)+"""
                 mmctool.printbug("Discard Account Setting\n mod",self._mod,chat_id)
                 self.sender.sendMessage(defSettMsg.discard())
 
-                self._mod=mmctool.chmod(self._mod)
+                self._mod=mmctool.popmod(self._mod)
                 mmctool.printbug("Changed back mode\n mod",self._mod,chat_id)
 
             elif "/Save" in text:
                 mmcdb.changeSetting(self._setting,chat_id)
                 self.sender.sendMessage(defSettMsg.fins(self._setting))
-                mmctool.chmod(self._mod)
+                mmctool.popmod(self._mod)
                 self.close()
 
             elif "/Explain" in text:
