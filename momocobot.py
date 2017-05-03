@@ -1,5 +1,5 @@
 import sys, os, traceback, telepot, time, json, random, pprint
-import tool, auth, log, mmctool, mmcdb
+import tool, auth, log, mmctool, mmcdb, analyTrial
 from libmsg import mmcMsg, outoMsg, incoMsg, tranMsg, defSettMsg, listMsg
 from telepot.delegate import per_chat_id, create_open, pave_event_space
 
@@ -167,7 +167,9 @@ setting: """+pprint.pformat(self._setting)+"""
                 datta.sort()
                 self._list['datte'] = datta
                 self.sender.sendMessage(listMsg.main(', '.join(self._list['datte']),mmcdb.listList(self._list['datte'],chat_id)))
-
+            elif '/analitempo_' in text:
+                keywo=text.replace('/analitempo_','')
+                self.sender.sendMessage(analyTrial.main(chat_id,keywo))
         elif self._mod[-1] in ["outo",'inco','tran']:
             if "/Discard" in text:
                 self._keywo = ""
