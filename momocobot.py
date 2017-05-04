@@ -202,6 +202,9 @@ setting: """+pprint.pformat(self._setting)+"""
                 self._mod=mmctool.popmod(self._mod)
                 mmctool.printbug("Changed back mode\n mod",self._mod,chat_id)
 
+                self.sender.sendMessage("Conversation Closed !")
+                self.close()
+
             elif "/Save" in text:
                 record = mmcdb.addRaw(chat_id,self._temra)
 

@@ -123,6 +123,6 @@ def discard():
   Closed Account Setting Card
 
 ——————————
-  /setting  /help
+  /whats_now  /setting  /help
 """
     return final
