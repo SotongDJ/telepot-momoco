@@ -16,7 +16,8 @@ exit - close conversation
 class User(telepot.helper.ChatHandler):
     def __init__(self, *args, **kwargs):
         super(User, self).__init__(*args, **kwargs)
-
+        for n in ['bot.json','bot.pid','temp.log','git.log','daemon.log']:
+            tool.ckpath('database/opt/',n)
     #
 
     def comme(self,msg):
@@ -39,16 +40,17 @@ class User(telepot.helper.ChatHandler):
             self.sender.sendMessage("See you next time! Bye!")
             self.close()
         elif "/temp" in text:
-            subprocess.call(['/opt/vc/bin/vcgencmd', 'measure_temp'], stdout=open('database/temp', 'w'))
+            subprocess.call(['/opt/vc/bin/vcgencmd', 'measure_temp'], stdout=open('database/opt/temp.log', 'w'))
             self.sender.sendMessage(open("database/temp").read())
             self.close()
         elif "/gitpull" in text:
-            subprocess.call(['git','pull'],stdout=open(tool.path('log',chat_id)+"git.log",'w'))
+            subprocess.call(['git','pull'],stdout=open("database/opt/git.log",'w'))
             self.sender.sendMessage('\n'.join(open(tool.path('log',chat_id)+"git.log").read().splitlines()))
             self.close()
         elif "/update" in text:
             print('/update')
-            subprocess.Popen(['python3', 'daemon.py'])
+            tool.ckpath('database/opt/','daemon.log')
+            subprocess.Popen(['python3', 'daemon.py'],stdout=open('database/opt/daemon.log','w'))
             self.close()
         elif "/ckpy" in text:
             fille = json.load(open("database/opt/bot.json",'r'))

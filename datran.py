@@ -1,4 +1,5 @@
 import subprocess, json, time, pprint
+import tool
 
 def update():
     try:
@@ -65,3 +66,6 @@ def update():
     statfl = open('database/opt/bot.json','w')
     json.dump(stat,statfl)
     statfl.close()
+
+for n in ['bot.json','bot.pid']:
+    tool.ckpath('database/opt/',n)
