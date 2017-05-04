@@ -55,7 +55,7 @@ class User(telepot.helper.ChatHandler):
             self.sender.sendMessage(pprint.pformat(fille))
             subprocess.call(['pgrep','-l', 'python'], stdout=open('database/opt/bot.pid', 'w'))
             self.sender.sendMessage('\n'.join(open("database/opt/bot.pid").read().splitlines()))
-            self.sender.sendMessage('Send /ckpy to refresh status above'))
+            self.sender.sendMessage('Send /ckpy to refresh status above')
             self.close()
         elif "/ckpy" in text:
             fille = json.load(open("database/opt/bot.json",'r'))
