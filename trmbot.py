@@ -1,5 +1,5 @@
 import telepot, time, json, pprint, subprocess
-import tool, auth, datran
+import tool, auth
 from telepot.delegate import per_chat_id, create_open, pave_event_space
 
 class User(telepot.helper.ChatHandler):
@@ -11,37 +11,45 @@ class User(telepot.helper.ChatHandler):
     def comme(self,msg):
         content_type, chat_type, chat_id = telepot.glance(msg)
         text=msg['text']
+        print('comme[text]:'+text)
         if chat_id != auth.id():
             self.sender.sendMessage("Required more permission")
             self.close()
         elif "/start" in text:
             self.sender.sendMessage("Nothing to Say")
-            if len(self._mod) == 0:
-                self.close()
+            self.close()
         elif "/help" in text:
             self.sender.sendMessage("Ask my father! (Bot Father isn't my father.)")
-            if len(self._mod) == 0:
-                self.close()
+            self.close()
         elif "/Setting" in text:
             self.sender.sendMessage("What ?!")
+            self.close()
         elif "/exit" in text:
             self.sender.sendMessage("See you next time! Bye!")
             self.close()
         elif "/temp" in text:
             subprocess.call(['/opt/vc/bin/vcgencmd', 'measure_temp'], stdout=open('database/temp', 'w'))
             self.sender.sendMessage(open("database/temp").read())
+            self.close()
         elif "/gitpull" in text:
             subprocess.call(['git','pull'],stdout=open(tool.path('log',chat_id)+"git.log",'w'))
             self.sender.sendMessage('\n'.join(open(tool.path('log',chat_id)+"git.log").read().splitlines()))
+            self.close()
         elif "/update" in text:
+            print('/update')
             subprocess.Popen(['python3.4', 'daemon.py'])
+            self.close()
+        elif "/fupd" in text:
+            print('/force')
+            subprocess.Popen(['sh', 'daemon.sh'])
+            self.close()
         elif "/ckpy" in text:
             fille = json.load(open("database/opt/bot.json",'r'))
             self.sender.sendMessage(pprint.pformat(fille))
             subprocess.call(['pgrep', 'python'], stdout=open('database/opt/bot.pid', 'w'))
             self.sender.sendMessage('\n'.join(open("database/opt/bot.pid").read().splitlines()))
-
-        elif len(self._mod) == 0:
+            self.close()
+        else:
             self.sender.sendMessage("I don't know that you said")
             self.close()
 
@@ -57,8 +65,7 @@ class User(telepot.helper.ChatHandler):
         if "/" in initial_msg["text"]:
             self.comme(initial_msg)
         else:
-            if len(self._mod) == 0:
-                self.sender.sendMessage("Pls command me, don't talk to me")
+            self.sender.sendMessage("Pls command me, don't talk to me")
 
         return True  # prevent on_message() from being called on the initial message
 
@@ -73,8 +80,7 @@ class User(telepot.helper.ChatHandler):
         if "/" in msg["text"]:
             self.comme(msg)
         else:
-            if len(self._mod) == 0:
-                self.sender.sendMessage("Pls command me, don't talk to me")
+            self.sender.sendMessage("Pls command me, don't talk to me")
 
     def on__idle(self, event): # Timeout Region
 
