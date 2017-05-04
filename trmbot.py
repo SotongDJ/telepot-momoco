@@ -51,6 +51,7 @@ class User(telepot.helper.ChatHandler):
             print('/update')
             tool.ckpath('database/opt/','daemon.log')
             subprocess.Popen(['python3', 'daemon.py'],stdout=open('database/opt/daemon.log','w'))
+            time.sleep(1)
             fille = json.load(open("database/opt/bot.json",'r'))
             self.sender.sendMessage(pprint.pformat(fille))
             subprocess.call(['pgrep','-l', 'python'], stdout=open('database/opt/bot.pid', 'w'))
