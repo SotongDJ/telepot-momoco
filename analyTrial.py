@@ -13,8 +13,9 @@ def timo(keywo,lib):
     return timo
 #def main(usrid,tank,lim,keytim,cond,targe):
 def main(usrid,setto):
-    keytim,conda,conde,targe,karen,plim = setto.split(' ')
+    keytim,conda,conde,targe,karen,plim,pleng = setto.split(' ')
     lim=int(plim)
+    leng=int(pleng)
     libra = mmcdb.opendb(usrid)
     timon = timo(keytim,libra)
     gas = {}
@@ -39,7 +40,7 @@ def main(usrid,setto):
         lata = round((gas[nana]/som)*(lim*lim))
         pprint.pprint([lata,'=gas[',nana,']',gas[nana],'/',som,')*(',lim*lim,')'])
         gos[nana]=lata
-        loto = str(round((gas[nana]/som)*(100),2))
+        loto = round((gas[nana]/som)*(100),2)
         gus[nana]=loto
         try:
             gis[gas[nana]].append(nana)
@@ -96,10 +97,10 @@ def main(usrid,setto):
     for m in nanga:
         for n in gis[m]:
             nana = n
-            des=des+'　'+nana[0]+'　'+nana+'\n　　　'+karen+' '+str(gas[nana])+' ('+gus[nana]+'%, '+str(gos[nana])+')\n'
+            des=des+'　'+nana[0]+'　'+nana+'\n　　　'+karen+' '+str(gas[nana])+' ('+str(gus[nana])+'%, '+str(gos[nana])+')\n'
     final = [
         'Analytics Card',
         'Record:\n——————————\n  '+'\n  '.join(uuid)+'\n',
         'Graph of Ratio:\n——————————\n'+'\n'.join(pri)+'\n',
-        'Description:\n——————————\n'+des]
-    return final
+        'Description:\n——————————\n'+des+"\n　Total: "+str(karen)+'　'+str(som)+' ('+str(sum(list(gus.values())))+'%, '+str(sum(list(gos.values())))+')']
+    return [final[0]]+final[leng:4]

@@ -34,3 +34,24 @@ def printbug(text,thing,usrid):
     filla.write(text+" = "+pprint.pformat(thing)+"""
 """)
     filla.close()
+
+def cmdzDate(setta):
+    pri = ''
+    for n in setta:
+        m = n.replace('-','_')
+        pri = pri + '  /ch_'+m+'  '+n+'\n\n'
+    return pri
+
+def filteDate(setta,leve):
+    if leve == 'day':
+        return set(setta)
+    elif leve == 'month':
+        conta = []
+        for n in setta:
+            conta.append(n[0:7])
+        return set(conta)
+    elif leve == 'year':
+        conta = []
+        for n in setta:
+            conta.append(n[0:4])
+        return set(conta)

@@ -84,15 +84,17 @@ setting: """+pprint.pformat(self._setting)+"""
         if "/start" in text:
             self.sender.sendMessage(mmcMsg.start())
             if len(self._mod) == 0:
+                self.sender.sendMessage("Conversation Closed !")
                 self.close()
         elif "/help" in text:
             self.sender.sendMessage(mmcMsg.help())
             if len(self._mod) == 0:
+                self.sender.sendMessage("Conversation Closed !")
                 self.close()
         elif "/Setting" in text:
             self.sender.sendMessage(defSettMsg.main(self._setting))
         elif "/exit" in text:
-            self.sender.sendMessage("See you next time! Bye!")
+            self.sender.sendMessage("See you next time! Bye!\n(Conversation Closed !)")
             self.close()
         elif "/New" in text:
             if len(self._mod) == 0:
@@ -132,6 +134,7 @@ setting: """+pprint.pformat(self._setting)+"""
 
         elif len(self._mod) == 0:
             self.sender.sendMessage(mmcMsg.bored())
+            self.sender.sendMessage("Conversation Closed !")
             self.close()
 
         elif self._mod[-1] == "list":
@@ -142,6 +145,8 @@ setting: """+pprint.pformat(self._setting)+"""
             elif "/Close" in text:
                 self.sender.sendMessage(listMsg.disca())
                 self._mod=mmctool.popmod(self._mod)
+                self.sender.sendMessage("Conversation Closed !")
+                self.close()
             elif "/uuid_" in text:
                 print('uuid')
                 for sette in text.split(' '):
@@ -152,8 +157,8 @@ setting: """+pprint.pformat(self._setting)+"""
                 for sette in text.split(' '):
                     if "/Choose_" in sette:
                         keywo = sette.replace("/Choose_",'')
-                setta = mmcdb.filteDate(list(mmcdb.opendb(chat_id)['key']['datte']),keywo)
-                testa = mmcdb.cmdzDate(setta)
+                setta = mmctool.filteDate(list(mmcdb.opendb(chat_id)['key']['datte']),keywo)
+                testa = mmctool.cmdzDate(setta)
                 self.sender.sendMessage(listMsg.change(keywo,testa))
             elif "/ch_" in text:
                 tasta = ''
@@ -172,7 +177,7 @@ setting: """+pprint.pformat(self._setting)+"""
                 for n in analyTrial.main(chat_id,keywo):
                     self.sender.sendMessage(n)
             elif '/analitempohow' in text:
-                self.sender.sendMessage('at time key value limit_key karen amount')
+                self.sender.sendMessage('at time key value limit_key karen h_len v_len')
         elif self._mod[-1] in ["outo",'inco','tran']:
             if "/Discard" in text:
                 self._keywo = ""
@@ -195,6 +200,7 @@ setting: """+pprint.pformat(self._setting)+"""
                     self.sender.sendMessage(incoMsg.finis(self._temra))
                 elif self._mod[-1] == 'tran':
                     self.sender.sendMessage(tranMsg.finis(self._temra))
+                self.sender.sendMessage("Conversation Closed !")
                 self.close()
 
             elif "/set_as" in text :
@@ -243,8 +249,9 @@ setting: """+pprint.pformat(self._setting)+"""
                     self.sender.sendMessage(tranMsg.main(self._temra))
 
                 if self._keys in ['namma', 'klass', 'shoop', 'price']:
-                    self.sender.sendMessage('Refreshing database...\n P.S. Please wait')
+                    self.sender.sendMessage('Refreshing database...')
                     self._recom = mmcdb.recomtxt(self._temra,self._keys,self._keywo,['namma','klass','shoop','price'],self._fs,chat_id)
+                    self.sender.sendMessage('Finished !')
                     if self._recom[1] !="" :
                         self.sender.sendMessage(outoMsg.recom(self._recom[1],self._keywo))
                     else:
@@ -318,23 +325,27 @@ setting: """+pprint.pformat(self._setting)+"""
                     self._recom = {}
                     if "/change_Currency_To" in text:
                         keywo = 'tk'
-                        self.sender.sendMessage('Refreshing database...\n P.S. Please wait')
+                        self.sender.sendMessage('Refreshing database...')
                         self._recom = mmcdb.listKen('rg','rgs',keywo,chat_id)
+                        self.sender.sendMessage('Finished !')
                         self.sender.sendMessage(mmcMsg.selection(self._recom[1],'Currency (To)'))
                     elif "/change_Currency" in text:
                         keywo = 'kr'
-                        self.sender.sendMessage('Refreshing database...\n P.S. Please wait')
+                        self.sender.sendMessage('Refreshing database...')
                         self._recom = mmcdb.listKen('rg','rgs',keywo,chat_id)
+                        self.sender.sendMessage('Finished !')
                         self.sender.sendMessage(mmcMsg.selection(self._recom[1],'Currency'))
                     elif "/change_Acc_From" in text:
                         keywo = 'fr'
-                        self.sender.sendMessage('Refreshing database...\n P.S. Please wait')
+                        self.sender.sendMessage('Refreshing database...')
                         self._recom = mmcdb.listAcc('rg','rgs',keywo,chat_id)
+                        self.sender.sendMessage('Finished !')
                         self.sender.sendMessage(mmcMsg.selection(self._recom[1],'Account (From)'))
                     elif "/change_Acc_To" in text:
                         keywo = 'to'
-                        self.sender.sendMessage('Refreshing database...\n P.S. Please wait')
+                        self.sender.sendMessage('Refreshing database...')
                         self._recom = mmcdb.listAcc('rg','rgs',keywo,chat_id)
+                        self.sender.sendMessage('Finished !')
                         self.sender.sendMessage(mmcMsg.selection(self._recom[1],'Account (To)'))
 
             elif "/Whats_Now" in text:
@@ -373,6 +384,7 @@ setting: """+pprint.pformat(self._setting)+"""
                 mmcdb.changeSetting(self._setting,chat_id)
                 self.sender.sendMessage(defSettMsg.fins(self._setting))
                 mmctool.popmod(self._mod)
+                self.sender.sendMessage("Conversation Closed !")
                 self.close()
 
             elif "/Explain" in text:
@@ -388,16 +400,19 @@ setting: """+pprint.pformat(self._setting)+"""
                 keywo = text[8:10]
                 self._defSett = {}
                 if keywo in self._klass['Acc']:
-                    self.sender.sendMessage('Refreshing database...\n P.S. Please wait')
+                    self.sender.sendMessage('Refreshing database...')
                     self._defSett = mmcdb.listAcc('ch','chu',keywo,chat_id)
+                    self.sender.sendMessage('Finished !')
                     self.sender.sendMessage(mmcMsg.selection(self._defSett[1],'Account'))
                 elif keywo in self._klass['Kas']:
-                    self.sender.sendMessage('Refreshing database...\n P.S. Please wait')
+                    self.sender.sendMessage('Refreshing database...')
                     self._defSett = mmcdb.listKas('ch','chu',keywo,chat_id)
+                    self.sender.sendMessage('Finished !')
                     self.sender.sendMessage(mmcMsg.selection(self._defSett[1],'Category'))
                 elif keywo in self._klass['Ken']:
-                    self.sender.sendMessage('Refreshing database...\n P.S. Please wait')
+                    self.sender.sendMessage('Refreshing database...')
                     self._defSett = mmcdb.listKen('ch','chu',keywo,chat_id)
+                    self.sender.sendMessage('Finished !')
                     self.sender.sendMessage(mmcMsg.selection(self._defSett[1],'Currency'))
 
             elif "/ch" in text:
@@ -420,8 +435,7 @@ setting: """+pprint.pformat(self._setting)+"""
         self._mod = []
         self._setting = mmcdb.upgradeSetting(self._setting,chat_id)
         self.sender.sendMessage(mmcMsg.warn())
-        self.sender.sendMessage('Refreshing database...\n P.S. Please wait')
-        mmcdb.refesdb(chat_id)
+        self.sender.sendMessage("Conversation Start")
 
         if content_type != 'text':
             self.sender.sendMessage(mmcMsg.error())
@@ -435,6 +449,9 @@ setting: """+pprint.pformat(self._setting)+"""
                 self._keywo = initial_msg["text"].replace(" ","_")
             self.sender.sendMessage(mmcMsg.home(self._keywo))
 
+        self.sender.sendMessage('Refreshing database...')
+        mmcdb.refesdb(chat_id)
+        self.sender.sendMessage('Finished !')
         return True  # prevent on_message() from being called on the initial message
 
     def on_chat_message(self, msg): # Each Msg
@@ -478,6 +495,7 @@ setting: """+pprint.pformat(self._setting)+"""
 
     def on__idle(self, event): # Timeout Region
         self.sender.sendMessage(mmcMsg.timesout())
+        self.sender.sendMessage("Conversation Closed !")
         self.close()
 
 key=json.load(open("database/key","r"))
