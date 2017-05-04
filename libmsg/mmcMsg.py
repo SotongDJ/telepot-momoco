@@ -7,15 +7,14 @@ def warn():
 """ self.sender.sendMessage(mmcmsg.start()) """
 def start():
     final="""  Welcome
-----------------------------
-
+——————————
 This is Money Money Come Chatbot.
 It can help you to trace your money flow moreeasily (Sure? )
 
 Notes:
   /setting
     Please Setup before using
-----------------------------
+——————————
   /help
 """
     return final
@@ -23,7 +22,7 @@ Notes:
 """ self.sender.sendMessage(mmcmsg.help())"""
 def help():
     final="""  Help
-----------------------------
+——————————
   /start
     Welcome Card
   /help
@@ -44,9 +43,9 @@ def help():
 """ self.sender.sendMessage(mmcmsg.bored())"""
 def bored():
     final="""  I am free ~
-------------------
+——————————
 My "Job"
-------------------
+——————————
   /start
     Welcome Card
   /new
@@ -63,10 +62,10 @@ My "Job"
 """ self.sender.sendMessage(mmcmsg.selection(self._defSett,'Account'))"""
 def selection(txt,titil):
     final="Select "+titil+"""
-----------------------------
+——————————
 """+titil+""" List:
 """+txt+"""
-----------------------------
+——————————
     /Discard /Save  /Back
 P.S. Select above or type another selection
 """
@@ -76,13 +75,13 @@ P.S. Select above or type another selection
 """ self.sender.sendMessage(mmcmsg.home(self._keywo)) """
 def home(keywo): # will replace by Start Card after finished Account Card and Currency Card
     final="""Home Card (Temporary)
-----------------------------
+——————————
 
     Welcome Home !
 
 Keyword: """+keywo+"""
   /new  /list
-----------------------------
+——————————
   /setting  /help
 
 """
@@ -91,7 +90,7 @@ Keyword: """+keywo+"""
 """ self.sender.sendMessage(mmcmsg.timesout()) """
 def timesout(): # will replace by Start Card after finished Account Card and Currency Card
     final="""Time's Out
-----------------------------
+——————————
 
 Previous unsave work was clean out.
 
@@ -99,7 +98,8 @@ Previous unsave work was clean out.
     return final
 
 def error():
-    final=""""Status:
+    final=""""Status
+——————————
 Received wrong message
 Input:
     Undetactable content type

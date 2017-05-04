@@ -236,6 +236,15 @@ setting: """+pprint.pformat(self._setting)+"""
                 elif "/set_as_Source" in text:
                     self._temra["shoop"]=self._keywo
                     self._keys='shoop'
+                elif "/set_as_Account_From" in text:
+                    self._temra["fromm"]=self._keywo
+                    self._keys='fromm'
+                elif "/set_as_Account_To" in text:
+                    self._temra["toooo"]=self._keywo
+                    self._keys='toooo'
+                elif "/set_as_Account" in text:
+                    self._temra["fromm"]=self._keywo
+                    self._keys='fromm'
                 elif "/set_as_Price" in text:
                     self._temra["price"]=self._keywo
                     self._keys='price'
@@ -251,6 +260,15 @@ setting: """+pprint.pformat(self._setting)+"""
                 elif "/set_as_Amount_To" in text:
                     self._temra["tpric"]=self._keywo
                     self._keys='tpric'
+                elif "/set_as_Currency_Source" in text:
+                    self._temra["karen"]=self._keywo
+                    self._keys='karen'
+                elif "/set_as_Currency_Target" in text:
+                    self._temra["tkare"]=self._keywo
+                    self._keys='tkare'
+                elif "/set_as_Currencye" in text:
+                    self._temra["karen"]=self._keywo
+                    self._keys='karen'
 
                 if self._mod[-1] == 'outo':
                     self.sender.sendMessage(outoMsg.main(self._temra))

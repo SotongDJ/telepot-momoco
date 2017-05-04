@@ -1,24 +1,24 @@
 """ self.sender.sendMessage(mmcmsg.listMain(self._temra)) """
 def main(datte,text):
     final="""Listing Card
-----------------------------
+——————————
 Date:"""+datte+"""
 List:
 """+text+"""
-----------------------------
+——————————
   /Choose_day /Choose_month  /Choose_year
-----------------------------
+——————————
   /Close
 """
     return final
 
 def change(keywo,text):
     final='Choose '+keywo+"""
-----------------------------
+——————————
 List:
 
 """+text+"""
-----------------------------
+——————————
   /Back
 """
     return final
@@ -26,7 +26,7 @@ List:
 """ self.sender.sendMessage(mmcmsg.listSect(uuid,usrid,libra)) """
 def single(uuid,usrid,libra):
     final="""Single record Card
-----------------------------
+——————————
 ID: """+uuid+"""
 Date: """+libra['raw'][uuid]["datte"]+"""
 Item: """+libra['raw'][uuid]["namma"]+"""
@@ -41,7 +41,7 @@ Transfer to which Account:
 
 """+"""Notes:
 """+libra['raw'][uuid]["desci"]+"""
-----------------------------
+——————————
    /Back  /Edit  /Delete  /setting
 
 """
@@ -50,11 +50,11 @@ Transfer to which Account:
 """ self.sender.sendMessage(mmcmsg.listDisca()) """
 def disca():
     final="""¡ Discard !
-----------------------------
+——————————
 
   Closed Listing Card
 
-----------------------------
+——————————
   /whats_now  /setting
 """
     return final
