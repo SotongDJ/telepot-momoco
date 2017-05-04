@@ -41,21 +41,21 @@ def update():
     print('Stage 4 (1/2) trmbot.py [before]:'+pprint.pformat(before))
 
     subprocess.Popen(['python3.4', 'trmbot.py'])
-
+    time.sleep(1)
     subprocess.call(['pgrep','-l','python3'], stdout=open('database/opt/bot.pid', 'w'))
     after = open('database/opt/bot.pid').read().splitlines()
     print('Stage 4 (1/2) trmbot.py [after]'+pprint.pformat(after))
     stat['trmbot.py'] = list(set(after)-set(before))
 
     print('Stage 4 (1/2) [stat]: '+pprint.pformat(stat))
-
+    time.sleep(2)
 
     subprocess.call(['pgrep','-l','python3'], stdout=open('database/opt/bot.pid', 'w'))
     before = open('database/opt/bot.pid').read().splitlines()
     print('Stage 4 (2/2) momocobot.py [before]:'+pprint.pformat(before))
 
     subprocess.Popen(['python3.4', 'momocobot.py'])
-
+    time.sleep(1)
     subprocess.call(['pgrep','-l','python3'], stdout=open('database/opt/bot.pid', 'w'))
     after = open('database/opt/bot.pid').read().splitlines()
     print('after:'+pprint.pformat(after))
