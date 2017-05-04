@@ -41,14 +41,14 @@ def update():
     print('Stage 4 (1/2) trmbot.py [before]:'+pprint.pformat(before))
 
     subprocess.Popen(['python3.4', 'trmbot.py'])
-    time.sleep(5)
+    #time.sleep(5)
     subprocess.call(['pgrep','-l','python3'], stdout=open('database/opt/bot.pid', 'w'))
     after = open('database/opt/bot.pid').read().splitlines()
     print('Stage 4 (1/2) trmbot.py [after]'+pprint.pformat(after))
     stat['trmbot.py'] = list(set(after)-set(before))
 
     print('Stage 4 (1/2) [stat]: '+pprint.pformat(stat))
-    time.sleep(10)
+    #time.sleep(10)
 
     subprocess.call(['pgrep','-l','python3'], stdout=open('database/opt/bot.pid', 'w'))
     before = open('database/opt/bot.pid').read().splitlines()
