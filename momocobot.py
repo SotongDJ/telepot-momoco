@@ -137,9 +137,9 @@ setting: """+pprint.pformat(self._setting)+"""
             else:
                 if self._mod[-1] != 'defSett':
                     self._mod=mmctool.apmod(self._mod,'defSett')
-            self.sender.sendMessage(defSettMsg.List(self._setting))
+            self.sender.sendMessage(defSettMsg.lista(self._setting))
             if self._setting['limit']['defSettWarn'] == 0:
-                self.sender.sendMessage(defSettMsg.Warn())
+                self.sender.sendMessage(defSettMsg.warn())
                 self._setting['limit']['defSettWarn'] = 1
                 mmcdb.changeSetting(self._setting,chat_id)
 
