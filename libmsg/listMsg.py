@@ -42,7 +42,7 @@ Transfer to which Account:
 """+"""Notes:
 """+libra['raw'][uuid]["desci"]+"""
 ----------------------------
-   /Back  /Edit  /Delete  /Setting
+   /Back  /Edit  /Delete  /setting
 
 """
     return final
@@ -55,6 +55,6 @@ def disca():
   Closed Listing Card
 
 ----------------------------
-  /Whats_Now  /Setting
+  /whats_now  /setting
 """
     return final

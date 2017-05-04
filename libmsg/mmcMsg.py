@@ -13,7 +13,7 @@ This is Money Money Come Chatbot.
 It can help you to trace your money flow moreeasily (Sure? )
 
 Notes:
-  /Setting
+  /setting
     Please Setup before using
 ----------------------------
   /help
@@ -28,15 +28,15 @@ def help():
     Welcome Card
   /help
     Command List Card
-  /New
+  /new
     Creating New Record
-  /List
+  /list
     Review Card
-  /Statics
+  /statics
     Analytic Card
-  /Setting
+  /setting
     Setting Card
-  /Whats_Now
+  /whats_now
     Check current work status
 """
     return final
@@ -49,13 +49,13 @@ My "Job"
 ------------------
   /start
     Welcome Card
-  /New
+  /new
     Creating New Record
-  /List
+  /list
     Review Card
-  /Statics
+  /statics
     Analystic Card
-  /Setting
+  /setting
     Setting Card
 """
     return final
@@ -81,9 +81,9 @@ def home(keywo): # will replace by Start Card after finished Account Card and Cu
     Welcome Home !
 
 Keyword: """+keywo+"""
-  /New  /List
+  /new  /list
 ----------------------------
-  /Setting  /help
+  /setting  /help
 
 """
     return final

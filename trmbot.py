@@ -2,6 +2,17 @@ import telepot, time, json, pprint, subprocess
 import tool, auth
 from telepot.delegate import per_chat_id, create_open, pave_event_space
 
+"""Command list
+start - Welcome mmcMsg
+help - Command List
+temp - check temp
+gitpull - update
+update - upgrade
+ckpy - check status
+setting - setting
+exit - close conversation
+"""
+
 class User(telepot.helper.ChatHandler):
     def __init__(self, *args, **kwargs):
         super(User, self).__init__(*args, **kwargs)
@@ -21,7 +32,7 @@ class User(telepot.helper.ChatHandler):
         elif "/help" in text:
             self.sender.sendMessage("Ask my father! (Bot Father isn't my father.)")
             self.close()
-        elif "/Setting" in text:
+        elif "/setting" in text:
             self.sender.sendMessage("What ?!")
             self.close()
         elif "/exit" in text:
@@ -42,7 +53,7 @@ class User(telepot.helper.ChatHandler):
         elif "/ckpy" in text:
             fille = json.load(open("database/opt/bot.json",'r'))
             self.sender.sendMessage(pprint.pformat(fille))
-            subprocess.call(['pgrep', 'python'], stdout=open('database/opt/bot.pid', 'w'))
+            subprocess.call(['pgrep','-l', 'python'], stdout=open('database/opt/bot.pid', 'w'))
             self.sender.sendMessage('\n'.join(open("database/opt/bot.pid").read().splitlines()))
             self.close()
         else:

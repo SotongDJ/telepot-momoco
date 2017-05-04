@@ -26,7 +26,7 @@ Notes:
   /change_to_Income
     Change to Income Card
 ----------------------------
-  /Discard  /Save  /Setting
+  /Discard  /Save  /setting
 ----------------------------
 P.S. Give me a word or a number
 """
@@ -46,7 +46,7 @@ Keyword:
 
   /set_as_Remind  /set_as_Notes
 ----------------------------
-  /Discard  /Save  /Setting
+  /Discard  /Save  /setting
 
 """
     return final
@@ -67,7 +67,7 @@ Transfer to which Account:
 Notes:
 """+dicto["desci"]+"""
 ----------------------------
-  /Edit  /List  /Setting
+  /Edit  /list  /setting
 
 """
     return final

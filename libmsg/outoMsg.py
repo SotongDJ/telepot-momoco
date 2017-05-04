@@ -22,7 +22,7 @@ Notes:
   /change_to_Transfer
     Change to Transfer Card
 ----------------------------
-  /Discard  /Save  /Setting
+  /Discard  /Save  /setting
 ----------------------------
 P.S. Give me a word or a number
 """
@@ -43,7 +43,7 @@ Keyword:
 
   /set_as_Notes
 ----------------------------
-  /Discard  /Save  /Setting
+  /Discard  /Save  /setting
 
 """
     return final
@@ -59,7 +59,7 @@ Recommend List:
 """+txt+"""
 
 ----------------------------
-  /Discard  /Save  /Setting
+  /Discard  /Save  /setting
 P.S. Choose above or type another keyword
 """
     return final
@@ -78,7 +78,7 @@ Spent from which Account:
 Notes:
 """+dicto["desci"]+"""
 ----------------------------
-  /Edit  /List  /Setting
+  /Edit  /list  /setting
 
 """
     return final
@@ -91,6 +91,6 @@ def discard():
   Closed Creating Card
 
 ----------------------------
-  /Setting  /help
+  /setting  /help
 """
     return final

@@ -22,7 +22,7 @@ Notes:
   /change_to_Transfer
     Change to Transfer Card
 ----------------------------
-  /Discard  /Save  /Setting
+  /Discard  /Save  /setting
 ----------------------------
 P.S. Give me a word or a number
 """
@@ -40,7 +40,7 @@ Keyword:
 
   /set_as_Notes
 ----------------------------
-  /Discard  /Save  /Setting
+  /Discard  /Save  /setting
 
 """
     return final
@@ -58,7 +58,7 @@ Deposit into which Account:
 Notes:
 """+dicto["desci"]+"""
 ----------------------------
-  /Edit  /List  /Setting
+  /Edit  /list  /setting
 
 """
     return final

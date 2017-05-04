@@ -3,6 +3,17 @@ import tool, auth, log, mmctool, mmcdb, analyTrial
 from libmsg import mmcMsg, outoMsg, incoMsg, tranMsg, defSettMsg, listMsg
 from telepot.delegate import per_chat_id, create_open, pave_event_space
 
+"""Command list
+start - Welcome and Introduction
+help - Show command list
+setting - View setting card
+new - Create new record
+statics - View statistics card
+list - Show prevous record
+whats_now - Show current unsaved work
+exit - Close conversation
+"""
+
 class User(telepot.helper.ChatHandler):
     def __init__(self, *args, **kwargs):
         super(User, self).__init__(*args, **kwargs)
@@ -91,12 +102,12 @@ setting: """+pprint.pformat(self._setting)+"""
             if len(self._mod) == 0:
                 self.sender.sendMessage("Conversation Closed !")
                 self.close()
-        elif "/Setting" in text:
+        elif "/setting" in text:
             self.sender.sendMessage(defSettMsg.main(self._setting))
         elif "/exit" in text:
             self.sender.sendMessage("See you next time! Bye!\n(Conversation Closed !)")
             self.close()
-        elif "/New" in text:
+        elif "/new" in text:
             if len(self._mod) == 0:
                 self._temra["datte"] = tool.date(1,'-')
                 self._temra['fromm'] = self._setting['dexpe']
@@ -109,7 +120,7 @@ setting: """+pprint.pformat(self._setting)+"""
                     self.sender.sendMessage(outoMsg.keyword(self._keywo))
             self._mod=mmctool.popmod(self._mod)
             self._mod=mmctool.apmod(self._mod,"outo")
-        elif "/List" in text:
+        elif "/list" in text:
             if len(self._mod) == 0:
                 lastdate = list(mmcdb.opendb(chat_id)['key']['datte'])
                 lastdate.sort()
@@ -138,7 +149,7 @@ setting: """+pprint.pformat(self._setting)+"""
             self.close()
 
         elif self._mod[-1] == "list":
-            if "/Whats_Now" in text:
+            if "/whats_now" in text:
                 self.sender.sendMessage(listMsg.main(','.join(self._list['datte']),mmcdb.listList(self._list['datte'],chat_id)))
             elif "/Back" in text:
                 self.sender.sendMessage(listMsg.main(','.join(self._list['datte']),mmcdb.listList(self._list['datte'],chat_id)))
@@ -348,7 +359,7 @@ setting: """+pprint.pformat(self._setting)+"""
                         self.sender.sendMessage('Finished !')
                         self.sender.sendMessage(mmcMsg.selection(self._recom[1],'Account (To)'))
 
-            elif "/Whats_Now" in text:
+            elif "/whats_now" in text:
                 if self._mod[-1] == 'outo':
                     self.sender.sendMessage(outoMsg.main(self._temra))
                 elif self._mod[-1] == 'inco':
@@ -393,7 +404,7 @@ setting: """+pprint.pformat(self._setting)+"""
             elif "/Back" in text:
                 self.sender.sendMessage(defSettMsg.lista(self._setting))
 
-            elif "/Whats_Now" in text:
+            elif "/whats_now" in text:
                 self.sender.sendMessage(defSettMsg.lista(self._temra))
 
             elif "/change_" in text:

@@ -18,7 +18,7 @@ Curency:
     Default Currency: """+setting['karen']+"""
 ----------------------------
 P.S. You still can use the last card
-  /modify_Setting  /Whats_Now
+  /modify_Setting  /whats_now
 """
     return final
 
@@ -110,7 +110,7 @@ Default Transfer: """+setting['incom']+"""
 
 Default Currency: """+setting['karen']+"""
 ----------------------------
-    /Setting /Help /Whats_Now
+    /setting /Help /whats_now
 Note: Changing setting now
 """
     return final
@@ -123,6 +123,6 @@ def discard():
   Closed Account Setting Card
 
 ----------------------------
-  /Setting  /help
+  /setting  /help
 """
     return final
