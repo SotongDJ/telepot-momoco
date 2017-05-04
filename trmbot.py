@@ -37,11 +37,7 @@ class User(telepot.helper.ChatHandler):
             self.close()
         elif "/update" in text:
             print('/update')
-            subprocess.Popen(['python3.4', 'daemon.py'])
-            self.close()
-        elif "/fupd" in text:
-            print('/force')
-            subprocess.Popen(['sh', 'daemon.sh'])
+            subprocess.Popen(['python3', 'daemon.py'])
             self.close()
         elif "/ckpy" in text:
             fille = json.load(open("database/opt/bot.json",'r'))
