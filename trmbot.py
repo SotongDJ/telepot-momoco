@@ -45,7 +45,7 @@ class User(telepot.helper.ChatHandler):
             self.close()
         elif "/gitpull" in text:
             subprocess.call(['git','pull'],stdout=open("database/opt/git.log",'w'))
-            self.sender.sendMessage('\n'.join(open(tool.path('log',chat_id)+"git.log").read().splitlines()))
+            self.sender.sendMessage('\n'.join(open("database/opt/git.log").read().splitlines()))
             self.close()
         elif "/update" in text:
             print('/update')
