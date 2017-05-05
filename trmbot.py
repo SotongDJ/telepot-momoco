@@ -41,7 +41,7 @@ class User(telepot.helper.ChatHandler):
             self.close()
         elif "/temp" in text:
             subprocess.call(['/opt/vc/bin/vcgencmd', 'measure_temp'], stdout=open('database/opt/temp.log', 'w'))
-            self.sender.sendMessage(open("database/temp").read())
+            self.sender.sendMessage(open("database/opt/temp.log").read())
             self.close()
         elif "/gitpull" in text:
             subprocess.call(['git','pull'],stdout=open("database/opt/git.log",'w'))
