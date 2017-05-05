@@ -108,53 +108,36 @@ def changeSetting(libra,usrid):
 def fixAcc(liboh,usrid):
     setti = openSetting(usrid)
     for sekio in list(liboh.keys()):
-        if liboh[sekio] != {}:
-            try:
-                if liboh[sekio]['fromm'] == "":
-                    liboh[sekio]['fromm'] = setti['genis']
-            except KeyError:
-                liboh[sekio]['fromm'] = setti['genis']
+        if type(liboh.get(sekio)) != type(dict):
+            liboh.update({ sekio : {} })
+        if liboh.get(sekio,{}) != {}:
+            #if liboh[sekio].get('klass','') not in [setti['tanfe'],setti['incom']]:
 
-            try:
-                if liboh[sekio]['toooo'] == "":
-                    liboh[sekio]['toooo'] = setti['ovede']
-            except KeyError:
-                liboh[sekio]['toooo'] = setti['ovede']
+            liboh[sekio].update({ 'fromm' : liboh[sekio].get('fromm',setti['genis']) })
+            if liboh[sekio]['fromm'] == '':
+                liboh[sekio].update({ 'fromm' : setti['genis'] })
 
-            try:
-                if liboh[sekio]['tpric'] == "":
-                    liboh[sekio]['tpric'] = liboh[sekio]['price']
-            except KeyError:
-                try:
-                    if liboh[sekio]['price'] == "":
-                        liboh[sekio]['tpric'] = "0"
-                        liboh[sekio]['price'] = "0"
-                    else:
-                        liboh[sekio]['tpric'] = liboh[sekio]['price']
-                except KeyError:
-                    liboh[sekio]['tpric'] = "0"
-                    liboh[sekio]['price'] = "0"
+            liboh[sekio].update({ 'toooo' : liboh[sekio].get('toooo',setti['ovede']) })
+            if liboh[sekio]['toooo'] == '':
+                liboh[sekio].update({ 'toooo' : setti['ovede'] })
 
-            try:
-                if liboh[sekio]['tkare'] == "":
-                    liboh[sekio]['tkare'] = liboh[sekio]['karen']
-            except KeyError:
-                try:
-                    if liboh[sekio]['karen'] == "":
-                        liboh[sekio]['tkare'] = setti['karen']
-                        liboh[sekio]['karen'] = setti['karen']
-                    else:
-                        liboh[sekio]['tkare'] = liboh[sekio]['karen']
-                except KeyError:
-                    liboh[sekio]['tkare'] = setti['karen']
-                    liboh[sekio]['karen'] = setti['karen']
+            if liboh[sekio].get('tpric','') == '':
+                    liboh[sekio].update({ 'tpric' : liboh[sekio].get('price','0') })
+            if liboh[sekio].get('price','') == '':
+                    liboh[sekio].update({ 'price' : liboh[sekio].get('tpric','0') })
+
+            if liboh[sekio].get('tkare','') == '':
+                    liboh[sekio].update({ 'tkare' : liboh[sekio].get('karen',setti['karen']) })
+            if liboh[sekio].get('karen','') == '':
+                    liboh[sekio].update({ 'karen' : setti['karen'] })
+                    liboh[sekio].update({ 'tkare' : setti['karen'] })
 
     return liboh
 
 """ mmcdb.refesdb(chat_id)"""
 def refesdb(usrid):
     libra = opendb(usrid)
-    libra['raw']=fixAcc(libra['raw'],usrid)
+    #libra['raw'].update(fixAcc(libra['raw'],usrid))
     libra['key']={}
     libra['hash']={}
     for uuid in list(libra['raw'].keys()):
@@ -178,7 +161,7 @@ def upgradeSetting(lib,usrid):
 """ importRaw(usrid,lib)"""
 def importRaw(usrid,lib):
     refesdb(usrid)
-    lib=fixAcc(lib,usrid)
+    #lib=fixAcc(lib,usrid)
     source = opendb(usrid)
     for uuid in list(lib.keys()):
         hasa = hashlib.sha512()

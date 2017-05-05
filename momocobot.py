@@ -103,9 +103,9 @@ setting: """+pprint.pformat(self._setting)+"""
                 lastdate = list(mmcdb.opendb(chat_id)['key']['datte'])
                 lastdate.sort()
                 try:
-                    self._list['datte'] = [lastdate[-1]]
+                    self._list.update({'datte':[lastdate[-1]]})
                 except IndexError :
-                    self._list['datte'] = ['']
+                    self._list.update({'datte':['']})
             self.sender.sendMessage(listMsg.main(','.join(self._list['datte']),mmcdb.listList(self._list['datte'],chat_id)))
             self._mod=mmctool.popmod(self._mod)
             self._mod=mmctool.apmod(self._mod,"list")
@@ -143,7 +143,7 @@ setting: """+pprint.pformat(self._setting)+"""
                 print('uuid')
                 for sette in text.split(' '):
                     if "/uuid_" in sette:
-                        self._list['uuid'] = sette.replace('/uuid_','')
+                        self._list.update({'uuid' : sette.replace('/uuid_','') })
                         self.sender.sendMessage(listMsg.single(self._list['uuid'],chat_id,mmcdb.opendb(chat_id)))
             elif "/Choose_" in text:
                 for sette in text.split(' '):
@@ -162,7 +162,7 @@ setting: """+pprint.pformat(self._setting)+"""
                     if tasta in n:
                         datta.append(n)
                 datta.sort()
-                self._list['datte'] = datta
+                self._list.update({'datte' : datta})
                 self.sender.sendMessage(listMsg.main(', '.join(self._list['datte']),mmcdb.listList(self._list['datte'],chat_id)))
             elif '/analitempo ' in text:
                 keywo=text.replace('/analitempo ','')
@@ -272,7 +272,7 @@ setting: """+pprint.pformat(self._setting)+"""
                 for sette in text.split(" "):
                     if "/rgs_" in sette:
                         try:
-                            self._temra[mmcDefauV.keywo('sf')[sette[5:7]]] = self._recom[2][sette[8:len(sette)]]
+                            self._temra.update({ mmcDefauV.keywo('sf')[sette[5:7]] : self._recom[2][sette[8:len(sette)]] })
                             if self._mod[-1] == 'outo':
                                 self.sender.sendMessage(outoMsg.main(self._temra))
                             elif self._mod[-1] == 'inco':
@@ -281,20 +281,20 @@ setting: """+pprint.pformat(self._setting)+"""
                                 self.sender.sendMessage(tranMsg.main(self._temra))
                             self.sender.sendMessage(outoMsg.recom(self._recom[1],self._keywo))
                         except KeyError:
-                                self.sender.sendMessage("Expected Error : Doesn't Exist or Expired")
-                                print("KeyError : Doesn't Exist or Expired")
+                            self.sender.sendMessage("Expected Error : Doesn't Exist or Expired")
+                            print("KeyError : Doesn't Exist or Expired")
 
-                                if self._mod[-1] == 'outo':
-                                    self.sender.sendMessage(outoMsg.main(self._temra))
-                                elif self._mod[-1] == 'inco':
-                                    self.sender.sendMessage(incoMsg.main(self._temra))
-                                elif self._mod[-1] == 'tran':
-                                    self.sender.sendMessage(tranMsg.main(self._temra))
+                            if self._mod[-1] == 'outo':
+                                self.sender.sendMessage(outoMsg.main(self._temra))
+                            elif self._mod[-1] == 'inco':
+                                self.sender.sendMessage(incoMsg.main(self._temra))
+                            elif self._mod[-1] == 'tran':
+                                self.sender.sendMessage(tranMsg.main(self._temra))
 
-                                self.sender.sendMessage('Give me a word or a number')
+                            self.sender.sendMessage('Give me a word or a number')
 
                     elif "/rg_" in sette:
-                        self._temra[mmcDefauV.keywo('sf')[sette[4:6]]] = sette[7:len(sette)]
+                        self._temra.update({ mmcDefauV.keywo('sf')[sette[4:6]] : sette[7:len(sette)] })
                         if self._mod[-1] == 'outo':
                             self.sender.sendMessage(outoMsg.main(self._temra))
                         elif self._mod[-1] == 'inco':
@@ -416,7 +416,7 @@ setting: """+pprint.pformat(self._setting)+"""
                 for sette in text.split(" "):
                     if "/chu_" in sette:
                         try:
-                            self._setting[mmcDefauV.keywo('sf')[sette[5:7]]] = self._defSett[2][sette[8:len(sette)]]
+                            self._setting.update({ mmcDefauV.keywo('sf')[sette[5:7]] : self._defSett[2][sette[8:len(sette)]] })
                         except KeyError:
                                 self.sender.sendMessage("Expected Error : Doesn't Exist or Expired")
                                 print("KeyError : Doesn't Exist or Expired")

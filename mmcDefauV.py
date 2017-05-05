@@ -1,6 +1,6 @@
 def keywo(text):
     dicto= {
-        'sf' = {
+        'sf' : {
             "dt":"datte",
             "nm":"namma", "kl":"klass", "sh":"shoop",
             "fr":"fromm", "pr":"price", "kr":"karen",
@@ -9,8 +9,8 @@ def keywo(text):
             "in":"dinco", "ex":"dexpe",
             "gi":"genis", "oe":"ovede",
             "tf":"tanfe", "ic":"incom",
-        }
-        'fs' = {
+        },
+        'fs' : {
             "datte":"dt",
             "namma":"nm", "klass":"kl", "shoop":"sh",
             "fromm":"fr", "price":"pr", "karen":"kr",
@@ -19,18 +19,20 @@ def keywo(text):
             "dinco":"in", "dexpe":"ex",
             "genis":"gi", "ovede":"oe",
             "tanfe":"tf", "incom":"ic",
-        }
-        'klass' = {
+        },
+        'klass' : {
             'Acc':['fr','to','in','ex','gi','oe'],
             'Kas':['kl','tf','ic'],
             'Ken':['kr','tk'],
             'Pis':['pr','tp'],
-        }
-        'ssalk' = {
+        },
+        'ssalk' : {
+            "datte":"Date",
+            "namma":"E.t.c. Name", "shoop":"E.t.c. Seller",
             'fromm':'Account','toooo':'Account','dinco':'Account','dexpe':'Account','genis':'Account','ovede':'Account',
             'klass':'Category','tanfe':'Category','incom':'Category',
             'karen':'Currency','tkare':'Currency',
             'price':'Price','tpric':'Price',
-        }
+        },
     }
     return dicto[text]
