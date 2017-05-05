@@ -1,5 +1,5 @@
 import json, random, hashlib
-import tool, mmctool
+import tool, mmctool, mmcDefauV
 # fille = __
 # mmcdb.writedb(fille,'raw',mmcdb.opencsv(fille,','))
 
@@ -175,8 +175,8 @@ def upgradeSetting(lib,usrid):
         changeSetting(lib,usrid)
         return lib
 
-""" appendRaw(usrid,lib)"""
-def appendRaw(usrid,lib):
+""" importRaw(usrid,lib)"""
+def importRaw(usrid,lib):
     refesdb(usrid)
     lib=fixAcc(lib,usrid)
     source = opendb(usrid)
@@ -232,9 +232,11 @@ def recomb(srckey,veluo,deskey,usrid):
             mmctool.printbug("No keywo",'',usrid)
     return lista
 
-""" mmcdb.recomtxt(self._temra,self._keys,self._keywo,['namma','klass','shoop','price'],self._fs,chat_id) """
-def recomtxt(temra,keysa,keywo,deset,fsdic,usrid):
-    refesdb(usrid)
+""" mmcdb.recomtxt(self._temra,self._keys,self._keywo,['namma','klass','shoop','price'],chat_id) """
+def recomtxt(temra,keysa,keywo,deset,usrid):
+    #refesdb(usrid)
+    fsdic = mmcDefauV.keywo('fs')
+    skdic = mmcDefauV.keywo('ssalk')
     setto = []
     finno = ""
     conta = {}
@@ -249,10 +251,10 @@ def recomtxt(temra,keysa,keywo,deset,fsdic,usrid):
                 for itema in setto:
                     try:
                         itema.encode('latin-1')
-                        finno = finno + "    /rg_"+fsdic[deskey]+"_"+itema+" "+itema+"\n\n"
+                        finno = finno + "    /rg_"+fsdic[deskey]+"_"+itema+" "+itema+" ("+skdic[deskey]+")\n\n"
                     except UnicodeEncodeError:
                         conta[numme+str(nodda)]=itema
-                        finno = finno + "    /rgs_"+fsdic[deskey]+"_"+numme+str(nodda)+" "+itema+"\n\n"
+                        finno = finno + "    /rgs_"+fsdic[deskey]+"_"+numme+str(nodda)+" "+itema+" ("+skdic[deskey]+")\n\n"
                         nodda = nodda + 1
                 # old time :rgkey=" /rg_"+fsdic[deskey]+"_"
                 #           finno=finno+rgkey+rgkey.join(setto)+"\n"
@@ -260,22 +262,23 @@ def recomtxt(temra,keysa,keywo,deset,fsdic,usrid):
 
 """ mmcdb.listAcc('ch','chu',keywo,chat_id)"""
 def listAcc(pref,prefs,keywo,usrid):
+    skdic = mmcDefauV.keywo('ssalk')
     listo = []
     finno = ""
     conta = {}
     numme = str(random.choice(range(100,1000)))
     nodda = 0
-    refesdb(usrid)
+    #refesdb(usrid)
     libro = opendb(usrid)
     listo = set(list(libro['key']['fromm'].keys())+list(libro['key']['toooo'].keys()))
     for intta in listo:
         if intta != '':
             try:
                 intta.encode('latin-1')
-                finno = finno + "    /"+pref+"_"+keywo+"_"+intta+" "+intta+"\n\n"
+                finno = finno + "    /"+pref+"_"+keywo+"_"+intta+" "+intta+" ("+skdic[keywo]+")\n\n"
             except UnicodeEncodeError:
                 conta[numme+str(nodda)]=intta
-                finno = finno + "    /"+prefs+"_"+keywo+"_"+numme+str(nodda)+" "+intta+"\n\n"
+                finno = finno + "    /"+prefs+"_"+keywo+"_"+numme+str(nodda)+" "+intta+" ("+skdic[keywo]+")\n\n"
                 nodda = nodda + 1
     return {1:finno,2:conta}
 
@@ -286,17 +289,17 @@ def listKas(pref,prefs,keywo,usrid):
     conta = {}
     numme = str(random.choice(range(100,1000)))
     nodda = 0
-    refesdb(usrid)
+    #refesdb(usrid)
     libro = opendb(usrid)
     listo = set(list(libro['key']['klass'].keys()))
     for intta in listo:
         if intta != '':
             try:
                 intta.encode('latin-1')
-                finno = finno + "    /"+pref+"_"+keywo+"_"+intta+" "+intta+"\n\n"
+                finno = finno + "    /"+pref+"_"+keywo+"_"+intta+" "+intta+" ("+skdic[keywo]+")\n\n"
             except UnicodeEncodeError:
                 conta[numme+str(nodda)]=intta
-                finno = finno + "    /"+prefs+"_"+keywo+"_"+numme+str(nodda)+" "+intta+"\n\n"
+                finno = finno + "    /"+prefs+"_"+keywo+"_"+numme+str(nodda)+" "+intta+" ("+skdic[keywo]+")\n\n"
                 nodda = nodda + 1
     return {1:finno,2:conta}
 
@@ -307,17 +310,17 @@ def listKen(pref,prefs,keywo,usrid):
     conta = {}
     numme = str(random.choice(range(10,100)))
     nodda = 0
-    refesdb(usrid)
+    #refesdb(usrid)
     libro = opendb(usrid)
     listo = set(list(libro['key']['karen'].keys())+list(libro['key']['tkare'].keys()))
     for intta in listo:
         if intta != '':
             try:
                 intta.encode('latin-1')
-                finno = finno + "    /"+pref+"_"+keywo+"_"+intta+" "+intta+"\n\n"
+                finno = finno + "    /"+pref+"_"+keywo+"_"+intta+" "+intta+" ("+skdic[keywo]+")\n\n"
             except UnicodeEncodeError:
                 conta[numme+str(nodda)]=intta
-                finno = finno + "    /"+prefs+"_"+keywo+"_"+numme+str(nodda)+" "+intta+"\n\n"
+                finno = finno + "    /"+prefs+"_"+keywo+"_"+numme+str(nodda)+" "+intta+" ("+skdic[keywo]+")\n\n"
                 nodda = nodda + 1
     return {1:finno,2:conta}
 

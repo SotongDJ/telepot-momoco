@@ -1,5 +1,5 @@
 import sys, os, traceback, telepot, time, json, random, pprint
-import tool, auth, log, mmctool, mmcdb, analyTrial
+import tool, auth, log, mmctool, mmcdb, analyTrial, mmcDefauV
 from libmsg import mmcMsg, outoMsg, incoMsg, tranMsg, defSettMsg, listMsg
 from telepot.delegate import per_chat_id, create_open, pave_event_space
 
@@ -42,34 +42,6 @@ class User(telepot.helper.ChatHandler):
                 'defSettWarn':0,
                 },
         }
-        self._sf = {
-            "dt":"datte",
-            "nm":"namma", "kl":"klass", "sh":"shoop",
-            "fr":"fromm", "pr":"price", "kr":"karen",
-            "to":"toooo", "tp":"tpric", "tk":"tkare",
-
-            "in":"dinco", "ex":"dexpe",
-            "gi":"genis", "oe":"ovede",
-            "tf":"tanfe", "ic":"incom",
-
-        }
-        self._fs = {
-            "datte":"dt",
-            "namma":"nm", "klass":"kl", "shoop":"sh",
-            "fromm":"fr", "price":"pr", "karen":"kr",
-            "toooo":"to", "tpric":"tp", "tkare":"tk",
-
-            "dinco":"in", "dexpe":"ex",
-            "genis":"gi", "ovede":"oe",
-            "tanfe":"tf", "incom":"ic",
-
-        }
-        self._klass = {
-            'Acc':['fr','to','in','ex','gi','oe'],
-            'Kas':['kl','tf','ic'],
-            'Ken':['kr','tk'],
-            'Pis':['pr','tp'],
-        }
     #
     def printbug(self,text,usrid):
         filla = open(tool.path('log/mmcbot',auth.id())+tool.date(5,'-'),'a')
@@ -108,6 +80,9 @@ setting: """+pprint.pformat(self._setting)+"""
             self.sender.sendMessage("See you next time! Bye!\n(Conversation Closed !)")
             self.close()
         elif "/new" in text:
+            self.sender.sendMessage('Refreshing database...')
+            mmcdb.refesdb(chat_id)
+            self.sender.sendMessage('Finished !')
             if len(self._mod) == 0:
                 self._temra["datte"] = tool.date(1,'-')
                 self._temra['fromm'] = self._setting['dexpe']
@@ -121,6 +96,9 @@ setting: """+pprint.pformat(self._setting)+"""
             self._mod=mmctool.popmod(self._mod)
             self._mod=mmctool.apmod(self._mod,"outo")
         elif "/list" in text:
+            self.sender.sendMessage('Refreshing database...')
+            mmcdb.refesdb(chat_id)
+            self.sender.sendMessage('Finished !')
             if len(self._mod) == 0:
                 lastdate = list(mmcdb.opendb(chat_id)['key']['datte'])
                 lastdate.sort()
@@ -132,6 +110,9 @@ setting: """+pprint.pformat(self._setting)+"""
             self._mod=mmctool.popmod(self._mod)
             self._mod=mmctool.apmod(self._mod,"list")
         elif "/modify_Setting" in text:
+            self.sender.sendMessage('Refreshing database...')
+            mmcdb.refesdb(chat_id)
+            self.sender.sendMessage('Finished !')
             if len(self._mod) == 0:
                 self._mod=mmctool.apmod(self._mod,'defSett')
             else:
@@ -281,9 +262,7 @@ setting: """+pprint.pformat(self._setting)+"""
                     self.sender.sendMessage(tranMsg.main(self._temra))
 
                 if self._keys in ['namma', 'klass', 'shoop', 'price']:
-                    self.sender.sendMessage('Refreshing database...')
-                    self._recom = mmcdb.recomtxt(self._temra,self._keys,self._keywo,['namma','klass','shoop','price'],self._fs,chat_id)
-                    self.sender.sendMessage('Finished !')
+                    self._recom = mmcdb.recomtxt(self._temra,self._keys,self._keywo,['namma','klass','shoop','price'],chat_id)
                     if self._recom[1] !="" :
                         self.sender.sendMessage(outoMsg.recom(self._recom[1],self._keywo))
                     else:
@@ -293,7 +272,7 @@ setting: """+pprint.pformat(self._setting)+"""
                 for sette in text.split(" "):
                     if "/rgs_" in sette:
                         try:
-                            self._temra[self._sf[sette[5:7]]] = self._recom[2][sette[8:len(sette)]]
+                            self._temra[mmcDefauV.keywo('sf')[sette[5:7]]] = self._recom[2][sette[8:len(sette)]]
                             if self._mod[-1] == 'outo':
                                 self.sender.sendMessage(outoMsg.main(self._temra))
                             elif self._mod[-1] == 'inco':
@@ -315,7 +294,7 @@ setting: """+pprint.pformat(self._setting)+"""
                                 self.sender.sendMessage('Give me a word or a number')
 
                     elif "/rg_" in sette:
-                        self._temra[self._sf[sette[4:6]]] = sette[7:len(sette)]
+                        self._temra[mmcDefauV.keywo('sf')[sette[4:6]]] = sette[7:len(sette)]
                         if self._mod[-1] == 'outo':
                             self.sender.sendMessage(outoMsg.main(self._temra))
                         elif self._mod[-1] == 'inco':
@@ -357,27 +336,19 @@ setting: """+pprint.pformat(self._setting)+"""
                     self._recom = {}
                     if "/change_Currency_To" in text:
                         keywo = 'tk'
-                        self.sender.sendMessage('Refreshing database...')
                         self._recom = mmcdb.listKen('rg','rgs',keywo,chat_id)
-                        self.sender.sendMessage('Finished !')
                         self.sender.sendMessage(mmcMsg.selection(self._recom[1],'Currency (To)'))
                     elif "/change_Currency" in text:
                         keywo = 'kr'
-                        self.sender.sendMessage('Refreshing database...')
                         self._recom = mmcdb.listKen('rg','rgs',keywo,chat_id)
-                        self.sender.sendMessage('Finished !')
                         self.sender.sendMessage(mmcMsg.selection(self._recom[1],'Currency'))
                     elif "/change_Acc_From" in text:
                         keywo = 'fr'
-                        self.sender.sendMessage('Refreshing database...')
                         self._recom = mmcdb.listAcc('rg','rgs',keywo,chat_id)
-                        self.sender.sendMessage('Finished !')
                         self.sender.sendMessage(mmcMsg.selection(self._recom[1],'Account (From)'))
                     elif "/change_Acc_To" in text:
                         keywo = 'to'
-                        self.sender.sendMessage('Refreshing database...')
                         self._recom = mmcdb.listAcc('rg','rgs',keywo,chat_id)
-                        self.sender.sendMessage('Finished !')
                         self.sender.sendMessage(mmcMsg.selection(self._recom[1],'Account (To)'))
 
             elif "/whats_now" in text:
@@ -431,32 +402,26 @@ setting: """+pprint.pformat(self._setting)+"""
             elif "/change_" in text:
                 keywo = text[8:10]
                 self._defSett = {}
-                if keywo in self._klass['Acc']:
-                    self.sender.sendMessage('Refreshing database...')
+                if keywo in mmcDefauV.keywo('klass')['Acc']:
                     self._defSett = mmcdb.listAcc('ch','chu',keywo,chat_id)
-                    self.sender.sendMessage('Finished !')
                     self.sender.sendMessage(mmcMsg.selection(self._defSett[1],'Account'))
-                elif keywo in self._klass['Kas']:
-                    self.sender.sendMessage('Refreshing database...')
+                elif keywo in mmcDefauV.keywo('klass')['Kas']:
                     self._defSett = mmcdb.listKas('ch','chu',keywo,chat_id)
-                    self.sender.sendMessage('Finished !')
                     self.sender.sendMessage(mmcMsg.selection(self._defSett[1],'Category'))
-                elif keywo in self._klass['Ken']:
-                    self.sender.sendMessage('Refreshing database...')
+                elif keywo in mmcDefauV.keywo('klass')['Ken']:
                     self._defSett = mmcdb.listKen('ch','chu',keywo,chat_id)
-                    self.sender.sendMessage('Finished !')
                     self.sender.sendMessage(mmcMsg.selection(self._defSett[1],'Currency'))
 
             elif "/ch" in text:
                 for sette in text.split(" "):
                     if "/chu_" in sette:
                         try:
-                            self._setting[self._sf[sette[5:7]]] = self._defSett[2][sette[8:len(sette)]]
+                            self._setting[mmcDefauV.keywo('sf')[sette[5:7]]] = self._defSett[2][sette[8:len(sette)]]
                         except KeyError:
                                 self.sender.sendMessage("Expected Error : Doesn't Exist or Expired")
                                 print("KeyError : Doesn't Exist or Expired")
                     elif "/ch_" in sette:
-                        self._setting[self._sf[sette[4:6]]] = sette[7:len(sette)]
+                        self._setting[mmcDefauV.keywo('sf')[sette[4:6]]] = sette[7:len(sette)]
                 self.sender.sendMessage(defSettMsg.lista(self._setting))
 
     def open(self, initial_msg, seed): # Welcome Region
@@ -481,9 +446,6 @@ setting: """+pprint.pformat(self._setting)+"""
                 self._keywo = initial_msg["text"].replace(" ","_")
             self.sender.sendMessage(mmcMsg.home(self._keywo))
 
-        self.sender.sendMessage('Refreshing database...')
-        mmcdb.refesdb(chat_id)
-        self.sender.sendMessage('Finished !')
         return True  # prevent on_message() from being called on the initial message
 
     def on_chat_message(self, msg): # Each Msg
