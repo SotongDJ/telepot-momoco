@@ -10,21 +10,23 @@ Date: """+dicto["datte"]+"""
 Remind: """+dicto["namma"]+"""
 Category: """+dicto["klass"]+"""
 Source: """+dicto["shoop"]+"""
-Income: """+dicto["karen"]+" "+dicto["price"]+"""
-    ( /change_Currency )
-Deposit into which Account:
-"""+mmctool.chstr(dicto["toooo"],"","    ( /change_Acc_To )",'    '+dicto["toooo"]+"  ( /change_Acc_To )")+"""
+　　——————　　
+Income:
+　"""+dicto["tkare"]+" "+dicto["tpric"]+' ('+dicto["toooo"]+""")
+　［Price (Account)］
+　/change_Currency_To
+
+　/change_Acc_To
+　　——————　　
 Notes:
 """+dicto["desci"]+"""
 ——————————
-  /change_to_Expense
-    Change to Expense Card
-  /change_to_Transfer
-    Change to Transfer Card
+　/change_to_Expense
+　　Change to Expense Card
+　/change_to_Transfer
+　　Change to Transfer Card
 ——————————
-  /Discard  /Save  /setting
-——————————
-P.S. Give me a word or a number
+　/Discard　/Save　/setting
 """
     return final
 
@@ -32,18 +34,17 @@ def keyword(keywo):
     final="""Filling the blank
 ——————————
 Keyword:
-  """+keywo+"""
+　"""+keywo+"""
 
-  /set_as_Date
-    (Format of Date: yyyy-mm-dd)
-  /set_as_Source  /set_as_Account_To
+　/set_as_Date
+(Format of Date: yyyy-mm-dd)
+　/set_as_Source　/set_as_Notes
+　　——————　　
+　/set_as_Account_To　/set_as_Income
 
-  /set_as_Income  /set_as_Currency_Target
-
-  /set_as_Notes
+　/set_as_Currency_Target
 ——————————
-  /Discard  /Save  /setting
-
+　/Discard　/Save　/setting
 """
     return final
 
@@ -54,13 +55,12 @@ Date: """+dicto["datte"]+"""
 Remind: """+dicto["namma"]+"""
 Category: """+dicto["klass"]+"""
 Source: """+dicto["shoop"]+"""
-Income: """+dicto["karen"]+" "+dicto["price"]+"""
-Deposit into which Account:
-"""+dicto["toooo"]+"""
+　　——————　　
+Income: """+dicto["tkare"]+" "+dicto["tpric"]+' ('+dicto["toooo"]+""")
+　　——————　　
 Notes:
 """+dicto["desci"]+"""
 ——————————
-  /Edit  /list  /setting
-
+　/Edit　/list　/setting
 """
     return final

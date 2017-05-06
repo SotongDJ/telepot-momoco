@@ -17,6 +17,7 @@ exit - Close conversation
 class User(telepot.helper.ChatHandler):
     def __init__(self, *args, **kwargs):
         super(User, self).__init__(*args, **kwargs)
+        self._vez = 0
         self._keywo = ""
         self._keys = ""
         self._mod = []
@@ -42,9 +43,9 @@ class User(telepot.helper.ChatHandler):
                 'defSettWarn':0,
                 },
         }
-        self._notif={'presys':'','premod':'','posmod':'','possys':'——————————\nThis chatbot is UNDER CONSTRUCTING'}
     #
     def printbug(self,text,usrid):
+        open(tool.path('log/mmcbot',auth.id())+tool.date(5,'-')+'.c','a').write(str(self._vez))
         filla = open(tool.path('log/mmcbot',auth.id())+tool.date(5,'-'),'a')
         print("---"+text+"---")
         filla.write("""
@@ -66,40 +67,57 @@ setting: """+pprint.pformat(self._setting)+"""
         content_type, chat_type, chat_id = telepot.glance(msg)
         text=msg['text']
         if "/start" in text:
-            self.sender.sendMessage(mmcMsg.start())
             if len(self._mod) == 0:
-                self.sender.sendMessage("Conversation Closed !")
+                tasStart=mmcMsg.start()+mmcMsg.short('cof')
+            else:
+                tasStart=mmcMsg.start()
+
+            self.sender.sendMessage(tasStart)
+
+            if len(self._mod) == 0:
                 self.close()
+
         elif "/help" in text:
-            self.sender.sendMessage(mmcMsg.help())
             if len(self._mod) == 0:
-                self.sender.sendMessage("Conversation Closed !")
+                tasHelp=mmcMsg.help()+mmcMsg.short('cof')
+            else:
+                tasHelp=mmcMsg.help()
+
+            self.sender.sendMessage(tasHelp)
+
+            if len(self._mod) == 0:
                 self.close()
+
         elif "/setting" in text:
             self.sender.sendMessage(defSettMsg.main(self._setting))
+
         elif "/exit" in text:
-            self.sender.sendMessage("See you next time! Bye!\n(Conversation Closed !)")
+            self.sender.sendMessage(mmcMsg.short('bye'))
             self.close()
+
         elif "/new" in text:
-            self.sender.sendMessage('Refreshing database...')
+            self.sender.sendMessage(mmcMsg.short('refeson'))
             mmcdb.refesdb(chat_id)
-            self.sender.sendMessage('Finished !')
             if len(self._mod) == 0:
                 self._temra["datte"] = tool.date(1,'-')
                 self._temra['fromm'] = self._setting['dexpe']
                 self._temra['toooo'] = self._setting['ovede']
                 self._temra['karen'] = self._setting['karen']
                 self._temra['tkare'] = self._setting['karen']
-            self.sender.sendMessage(outoMsg.main(self._temra))
             if self._keywo != "":
                 if '/' not in self._keywo:
+                    tasOut=mmcMsg.short('refesfin')+outoMsg.main(self._temra)
+                    self.sender.sendMessage(tasOut)
                     self.sender.sendMessage(outoMsg.keyword(self._keywo))
+            else:
+                tasOut=mmcMsg.short('refesfin')+outoMsg.main(self._temra)+mmcMsg.short('rekeswd')
+                self.sender.sendMessage(tasOut)
             self._mod=mmctool.popmod(self._mod)
             self._mod=mmctool.apmod(self._mod,"outo")
+
         elif "/list" in text:
-            self.sender.sendMessage('Refreshing database...')
+            self.sender.sendMessage(mmcMsg.short('refeson'))
             mmcdb.refesdb(chat_id)
-            self.sender.sendMessage('Finished !')
             if len(self._mod) == 0:
                 lastdate = list(mmcdb.opendb(chat_id)['key']['datte'])
                 lastdate.sort()
@@ -107,27 +125,30 @@ setting: """+pprint.pformat(self._setting)+"""
                     self._list.update({'datte':[lastdate[-1]]})
                 except IndexError :
                     self._list.update({'datte':['']})
-            self.sender.sendMessage(listMsg.main(','.join(self._list['datte']),mmcdb.listList(self._list['datte'],chat_id)))
+            tasList=mmcMsg.short('refesfin')+listMsg.main(','.join(self._list['datte']),mmcdb.listList(self._list['datte'],chat_id))
+            self.sender.sendMessage(tasList)
             self._mod=mmctool.popmod(self._mod)
             self._mod=mmctool.apmod(self._mod,"list")
+
         elif "/modify_Setting" in text:
-            self.sender.sendMessage('Refreshing database...')
+            self.sender.sendMessage(mmcMsg.short('refeson'))
             mmcdb.refesdb(chat_id)
-            self.sender.sendMessage('Finished !')
             if len(self._mod) == 0:
                 self._mod=mmctool.apmod(self._mod,'defSett')
             else:
                 if self._mod[-1] != 'defSett':
                     self._mod=mmctool.apmod(self._mod,'defSett')
-            self.sender.sendMessage(defSettMsg.lista(self._setting))
+
+            tasDeSet=mmcMsg.short('refesfin')+defSettMsg.lista(self._setting)
+            self.sender.sendMessage(tasDeSet)
+
             if self._setting['limit']['defSettWarn'] == 0:
                 self.sender.sendMessage(defSettMsg.warn())
                 self._setting['limit']['defSettWarn'] = 1
                 mmcdb.changeSetting(self._setting,chat_id)
 
         elif len(self._mod) == 0:
-            self.sender.sendMessage(mmcMsg.bored())
-            self.sender.sendMessage("Conversation Closed !")
+            self.sender.sendMessage(mmcMsg.bored()+mmcMsg.short('cof'))
             self.close()
 
         elif self._mod[-1] == "list":
@@ -136,9 +157,8 @@ setting: """+pprint.pformat(self._setting)+"""
             elif "/Back" in text:
                 self.sender.sendMessage(listMsg.main(','.join(self._list['datte']),mmcdb.listList(self._list['datte'],chat_id)))
             elif "/Close" in text:
-                self.sender.sendMessage(listMsg.disca())
-                self._mod=mmctool.popmod(self._mod)
-                self.sender.sendMessage("Conversation Closed !")
+                self.sender.sendMessage(listMsg.disca()+mmcMsg.short('cof'))
+                self._mod=[]
                 self.close()
             elif "/uuid_" in text:
                 print('uuid')
@@ -178,25 +198,23 @@ setting: """+pprint.pformat(self._setting)+"""
                     self._temra[key]=""
 
                 mmctool.printbug("Discard record\n mod",self._mod,chat_id)
-                self.sender.sendMessage(outoMsg.discard())
+                self.sender.sendMessage(outoMsg.discard()+mmcMsg.short('cof'))
 
 
                 self._mod=mmctool.popmod(self._mod)
                 mmctool.printbug("Changed back mode\n mod",self._mod,chat_id)
 
-                self.sender.sendMessage("Conversation Closed !")
                 self.close()
 
             elif "/Save" in text:
                 record = mmcdb.addRaw(chat_id,self._temra)
 
                 if self._mod[-1] == 'outo':
-                    self.sender.sendMessage(outoMsg.finis(self._temra))
+                    self.sender.sendMessage(outoMsg.finis(self._temra)+mmcMsg.short('cof'))
                 elif self._mod[-1] == 'inco':
-                    self.sender.sendMessage(incoMsg.finis(self._temra))
+                    self.sender.sendMessage(incoMsg.finis(self._temra)+mmcMsg.short('cof'))
                 elif self._mod[-1] == 'tran':
-                    self.sender.sendMessage(tranMsg.finis(self._temra))
-                self.sender.sendMessage("Conversation Closed !")
+                    self.sender.sendMessage(tranMsg.finis(self._temra)+mmcMsg.short('cof'))
                 self.close()
 
             elif "/set_as" in text :
@@ -255,19 +273,23 @@ setting: """+pprint.pformat(self._setting)+"""
                     self._temra["karen"]=self._keywo
                     self._keys='karen'
 
+                tasRef=''
                 if self._mod[-1] == 'outo':
-                    self.sender.sendMessage(outoMsg.main(self._temra))
+                    tasRef=outoMsg.main(self._temra)
                 elif self._mod[-1] == 'inco':
-                    self.sender.sendMessage(incoMsg.main(self._temra))
+                    tasRef=incoMsg.main(self._temra)
                 elif self._mod[-1] == 'tran':
-                    self.sender.sendMessage(tranMsg.main(self._temra))
+                    tasRef=tranMsg.main(self._temra)
 
                 if self._keys in ['namma', 'klass', 'shoop', 'price']:
                     self._recom = mmcdb.recomtxt(self._temra,self._keys,self._keywo,['namma','klass','shoop','price'],chat_id)
                     if self._recom[1] !="" :
+                        self.sender.sendMessage(tasRef)
                         self.sender.sendMessage(outoMsg.recom(self._recom[1],self._keywo))
                     else:
-                        self.sender.sendMessage('Give me a word or a number')
+                        self.sender.sendMessage(tasRef+mmcMsg.short('rekeswd'))
+                else:
+                    self.sender.sendMessage(tasRef+mmcMsg.short('rekeswd'))
 
             elif "/rg" in text :
                 for sette in text.split(" "):
@@ -275,33 +297,34 @@ setting: """+pprint.pformat(self._setting)+"""
                         try:
                             self._temra.update({ mmcDefauV.keywo('sf')[sette[5:7]] : self._recom[2][sette[8:len(sette)]] })
                             if self._mod[-1] == 'outo':
-                                self.sender.sendMessage(outoMsg.main(self._temra))
+                                tasRgs=outoMsg.main(self._temra)
                             elif self._mod[-1] == 'inco':
-                                self.sender.sendMessage(incoMsg.main(self._temra))
+                                tasRgs=incoMsg.main(self._temra)
                             elif self._mod[-1] == 'tran':
-                                self.sender.sendMessage(tranMsg.main(self._temra))
+                                tasRgs=tranMsg.main(self._temra)
+                            self.sender.sendMessage(tasRgs)
                             self.sender.sendMessage(outoMsg.recom(self._recom[1],self._keywo))
                         except KeyError:
-                            self.sender.sendMessage("Expected Error : Doesn't Exist or Expired")
                             print("KeyError : Doesn't Exist or Expired")
 
                             if self._mod[-1] == 'outo':
-                                self.sender.sendMessage(outoMsg.main(self._temra))
+                                tasRgs=mmcMsg.short('rgsWarn')+outoMsg.main(self._temra)+mmcMsg.short('rekeswd')
                             elif self._mod[-1] == 'inco':
-                                self.sender.sendMessage(incoMsg.main(self._temra))
+                                tasRgs=mmcMsg.short('rgsWarn')+incoMsg.main(self._temra)+mmcMsg.short('rekeswd')
                             elif self._mod[-1] == 'tran':
-                                self.sender.sendMessage(tranMsg.main(self._temra))
+                                tasRgs=mmcMsg.short('rgsWarn')+tranMsg.main(self._temra)+mmcMsg.short('rekeswd')
 
-                            self.sender.sendMessage('Give me a word or a number')
+                            self.sender.sendMessage(tasRgs)
 
                     elif "/rg_" in sette:
                         self._temra.update({ mmcDefauV.keywo('sf')[sette[4:6]] : sette[7:len(sette)] })
                         if self._mod[-1] == 'outo':
-                            self.sender.sendMessage(outoMsg.main(self._temra))
+                            tasRg=outoMsg.main(self._temra)
                         elif self._mod[-1] == 'inco':
-                            self.sender.sendMessage(incoMsg.main(self._temra))
+                            tasRg=incoMsg.main(self._temra)
                         elif self._mod[-1] == 'tran':
-                            self.sender.sendMessage(tranMsg.main(self._temra))
+                            tasRg=tranMsg.main(self._temra)
+                        self.sender.sendMessage(tasRg)
                         self.sender.sendMessage(outoMsg.recom(self._recom[1],self._keywo))
 
             elif "/change" in text:
@@ -311,25 +334,24 @@ setting: """+pprint.pformat(self._setting)+"""
                         self._temra['toooo'] = self._setting['dinco']
                         self._temra['shoop'] = ''
                         self._temra['klass'] = self._setting['incom']
-                        self.sender.sendMessage(incoMsg.main(self._temra))
-                        self.sender.sendMessage('Give me a word or a number')
+                        self.sender.sendMessage(incoMsg.main(self._temra)+mmcMsg.short('rekeswd'))
                         self._mod=mmctool.popmod(self._mod)
                         self._mod=mmctool.apmod(self._mod,"inco")
+
                     elif '/change_to_Transfer' in text:
                         self._temra['fromm'] = self._setting['dinco']
                         self._temra['toooo'] = self._setting['dexpe']
                         self._temra['shoop'] = ''
                         self._temra['klass'] = self._setting['tanfe']
-                        self.sender.sendMessage(tranMsg.main(self._temra))
-                        self.sender.sendMessage('Give me a word or a number')
+                        self.sender.sendMessage(tranMsg.main(self._temra)+mmcMsg.short('rekeswd'))
                         self._mod=mmctool.popmod(self._mod)
                         self._mod=mmctool.apmod(self._mod,"tran")
+
                     elif '/change_to_Expense' in text:
                         self._temra['fromm'] = self._setting['dexpe']
                         self._temra['toooo'] = self._setting['ovede']
                         self._temra['klass'] = self._setting['']
-                        self.sender.sendMessage(outoMsg.main(self._temra))
-                        self.sender.sendMessage('Give me a word or a number')
+                        self.sender.sendMessage(outoMsg.main(self._temra)+mmcMsg.short('rekeswd'))
                         self._mod=mmctool.popmod(self._mod)
                         self._mod=mmctool.apmod(self._mod,"outo")
 
@@ -354,23 +376,19 @@ setting: """+pprint.pformat(self._setting)+"""
 
             elif "/whats_now" in text:
                 if self._mod[-1] == 'outo':
-                    self.sender.sendMessage(outoMsg.main(self._temra))
+                    self.sender.sendMessage(outoMsg.main(self._temra)+mmcMsg.short('rekeswd'))
                 elif self._mod[-1] == 'inco':
-                    self.sender.sendMessage(incoMsg.main(self._temra))
+                    self.sender.sendMessage(incoMsg.main(self._temra)+mmcMsg.short('rekeswd'))
                 elif self._mod[-1] == 'tran':
-                    self.sender.sendMessage(tranMsg.main(self._temra))
-
-                self.sender.sendMessage('Give me a word or a number')
+                    self.sender.sendMessage(tranMsg.main(self._temra)+mmcMsg.short('rekeswd'))
 
             elif "/Back" in text:
                 if self._mod[-1] == 'outo':
-                    self.sender.sendMessage(outoMsg.main(self._temra))
+                    self.sender.sendMessage(outoMsg.main(self._temra)+mmcMsg.short('rekeswd'))
                 elif self._mod[-1] == 'inco':
-                    self.sender.sendMessage(incoMsg.main(self._temra))
+                    self.sender.sendMessage(incoMsg.main(self._temra)+mmcMsg.short('rekeswd'))
                 elif self._mod[-1] == 'tran':
-                    self.sender.sendMessage(tranMsg.main(self._temra))
-
-                self.sender.sendMessage('Give me a word or a number')
+                    self.sender.sendMessage(tranMsg.main(self._temra)+mmcMsg.short('rekeswd'))
 
         elif self._mod[-1] == 'defSett':
             if "/Discard" in text:
@@ -387,9 +405,7 @@ setting: """+pprint.pformat(self._setting)+"""
             elif "/Save" in text:
                 mmcdb.changeSetting(self._setting,chat_id)
                 self.sender.sendMessage(defSettMsg.fins(self._setting))
-                mmctool.popmod(self._mod)
-                self.sender.sendMessage("Conversation Closed !")
-                self.close()
+                self._mod=mmctool.popmod(self._mod)
 
             elif "/Explain" in text:
                 self.sender.sendMessage(defSettMsg.warn())
@@ -418,21 +434,21 @@ setting: """+pprint.pformat(self._setting)+"""
                     if "/chu_" in sette:
                         try:
                             self._setting.update({ mmcDefauV.keywo('sf')[sette[5:7]] : self._defSett[2][sette[8:len(sette)]] })
+                            tasDeSetCha=''
                         except KeyError:
-                                self.sender.sendMessage("Expected Error : Doesn't Exist or Expired")
-                                print("KeyError : Doesn't Exist or Expired")
+                            tasDeSetCha="The keyword that you selected doesn't Exist or Expired"
                     elif "/ch_" in sette:
                         self._setting[mmcDefauV.keywo('sf')[sette[4:6]]] = sette[7:len(sette)]
-                self.sender.sendMessage(defSettMsg.lista(self._setting))
+                        tasDeSetCha=''
+                tasDeSetCha=tasDeSetCha+defSettMsg.lista(self._setting)
+                self.sender.sendMessage(tasDeSetCha)
 
     def open(self, initial_msg, seed): # Welcome Region
-        # self.sender.sendMessage('Guess my number')
         content_type, chat_type, chat_id = telepot.glance(initial_msg)
         self.printbug("Intitial",chat_id)
         mmctool.printbug("inti_msg",initial_msg,chat_id)
         self._mod = []
         self._setting = mmcdb.upgradeSetting(self._setting,chat_id)
-        self._notif.update( {'presys' : 'Conversation Start'} )
 
         if content_type != 'text':
             self.sender.sendMessage(mmcMsg.error())
@@ -452,7 +468,6 @@ setting: """+pprint.pformat(self._setting)+"""
         content_type, chat_type, chat_id = telepot.glance(msg)
         self.printbug("Received",chat_id)
         mmctool.printbug("msg",msg,chat_id)
-        self._notif.update( {'presys' : ''} )
 
         if content_type != 'text':
             self.sender.sendMessage(mmcMsg.error())
@@ -488,8 +503,7 @@ setting: """+pprint.pformat(self._setting)+"""
                 self.sender.sendMessage(defSettMsg.setup(self._keywo,self._defSett))
 
     def on__idle(self, event): # Timeout Region
-        self.sender.sendMessage(mmcMsg.timesout())
-        self.sender.sendMessage("Conversation Closed !")
+        self.sender.sendMessage(mmcMsg.timesout()+mmcMsg.short('cof'))
         self.close()
 
 key=json.load(open("database/key","r"))

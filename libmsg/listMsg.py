@@ -6,9 +6,9 @@ Date:"""+datte+"""
 List:
 """+text+"""
 ——————————
-  /Choose_day /Choose_month  /Choose_year
+　/Choose_day　/Choose_month　/Choose_year
 ——————————
-  /Close
+　/Close
 """
     return final
 
@@ -16,10 +16,9 @@ def change(keywo,text):
     final='Choose '+keywo+"""
 ——————————
 List:
-
 """+text+"""
 ——————————
-  /Back
+　/Back
 """
     return final
 
@@ -32,17 +31,16 @@ Date: """+libra['raw'][uuid]["datte"]+"""
 Item: """+libra['raw'][uuid]["namma"]+"""
 Category: """+libra['raw'][uuid]["klass"]+"""
 Seller: """+libra['raw'][uuid]["shoop"]+"""
-"""+"""
-
+　　——————　　
 Spent from which Account:
 """+libra['raw'][uuid]["fromm"]+' ('+libra['raw'][uuid]["karen"]+" "+libra['raw'][uuid]["price"]+""")
 Transfer to which Account:
 """+libra['raw'][uuid]["toooo"]+' ('+libra['raw'][uuid]["tkare"]+" "+libra['raw'][uuid]["tpric"]+""")
-
+　　——————　　
 """+"""Notes:
 """+libra['raw'][uuid]["desci"]+"""
 ——————————
-   /Back  /Edit  /Delete  /setting
+ 　/Back　/Edit　/Delete　/setting
 
 """
     return final
@@ -52,9 +50,9 @@ def disca():
     final="""¡ Discard !
 ——————————
 
-  Closed Listing Card
+　Closed Listing Card
 
 ——————————
-  /whats_now  /setting
+　/whats_now　/setting
 """
     return final

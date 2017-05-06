@@ -10,21 +10,23 @@ Date: """+dicto["datte"]+"""
 Item: """+dicto["namma"]+"""
 Category: """+dicto["klass"]+"""
 Seller: """+dicto["shoop"]+"""
-Price: """+dicto["karen"]+" "+dicto["price"]+"""
-    ( /change_Currency )
-Spent from which Account:
-"""+mmctool.chstr(dicto["fromm"],"","    ( /change_Acc_From )",'    '+dicto["fromm"]+"  ( /change_Acc_From )")+"""
+　　——————　　
+Spent:
+　"""+dicto["karen"]+" "+dicto["price"]+' ('+dicto["fromm"]+""")
+　［Price (Account)］
+　/change_Currency
+
+　/change_Acc_From
+　　——————　　
 Notes:
 """+dicto["desci"]+"""
 ——————————
-  /change_to_Income
-    Change to Income Card
-  /change_to_Transfer
-    Change to Transfer Card
+　/change_to_Income
+　　Change to Income Card
+　/change_to_Transfer
+　　Change to Transfer Card
 ——————————
-  /Discard  /Save  /setting
-——————————
-P.S. Give me a word or a number
+　/Discard　/Save　/setting
 """
     return final
 
@@ -33,20 +35,19 @@ def keyword(keywo):
     final="""Filling the blank
 ——————————
 Keyword:
-  """+keywo+"""
+　"""+keywo+"""
 
-  /set_as_Date
-    (Format of Date: yyyy-mm-dd)
-  /set_as_Item  /set_as_Category
+　/set_as_Date
+(Format of Date: yyyy-mm-dd)
+　/set_as_Item　/set_as_Category
 
-  /set_as_Seller  /set_as_Notes
+　/set_as_Seller　/set_as_Notes
 ——————————
-  /set_as_Price  /set_as_Account
+　/set_as_Price　/set_as_Account
 
-  /set_as_Currency_Source
+　/set_as_Currency_Source
 ——————————
-  /Discard  /Save  /setting
-
+　/Discard　/Save　/setting
 """
     return final
 
@@ -55,12 +56,13 @@ def recom(txt,keywo):
     final="""Recommend Card
 ——————————
 Last Keyword: (Typing)
-    """+keywo+"""
+　　"""+keywo+"""
 Recommend List:
 """+txt+"""
 ——————————
-  /Discard  /Save  /setting
-P.S. Choose above or type another keyword
+　/Discard　/Save　/setting
+Remind:
+　Choose above or type another keyword
 """
     return final
 
@@ -72,14 +74,13 @@ Date: """+dicto["datte"]+"""
 Item: """+dicto["namma"]+"""
 Category: """+dicto["klass"]+"""
 Seller: """+dicto["shoop"]+"""
-Price: """+dicto["karen"]+" "+dicto["price"]+"""
-Spent from which Account:
-"""+dicto["fromm"]+"""
+　　——————　　
+Spent: """+dicto["karen"]+" "+dicto["price"]+' ('+dicto["fromm"]+""")
+　　——————　　
 Notes:
 """+dicto["desci"]+"""
 ——————————
-  /Edit  /list  /setting
-
+　/Edit　/list　/setting
 """
     return final
 
@@ -88,9 +89,9 @@ def discard():
     final="""¡ Discard !
 ——————————
 
-  Closed Creating Card
+　Closed Creating Card
 
 ——————————
-  /setting  /help
+　/setting　/help
 """
     return final
