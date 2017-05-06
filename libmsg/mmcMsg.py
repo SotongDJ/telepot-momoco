@@ -1,9 +1,5 @@
 import tool, json, mmctool
 
-def warn():
-    final = "This chatbot is under constructing..."
-    return final
-
 """ self.sender.sendMessage(mmcmsg.start()) """
 def start():
     final="""  Welcome

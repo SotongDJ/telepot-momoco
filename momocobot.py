@@ -42,6 +42,7 @@ class User(telepot.helper.ChatHandler):
                 'defSettWarn':0,
                 },
         }
+        self._notif={'presys':'','premod':'','posmod':'','possys':'——————————\nThis chatbot is UNDER CONSTRUCTING'}
     #
     def printbug(self,text,usrid):
         filla = open(tool.path('log/mmcbot',auth.id())+tool.date(5,'-'),'a')
@@ -431,8 +432,7 @@ setting: """+pprint.pformat(self._setting)+"""
         mmctool.printbug("inti_msg",initial_msg,chat_id)
         self._mod = []
         self._setting = mmcdb.upgradeSetting(self._setting,chat_id)
-        self.sender.sendMessage(mmcMsg.warn())
-        self.sender.sendMessage("Conversation Start")
+        self._notif.update( {'presys' : 'Conversation Start'} )
 
         if content_type != 'text':
             self.sender.sendMessage(mmcMsg.error())
@@ -452,7 +452,7 @@ setting: """+pprint.pformat(self._setting)+"""
         content_type, chat_type, chat_id = telepot.glance(msg)
         self.printbug("Received",chat_id)
         mmctool.printbug("msg",msg,chat_id)
-        self.sender.sendMessage(mmcMsg.warn())
+        self._notif.update( {'presys' : ''} )
 
         if content_type != 'text':
             self.sender.sendMessage(mmcMsg.error())

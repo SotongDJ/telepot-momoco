@@ -246,6 +246,7 @@ def recomtxt(temra,keysa,keywo,deset,usrid):
 """ mmcdb.listAcc('ch','chu',keywo,chat_id)"""
 def listAcc(pref,prefs,keywo,usrid):
     skdic = mmcDefauV.keywo('ssalk')
+    sfdic = mmcDefauV.keywo('sf')
     listo = []
     finno = ""
     conta = {}
@@ -258,10 +259,10 @@ def listAcc(pref,prefs,keywo,usrid):
         if intta != '':
             try:
                 intta.encode('latin-1')
-                finno = finno + "    /"+pref+"_"+keywo+"_"+intta+" "+intta+" ("+skdic[keywo]+")\n\n"
+                finno = finno + "    /"+pref+"_"+keywo+"_"+intta+" "+intta+" ("+skdic.get(keywo, skdic.get(sfdic.get(keywo,''),'') )+")\n\n"
             except UnicodeEncodeError:
                 conta[numme+str(nodda)]=intta
-                finno = finno + "    /"+prefs+"_"+keywo+"_"+numme+str(nodda)+" "+intta+" ("+skdic[keywo]+")\n\n"
+                finno = finno + "    /"+prefs+"_"+keywo+"_"+numme+str(nodda)+" "+intta+" ("+skdic.get(keywo, skdic.get(sfdic.get(keywo,''),'') )+")\n\n"
                 nodda = nodda + 1
     return {1:finno,2:conta}
 
@@ -279,10 +280,10 @@ def listKas(pref,prefs,keywo,usrid):
         if intta != '':
             try:
                 intta.encode('latin-1')
-                finno = finno + "    /"+pref+"_"+keywo+"_"+intta+" "+intta+" ("+skdic[keywo]+")\n\n"
+                finno = finno + "    /"+pref+"_"+keywo+"_"+intta+" "+intta+"\n\n"
             except UnicodeEncodeError:
                 conta[numme+str(nodda)]=intta
-                finno = finno + "    /"+prefs+"_"+keywo+"_"+numme+str(nodda)+" "+intta+" ("+skdic[keywo]+")\n\n"
+                finno = finno + "    /"+prefs+"_"+keywo+"_"+numme+str(nodda)+" "+intta+"\n\n"
                 nodda = nodda + 1
     return {1:finno,2:conta}
 
@@ -300,10 +301,10 @@ def listKen(pref,prefs,keywo,usrid):
         if intta != '':
             try:
                 intta.encode('latin-1')
-                finno = finno + "    /"+pref+"_"+keywo+"_"+intta+" "+intta+" ("+skdic[keywo]+")\n\n"
+                finno = finno + "    /"+pref+"_"+keywo+"_"+intta+" "+intta+"\n\n"
             except UnicodeEncodeError:
                 conta[numme+str(nodda)]=intta
-                finno = finno + "    /"+prefs+"_"+keywo+"_"+numme+str(nodda)+" "+intta+" ("+skdic[keywo]+")\n\n"
+                finno = finno + "    /"+prefs+"_"+keywo+"_"+numme+str(nodda)+" "+intta+"\n\n"
                 nodda = nodda + 1
     return {1:finno,2:conta}
 

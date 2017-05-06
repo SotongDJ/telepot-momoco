@@ -102,5 +102,5 @@ def main(usrid,setto):
         'Analytics Card',
         'Record:\n——————————\n  '+'\n  '.join(uuid)+'\n',
         'Graph of Ratio:\n——————————\n'+'\n'.join(pri)+'\n',
-        'Description:\n——————————\n'+des+"\n　Total: "+str(karen)+'　'+str(som)+' ('+str(sum(list(gus.values())))+'%, '+str(sum(list(gos.values())))+')']
+        'Description:\n——————————\n'+des+"\n　Total: "+str(karen)+'　'+str(som)+' ('+str(round(sum(list(gus.values())),2))+'%, '+str(sum(list(gos.values())))+')']
     return [final[0]]+final[leng:4]
