@@ -10,6 +10,7 @@ Date: """+dicto["datte"]+"""
 Remind: """+dicto["namma"]+"""
 Category: """+dicto["klass"]+"""
 Place: """+dicto["shoop"]+"""
+　/change_Place
 　　——————　　
 Transfer from:
 　"""+dicto["karen"]+" "+dicto["price"]+' ('+dicto["fromm"]+""")

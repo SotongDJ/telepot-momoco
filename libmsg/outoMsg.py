@@ -10,6 +10,7 @@ Date: """+dicto["datte"]+"""
 Item: """+dicto["namma"]+"""
 Category: """+dicto["klass"]+"""
 Seller: """+dicto["shoop"]+"""
+　/change_Seller
 　　——————　　
 Spent:
 　"""+dicto["karen"]+" "+dicto["price"]+' ('+dicto["fromm"]+""")

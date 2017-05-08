@@ -59,6 +59,16 @@ def addRaw(usrid,temra):
     faale.close()
     return record
 
+""" record = mmcdb.addRaw(chat_id,self._temra)"""
+def chRaw(temra,uuid,usrid):
+    record = opendb(usrid)
+    record["raw"].update( { uuid : temra } )
+    mmctool.printbug("change Record",'',usrid)
+    faale = open(tool.path("momoco",usrid)+"record.json","w")
+    json.dump(record,faale)
+    faale.close()
+    return record
+
 """ addKey(uuid,libra) """
 def addKey(ketta,libra,usrid):
     pri="inti : "

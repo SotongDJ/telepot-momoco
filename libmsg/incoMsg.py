@@ -9,7 +9,8 @@ def main(dicto):
 Date: """+dicto["datte"]+"""
 Remind: """+dicto["namma"]+"""
 Category: """+dicto["klass"]+"""
-Source: """+dicto["shoop"]+"""
+Agent: """+dicto["shoop"]+"""
+　/change_Agent
 　　——————　　
 Income:
 　"""+dicto["tkare"]+" "+dicto["tpric"]+' ('+dicto["toooo"]+""")
@@ -38,7 +39,7 @@ Keyword:
 
 　/set_as_Date
 (Format of Date: yyyy-mm-dd)
-　/set_as_Source　/set_as_Notes
+　/set_as_Agent　/set_as_Notes
 　　——————　　
 　/set_as_Account_To　/set_as_Income
 
@@ -54,7 +55,7 @@ def finis(dicto):
 Date: """+dicto["datte"]+"""
 Remind: """+dicto["namma"]+"""
 Category: """+dicto["klass"]+"""
-Source: """+dicto["shoop"]+"""
+Agent: """+dicto["shoop"]+"""
 　　——————　　
 Income: """+dicto["tkare"]+" "+dicto["tpric"]+' ('+dicto["toooo"]+""")
 　　——————　　

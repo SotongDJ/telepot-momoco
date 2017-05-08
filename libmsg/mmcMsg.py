@@ -32,20 +32,22 @@ Notes:
 def help():
     final="""　Help card (Command List)
 ——————————
-　/start
-　　Welcome Card
 　/help
-　　Command List Card
-　/new
-　　Creating New Record
-　/list
-　　Review Card
-　/statics
-　　Analytic Card
-　/setting
-　　Setting Card
+　　Show command list
 　/whats_now
-　　Check current work status
+　　Show current unsaved work
+　/new
+　　Create new record
+　/list
+　　Show prevous record
+　/statics
+　　View statistics card
+　/start
+　　Welcome and Introduction
+　/setting
+　　View setting card
+　/exit
+　　Close conversation
 """
     return final
 

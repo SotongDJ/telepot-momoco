@@ -28,7 +28,7 @@ def keywo(text):
         },
         'ssalk' : {
             "datte":"Date",
-            "namma":"E.t.c. Name", "shoop":"E.t.c. Seller",
+            "namma":"e.g Name", "shoop":"e.g. Seller",
             'fromm':'Account','toooo':'Account','dinco':'Account','dexpe':'Account','genis':'Account','ovede':'Account',
             'klass':'Category','tanfe':'Category','incom':'Category',
             'karen':'Currency','tkare':'Currency',
