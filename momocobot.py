@@ -187,7 +187,7 @@ setting: """+pprint.pformat(self._setting)+"""
             elif "/Choose_" in text:
                 for sette in text.split(' '):
                     if "/Choose_" in sette:
-                        keywo = sette.replace("/Choose_",'')
+                        keywo = sette.replace("/Choose_",'').replace('_','-')
                 setta = mmctool.filteDate(list(mmcdb.opendb(chat_id)['key']['datte']),keywo)
                 testa = mmctool.cmdzDate(setta)
                 self.sender.sendMessage(listMsg.change(keywo,testa))
