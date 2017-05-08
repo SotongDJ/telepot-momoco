@@ -130,7 +130,7 @@ setting: """+pprint.pformat(self._setting)+"""
                 lastdate = list(mmcdb.opendb(chat_id)['key']['datte'])
                 lastdate.sort()
                 try:
-                    self._list.update({ 'datte' : [lastdate[-1]] })
+                    self._list.update({ 'datte' : lastdate[-1] })
                 except IndexError :
                     self._list.update({ 'datte' : '' })
             tasList=mmcMsg.short('refesfin')+listMsg.main(self._list.get('datte',''),mmcdb.listList(self._list.get('datte',''),chat_id))
