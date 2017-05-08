@@ -35,9 +35,9 @@ class User(telepot.helper.ChatHandler):
             'uuid' : ''
         }
         self._setting = {
-            "dinco":"", "dexpe":"Cash",
-            "genis":"Income", "ovede":"Expense",
-            "tanfe":"Transfer", "incom":"Income",
+            'dinco':'Bank', 'dexpe':'Cash',
+            'genis':'Income', 'ovede':'Expense',
+            'tanfe':'Transfer', 'incom':'Income',
             'karen':'',
             'limit':{
                 'defSettWarn':0,

@@ -1,4 +1,4 @@
-import json, random, hashlib
+import json, random, hashlib, pprint
 import tool, mmctool, mmcDefauV
 # fille = __
 # mmcdb.writedb(fille,'raw',mmcdb.opencsv(fille,','))
@@ -69,90 +69,120 @@ def chRaw(temra,uuid,usrid):
     faale.close()
     return record
 
-""" addKey(uuid,libra) """
-def addKey(ketta,libra,usrid):
-    pri="inti : "
-    for setta in list(libra['raw'][ketta].keys()):
-        try:
-            if libra['key'][setta] == {}:
-                pri=pri+"key>blank,"
-            else:
-                pri=pri+"key>exist,"
-        except KeyError:
-            libra['key'][setta]={}
-            pri=pri+"key>create,"
+def diffdb(a,b):
+    for m in a.keys():
+        if a.get(m) != b.get(m):
+            c=pprint.pformat(a.get(m)).replace('\n', '  ')
+            d=pprint.pformat(b.get(m)).replace('\n', '  ')
+            print(c+'\n'+d)
 
-        try:
-            if libra['key'][setta][libra['raw'][ketta][setta]] == []:
-                pri=pri+"crosskey>blank,"
-            else:
-                pri=pri+"crosskey>exist,"
-        except KeyError:
-            libra['key'][setta][libra['raw'][ketta][setta]] = []
-            pri=pri+"crosskey>create,"
+def genKey(rawdb):
+    keydb = {}
+    eledb = {}
+    valudb = {}
+    for uuid in rawdb.keys():
+        for eleme in rawdb.get(uuid,{}):
+            valuh = rawdb[uuid].get(eleme,'')
+            if valuh != '':
+                tadd = eledb.get(eleme,{})
 
-        if libra['raw'][ketta][setta] != "":
-            if libra['key'][setta][libra['raw'][ketta][setta]] != []:
-                libra['key'][setta][libra['raw'][ketta][setta]].append(ketta)
-            else:
-                libra['key'][setta][libra['raw'][ketta][setta]]=[ketta]
-        pri=pri+". "
-    mmctool.printbug('addkey\n    pri',pri,usrid)
-    return libra
+                mobb = tadd.get(valuh,[])
+                mobb.append(uuid)
+                mobb = sorted(list(set(mobb)))
 
-""" addHash(libra)"""
-def addHash(libra):
-    for uuid in list(libra['raw'].keys()):
+                tadd.update( { valuh : mobb } )
+                eledb.update({ eleme : tadd })
+    return eledb
+
+""" genHash(rawdb)"""
+def genHash(rawdb):
+    hashdb = {}
+    for uuid in list(rawdb.keys()):
         hasa = hashlib.sha512()
-        if libra['raw'][uuid] != {}:
-            hasa.update((",".join(set(list(libra['raw'][uuid].values())))).encode("utf-8"))
-            libra['hash'][uuid] = hasa.hexdigest()
-    return libra
+        if rawdb.get(uuid,{}) != {}:
+            hasa.update((",".join(set(list(rawdb.get(uuid,{}).values())))).encode("utf-8"))
+            hashdb.update( { uuid : hasa.hexdigest() } )
+    return hashdb
 
 def changeSetting(libra,usrid):
     faale = open(tool.path("momoco",usrid)+"setting.json",'w')
     json.dump(libra,faale)
     faale.close()
 
+def ckrpt(h):
+    l={}
+    for n in h.keys():
+        if '' in h[n].values():
+            for m in h[n].keys():
+                if m != 'desci':
+                    if h[n][m] == '':
+                        l.update( { n : m } )
+    return l
+
+def ckdb(a,b):
+    l={}
+    for m in a:
+        for n in a[m]:
+            if n != '':
+                if sorted(a[m][n]) !=  sorted(b[m][n]):
+                    l.update( { m+' '+n  : [sorted(b[m][n]) , sorted(a[m][n])] } )
+    return l
+
 """ fixAcc(libra[raw],usrid)"""
-def fixAcc(liboh,usrid):
+def fixAcc(rawdb,usrid):
     setti = openSetting(usrid)
-    for sekio in list(liboh.keys()):
-        if type(liboh.get(sekio)) != type(dict):
-            liboh.update({ sekio : {} })
-        if liboh.get(sekio,{}) != {}:
-            #if liboh[sekio].get('klass','') not in [setti['tanfe'],setti['incom']]:
+    #rawdb = opendb(usrid).get('raw',{})
 
-            liboh[sekio].update({ 'fromm' : liboh[sekio].get('fromm',setti['genis']) })
-            if liboh[sekio]['fromm'] == '':
-                liboh[sekio].update({ 'fromm' : setti['genis'] })
+    tanfe = setti.get('tanfe','Transfer')
+    incom = setti.get('incom','Income')
 
-            liboh[sekio].update({ 'toooo' : liboh[sekio].get('toooo',setti['ovede']) })
-            if liboh[sekio]['toooo'] == '':
-                liboh[sekio].update({ 'toooo' : setti['ovede'] })
+    dinco = setti.get('dinco','Bank')
+    dexpe = setti.get('dexpe','Cash')
+    genis = setti.get('genis','Income')
+    ovede = setti.get('ovede','Expense')
 
-            if liboh[sekio].get('tpric','') == '':
-                    liboh[sekio].update({ 'tpric' : liboh[sekio].get('price','0') })
-            if liboh[sekio].get('price','') == '':
-                    liboh[sekio].update({ 'price' : liboh[sekio].get('tpric','0') })
+    karen = setti.get('karen','')
 
-            if liboh[sekio].get('tkare','') == '':
-                    liboh[sekio].update({ 'tkare' : liboh[sekio].get('karen',setti['karen']) })
-            if liboh[sekio].get('karen','') == '':
-                    liboh[sekio].update({ 'karen' : setti['karen'] })
-                    liboh[sekio].update({ 'tkare' : setti['karen'] })
-
-    return liboh
+    for n in list(rawdb):
+        if rawdb[n].get('klass','') == incom:
+            if rawdb[n].get('price','') == '':
+                rawdb[n].update( {'price' : rawdb[n].get('tpric','') })
+            if rawdb[n].get('karen','') == '':
+                rawdb[n].update( {'karen' : rawdb[n].get('tkare','') })
+            if rawdb[n].get('fromm','') == '':
+                rawdb[n].update( {'fromm' : genis })
+            if rawdb[n].get('toooo','') == '':
+                rawdb[n].update( {'toooo' : dinco })
+        elif rawdb[n].get('klass','') in tanfe:
+            if rawdb[n].get('tpric','') == '':
+                rawdb[n].update( {'tpric' : rawdb[n].get('price','') })
+            if rawdb[n].get('tkare','') == '':
+                rawdb[n].update( {'tkare' : rawdb[n].get('karen','') })
+            if rawdb[n].get('fromm','') == '':
+                rawdb[n].update( {'fromm' : dinco })
+            if rawdb[n].get('toooo','') == '':
+                rawdb[n].update( {'toooo' : dexpe })
+        else:
+            if rawdb[n].get('tpric','') == '':
+                rawdb[n].update( {'tpric' : rawdb[n].get('price','') })
+            if rawdb[n].get('tkare','') == '':
+                rawdb[n].update( {'tkare' : rawdb[n].get('karen','') })
+            if rawdb[n].get('fromm','') == '':
+                rawdb[n].update( {'fromm' : dexpe })
+            if rawdb[n].get('toooo','') == '':
+                rawdb[n].update( {'toooo' : ovede })
+    return rawdb
 
 """ mmcdb.refesdb(chat_id)"""
 def refesdb(usrid):
-    libra = opendb(usrid)
-    #libra['raw'].update(fixAcc(libra['raw'],usrid))
-    libra['key']={}
-    libra['hash']={}
-    for uuid in list(libra['raw'].keys()):
-        libra=addKey(uuid,libra,usrid)
-    libra=addHash(libra)
+    libra = {}
+    rawdb = opendb(usrid)['raw']
+    rawdb = fixAcc(rawdb,usrid)
+    libra.update( {'raw' : rawdb})
+    keydb = genKey(rawdb)
+    libra.update( {'key' : keydb})
+    hashdb=genHash(rawdb)
+    libra.update( {'hash' : hashdb})
     faale = open(tool.path("momoco",usrid)+"record.json",'w')
     json.dump(libra,faale)
     faale.close()
@@ -171,7 +201,7 @@ def upgradeSetting(lib,usrid):
 """ importRaw(usrid,lib)"""
 def importRaw(usrid,lib):
     refesdb(usrid)
-    #lib=fixAcc(lib,usrid)
+    lib=fixAcc(lib,usrid)
     source = opendb(usrid)
     for uuid in list(lib.keys()):
         hasa = hashlib.sha512()
