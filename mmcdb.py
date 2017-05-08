@@ -308,19 +308,17 @@ def listKen(pref,prefs,keywo,usrid):
                 nodda = nodda + 1
     return {1:finno,2:conta}
 
-def listList(lista,usrid):
+def listList(datte,usrid):
     tasta=""
-    lista.sort()
     try:
         libron = opendb(usrid)
-        for datta in lista:
-            for n in libron['key']['datte'][datta]:
-                tasta = tasta + '/uuid_'+n+'\n    '
-                tasta = tasta + libron['raw'][n]['datte']+'  '
-                tasta = tasta + libron['raw'][n]['namma']+'  '
-                tasta = tasta + libron['raw'][n]['klass']+'  '
-                tasta = tasta + libron['raw'][n]['karen']+' '
-                tasta = tasta + libron['raw'][n]['price']+'\n'
+        for n in libron['key']['datte'][datte]:
+            tasta = tasta + '/uuid_'+n+'\n    '
+            tasta = tasta + libron['raw'][n]['datte']+'  '
+            tasta = tasta + libron['raw'][n]['namma']+'  '
+            tasta = tasta + libron['raw'][n]['klass']+'  '
+            tasta = tasta + libron['raw'][n]['karen']+' '
+            tasta = tasta + libron['raw'][n]['price']+'\n'
         return tasta
     except IndexError :
         return ''
