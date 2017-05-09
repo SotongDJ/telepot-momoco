@@ -47,10 +47,20 @@ class User(telepot.helper.ChatHandler):
             subprocess.call(['git','pull'],stdout=open("database/opt/git.log",'w'))
             self.sender.sendMessage('\n'.join(open("database/opt/git.log").read().splitlines()))
             self.close()
+        
         elif "/update" in text:
             print('/update')
             tool.ckpath('database/opt/','daemon.log')
             subprocess.Popen(['python3', 'daemon.py'],stdout=open('database/opt/daemon.log','w'))
+        elif "/mmcd" in text:
+            print('/update')
+            tool.ckpath('database/opt/','mmcd.log')
+            subprocess.Popen(['python3', 'mmcd.py'],stdout=open('database/opt/mmcd.log','w'))
+        elif "/kmmc" in text:
+            print('/update')
+            tool.ckpath('database/opt/','mmcd.log')
+            subprocess.Popen(['python3', 'mmckill.py'],stdout=open('database/opt/mmcd.log','w'))
+
         elif "/ckpy" in text:
             fille = json.load(open("database/opt/bot.json",'r'))
             self.sender.sendMessage(pprint.pformat(fille))
