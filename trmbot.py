@@ -16,9 +16,16 @@ exit - close conversation
 class User(telepot.helper.ChatHandler):
     def __init__(self, *args, **kwargs):
         super(User, self).__init__(*args, **kwargs)
-        for n in ['bot.json','bot.pid','temp.log','git.log','daemon.log']:
+        for n in ['bot.json','bot.pid','temp.log','temp.json','git.log']:
             tool.ckpath('database/opt/',n)
     #
+    def vtemp():
+        logfl = open('database/opt/temp.json','r')
+        logdb = json.load(logfl)
+        subprocess.call(['/opt/vc/bin/vcgencmd', 'measure_temp'], stdout=open('database/opt/temp.log', 'w'))
+        datelog = ''.join(tool.date(0,"")[1:4])
+        templog = open('database/opt/temp.log').read().splitlines()[-1].split('=')[-1].split("'")[0]
+        logdb.update( { datelog : templog })
 
     def comme(self,msg):
         content_type, chat_type, chat_id = telepot.glance(msg)
@@ -47,17 +54,17 @@ class User(telepot.helper.ChatHandler):
             subprocess.call(['git','pull'],stdout=open("database/opt/git.log",'w'))
             self.sender.sendMessage('\n'.join(open("database/opt/git.log").read().splitlines()))
             self.close()
-        
+
         elif "/update" in text:
             print('/update')
             tool.ckpath('database/opt/','daemon.log')
             subprocess.Popen(['python3', 'daemon.py'],stdout=open('database/opt/daemon.log','w'))
         elif "/mmcd" in text:
-            print('/update')
+            print('/mmcd')
             tool.ckpath('database/opt/','mmcd.log')
             subprocess.Popen(['python3', 'mmcd.py'],stdout=open('database/opt/mmcd.log','w'))
         elif "/kmmc" in text:
-            print('/update')
+            print('/kmmc')
             tool.ckpath('database/opt/','mmcd.log')
             subprocess.Popen(['python3', 'mmckill.py'],stdout=open('database/opt/mmcd.log','w'))
 
