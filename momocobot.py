@@ -175,6 +175,13 @@ setting: """+pprint.pformat(self._setting)+"""
                 self.sender.sendMessage("Try /whats_now ")
                 self._vez = mmctool.printvez(self._vez)
 
+        elif "/Analysis" in text:
+            if self._mod[-1] == "statistics":
+                self.sender.sendMessage("Try /whats_now ")
+            else:
+                self.sender.sendMessage("Try /whats_now ")
+                self._vez = mmctool.printvez(self._vez)
+
         elif len(self._mod) == 0:
             self.sender.sendMessage(mmcMsg.bored()+mmcMsg.short('cof'))
             self._vez=mmctool.printvez(self._vez)
