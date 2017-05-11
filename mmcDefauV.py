@@ -50,9 +50,9 @@ def keywo(text):
             'genis':'Income', 'ovede':'Expense',
             'tanfe':'Transfer', 'incom':'Income',
             'karen':'MYR',
-            'limit':{
-                'defSettWarn':0,
-                },
+            'defSettWarn':0,
+            'screen':13,
+            'limit':'',
             'krset':{},
             'ligua':'en',
             'natio':'my',

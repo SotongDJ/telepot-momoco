@@ -176,6 +176,7 @@ def abratio(usrid,dtempo,utempo,conda,conde,targe,karen,lim):
 
 def atren(usrid,dtempo,utempo,leve,conda,conde,karen,lim):
     libra = mmcdb.opendb(usrid)
+    lim = lim -3
     timon = tima(dtempo,utempo,libra)
     meksi = 0
     rawdb = libra['raw']

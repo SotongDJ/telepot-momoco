@@ -90,10 +90,10 @@ setting: """+pprint.pformat(self._setting)+"""
             self.sender.sendMessage(tasDeSet)
             self._vez=mmctool.printvez(self._vez)
 
-            if self._setting['limit']['defSettWarn'] == 0:
+            if self._setting['defSettWarn'] == 0:
                 self.sender.sendMessage(defSettMsg.warn())
                 self._vez=mmctool.printvez(self._vez)
-                self._setting['limit']['defSettWarn'] = 1
+                self._setting['defSettWarn'] = 1
                 mmcdb.changeSetting(self._setting,chat_id)
 
         elif "/exit" in text:
@@ -208,22 +208,22 @@ setting: """+pprint.pformat(self._setting)+"""
                 self._vez=mmctool.printvez(self._vez)
             elif '/analitempo abratio ' in text:
                 keywo=text.replace('/analitempo abratio ','')
-                dtempo,utempo,conda,conde,targe,karen,plim=keywo.split(' ')
-                lim=int(plim)
+                dtempo,utempo,conda,conde,targe,karen=keywo.split(' ')
+                lim = self._setting['screen']
                 for n in mmcAnali.abratio(chat_id,dtempo,utempo,conda,conde,targe,karen,lim):
                     self.sender.sendMessage(n)
                     self._vez=mmctool.printvez(self._vez)
             elif '/analitempo atren ' in text:
                 keywo=text.replace('/analitempo atren ','')
-                dtempo,utempo,pleve,conda,conde,karen,plim=keywo.split(' ')
+                dtempo,utempo,pleve,conda,conde,karen=keywo.split(' ')
+                lim = self._setting['screen']
                 leve=int(pleve)
-                lim=int(plim)
                 for n in mmcAnali.atren(chat_id,dtempo,utempo,leve,conda,conde,karen,lim):
                     self.sender.sendMessage(n)
                     self._vez=mmctool.printvez(self._vez)
             elif '/analitempo how' in text:
-                self.sender.sendMessage("""abratio => dtempo,utempo,conda,conde,targe,karen,lim)
-atren => dtempo,utempo,leve,conda,conde,karen,lim""")
+                self.sender.sendMessage("""abratio => dtempo,utempo,conda,conde,targe,karen
+atren => dtempo,utempo,leve,conda,conde,karen""")
                 self._vez=mmctool.printvez(self._vez)
 
         elif self._mod[-1] in ['outo','inco','tran','edit']:
