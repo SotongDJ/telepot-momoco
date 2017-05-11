@@ -1,4 +1,5 @@
 import os, time, random, subprocess, pprint
+import halfu
 def date(mode,text):
     a,b,c,d,e,f,g,h,i = time.localtime(time.time())
     j=[]
@@ -49,3 +50,10 @@ def append(glass,id):
 
 def msg(type):
     return open("database/msg/"+type).read()
+
+def uni(keywo):
+    try:
+        keywo.encode('latin-1')
+        return halfu.fullen(keywo)
+    except UnicodeEncodeError:
+        return keywo

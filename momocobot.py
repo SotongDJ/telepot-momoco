@@ -1,5 +1,5 @@
 import sys, os, traceback, telepot, time, json, random, pprint
-import tool, auth, log, mmctool, mmcdb, analyTrial, mmcDefauV
+import tool, auth, log, mmctool, mmcdb, mmcDefauV, mmcAnali
 from libmsg import mmcMsg, outoMsg, incoMsg, tranMsg, defSettMsg, listMsg, editMsg
 from telepot.delegate import per_chat_id, create_open, pave_event_space
 
@@ -21,28 +21,11 @@ class User(telepot.helper.ChatHandler):
         self._keywo = ""
         self._keys = ""
         self._mod = []
-        self._temra = {
-            "datte":"",
-            "namma":"", "klass":"", "shoop":"",
-            "fromm":"", "price":"", "karen":"",
-            "toooo":"", "tpric":"", "tkare":"",
-            "desci":"",
-        }
+        self._temra = mmcDefauV.keywo('temra')
         self._recom = {}
         self._defSett = {}
-        self._list = {
-            'datte': '',
-            'uuid' : ''
-        }
-        self._setting = {
-            'dinco':'Bank', 'dexpe':'Cash',
-            'genis':'Income', 'ovede':'Expense',
-            'tanfe':'Transfer', 'incom':'Income',
-            'karen':'',
-            'limit':{
-                'defSettWarn':0,
-                },
-        }
+        self._list = mmcDefauV.keywo('list')
+        self._setting = mmcDefauV.keywo('setting')
     #
     def printbug(self,text,usrid):
         filla = open(tool.path('log/mmcbot',auth.id())+tool.date(5,'-'),'a')
@@ -223,13 +206,24 @@ setting: """+pprint.pformat(self._setting)+"""
                 self._list.update({'datte' : tasta })
                 self.sender.sendMessage(listMsg.main(self._list.get('datte',''),mmcdb.listList(self._list.get('datte',''),chat_id)))
                 self._vez=mmctool.printvez(self._vez)
-            elif '/analitempo ' in text:
-                keywo=text.replace('/analitempo ','')
-                for n in analyTrial.main(chat_id,keywo):
+            elif '/analitempo abratio ' in text:
+                keywo=text.replace('/analitempo abratio ','')
+                dtempo,utempo,conda,conde,targe,karen,plim=keywo.split(' ')
+                lim=int(plim)
+                for n in mmcAnali.abratio(chat_id,dtempo,utempo,conda,conde,targe,karen,lim):
                     self.sender.sendMessage(n)
                     self._vez=mmctool.printvez(self._vez)
-            elif '/analitempohow' in text:
-                self.sender.sendMessage('at time key value limit_key karen h_len v_len')
+            elif '/analitempo atren ' in text:
+                keywo=text.replace('/analitempo atren ','')
+                dtempo,utempo,pleve,conda,conde,karen,plim=keywo.split(' ')
+                leve=int(pleve)
+                lim=int(plim)
+                for n in mmcAnali.atren(chat_id,dtempo,utempo,leve,conda,conde,karen,lim):
+                    self.sender.sendMessage(n)
+                    self._vez=mmctool.printvez(self._vez)
+            elif '/analitempo how' in text:
+                self.sender.sendMessage("""abratio => dtempo,utempo,conda,conde,targe,karen,lim)
+atren => dtempo,utempo,leve,conda,conde,karen,lim""")
                 self._vez=mmctool.printvez(self._vez)
 
         elif self._mod[-1] in ['outo','inco','tran','edit']:

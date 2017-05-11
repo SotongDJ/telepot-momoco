@@ -34,5 +34,28 @@ def keywo(text):
             'karen':'Currency','tkare':'Currency',
             'price':'Price','tpric':'Price',
         },
+        'temra' : {
+            "datte":"",
+            "namma":"", "klass":"", "shoop":"",
+            "fromm":"", "price":"", "karen":"",
+            "toooo":"", "tpric":"", "tkare":"",
+            "desci":"",
+        },
+        'list' : {
+            'datte': '',
+            'uuid' : ''
+        },
+        'setting' : {
+            'dinco':'Bank', 'dexpe':'Cash',
+            'genis':'Income', 'ovede':'Expense',
+            'tanfe':'Transfer', 'incom':'Income',
+            'karen':'MYR',
+            'limit':{
+                'defSettWarn':0,
+                },
+            'krset':{},
+            'ligua':'en',
+            'natio':'my',
+        }
     }
     return dicto[text]
