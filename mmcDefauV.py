@@ -28,11 +28,13 @@ def keywo(text):
         },
         'ssalk' : {
             "datte":"Date",
-            "namma":"e.g Name", "shoop":"e.g. Seller",
-            'fromm':'Account','toooo':'Account','dinco':'Account','dexpe':'Account','genis':'Account','ovede':'Account',
+            "namma":"Name, e.g item", "shoop":"Place, e.g. Seller",
+            'fromm':'Account','toooo':'Account[To]','dinco':'Account','dexpe':'Account','genis':'Account','ovede':'Account',
             'klass':'Category','tanfe':'Category','incom':'Category',
-            'karen':'Currency','tkare':'Currency',
+            'karen':'Currency','tkare':'Currency[To]',
             'price':'Price','tpric':'Price',
+            'conda':'Top Class', 'conde':'Class',
+            'targe':'Target Class', 'desci':'Description',
         },
         'temra' : {
             "datte":"",
@@ -43,7 +45,7 @@ def keywo(text):
         },
         'statics':{
             'mode':'',
-            'leve':0,
+            'leve':10,
             'dtempo':'','utempo':'',
             'conda':'','conde':'',
             'targe':'',
@@ -65,5 +67,13 @@ def keywo(text):
             'natio':'',
         },
         'ligua':['enMY'],
+        'leve':{
+            10:'Day',
+            7:'Month',
+            4:'Year',
+            'Day':10,
+            'Month':7,
+            'Year':4,
+        },
     }
     return dicto[text]

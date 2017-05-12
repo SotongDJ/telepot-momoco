@@ -42,12 +42,20 @@ def tima(downlimit,uplimit,lib):
     print('tok : '+pprint.pformat(tok,compact=True))
     return tok
 
-def abratio(usrid,dtempo,utempo,conda,conde,targe):
-    libra = mmcdb.opendb(usrid)
-    karatio = mmcdb.openKaratio()
+def abratio(usrid,dicto):
     saita = mmcdb.openSetting(usrid)
     karen = saita['karen']
     lim = saita['screen']
+
+    dtempo=dicto.get('dtempo')
+    utempo=dicto.get('utempo')
+    targe=dicto.get('targe')
+    conda=dicto.get('conda')
+    conde=dicto.get('conde')
+
+    karatio = mmcdb.openKaratio()
+
+    libra = mmcdb.opendb(usrid)
     timon = tima(dtempo,utempo,libra)
     gas = {} # { targe : price'int'total}
     gos = {} # { targe : (price'int'total/sum)*(lim^2) }
@@ -77,7 +85,7 @@ def abratio(usrid,dtempo,utempo,conda,conde,targe):
                 gese.update( { len(laf) : lif } )
 
                 lof = gas.get(libra['raw'][uid][targe],0.00)
-                lof = lof + price
+                lof = round(lof + price,2)
                 gas.update( { libra['raw'][uid][targe] : lof } )
 
                 lef = gisi.get(price,[])
@@ -89,7 +97,8 @@ def abratio(usrid,dtempo,utempo,conda,conde,targe):
     print('gas : '+pprint.pformat(gas,compact=True))
     print('gisi : '+pprint.pformat(gisi,compact=True))
 
-    som = sum(list(gas.values()))
+    som = round(sum(list(gas.values())),2)
+    sam = str(som)
     print(' som : '+pprint.pformat(som))
 
     for nana in list(gas):
@@ -111,22 +120,26 @@ def abratio(usrid,dtempo,utempo,conda,conde,targe):
     print('gos : '+pprint.pformat(gos,compact=True))
     print('gus : '+pprint.pformat(gus,compact=True))
     print('gis : '+pprint.pformat(gis,compact=True))
+    par = str(round(sum(list(gus.values())),2))
+    kub = str(sum(list(gos.values())))
+
     nanga = sorted( gis , reverse = True)
     print('nanga : '+pprint.pformat(nanga,compact=True))
 
-    statik = []
+    statik = {}
     laf = sorted(gisi)
-    statik.append('Max : '+pprint.pformat( set( gisi.get( laf[-1],'' ) ) ).replace('{','').replace('}','')+' (Price: '+str(laf[-1])+')')
-    statik.append('Min : '+pprint.pformat( set( gisi.get( laf[0],'' ) ) ).replace('{','').replace('}','')+' (Price: '+str(laf[0])+')')
+    statik.update({ 'max' : pprint.pformat( set( gisi.get( laf[-1],'' ) ) ).replace('{','').replace('}','') })
+    statik.update({ 'maxPc' : str(laf[-1]) })
+    statik.update({ 'min' : pprint.pformat( set( gisi.get( laf[0],'' ) ) ).replace('{','').replace('}','') })
+    statik.update({ 'minPc' : str(laf[0]) })
 
     lof = sorted(gese)
-    statik.append('')
-    statik.append('Mode : ')
-    statik.append('＞Times: '+str(lof[-1]))
-    statik.append('＞List: ')
+    statik.update({ 'time' : str(laf[-1]) })
+    dafro = ''
     for daf in gese.get(lof[-1],''):
-        statik.append('　'+daf+' '+karen+' '+pprint.pformat(gas.get(daf),compact=True).replace('[','').replace(']',''))
-        statik.append('　'+pprint.pformat(ges.get(daf),compact=True).replace('[','( ').replace(']',' )'))
+        dafro = dafro + '－'+daf+' '+karen+' '+pprint.pformat(gas.get(daf),compact=True).replace('[','').replace(']','')+'\n'
+        dafro = dafro + '　'+pprint.pformat(ges.get(daf),compact=True).replace('[','( ').replace(']',' )')+'\n'
+    statik.update({ 'dafro' : dafro })
 
     pri = []
     for nume in nanga:
@@ -166,19 +179,36 @@ def abratio(usrid,dtempo,utempo,conda,conde,targe):
         for n in gis[m]:
             nana = n
             des=des+nana[0]+'　'+nana+'\n　　'+karen+' '+str(gas[nana])+' ('+str(gus[nana])+'%, '+str(gos[nana])+')\n'
-    final = [
-        'Analytics Cards\n——————————\nBetween '+dtempo+' and '+utempo+'\nUnder '+conde+' ('+mmcDefauV.keywo('ssalk')[conda]+'), \nShowing Ratio of '+mmcDefauV.keywo('ssalk')[targe],
-        'Graph of Ratio:\n——————————\n'+'\n'.join(pri)+'\n',
-        'Description:\n——————————\n'+des+"\nTotal: "+karen+' '+'　'+str(som)+' ('+str(round(sum(list(gus.values())),2))+'%, '+str(sum(list(gos.values())))+')',
-        'Statistics:\n——————————\n'+'\n'.join(statik)+'\n',]
-    return final
+    resut={}
 
-def atren(usrid,dtempo,utempo,leve,conda,conde):
-    libra = mmcdb.opendb(usrid)
+    resut.update({'dtempo': dtempo })
+    resut.update({'utempo': utempo })
+    resut.update({'conda': conda })
+    resut.update({'conde': conde })
+    resut.update({'targe': targe })
+    resut.update({'pri': pri })
+    resut.update({'des': des })
+    resut.update({'karen': karen })
+    resut.update({'sam': sam })
+    resut.update({'par': par })
+    resut.update({'kub': kub })
+    resut.update({'statik': statik })
+
+    return resut
+
+def atren(usrid,dicto):
+    dtempo=dicto.get('dtempo')
+    utempo=dicto.get('utempo')
+    leve=dicto.get('leve')
+    conda=dicto.get('conda')
+    conde=dicto.get('conde')
     karatio = mmcdb.openKaratio()
+
     saita = mmcdb.openSetting(usrid)
     karen = saita['karen']
     lim = saita['screen'] -3
+
+    libra = mmcdb.opendb(usrid)
     timon = tima(dtempo,utempo,libra)
     meksi = 0.00
     rawdb = libra['raw']
@@ -203,7 +233,7 @@ def atren(usrid,dtempo,utempo,leve,conda,conde):
                     rate = float(karatio[libra['raw'][uid]['karen']+karen])
                     price = round(float(libra['raw'][uid]['price']) * rate,2)
                 laf = gas.get(datte,0)
-                laf = laf + price
+                laf = round(laf + price,2)
                 gas.update( { datte : laf } )
 
                 lafa = gasa.get(datte,[])
@@ -228,7 +258,7 @@ def atren(usrid,dtempo,utempo,leve,conda,conde):
     print('gafa : '+pprint.pformat(gafa,compact=True))
     dias = sorted(gas)
     print('dias : '+pprint.pformat(dias,compact=True))
-    #meksi = round(meksi * ((lim-1)/lim))
+    meksi = round(meksi,2)
     print('meksi : '+pprint.pformat(meksi))
     nume = 1
     for dat in dias:
@@ -262,14 +292,16 @@ def atren(usrid,dtempo,utempo,leve,conda,conde):
             diasa = ('　' * (nugra-len(diasa))) + diasa
         m = gus.get(n)
         som = som + gas.get(m)
-        pttl = karen+' '+str(gas.get(m))
+        pttl = karen+' '+str(round(gas.get(m),2))
         ofe = pprint.pformat(gasa.get(m))#.replace('[','').replace(']','').replace('\'','')
         desta.append(diasa+'　'+m)
         desta.append(('　'*(nugra+1)+pttl))
         #desta.append('　'+ofe)
     des='\n'.join(desta)
 
-    statik = []
+    sam=str(round(som,2))
+
+    statik = {}
     for m in gas.keys():
         n = gas.get(m)
         laf = gaf.get(n,[])
@@ -284,19 +316,19 @@ def atren(usrid,dtempo,utempo,leve,conda,conde):
     print('gaga : '+pprint.pformat(gaga, compact=True))
 
     laf = sorted(gafa)
-    statik.append('Single: ')
-    statik.append('　Max : '+pprint.pformat( set( gafa.get( laf[-1],'' ) ) ).replace('}, {',' ; ').replace('{','').replace('}','')+' (Price: '+str(laf[-1])+')')
-    statik.append('　Min : '+pprint.pformat( set( gafa.get( laf[0],'' ) ) ).replace('}, {',' ; ').replace('{','').replace('}','')+' (Price: '+str(laf[0])+')')
+    statik.update({ 'sinMax' : pprint.pformat( set( gafa.get( laf[-1],'' ) ) ).replace('}, {',' ; ').replace('{','').replace('}','') })
+    statik.update({ 'sinMaxPc' : str(laf[-1]) })
+    statik.update({ 'sinMin' : pprint.pformat( set( gafa.get( laf[0],'' ) ) ).replace('}, {',' ; ').replace('{','').replace('}','') })
+    statik.update({ 'sinMinPc' : str(laf[0]) })
 
     laf = sorted(gaf)
-    statik.append('Overall: ')
-
-    statik.append('　Max : ')
-    statik.append('　　Price: '+str(laf[-1]))
-    statik.append('　　Date:')
+    oveMaxDat=''
     for daf in gaf.get( laf[-1],[''] ):
-        statik.append('　　　'+daf+' '+pprint.pformat(gasa.get(daf),compact=True).replace('[','( ').replace(']',' )'))
+        oveMaxDat = oveMaxDat+'－'+daf+' '+pprint.pformat(gasa.get(daf),compact=True).replace('[','（').replace(']','）')+'\n'
+    statik.update({ 'oveMaxPc' : str(laf[-1]) })
+    statik.update({ 'oveMaxDat' : oveMaxDat })
 
+    oveMinDat=''
     if laf[0] != 0:
         mino = laf[0]
     else:
@@ -304,23 +336,37 @@ def atren(usrid,dtempo,utempo,leve,conda,conde):
             mino = laf[1]
         except KeyError:
             mino = laf[0]
-    statik.append('　Min : ')
-    statik.append('　　Price: '+str(mino))
-    statik.append('　　Date:')
     for daf in gaf.get( mino,[''] ):
-        statik.append('　　　'+daf+' '+pprint.pformat(gasa.get(daf),compact=True).replace('[','( ').replace(']',' )'))
-    statik.append('')
-    laf = sorted(gaga)
-    statik.append('Mode : ')
-    statik.append('＞Times : '+str(laf[-1]))
-    statik.append('＞Date: ')
-    for daf in gaga.get(laf[-1],''):
-        statik.append('　'+daf+' '+karen+' '+pprint.pformat(gas.get(daf),compact=True).replace('[','').replace(']',''))
-        statik.append('　'+pprint.pformat(gasa.get(daf),compact=True).replace('[','( ').replace(']',' )'))
+        oveMinDat = oveMinDat+'－'+daf+' '+pprint.pformat(gasa.get(daf),compact=True).replace('[','（').replace(']','）')+'\n'
+    statik.update({ 'oveMinPc' : str(mino) })
+    statik.update({ 'oveMinDat' : oveMinDat })
 
-    final = [
-        'Analytics Cards\n——————————\nBetween '+dtempo+' and '+utempo+'\nShowing Trend of '+conde+' ('+mmcDefauV.keywo('ssalk')[conda]+')',
-        'Graph of Trend:\n——————————\n'+'\n'.join(graf),
-        'Description:\n——————————\n'+des+"\n\nTotal: "+karen+'　'+str(som),
-        'Statistics:\n——————————\n'+'\n'.join(statik)+'\n',]
-    return final
+    laf = sorted(gaga)
+    modeDat=''
+    for daf in gaga.get(laf[-1],''):
+        modeDat = modeDat+'－'+daf+' '+karen+' '+pprint.pformat(gas.get(daf),compact=True).replace('[','').replace(']','')+'\n'
+        modeDat = modeDat+'　'+pprint.pformat(gasa.get(daf),compact=True).replace('[','（').replace(']','）')+'\n'
+    statik.update({ 'time' : str(laf[-1]) })
+    statik.update({ 'modeDat' : modeDat })
+
+    resut={}
+
+    resut.update({'dtempo': dtempo })
+    resut.update({'utempo': utempo })
+    resut.update({'conda': conda })
+    resut.update({'conde': conde })
+    resut.update({'graf': graf })
+    resut.update({'des': des })
+    resut.update({'karen': karen })
+    resut.update({'sam': sam })
+    resut.update({'statik': statik })
+
+    return resut
+
+def listClass(keywo):
+    finno = ""
+    skdic = mmcDefauV.keywo('ssalk')
+    listo = list(mmcDefauV.keywo('temra'))
+    for intta in listo:
+        finno = finno +'>'+skdic.get(intta)+'\n　/set_'+keywo+'_as_'+intta+'\n'
+    return finno

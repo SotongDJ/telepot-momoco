@@ -12,6 +12,7 @@ def short(tasta):
         'rgsWarn':"The keyword that you selected doesn't Exist or Expired\n～～～～～～～～～～\n",
         'whatsnow':"Try /whats_now ",
         'analitempo':'abratio => dtempo,utempo,conda,conde,targe\natren => dtempo,utempo,leve,conda,conde',
+        'analiWarn':"Fill in all the spaces",
     }
     return dicta.get(tasta,'')
 """ self.sender.sendMessage(mmcmsg.start()) """

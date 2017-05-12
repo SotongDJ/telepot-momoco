@@ -1,6 +1,6 @@
 import sys, os, traceback, telepot, time, json, random, pprint
 import tool, auth, log, mmctool, mmcdb, mmcDefauV, mmcAnali
-from libmsg import mmcMsg, outoMsg, incoMsg, tranMsg, defSettMsg, listMsg, editMsg
+from libmsg import mmcMsg, outoMsg, incoMsg, tranMsg, defSettMsg, listMsg, editMsg, analiMsg
 from telepot.delegate import per_chat_id, create_open, pave_event_space
 
 """Command list
@@ -168,15 +168,19 @@ setting: """+pprint.pformat(self._setting)+"""
                 self.sender.sendMessage(mmcMsg.keywo('whatsnow'))
                 self._vez = mmctool.printvez(self._vez)
 
-        elif "/Analysis" in text:
-            if self._mod[-1] == "statistics":
-                if self._statics['mode'] != '':
-                    self.sender.sendMessage(mmcMsg.keywo('whatsnow'))
-                else:
-                    self.sender.sendMessage(mmcMsg.keywo('whatsnow'))
-            else:
-                self.sender.sendMessage(mmcMsg.keywo('whatsnow'))
-                self._vez = mmctool.printvez(self._vez)
+        elif "/statics" in text:
+            self.sender.sendMessage(mmcMsg.short('refeson'))
+            self._vez=mmctool.printvez(self._vez)
+            mmcdb.refesdb(chat_id)
+            self._rawdb = mmcdb.opendb(chat_id)['raw']
+            self._keydb = mmcdb.opendb(chat_id)['key']
+            mmcdb.refesKaratio(self._keydb)
+            self._karatio = mmcdb.openKaratio()
+            tasList=mmcMsg.short('refesfin')+analiMsg.chooseMode()
+            self.sender.sendMessage(tasList)
+            self._vez=mmctool.printvez(self._vez)
+            self._mod=mmctool.popmod(self._mod)
+            self._mod=mmctool.apmod(self._mod,"statics")
 
         elif len(self._mod) == 0:
             self.sender.sendMessage(mmcMsg.bored()+mmcMsg.short('cof'))
@@ -219,32 +223,119 @@ setting: """+pprint.pformat(self._setting)+"""
                 self._list.update({'datte' : tasta })
                 self.sender.sendMessage(listMsg.main(self._list.get('datte',''),mmcdb.listList(self._list.get('datte',''),chat_id)))
                 self._vez=mmctool.printvez(self._vez)
-            elif '/analitempo abratio ' in text:
-                mmcdb.refesdb(chat_id)
-                self._rawdb = opendb(chat_id)['raw']
-                self._keydb = opendb(chat_id)['key']
-                mmcdb.refesKaratio(self._keydb)
-                keywo=text.replace('/analitempo abratio ','')
-                dtempo,utempo,conda,conde,targe=keywo.split(' ')
-                for n in mmcAnali.abratio(chat_id,dtempo,utempo,conda,conde,targe):
-                    self.sender.sendMessage(n)
+
+        elif self._mod[-1] == "statics":
+            if "/Analysis" in text:
+                if self._statics['mode'] != '':
+                    if self._statics['mode'] == 'atren':
+                        self._statics['targe'] = '－－'
+                    print('statics : '+pprint.pformat(self._statics, compact=True))
+                    if '' in self._statics.values():
+                        self.sender.sendMessage(mmcMsg.short('analiWarn'))
+                    else:
+                        if self._statics['mode'] == 'abratio':
+                            medio = mmcAnali.abratio(chat_id,self._statics)
+                            secto = analiMsg.abratioResut(medio)
+                        elif self._statics['mode'] == 'atren':
+                            medio = mmcAnali.atren(chat_id,self._statics)
+                            secto = analiMsg.atrenResut(medio)
+                        for lun in secto:
+                            self.sender.sendMessage(lun)
+                            self._vez=mmctool.printvez(self._vez)
+                else:
+                    self.sender.sendMessage(mmcMsg.keywo('whatsnow'))
+            elif "/whats_now" in text:
+                self.sender.sendMessage(mmcMsg.keywo('whatsnow'))
+                self._vez = mmctool.printvez(self._vez)
+            elif "/Back" in text:
+                if self._statics['mode'] != '':
+                    if self._statics['mode'] == 'abratio':
+                        self.sender.sendMessage(analiMsg.chooseMode())
+                        self._vez=mmctool.printvez(self._vez)
+                        self._statics['mode'] = ''
+                    elif self._statics['mode'] == 'atren':
+                        self.sender.sendMessage(analiMsg.chooseMode())
+                        self._vez=mmctool.printvez(self._vez)
+                        self._statics['mode'] = ''
+                else:
+                    self._statics = mmcDefauV.keywo('statics')
+                    self.sender.sendMessage(analiMsg.chooseMode())
                     self._vez=mmctool.printvez(self._vez)
-            elif '/analitempo atren ' in text:
-                mmcdb.refesdb(chat_id)
-                self._rawdb = opendb(chat_id)['raw']
-                self._keydb = opendb(chat_id)['key']
-                mmcdb.refesKaratio(self._keydb)
-                keywo=text.replace('/analitempo atren ','')
-                dtempo,utempo,pleve,conda,conde,karen=keywo.split(' ')
-                leve=int(pleve)
-                for n in mmcAnali.atren(chat_id,dtempo,utempo,leve,conda,conde):
-                    self.sender.sendMessage(n)
+            elif "/Close" in text:
+                self.sender.sendMessage(analiMsg.disca()+mmcMsg.short('cof'))
+                self._vez=mmctool.printvez(self._vez)
+                self._mod=[]
+                self.close()
+
+            elif '/set_Mode_as_' in text:
+                if '/set_Mode_as_abratio' in text:
+                    self._statics['mode'] = 'abratio'
+                    self.sender.sendMessage(analiMsg.abratioMain(self._statics))
                     self._vez=mmctool.printvez(self._vez)
-            elif '/analitempo how' in text:
-                self.sender.sendMessage(mmcMsg.keywo('analitempo'))
+                elif '/set_Mode_as_atren' in text:
+                    self._statics['mode'] = 'atren'
+                    self.sender.sendMessage(analiMsg.atrenMain(self._statics))
+                    self._vez=mmctool.printvez(self._vez)
+
+            elif '/change_' in text:
+                skdic = mmcDefauV.keywo('ssalk')
+                if '/change_conda' in text:
+                    keywo = 'conda'
+                elif '/change_targe' in text:
+                    keywo = 'targe'
+                titil = skdic.get(keywo,'')
+                self.sender.sendMessage(mmcMsg.selection(mmcAnali.listClass(keywo),titil))
                 self._vez=mmctool.printvez(self._vez)
 
-        #elif self._mod[-1] == "statistics":
+            elif '/set_conda_as_' in text:
+                self._statics.update({ 'conda' : text.replace('/set_conda_as_','') })
+                if self._statics['mode'] == 'abratio':
+                    self.sender.sendMessage(analiMsg.abratioMain(self._statics))
+                    self._vez=mmctool.printvez(self._vez)
+                elif self._statics['mode'] == 'atren':
+                    self.sender.sendMessage(analiMsg.atrenMain(self._statics))
+                    self._vez=mmctool.printvez(self._vez)
+
+            elif '/set_targe_as_' in text:
+                self._statics.update({ 'targe' : text.replace('/set_targe_as_','') })
+                if self._statics['mode'] == 'abratio':
+                    self.sender.sendMessage(analiMsg.abratioMain(self._statics))
+                    self._vez=mmctool.printvez(self._vez)
+                elif self._statics['mode'] == 'atren':
+                    self.sender.sendMessage(analiMsg.atrenMain(self._statics))
+                    self._vez=mmctool.printvez(self._vez)
+
+            elif '/set_Leve_in_' in text:
+                if '/set_Leve_in_Day' in text:
+                    self._statics.update({ 'leve' : 10 })
+                elif '/set_Leve_in_Month' in text:
+                    self._statics.update({ 'leve' : 7 })
+                elif '/set_Leve_in_Year' in text:
+                    self._statics.update({ 'leve' : 4 })
+
+                if self._statics['mode'] == 'abratio':
+                    self.sender.sendMessage(analiMsg.abratioMain(self._statics))
+                    self._vez=mmctool.printvez(self._vez)
+                elif self._statics['mode'] == 'atren':
+                    self.sender.sendMessage(analiMsg.atrenMain(self._statics))
+                    self._vez=mmctool.printvez(self._vez)
+
+            elif '/set_as_' in text:
+                if '/set_as_dtempo' in text:
+                    self._statics.update({ 'dtempo' : self._keywo })
+                elif '/set_as_utempo' in text:
+                    self._statics.update({ 'utempo' : self._keywo })
+                elif '/set_as_conde' in text:
+                    self._statics.update({ 'conde' : self._keywo })
+                elif '/set_as_targe' in text:
+                    self._statics.update({ 'targe' : self._keywo })
+
+                if self._statics['mode'] == 'abratio':
+                    self.sender.sendMessage(analiMsg.abratioMain(self._statics))
+                    self._vez=mmctool.printvez(self._vez)
+                elif self._statics['mode'] == 'atren':
+                    self.sender.sendMessage(analiMsg.atrenMain(self._statics))
+                    self._vez=mmctool.printvez(self._vez)
 
         elif self._mod[-1] in ['outo','inco','tran','edit']:
             if "/Discard" in text:
@@ -636,6 +727,14 @@ setting: """+pprint.pformat(self._setting)+"""
                 self._vez=mmctool.printvez(self._vez)
                 self.sender.sendMessage(editMsg.keyword(self._keywo))
                 self._vez=mmctool.printvez(self._vez)
+
+            elif self._mod[-1] == 'statics':
+                if self._statics['mode'] == 'abratio':
+                    self.sender.sendMessage(analiMsg.abratioKeywo(self._keywo))
+                    self._vez=mmctool.printvez(self._vez)
+                elif self._statics['mode'] == 'atren':
+                    self.sender.sendMessage(analiMsg.atrenKeywo(self._keywo))
+                    self._vez=mmctool.printvez(self._vez)
 
             elif self._mod[-1] == "outo":
                 self.sender.sendMessage(outoMsg.main(self._temra))
