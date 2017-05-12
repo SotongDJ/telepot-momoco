@@ -17,6 +17,9 @@ Category:
 　　　——————　　
 Curency:
 　Default Currency: """+setting['karen']+"""
+　　　——————　　
+Language:
+　Default Language: """+setting['ligua']+"""
 ——————————
 　/modify_Setting　/whats_now
 Remind:
@@ -65,6 +68,9 @@ Default Transfer:(E.g. "Transfer")
 ————— Curency —————
 Default Currency: (For Expense)
 　"""+setting['karen']+"""　/change_kr
+————— Curency —————
+Default Language:
+　"""+setting['ligua']+"""　/change_ligua
 ——————————
 　/Discard　/Save　/Explain
 Note:
@@ -115,6 +121,8 @@ Default Income: """+setting['tanfe']+"""
 Default Transfer: """+setting['incom']+"""
 　　——————　　
 Default Currency: """+setting['karen']+"""
+　　——————　　
+Default Language: """+setting['ligua']+"""
 ——————————
 　/setting　/help　/whats_now
 Note:

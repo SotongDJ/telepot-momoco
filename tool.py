@@ -24,7 +24,7 @@ def date(mode,text):
         return text.join(j[0:4])
 
 def path(glass,id):
-    os.system("mkdir -p ./database/usr/"+str(id)+"/"+glass)
+    subprocess.call(['mkdir','-p','./database/usr/'+str(id)+'/'+glass])
     return "./database/usr/"+str(id)+"/"+glass+"/"
 
 def ckpath(pafa,fille):

@@ -2,14 +2,6 @@ import pprint
 import mmcdb, tool, mmcDefauV
 #from libmsg import analiMsg
 
-def timo(keywo,lib):
-    timo=[]
-    for n in lib['key']['datte']:
-        if keywo in n:
-            timo.append(n)
-    timo.sort()
-    return timo
-
 def tima(downlimit,uplimit,lib):
     tok = []
     tik = sorted(set(lib['key']['datte'].keys()))
@@ -50,9 +42,12 @@ def tima(downlimit,uplimit,lib):
     print('tok : '+pprint.pformat(tok,compact=True))
     return tok
 
-def abratio(usrid,dtempo,utempo,conda,conde,targe,karen,lim):
+def abratio(usrid,dtempo,utempo,conda,conde,targe):
     libra = mmcdb.opendb(usrid)
-    #timon = timo(keytim,libra)
+    karatio = mmcdb.openKaratio()
+    saita = mmcdb.openSetting(usrid)
+    karen = saita['karen']
+    lim = saita['screen']
     timon = tima(dtempo,utempo,libra)
     gas = {} # { targe : price'int'total}
     gos = {} # { targe : (price'int'total/sum)*(lim^2) }
@@ -67,23 +62,27 @@ def abratio(usrid,dtempo,utempo,conda,conde,targe,karen,lim):
     kdatedb = keydb.get('datte',{})
     for tim in timon:
         for uid in kdatedb.get(tim,[]):
-            if libra['raw'][uid]['karen'] == karen:
-                if libra['raw'][uid][conda] == conde:
-                    laf = ges.get(libra['raw'][uid][targe],[])
-                    laf.append(libra['raw'][uid]['price'])
-                    ges.update( { libra['raw'][uid][targe] : laf } )
+            if libra['raw'][uid][conda] == conde:
+                if libra['raw'][uid]['karen'] == karen:
+                    price = round(float(libra['raw'][uid]['price']),2)
+                else:
+                    rate = float(karatio[libra['raw'][uid]['karen']+karen])
+                    price = round(float(libra['raw'][uid]['price']) * rate,2)
+                laf = ges.get(libra['raw'][uid][targe],[])
+                laf.append(str(price))
+                ges.update( { libra['raw'][uid][targe] : laf } )
 
-                    lif = gese.get(len(laf),[])
-                    lif.append(libra['raw'][uid][targe])
-                    gese.update( { len(laf) : lif } )
+                lif = gese.get(len(laf),[])
+                lif.append(libra['raw'][uid][targe])
+                gese.update( { len(laf) : lif } )
 
-                    lof = gas.get(libra['raw'][uid][targe],0)
-                    lof = lof + int(libra['raw'][uid]['price'])
-                    gas.update( { libra['raw'][uid][targe] : lof } )
+                lof = gas.get(libra['raw'][uid][targe],0.00)
+                lof = lof + price
+                gas.update( { libra['raw'][uid][targe] : lof } )
 
-                    lef = gisi.get(int(libra['raw'][uid]['price']),[])
-                    lef.append(libra['raw'][uid][targe])
-                    gisi.update( { int(libra['raw'][uid]['price']) : lef } )
+                lef = gisi.get(price,[])
+                lef.append(libra['raw'][uid][targe])
+                gisi.update( { price : lef } )
 
     print('ges : '+pprint.pformat(ges,compact=True))
     print('gese : '+pprint.pformat(gese,compact=True))
@@ -121,12 +120,13 @@ def abratio(usrid,dtempo,utempo,conda,conde,targe,karen,lim):
     statik.append('Min : '+pprint.pformat( set( gisi.get( laf[0],'' ) ) ).replace('{','').replace('}','')+' (Price: '+str(laf[0])+')')
 
     lof = sorted(gese)
+    statik.append('')
     statik.append('Mode : ')
-    statik.append('　　Times: '+str(lof[-1]))
-    statik.append('　　List: ')
+    statik.append('＞Times: '+str(lof[-1]))
+    statik.append('＞List: ')
     for daf in gese.get(lof[-1],''):
-        statik.append('　　　'+daf+' '+karen+' '+pprint.pformat(gas.get(daf),compact=True).replace('[','').replace(']',''))
-        statik.append('　　　　'+pprint.pformat(ges.get(daf),compact=True).replace('[','( ').replace(']',' )'))
+        statik.append('　'+daf+' '+karen+' '+pprint.pformat(gas.get(daf),compact=True).replace('[','').replace(']',''))
+        statik.append('　'+pprint.pformat(ges.get(daf),compact=True).replace('[','( ').replace(']',' )'))
 
     pri = []
     for nume in nanga:
@@ -165,20 +165,22 @@ def abratio(usrid,dtempo,utempo,conda,conde,targe,karen,lim):
     for m in nanga:
         for n in gis[m]:
             nana = n
-            des=des+'　'+nana[0]+'　'+nana+'\n　　　'+karen+' '+str(gas[nana])+' ('+str(gus[nana])+'%, '+str(gos[nana])+')\n'
+            des=des+nana[0]+'　'+nana+'\n　　'+karen+' '+str(gas[nana])+' ('+str(gus[nana])+'%, '+str(gos[nana])+')\n'
     final = [
-        'Analytics Cards\n——————————\nBetween '+dtempo+' and '+utempo+"""
-    Under """+conde+' ('+mmcDefauV.keywo('ssalk')[conda]+'), \nShowing Ratio of '+mmcDefauV.keywo('ssalk')[targe],
+        'Analytics Cards\n——————————\nBetween '+dtempo+' and '+utempo+'\nUnder '+conde+' ('+mmcDefauV.keywo('ssalk')[conda]+'), \nShowing Ratio of '+mmcDefauV.keywo('ssalk')[targe],
         'Graph of Ratio:\n——————————\n'+'\n'.join(pri)+'\n',
-        'Description:\n——————————\n'+des+"\n　Total: "+karen+' '+'　'+str(som)+' ('+str(round(sum(list(gus.values())),2))+'%, '+str(sum(list(gos.values())))+')',
-        'Statistics:\n——————————\n　'+'\n　'.join(statik)+'\n',]
+        'Description:\n——————————\n'+des+"\nTotal: "+karen+' '+'　'+str(som)+' ('+str(round(sum(list(gus.values())),2))+'%, '+str(sum(list(gos.values())))+')',
+        'Statistics:\n——————————\n'+'\n'.join(statik)+'\n',]
     return final
 
-def atren(usrid,dtempo,utempo,leve,conda,conde,karen,lim):
+def atren(usrid,dtempo,utempo,leve,conda,conde):
     libra = mmcdb.opendb(usrid)
-    lim = lim -3
+    karatio = mmcdb.openKaratio()
+    saita = mmcdb.openSetting(usrid)
+    karen = saita['karen']
+    lim = saita['screen'] -3
     timon = tima(dtempo,utempo,libra)
-    meksi = 0
+    meksi = 0.00
     rawdb = libra['raw']
     keydb = libra['key']
     kdatedb = keydb.get('datte',{})
@@ -194,28 +196,32 @@ def atren(usrid,dtempo,utempo,leve,conda,conde,karen,lim):
     for tim in timon:
         for uid in kdatedb.get(tim,[]):
             datte = rawdb[uid]['datte'][0:leve]
-            if rawdb[uid]['karen'] == karen:
-                if rawdb[uid][conda] == conde:
-                    laf = gas.get(datte,0)
-                    laf = laf + int(libra['raw'][uid]['price'])
-                    gas.update( { datte : laf } )
-
-                    lafa = gasa.get(datte,[])
-                    lafa.append(rawdb[uid]['price'])
-                    gasa.update( { datte : lafa } )
-
-                    lafo = gafa.get(rawdb[uid]['price'],[])
-                    lafo.append(datte)
-                    gafa.update( { rawdb[uid]['price'] : lafo } )
-
-                    if laf > meksi:
-                        meksi = laf
+            if rawdb[uid][conda] == conde:
+                if libra['raw'][uid]['karen'] == karen:
+                    price = round(float(libra['raw'][uid]['price']),2)
                 else:
-                    laf = gas.get(datte,0)
-                    gas.update( { datte : laf } )
+                    rate = float(karatio[libra['raw'][uid]['karen']+karen])
+                    price = round(float(libra['raw'][uid]['price']) * rate,2)
+                laf = gas.get(datte,0)
+                laf = laf + price
+                gas.update( { datte : laf } )
 
-                    lafa = gasa.get(datte,[])
-                    gasa.update( { datte : lafa } )
+                lafa = gasa.get(datte,[])
+                lafa.append(str(price))
+                gasa.update( { datte : lafa } )
+
+                lafo = gafa.get(price,[])
+                lafo.append(datte)
+                gafa.update( { price : lafo } )
+
+                if laf > meksi:
+                    meksi = laf
+            else:
+                laf = gas.get(datte,0)
+                gas.update( { datte : laf } )
+
+                lafa = gasa.get(datte,[])
+                gasa.update( { datte : lafa } )
 
     print('gas : '+pprint.pformat(gas,compact=True))
     print('gasa : '+pprint.pformat(gasa,compact=True))
@@ -234,37 +240,6 @@ def atren(usrid,dtempo,utempo,leve,conda,conde,karen,lim):
     print('ges : '+pprint.pformat(ges,compact=True))
     print('gus : '+pprint.pformat(gus,compact=True))
 
-    """ # y against x
-    nugra = len(tool.uni(str(meksi)))
-    print('nugra : '+pprint.pformat(nugra))
-    graf = []
-
-    for m in sorted(range(1,lim+1),reverse=True):
-        grada = round( (m / lim) * meksi )
-        grat = tool.uni(str(grada))
-        if len(grat) < nugra:
-            grat = ('　' * (nugra-len(grat))) + grat
-        lina = grat + '｜'
-        for n in sorted(gus):
-            laf = ges.get(gus.get(n,''),0)
-            if laf >= m:
-                lina = lina + miro
-            else:
-                lina = lina + '　'
-            #print('(m,n:'+pprint.pformat(m)+pprint.pformat(n)+')lina : '+pprint.pformat(lina))
-        graf.append(lina)
-    lina = ('　' * nugra) + '＋'+ ('—' * len(gus))
-    graf.append(lina)
-    lina = ('　' * nugra) + '　'
-
-    for n in sorted(gus):
-        if len(str(n)) == 1:
-            lina = lina + tool.uni(str(n))
-        else:
-            lina = lina + tool.uni(str(n)[-1])
-
-    graf.append(lina)
-    """
     # x against y
     nugra = len(tool.uni(str(sorted(gus)[-1])))
     print('nugra : '+pprint.pformat(nugra))
@@ -292,7 +267,7 @@ def atren(usrid,dtempo,utempo,leve,conda,conde,karen,lim):
         desta.append(diasa+'　'+m)
         desta.append(('　'*(nugra+1)+pttl))
         #desta.append('　'+ofe)
-    des='　'+'\n　'.join(desta)
+    des='\n'.join(desta)
 
     statik = []
     for m in gas.keys():
@@ -334,19 +309,18 @@ def atren(usrid,dtempo,utempo,leve,conda,conde,karen,lim):
     statik.append('　　Date:')
     for daf in gaf.get( mino,[''] ):
         statik.append('　　　'+daf+' '+pprint.pformat(gasa.get(daf),compact=True).replace('[','( ').replace(']',' )'))
-
+    statik.append('')
     laf = sorted(gaga)
     statik.append('Mode : ')
-    statik.append('　Times : '+str(laf[-1]))
-    statik.append('　Date: ')
+    statik.append('＞Times : '+str(laf[-1]))
+    statik.append('＞Date: ')
     for daf in gaga.get(laf[-1],''):
-        statik.append('　　'+daf+' '+karen+' '+pprint.pformat(gas.get(daf),compact=True).replace('[','').replace(']',''))
-        statik.append('　　　'+pprint.pformat(gasa.get(daf),compact=True).replace('[','( ').replace(']',' )'))
+        statik.append('　'+daf+' '+karen+' '+pprint.pformat(gas.get(daf),compact=True).replace('[','').replace(']',''))
+        statik.append('　'+pprint.pformat(gasa.get(daf),compact=True).replace('[','( ').replace(']',' )'))
 
     final = [
-        'Analytics Cards\n——————————\nBetween '+dtempo+' and '+utempo+"""
-Showing Trend of """+conde+' ('+mmcDefauV.keywo('ssalk')[conda]+')',
+        'Analytics Cards\n——————————\nBetween '+dtempo+' and '+utempo+'\nShowing Trend of '+conde+' ('+mmcDefauV.keywo('ssalk')[conda]+')',
         'Graph of Trend:\n——————————\n'+'\n'.join(graf),
-        'Description:\n——————————\n'+des+"\n　Total: "+karen+'　'+str(som),
+        'Description:\n——————————\n'+des+"\n\nTotal: "+karen+'　'+str(som),
         'Statistics:\n——————————\n'+'\n'.join(statik)+'\n',]
     return final

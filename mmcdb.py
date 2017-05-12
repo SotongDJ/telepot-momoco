@@ -1,4 +1,4 @@
-import json, random, hashlib, pprint
+import json, random, hashlib, pprint, requests
 import tool, mmctool, mmcDefauV
 # fille = __
 # mmcdb.writedb(fille,'raw',mmcdb.opencsv(fille,','))
@@ -29,6 +29,50 @@ def openSetting(usrid):
             "tanfe":"", "incom":""
         }
         return setting
+
+def openKaratio():
+    tool.ckpath('database/opt/momoco/','karen.json')
+    faale = open('database/opt/momoco/karen.json',"r")
+    try:
+        karatio = json.load(faale)
+    except ValueError:
+        karatio = {}
+    faale.close()
+    return karatio
+
+def refesKaratio(keydb):
+    karatio = openKaratio()
+    curre = set(list(keydb.get('karen'))+list(keydb.get('tkare')))
+    kara = []
+    for m in curre:
+        for n in curre:
+            if m != n:
+                kara.append(m+n)
+    setta = '\"'+'\",\"'.join(kara)+'\"'
+    urlla = 'http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20yahoo.finance.xchange%20where%20pair%20in%20('+setta+')&format=json&env=store://datatables.org/alltableswithkeys'
+    datta = json.loads(requests.get(urlla).text)
+    for m in datta['query']['results']['rate']:
+        karatio.update({ m['id'] : m['Rate'] })
+    faale = open('database/opt/momoco/karen.json',"w")
+    json.dump(karatio,faale)
+    faale.close()
+
+def resetKaratio(keydb):
+    karatio = {}
+    curre = set(list(keydb.get('karen'))+list(keydb.get('tkare')))
+    kara = []
+    for m in curre:
+        for n in curre:
+            if m != n:
+                kara.append(m+n)
+    setta = '\"'+'\",\"'.join(kara)+'\"'
+    urlla = 'http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20yahoo.finance.xchange%20where%20pair%20in%20('+setta+')&format=json&env=store://datatables.org/alltableswithkeys'
+    datta = json.loads(requests.get(urlla).text)
+    for m in datta['query']['results']['rate']:
+        karatio.update({ m['id'] : m['Rate'] })
+    faale = open('database/opt/momoco/karen.json',"w")
+    json.dump(karatio,faale)
+    faale.close()
 
 """ mmcdb.opencsv( ,',')"""
 def opencsv(fille,keywo):
@@ -163,10 +207,8 @@ def fixAcc(rawdb,usrid):
             if rawdb[n].get('toooo','') == '':
                 rawdb[n].update( {'toooo' : dexpe })
         else:
-            if rawdb[n].get('tpric','') == '':
-                rawdb[n].update( {'tpric' : rawdb[n].get('price','') })
-            if rawdb[n].get('tkare','') == '':
-                rawdb[n].update( {'tkare' : rawdb[n].get('karen','') })
+            rawdb[n].update( {'tpric' : rawdb[n].get('price','') })
+            rawdb[n].update( {'tkare' : rawdb[n].get('karen','') })
             if rawdb[n].get('fromm','') == '':
                 rawdb[n].update( {'fromm' : dexpe })
             if rawdb[n].get('toooo','') == '':
@@ -347,6 +389,13 @@ def listKen(pref,prefs,keywo,usrid):
                 finno = finno + "    /"+prefs+"_"+keywo+"_"+numme+str(nodda)+" "+intta+"\n\n"
                 nodda = nodda + 1
     return {1:finno,2:conta}
+
+def listLigua(pref,keywo,usrid):
+    finno = ""
+    listo = mmcDefauV.keywo('ligua')
+    for intta in listo:
+        finno = finno + "    /"+pref+"_"+keywo+"_"+intta+" "+intta+"\n\n"
+    return {1:finno,2:{}}
 
 def listList(datte,usrid):
     tasta=""

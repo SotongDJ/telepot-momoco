@@ -27,18 +27,18 @@ def single(uuid,usrid,libra):
     final="""Single record Card
 ——————————
 ID: """+uuid+"""
-Date: """+libra['raw'][uuid].get('datte','')+"""
-Item: """+libra['raw'][uuid].get('namma','')+"""
-Category: """+libra['raw'][uuid].get('klass','')+"""
-Seller: """+libra['raw'][uuid].get('shoop','')+"""
+Date: """+libra[uuid].get('datte','')+"""
+Item: """+libra[uuid].get('namma','')+"""
+Category: """+libra[uuid].get('klass','')+"""
+Seller: """+libra[uuid].get('shoop','')+"""
 　　——————　　
 Spent from:
-"""+libra['raw'][uuid].get('karen','')+" "+libra['raw'][uuid].get('price','')+' ('+libra['raw'][uuid].get('fromm','')+""")
+"""+libra[uuid].get('karen','')+" "+libra[uuid].get('price','')+' ('+libra[uuid].get('fromm','')+""")
 Transfer to:
-"""+libra['raw'][uuid].get('tkare','')+" "+libra['raw'][uuid].get('tpric','')+' ('+libra['raw'][uuid].get('toooo','')+""")
+"""+libra[uuid].get('tkare','')+" "+libra[uuid].get('tpric','')+' ('+libra[uuid].get('toooo','')+""")
 　　——————　　
 """+"""Notes:
-"""+libra['raw'][uuid].get('desci','')+"""
+"""+libra[uuid].get('desci','')+"""
 ——————————
 　/Back　/Edit　/Delete　/setting
 """

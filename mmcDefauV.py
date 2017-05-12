@@ -41,6 +41,13 @@ def keywo(text):
             "toooo":"", "tpric":"", "tkare":"",
             "desci":"",
         },
+        'statics':{
+            'mode':'',
+            'leve':0,
+            'dtempo':'','utempo':'',
+            'conda':'','conde':'',
+            'targe':'',
+        },
         'list' : {
             'datte': '',
             'uuid' : ''
@@ -54,8 +61,9 @@ def keywo(text):
             'screen':13,
             'limit':'',
             'krset':{},
-            'ligua':'en',
-            'natio':'my',
-        }
+            'ligua':'enMY',
+            'natio':'',
+        },
+        'ligua':['enMY'],
     }
     return dicto[text]

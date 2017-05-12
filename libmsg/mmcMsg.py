@@ -9,8 +9,9 @@ def short(tasta):
         'refesfin':'Refreshing Finished !\n～～～～～～～～～～\n',
         'rekeswd':'～～～～～～～～～～\nGive me a word or a number',
         'bye':'See you next time! Bye!\n(Conversation Closed !)',
-        'rgsWarn':"The keyword that you selected doesn't Exist or Expired\n～～～～～～～～～～\n"
-
+        'rgsWarn':"The keyword that you selected doesn't Exist or Expired\n～～～～～～～～～～\n",
+        'whatsnow':"Try /whats_now ",
+        'analitempo':'abratio => dtempo,utempo,conda,conde,targe\natren => dtempo,utempo,leve,conda,conde',
     }
     return dicta.get(tasta,'')
 """ self.sender.sendMessage(mmcmsg.start()) """
