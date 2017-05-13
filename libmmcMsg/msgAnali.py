@@ -1,48 +1,21 @@
 import mmcDefauV,pprint
-def chooseMode():
-    setting = mmcDefauV.keywo('setting')
-    ligua = setting.get('ligua','')
+def chooseMode(ligua):
     final = open('descrimmc/'+ligua+'/analiChoose.descri').read()
     return final
 
-def abratioMain(dicto):
-    final="""Selection Card
-——————————
-Mode: """+dicto.get('mode','')+"""
-　　——————　　
-Set time period:
-　Begin: """+dicto.get('dtempo','')+"""
-　End: """+dicto.get('utempo','')+"""
-(Format of Date: yyyy-mm-dd)
-　　——————　　
-Class to limit: """+dicto.get('conde','')+"""
- (Top Class: """+dicto.get('conda','')+""" )
-　/change_conda
-　　——————　　
-Target Class:
-　"""+dicto.get('targe','')+"""
-　/change_targe
-——————————
-　/Back　/Analysis
-"""
+def abratioMain(ligua,dicto):
+    final = open('descrimmc/'+ligua+'/abratioMain.descri').read()
+    final = final.replace('@mode@',dicto.get('mode',''))
+    final = final.replace('@dtempo@',dicto.get('dtempo',''))
+    final = final.replace('@utempo@',dicto.get('utempo',''))
+    final = final.replace('@conde@',dicto.get('conde',''))
+    final = final.replace('@conda@',dicto.get('conda',''))
+    final = final.replace('@targe@',dicto.get('targe',''))
     return final
 
-def abratioKeywo(keywo):
-    final="""Keyword Card
-——————————
-Keyword: """+keywo+"""
-　　——————　　
-Set time period:
-　Begin
-　/set_as_dtempo
-　End
-　/set_as_utempo
-　　——————　　
-Class to limit:
-　/set_as_conde
-——————————
-　/Back
-"""
+def abratioKeywo(ligua,keywo):
+    final = open('descrimmc/'+ligua+'/abratioKeywo.descri').read()
+    final = final.replace('@keywo@',keywo)
     return final
 
 def abratioResut(resut):
@@ -89,7 +62,7 @@ Mode :
 　/Back"""
     return [a,b,c]
 
-def atrenMain(dicto):
+def atrenMain(ligua,dicto):
     ledic=mmcDefauV.keywo('leve')
     final="""Selection Card
 ——————————

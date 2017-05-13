@@ -66,7 +66,7 @@ def keywo(text):
             'ligua':'enMY',
             'natio':'',
         },
-        'ligua':['enMY','zhTW'],
+        'ligua':['enMY','hanT'],
         'leve':{
             10:'Day',
             7:'Month',

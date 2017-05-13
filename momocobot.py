@@ -52,6 +52,7 @@ setting: """+pprint.pformat(self._setting)+"""
     def comme(self,msg):
         content_type, chat_type, chat_id = telepot.glance(msg)
         text=msg['text']
+        lingua = self._setting['ligua']
         if "/start" in text:
             if len(self._mod) == 0:
                 tasStart=msgMain.start()+msgMain.short('cof')
@@ -176,7 +177,7 @@ setting: """+pprint.pformat(self._setting)+"""
             self._keydb = mmcdb.opendb(chat_id)['key']
             mmcdb.refesKaratio(self._keydb)
             self._karatio = mmcdb.openKaratio()
-            tasList=msgMain.short('refesfin')+msgAnali.chooseMode()
+            tasList=msgMain.short('refesfin')+msgAnali.chooseMode(lingua)
             self.sender.sendMessage(tasList)
             self._vez=mmctool.printvez(self._vez)
             self._mod=mmctool.popmod(self._mod)
@@ -235,10 +236,10 @@ setting: """+pprint.pformat(self._setting)+"""
                     else:
                         if self._statics['mode'] == 'abratio':
                             medio = mmcAnali.abratio(chat_id,self._statics)
-                            secto = msgAnali.abratioResut(medio)
+                            secto = msgAnali.abratioResut(lingua,medio)
                         elif self._statics['mode'] == 'atren':
                             medio = mmcAnali.atren(chat_id,self._statics)
-                            secto = msgAnali.atrenResut(medio)
+                            secto = msgAnali.atrenResut(lingua,medio)
                         for lun in secto:
                             self.sender.sendMessage(lun)
                             self._vez=mmctool.printvez(self._vez)
@@ -250,19 +251,19 @@ setting: """+pprint.pformat(self._setting)+"""
             elif "/Back" in text:
                 if self._statics['mode'] != '':
                     if self._statics['mode'] == 'abratio':
-                        self.sender.sendMessage(msgAnali.chooseMode())
+                        self.sender.sendMessage(msgAnali.chooseMode(lingua))
                         self._vez=mmctool.printvez(self._vez)
                         self._statics['mode'] = ''
                     elif self._statics['mode'] == 'atren':
-                        self.sender.sendMessage(msgAnali.chooseMode())
+                        self.sender.sendMessage(msgAnali.chooseMode(lingua))
                         self._vez=mmctool.printvez(self._vez)
                         self._statics['mode'] = ''
                 else:
                     self._statics = mmcDefauV.keywo('statics')
-                    self.sender.sendMessage(msgAnali.chooseMode())
+                    self.sender.sendMessage(msgAnali.chooseMode(lingua))
                     self._vez=mmctool.printvez(self._vez)
             elif "/Close" in text:
-                self.sender.sendMessage(msgAnali.disca()+msgMain.short('cof'))
+                self.sender.sendMessage(msgAnali.disca(lingua)+msgMain.short('cof'))
                 self._vez=mmctool.printvez(self._vez)
                 self._mod=[]
                 self.close()
@@ -270,11 +271,11 @@ setting: """+pprint.pformat(self._setting)+"""
             elif '/set_Mode_as_' in text:
                 if '/set_Mode_as_abratio' in text:
                     self._statics['mode'] = 'abratio'
-                    self.sender.sendMessage(msgAnali.abratioMain(self._statics))
+                    self.sender.sendMessage(msgAnali.abratioMain(lingua,self._statics))
                     self._vez=mmctool.printvez(self._vez)
                 elif '/set_Mode_as_atren' in text:
                     self._statics['mode'] = 'atren'
-                    self.sender.sendMessage(msgAnali.atrenMain(self._statics))
+                    self.sender.sendMessage(msgAnali.atrenMain(lingua,self._statics))
                     self._vez=mmctool.printvez(self._vez)
 
             elif '/change_' in text:
@@ -290,19 +291,19 @@ setting: """+pprint.pformat(self._setting)+"""
             elif '/set_conda_as_' in text:
                 self._statics.update({ 'conda' : text.replace('/set_conda_as_','') })
                 if self._statics['mode'] == 'abratio':
-                    self.sender.sendMessage(msgAnali.abratioMain(self._statics))
+                    self.sender.sendMessage(msgAnali.abratioMain(lingua,self._statics))
                     self._vez=mmctool.printvez(self._vez)
                 elif self._statics['mode'] == 'atren':
-                    self.sender.sendMessage(msgAnali.atrenMain(self._statics))
+                    self.sender.sendMessage(msgAnali.atrenMain(lingua,self._statics))
                     self._vez=mmctool.printvez(self._vez)
 
             elif '/set_targe_as_' in text:
                 self._statics.update({ 'targe' : text.replace('/set_targe_as_','') })
                 if self._statics['mode'] == 'abratio':
-                    self.sender.sendMessage(msgAnali.abratioMain(self._statics))
+                    self.sender.sendMessage(msgAnali.abratioMain(lingua,self._statics))
                     self._vez=mmctool.printvez(self._vez)
                 elif self._statics['mode'] == 'atren':
-                    self.sender.sendMessage(msgAnali.atrenMain(self._statics))
+                    self.sender.sendMessage(msgAnali.atrenMain(lingua,self._statics))
                     self._vez=mmctool.printvez(self._vez)
 
             elif '/set_Leve_in_' in text:
@@ -314,10 +315,10 @@ setting: """+pprint.pformat(self._setting)+"""
                     self._statics.update({ 'leve' : 4 })
 
                 if self._statics['mode'] == 'abratio':
-                    self.sender.sendMessage(msgAnali.abratioMain(self._statics))
+                    self.sender.sendMessage(msgAnali.abratioMain(lingua,self._statics))
                     self._vez=mmctool.printvez(self._vez)
                 elif self._statics['mode'] == 'atren':
-                    self.sender.sendMessage(msgAnali.atrenMain(self._statics))
+                    self.sender.sendMessage(msgAnali.atrenMain(lingua,self._statics))
                     self._vez=mmctool.printvez(self._vez)
 
             elif '/set_as_' in text:
@@ -331,10 +332,10 @@ setting: """+pprint.pformat(self._setting)+"""
                     self._statics.update({ 'targe' : self._keywo })
 
                 if self._statics['mode'] == 'abratio':
-                    self.sender.sendMessage(msgAnali.abratioMain(self._statics))
+                    self.sender.sendMessage(msgAnali.abratioMain(lingua,self._statics))
                     self._vez=mmctool.printvez(self._vez)
                 elif self._statics['mode'] == 'atren':
-                    self.sender.sendMessage(msgAnali.atrenMain(self._statics))
+                    self.sender.sendMessage(msgAnali.atrenMain(lingua,self._statics))
                     self._vez=mmctool.printvez(self._vez)
 
         elif self._mod[-1] in ['outo','inco','tran','edit']:
@@ -730,10 +731,10 @@ setting: """+pprint.pformat(self._setting)+"""
 
             elif self._mod[-1] == 'statics':
                 if self._statics['mode'] == 'abratio':
-                    self.sender.sendMessage(msgAnali.abratioKeywo(self._keywo))
+                    self.sender.sendMessage(msgAnali.abratioKeywo(lingua,self._keywo))
                     self._vez=mmctool.printvez(self._vez)
                 elif self._statics['mode'] == 'atren':
-                    self.sender.sendMessage(msgAnali.atrenKeywo(self._keywo))
+                    self.sender.sendMessage(msgAnali.atrenKeywo(lingua,self._keywo))
                     self._vez=mmctool.printvez(self._vez)
 
             elif self._mod[-1] == "outo":

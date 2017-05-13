@@ -23,11 +23,7 @@ def openSetting(usrid):
         return setting
     except FileNotFoundError:
         mmctool.printbug('FileNotFoundError','',usrid)
-        setting = {
-            "dinco":"", "dexpe":"",
-            "genis":"", "ovede":"",
-            "tanfe":"", "incom":""
-        }
+        setting = mmcDefauV.keywo('setting')
         return setting
 
 def openKaratio():

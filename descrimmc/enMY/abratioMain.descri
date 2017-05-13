@@ -1,0 +1,18 @@
+Selection Card
+——————————
+Mode: @mode@
+　　——————　　
+Set time period:
+　Begin: @dtempo@
+　End: @utempo@
+(Format of Date: yyyy-mm-dd)
+　　——————　　
+Class to limit: @conde@
+(Top Class: @conda@ )
+　/change_conda
+　　——————　　
+Target Class:
+　@targe@
+　/change_targe
+——————————
+　/Back　/Analysis
