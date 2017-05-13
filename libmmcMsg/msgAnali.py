@@ -1,19 +1,8 @@
 import mmcDefauV,pprint
 def chooseMode():
-    final="""Statistics card
-——————————
-Choose the statistics modes:
-　/set_Mode_as_abratio
-　　Between specific time period
-　　Choosing from specific class
-　　Showing Ratio of target class
-
-　/set_Mode_as_atren
-　　Between specific time period
-　　Showing Trend of target class
-——————————
-　/Close /help
-"""
+    setting = mmcDefauV.keywo('setting')
+    ligua = setting.get('ligua','')
+    final = open('descrimmc/'+ligua+'/analiChoose.descri').read()
     return final
 
 def abratioMain(dicto):
