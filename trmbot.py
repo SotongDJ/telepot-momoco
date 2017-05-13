@@ -3,7 +3,7 @@ import tool, auth
 from telepot.delegate import per_chat_id, create_open, pave_event_space
 
 """Command list
-start - Welcome mmcMsg
+start - Welcome msgMain
 help - Command List
 temp - check temp
 gitpull - update

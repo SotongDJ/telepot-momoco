@@ -1,6 +1,5 @@
 import pprint
 import mmcdb, tool, mmcDefauV
-#from libmsg import analiMsg
 
 def tima(downlimit,uplimit,lib):
     tok = []
@@ -134,11 +133,11 @@ def abratio(usrid,dicto):
     statik.update({ 'minPc' : str(laf[0]) })
 
     lof = sorted(gese)
-    statik.update({ 'time' : str(laf[-1]) })
     dafro = ''
     for daf in gese.get(lof[-1],''):
         dafro = dafro + '－'+daf+' '+karen+' '+pprint.pformat(gas.get(daf),compact=True).replace('[','').replace(']','')+'\n'
         dafro = dafro + '　'+pprint.pformat(ges.get(daf),compact=True).replace('[','( ').replace(']',' )')+'\n'
+    statik.update({ 'time' : str(lof[-1]) })
     statik.update({ 'dafro' : dafro })
 
     pri = []

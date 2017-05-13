@@ -1,7 +1,7 @@
 import tool, json
 import mmctool
-# incoMsg : main(), keyword(), finis()
-# outoMsg : recom(), discard()
+# msgInco : main(), keyword(), finis()
+# msgOuto : recom(), discard()
 
 def main(dicto):
     final="""New Income Card

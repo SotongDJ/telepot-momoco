@@ -1,5 +1,5 @@
 import tool, json, mmctool
-#defSettMsg : main(setting), warn(), lista(setting), setup(keywo,teksi), fins(setting), discard()
+#msgDefSet : main(setting), warn(), lista(setting), setup(keywo,teksi), fins(setting), discard()
 
 """ self.sender.sendMessage(mmcmsg.setting()) """
 def main(setting): # will replace by Start Card after finished Account Card and Currency Card

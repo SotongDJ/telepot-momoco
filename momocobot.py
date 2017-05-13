@@ -1,6 +1,6 @@
 import sys, os, traceback, telepot, time, json, random, pprint
 import tool, auth, log, mmctool, mmcdb, mmcDefauV, mmcAnali
-from libmsg import mmcMsg, outoMsg, incoMsg, tranMsg, defSettMsg, listMsg, editMsg, analiMsg
+from libmmcMsg import msgMain, msgOuto, msgInco, msgTran, msgDefSet, msgList, msgEdit, msgAnali
 from telepot.delegate import per_chat_id, create_open, pave_event_space
 
 """Command list
@@ -54,9 +54,9 @@ setting: """+pprint.pformat(self._setting)+"""
         text=msg['text']
         if "/start" in text:
             if len(self._mod) == 0:
-                tasStart=mmcMsg.start()+mmcMsg.short('cof')
+                tasStart=msgMain.start()+msgMain.short('cof')
             else:
-                tasStart=mmcMsg.start()
+                tasStart=msgMain.start()
 
             self.sender.sendMessage(tasStart)
             self._vez=mmctool.printvez(self._vez)
@@ -66,9 +66,9 @@ setting: """+pprint.pformat(self._setting)+"""
 
         elif "/help" in text:
             if len(self._mod) == 0:
-                tasHelp=mmcMsg.help()+mmcMsg.short('cof')
+                tasHelp=msgMain.help()+msgMain.short('cof')
             else:
-                tasHelp=mmcMsg.help()
+                tasHelp=msgMain.help()
 
             self.sender.sendMessage(tasHelp)
             self._vez=mmctool.printvez(self._vez)
@@ -77,11 +77,11 @@ setting: """+pprint.pformat(self._setting)+"""
                 self.close()
 
         elif "/setting" in text:
-            self.sender.sendMessage(defSettMsg.main(self._setting))
+            self.sender.sendMessage(msgDefSet.main(self._setting))
             self._vez=mmctool.printvez(self._vez)
 
         elif "/modify_Setting" in text:
-            self.sender.sendMessage(mmcMsg.short('refeson'))
+            self.sender.sendMessage(msgMain.short('refeson'))
             self._vez=mmctool.printvez(self._vez)
             mmcdb.refesdb(chat_id)
             self._rawdb = mmcdb.opendb(chat_id)['raw']
@@ -92,23 +92,23 @@ setting: """+pprint.pformat(self._setting)+"""
                 if self._mod[-1] != 'defSett':
                     self._mod=mmctool.apmod(self._mod,'defSett')
 
-            tasDeSet=mmcMsg.short('refesfin')+defSettMsg.lista(self._setting)
+            tasDeSet=msgMain.short('refesfin')+msgDefSet.lista(self._setting)
             self.sender.sendMessage(tasDeSet)
             self._vez=mmctool.printvez(self._vez)
 
             if self._setting['defSettWarn'] == 0:
-                self.sender.sendMessage(defSettMsg.warn())
+                self.sender.sendMessage(msgDefSet.warn())
                 self._vez=mmctool.printvez(self._vez)
                 self._setting['defSettWarn'] = 1
                 mmcdb.changeSetting(self._setting,chat_id)
 
         elif "/exit" in text:
-            self.sender.sendMessage(mmcMsg.short('bye'))
+            self.sender.sendMessage(msgMain.short('bye'))
             self._vez=mmctool.printvez(self._vez)
             self.close()
 
         elif "/new" in text:
-            self.sender.sendMessage(mmcMsg.short('refeson'))
+            self.sender.sendMessage(msgMain.short('refeson'))
             self._vez=mmctool.printvez(self._vez)
             mmcdb.refesdb(chat_id)
             self._rawdb = mmcdb.opendb(chat_id)['raw']
@@ -121,20 +121,20 @@ setting: """+pprint.pformat(self._setting)+"""
                 self._temra['tkare'] = self._setting['karen']
             if self._keywo != "":
                 if '/' not in self._keywo:
-                    tasOut=mmcMsg.short('refesfin')+outoMsg.main(self._temra)
+                    tasOut=msgMain.short('refesfin')+msgOuto.main(self._temra)
                     self.sender.sendMessage(tasOut)
                     self._vez=mmctool.printvez(self._vez)
-                    self.sender.sendMessage(outoMsg.keyword(self._keywo))
+                    self.sender.sendMessage(msgOuto.keyword(self._keywo))
                     self._vez=mmctool.printvez(self._vez)
             else:
-                tasOut=mmcMsg.short('refesfin')+outoMsg.main(self._temra)+mmcMsg.short('rekeswd')
+                tasOut=msgMain.short('refesfin')+msgOuto.main(self._temra)+msgMain.short('rekeswd')
                 self.sender.sendMessage(tasOut)
                 self._vez=mmctool.printvez(self._vez)
             self._mod=mmctool.popmod(self._mod)
             self._mod=mmctool.apmod(self._mod,"outo")
 
         elif "/list" in text:
-            self.sender.sendMessage(mmcMsg.short('refeson'))
+            self.sender.sendMessage(msgMain.short('refeson'))
             self._vez=mmctool.printvez(self._vez)
             mmcdb.refesdb(chat_id)
             self._rawdb = mmcdb.opendb(chat_id)['raw']
@@ -146,7 +146,7 @@ setting: """+pprint.pformat(self._setting)+"""
                     self._list.update({ 'datte' : lastdate[-1] })
                 except IndexError :
                     self._list.update({ 'datte' : '' })
-            tasList=mmcMsg.short('refesfin')+listMsg.main(self._list.get('datte',''),mmcdb.listList(self._list.get('datte',''),chat_id))
+            tasList=msgMain.short('refesfin')+msgList.main(self._list.get('datte',''),mmcdb.listList(self._list.get('datte',''),chat_id))
             self.sender.sendMessage(tasList)
             self._vez=mmctool.printvez(self._vez)
             self._mod=mmctool.popmod(self._mod)
@@ -159,44 +159,44 @@ setting: """+pprint.pformat(self._setting)+"""
                     self._mod = mmctool.apmod(self._mod,'edit')
                     self._keywo = ''
                     self._temra.update(self._rawdb.get(uuid,''))
-                    self.sender.sendMessage(editMsg.main(self._temra,uuid)+mmcMsg.short('rekeswd'))
+                    self.sender.sendMessage(msgEdit.main(self._temra,uuid)+msgMain.short('rekeswd'))
                     self._vez = mmctool.printvez(self._vez)
                 else:
-                    self.sender.sendMessage(listMsg.main(self._list.get('datte',''),mmcdb.listList(self._list.get('datte',''),chat_id)))
+                    self.sender.sendMessage(msgList.main(self._list.get('datte',''),mmcdb.listList(self._list.get('datte',''),chat_id)))
                     self._vez = mmctool.printvez(self._vez)
             else:
-                self.sender.sendMessage(mmcMsg.keywo('whatsnow'))
+                self.sender.sendMessage(msgMain.keywo('whatsnow'))
                 self._vez = mmctool.printvez(self._vez)
 
         elif "/statics" in text:
-            self.sender.sendMessage(mmcMsg.short('refeson'))
+            self.sender.sendMessage(msgMain.short('refeson'))
             self._vez=mmctool.printvez(self._vez)
             mmcdb.refesdb(chat_id)
             self._rawdb = mmcdb.opendb(chat_id)['raw']
             self._keydb = mmcdb.opendb(chat_id)['key']
             mmcdb.refesKaratio(self._keydb)
             self._karatio = mmcdb.openKaratio()
-            tasList=mmcMsg.short('refesfin')+analiMsg.chooseMode()
+            tasList=msgMain.short('refesfin')+msgAnali.chooseMode()
             self.sender.sendMessage(tasList)
             self._vez=mmctool.printvez(self._vez)
             self._mod=mmctool.popmod(self._mod)
             self._mod=mmctool.apmod(self._mod,"statics")
 
         elif len(self._mod) == 0:
-            self.sender.sendMessage(mmcMsg.bored()+mmcMsg.short('cof'))
+            self.sender.sendMessage(msgMain.bored()+msgMain.short('cof'))
             self._vez=mmctool.printvez(self._vez)
             self.close()
 
         elif self._mod[-1] == "list":
             if "/whats_now" in text:
-                self.sender.sendMessage(listMsg.main(self._list.get('datte',''),mmcdb.listList(self._list.get('datte',''),chat_id)))
+                self.sender.sendMessage(msgList.main(self._list.get('datte',''),mmcdb.listList(self._list.get('datte',''),chat_id)))
                 self._vez=mmctool.printvez(self._vez)
             elif "/Back" in text:
                 self._list.update({'uuid' : '' })
-                self.sender.sendMessage(listMsg.main(self._list.get('datte',''),mmcdb.listList(self._list.get('datte',''),chat_id)))
+                self.sender.sendMessage(msgList.main(self._list.get('datte',''),mmcdb.listList(self._list.get('datte',''),chat_id)))
                 self._vez=mmctool.printvez(self._vez)
             elif "/Close" in text:
-                self.sender.sendMessage(listMsg.disca()+mmcMsg.short('cof'))
+                self.sender.sendMessage(msgList.disca()+msgMain.short('cof'))
                 self._vez=mmctool.printvez(self._vez)
                 self._mod=[]
                 self.close()
@@ -205,7 +205,7 @@ setting: """+pprint.pformat(self._setting)+"""
                 for sette in text.split(' '):
                     if "/uuid_" in sette:
                         self._list.update({'uuid' : sette.replace('/uuid_','') })
-                        self.sender.sendMessage(listMsg.single(self._list.get('uuid',''),chat_id,self._rawdb))
+                        self.sender.sendMessage(msgList.single(self._list.get('uuid',''),chat_id,self._rawdb))
                         self._vez=mmctool.printvez(self._vez)
             elif "/Choose_" in text:
                 for sette in text.split(' '):
@@ -213,7 +213,7 @@ setting: """+pprint.pformat(self._setting)+"""
                         keywo = sette.replace("/Choose_",'').replace('_','-')
                 setta = mmctool.filteDate(list(self._keydb['datte']),keywo)
                 testa = mmctool.cmdzDate(setta)
-                self.sender.sendMessage(listMsg.change(keywo,testa))
+                self.sender.sendMessage(msgList.change(keywo,testa))
                 self._vez=mmctool.printvez(self._vez)
             elif "/ch_" in text:
                 tasta = ''
@@ -221,7 +221,7 @@ setting: """+pprint.pformat(self._setting)+"""
                     if '/ch_' in takso:
                         tasta = takso.replace('/ch_','').replace('_','-')
                 self._list.update({'datte' : tasta })
-                self.sender.sendMessage(listMsg.main(self._list.get('datte',''),mmcdb.listList(self._list.get('datte',''),chat_id)))
+                self.sender.sendMessage(msgList.main(self._list.get('datte',''),mmcdb.listList(self._list.get('datte',''),chat_id)))
                 self._vez=mmctool.printvez(self._vez)
 
         elif self._mod[-1] == "statics":
@@ -231,38 +231,38 @@ setting: """+pprint.pformat(self._setting)+"""
                         self._statics['targe'] = '－－'
                     print('statics : '+pprint.pformat(self._statics, compact=True))
                     if '' in self._statics.values():
-                        self.sender.sendMessage(mmcMsg.short('analiWarn'))
+                        self.sender.sendMessage(msgMain.short('analiWarn'))
                     else:
                         if self._statics['mode'] == 'abratio':
                             medio = mmcAnali.abratio(chat_id,self._statics)
-                            secto = analiMsg.abratioResut(medio)
+                            secto = msgAnali.abratioResut(medio)
                         elif self._statics['mode'] == 'atren':
                             medio = mmcAnali.atren(chat_id,self._statics)
-                            secto = analiMsg.atrenResut(medio)
+                            secto = msgAnali.atrenResut(medio)
                         for lun in secto:
                             self.sender.sendMessage(lun)
                             self._vez=mmctool.printvez(self._vez)
                 else:
-                    self.sender.sendMessage(mmcMsg.keywo('whatsnow'))
+                    self.sender.sendMessage(msgMain.keywo('whatsnow'))
             elif "/whats_now" in text:
-                self.sender.sendMessage(mmcMsg.keywo('whatsnow'))
+                self.sender.sendMessage(msgMain.keywo('whatsnow'))
                 self._vez = mmctool.printvez(self._vez)
             elif "/Back" in text:
                 if self._statics['mode'] != '':
                     if self._statics['mode'] == 'abratio':
-                        self.sender.sendMessage(analiMsg.chooseMode())
+                        self.sender.sendMessage(msgAnali.chooseMode())
                         self._vez=mmctool.printvez(self._vez)
                         self._statics['mode'] = ''
                     elif self._statics['mode'] == 'atren':
-                        self.sender.sendMessage(analiMsg.chooseMode())
+                        self.sender.sendMessage(msgAnali.chooseMode())
                         self._vez=mmctool.printvez(self._vez)
                         self._statics['mode'] = ''
                 else:
                     self._statics = mmcDefauV.keywo('statics')
-                    self.sender.sendMessage(analiMsg.chooseMode())
+                    self.sender.sendMessage(msgAnali.chooseMode())
                     self._vez=mmctool.printvez(self._vez)
             elif "/Close" in text:
-                self.sender.sendMessage(analiMsg.disca()+mmcMsg.short('cof'))
+                self.sender.sendMessage(msgAnali.disca()+msgMain.short('cof'))
                 self._vez=mmctool.printvez(self._vez)
                 self._mod=[]
                 self.close()
@@ -270,11 +270,11 @@ setting: """+pprint.pformat(self._setting)+"""
             elif '/set_Mode_as_' in text:
                 if '/set_Mode_as_abratio' in text:
                     self._statics['mode'] = 'abratio'
-                    self.sender.sendMessage(analiMsg.abratioMain(self._statics))
+                    self.sender.sendMessage(msgAnali.abratioMain(self._statics))
                     self._vez=mmctool.printvez(self._vez)
                 elif '/set_Mode_as_atren' in text:
                     self._statics['mode'] = 'atren'
-                    self.sender.sendMessage(analiMsg.atrenMain(self._statics))
+                    self.sender.sendMessage(msgAnali.atrenMain(self._statics))
                     self._vez=mmctool.printvez(self._vez)
 
             elif '/change_' in text:
@@ -284,25 +284,25 @@ setting: """+pprint.pformat(self._setting)+"""
                 elif '/change_targe' in text:
                     keywo = 'targe'
                 titil = skdic.get(keywo,'')
-                self.sender.sendMessage(mmcMsg.selection(mmcAnali.listClass(keywo),titil))
+                self.sender.sendMessage(msgMain.selection(mmcAnali.listClass(keywo),titil))
                 self._vez=mmctool.printvez(self._vez)
 
             elif '/set_conda_as_' in text:
                 self._statics.update({ 'conda' : text.replace('/set_conda_as_','') })
                 if self._statics['mode'] == 'abratio':
-                    self.sender.sendMessage(analiMsg.abratioMain(self._statics))
+                    self.sender.sendMessage(msgAnali.abratioMain(self._statics))
                     self._vez=mmctool.printvez(self._vez)
                 elif self._statics['mode'] == 'atren':
-                    self.sender.sendMessage(analiMsg.atrenMain(self._statics))
+                    self.sender.sendMessage(msgAnali.atrenMain(self._statics))
                     self._vez=mmctool.printvez(self._vez)
 
             elif '/set_targe_as_' in text:
                 self._statics.update({ 'targe' : text.replace('/set_targe_as_','') })
                 if self._statics['mode'] == 'abratio':
-                    self.sender.sendMessage(analiMsg.abratioMain(self._statics))
+                    self.sender.sendMessage(msgAnali.abratioMain(self._statics))
                     self._vez=mmctool.printvez(self._vez)
                 elif self._statics['mode'] == 'atren':
-                    self.sender.sendMessage(analiMsg.atrenMain(self._statics))
+                    self.sender.sendMessage(msgAnali.atrenMain(self._statics))
                     self._vez=mmctool.printvez(self._vez)
 
             elif '/set_Leve_in_' in text:
@@ -314,10 +314,10 @@ setting: """+pprint.pformat(self._setting)+"""
                     self._statics.update({ 'leve' : 4 })
 
                 if self._statics['mode'] == 'abratio':
-                    self.sender.sendMessage(analiMsg.abratioMain(self._statics))
+                    self.sender.sendMessage(msgAnali.abratioMain(self._statics))
                     self._vez=mmctool.printvez(self._vez)
                 elif self._statics['mode'] == 'atren':
-                    self.sender.sendMessage(analiMsg.atrenMain(self._statics))
+                    self.sender.sendMessage(msgAnali.atrenMain(self._statics))
                     self._vez=mmctool.printvez(self._vez)
 
             elif '/set_as_' in text:
@@ -331,10 +331,10 @@ setting: """+pprint.pformat(self._setting)+"""
                     self._statics.update({ 'targe' : self._keywo })
 
                 if self._statics['mode'] == 'abratio':
-                    self.sender.sendMessage(analiMsg.abratioMain(self._statics))
+                    self.sender.sendMessage(msgAnali.abratioMain(self._statics))
                     self._vez=mmctool.printvez(self._vez)
                 elif self._statics['mode'] == 'atren':
-                    self.sender.sendMessage(analiMsg.atrenMain(self._statics))
+                    self.sender.sendMessage(msgAnali.atrenMain(self._statics))
                     self._vez=mmctool.printvez(self._vez)
 
         elif self._mod[-1] in ['outo','inco','tran','edit']:
@@ -345,11 +345,11 @@ setting: """+pprint.pformat(self._setting)+"""
 
                 if self._mod[-1] == 'edit':
                     mmctool.printbug("Discard editing\n mod",self._mod,chat_id)
-                    self.sender.sendMessage(editMsg.discar()+mmcMsg.short('cof'))
+                    self.sender.sendMessage(msgEdit.discar()+msgMain.short('cof'))
                     self._vez=mmctool.printvez(self._vez)
                 else:
                     mmctool.printbug("Discard record\n mod",self._mod,chat_id)
-                    self.sender.sendMessage(outoMsg.discard()+mmcMsg.short('cof'))
+                    self.sender.sendMessage(msgOuto.discard()+msgMain.short('cof'))
                     self._vez=mmctool.printvez(self._vez)
 
                 self._mod=mmctool.popmod(self._mod)
@@ -366,16 +366,16 @@ setting: """+pprint.pformat(self._setting)+"""
                     record = mmcdb.addRaw(chat_id,self._temra)
 
                 if self._mod[-1] == 'outo':
-                    self.sender.sendMessage(outoMsg.finis(self._temra)+mmcMsg.short('cof'))
+                    self.sender.sendMessage(msgOuto.finis(self._temra)+msgMain.short('cof'))
                     self._vez=mmctool.printvez(self._vez)
                 elif self._mod[-1] == 'inco':
-                    self.sender.sendMessage(incoMsg.finis(self._temra)+mmcMsg.short('cof'))
+                    self.sender.sendMessage(msgInco.finis(self._temra)+msgMain.short('cof'))
                     self._vez=mmctool.printvez(self._vez)
                 elif self._mod[-1] == 'tran':
-                    self.sender.sendMessage(tranMsg.finis(self._temra)+mmcMsg.short('cof'))
+                    self.sender.sendMessage(msgTran.finis(self._temra)+msgMain.short('cof'))
                     self._vez=mmctool.printvez(self._vez)
                 elif self._mod[-1] == 'edit':
-                    self.sender.sendMessage(editMsg.fin(uuid,chat_id,record)+mmcMsg.short('cof'))
+                    self.sender.sendMessage(msgEdit.fin(uuid,chat_id,record)+msgMain.short('cof'))
                     self._vez=mmctool.printvez(self._vez)
 
                 if self._mod[-1] == 'edit':
@@ -441,26 +441,26 @@ setting: """+pprint.pformat(self._setting)+"""
                     self._keys='karen'
                 tasRef=''
                 if self._mod[-1] == 'outo':
-                    tasRef=outoMsg.main(self._temra)
+                    tasRef=msgOuto.main(self._temra)
                 elif self._mod[-1] == 'inco':
-                    tasRef=incoMsg.main(self._temra)
+                    tasRef=msgInco.main(self._temra)
                 elif self._mod[-1] == 'tran':
-                    tasRef=tranMsg.main(self._temra)
+                    tasRef=msgTran.main(self._temra)
                 elif self._mod[-1] == 'edit':
-                    tasRef=editMsg.main(self._temra,self._list.get('uuid',''))
+                    tasRef=msgEdit.main(self._temra,self._list.get('uuid',''))
 
                 if self._keys in ['namma', 'klass', 'shoop', 'price']:
                     self._recom = mmcdb.recomtxt(self._temra,self._keys,self._keywo,['namma','klass','shoop','price'],chat_id)
                     if self._recom[1] !="" :
                         self.sender.sendMessage(tasRef)
                         self._vez=mmctool.printvez(self._vez)
-                        self.sender.sendMessage(outoMsg.recom(self._recom[1],self._keywo))
+                        self.sender.sendMessage(msgOuto.recom(self._recom[1],self._keywo))
                         self._vez=mmctool.printvez(self._vez)
                     else:
-                        self.sender.sendMessage(tasRef+mmcMsg.short('rekeswd'))
+                        self.sender.sendMessage(tasRef+msgMain.short('rekeswd'))
                         self._vez=mmctool.printvez(self._vez)
                 else:
-                    self.sender.sendMessage(tasRef+mmcMsg.short('rekeswd'))
+                    self.sender.sendMessage(tasRef+msgMain.short('rekeswd'))
                     self._vez=mmctool.printvez(self._vez)
 
             elif "/rg" in text :
@@ -469,28 +469,28 @@ setting: """+pprint.pformat(self._setting)+"""
                         try:
                             self._temra.update({ mmcDefauV.keywo('sf')[sette[5:7]] : self._recom[2][sette[8:len(sette)]] })
                             if self._mod[-1] == 'outo':
-                                tasRgs=outoMsg.main(self._temra)
+                                tasRgs=msgOuto.main(self._temra)
                             elif self._mod[-1] == 'inco':
-                                tasRgs=incoMsg.main(self._temra)
+                                tasRgs=msgInco.main(self._temra)
                             elif self._mod[-1] == 'tran':
-                                tasRgs=tranMsg.main(self._temra)
+                                tasRgs=msgTran.main(self._temra)
                             elif self._mod[-1] == 'edit':
-                                tasRgs=editMsg.main(self._temra,self._list.get('uuid',''))
+                                tasRgs=msgEdit.main(self._temra,self._list.get('uuid',''))
                             self.sender.sendMessage(tasRgs)
                             self._vez=mmctool.printvez(self._vez)
-                            self.sender.sendMessage(outoMsg.recom(self._recom[1],self._keywo))
+                            self.sender.sendMessage(msgOuto.recom(self._recom[1],self._keywo))
                             self._vez=mmctool.printvez(self._vez)
                         except KeyError:
                             print("KeyError : Doesn't Exist or Expired")
 
                             if self._mod[-1] == 'outo':
-                                tasRgs=mmcMsg.short('rgsWarn')+outoMsg.main(self._temra)+mmcMsg.short('rekeswd')
+                                tasRgs=msgMain.short('rgsWarn')+msgOuto.main(self._temra)+msgMain.short('rekeswd')
                             elif self._mod[-1] == 'inco':
-                                tasRgs=mmcMsg.short('rgsWarn')+incoMsg.main(self._temra)+mmcMsg.short('rekeswd')
+                                tasRgs=msgMain.short('rgsWarn')+msgInco.main(self._temra)+msgMain.short('rekeswd')
                             elif self._mod[-1] == 'tran':
-                                tasRgs=mmcMsg.short('rgsWarn')+tranMsg.main(self._temra)+mmcMsg.short('rekeswd')
+                                tasRgs=msgMain.short('rgsWarn')+msgTran.main(self._temra)+msgMain.short('rekeswd')
                             elif self._mod[-1] == 'edit':
-                                tasRgs=mmcMsg.short('rgsWarn')+editMsg.main(self._temra,self._list.get('uuid',''))+mmcMsg.short('rekeswd')
+                                tasRgs=msgMain.short('rgsWarn')+msgEdit.main(self._temra,self._list.get('uuid',''))+msgMain.short('rekeswd')
 
                             self.sender.sendMessage(tasRgs)
                             self._vez=mmctool.printvez(self._vez)
@@ -498,16 +498,16 @@ setting: """+pprint.pformat(self._setting)+"""
                     elif "/rg_" in sette:
                         self._temra.update({ mmcDefauV.keywo('sf')[sette[4:6]] : sette[7:len(sette)] })
                         if self._mod[-1] == 'outo':
-                            tasRg=outoMsg.main(self._temra)
+                            tasRg=msgOuto.main(self._temra)
                         elif self._mod[-1] == 'inco':
-                            tasRg=incoMsg.main(self._temra)
+                            tasRg=msgInco.main(self._temra)
                         elif self._mod[-1] == 'tran':
-                            tasRg=tranMsg.main(self._temra)
+                            tasRg=msgTran.main(self._temra)
                         elif self._mod[-1] == 'edit':
-                            tasRg=editMsg.main(self._temra,self._list.get('uuid',''))
+                            tasRg=msgEdit.main(self._temra,self._list.get('uuid',''))
                         self.sender.sendMessage(tasRg)
                         self._vez=mmctool.printvez(self._vez)
-                        self.sender.sendMessage(outoMsg.recom(self._recom[1],self._keywo))
+                        self.sender.sendMessage(msgOuto.recom(self._recom[1],self._keywo))
                         self._vez=mmctool.printvez(self._vez)
 
             elif "/change" in text:
@@ -517,7 +517,7 @@ setting: """+pprint.pformat(self._setting)+"""
                         self._temra['toooo'] = self._setting['dinco']
                         self._temra['shoop'] = ''
                         self._temra['klass'] = self._setting['incom']
-                        self.sender.sendMessage(incoMsg.main(self._temra)+mmcMsg.short('rekeswd'))
+                        self.sender.sendMessage(msgInco.main(self._temra)+msgMain.short('rekeswd'))
                         self._vez=mmctool.printvez(self._vez)
                         self._mod=mmctool.popmod(self._mod)
                         self._mod=mmctool.apmod(self._mod,"inco")
@@ -527,7 +527,7 @@ setting: """+pprint.pformat(self._setting)+"""
                         self._temra['toooo'] = self._setting['dexpe']
                         self._temra['shoop'] = ''
                         self._temra['klass'] = self._setting['tanfe']
-                        self.sender.sendMessage(tranMsg.main(self._temra)+mmcMsg.short('rekeswd'))
+                        self.sender.sendMessage(msgTran.main(self._temra)+msgMain.short('rekeswd'))
                         self._vez=mmctool.printvez(self._vez)
                         self._mod=mmctool.popmod(self._mod)
                         self._mod=mmctool.apmod(self._mod,"tran")
@@ -536,7 +536,7 @@ setting: """+pprint.pformat(self._setting)+"""
                         self._temra['fromm'] = self._setting['dexpe']
                         self._temra['toooo'] = self._setting['ovede']
                         self._temra['klass'] = self._setting['']
-                        self.sender.sendMessage(outoMsg.main(self._temra)+mmcMsg.short('rekeswd'))
+                        self.sender.sendMessage(msgOuto.main(self._temra)+msgMain.short('rekeswd'))
                         self._vez=mmctool.printvez(self._vez)
                         self._mod=mmctool.popmod(self._mod)
                         self._mod=mmctool.apmod(self._mod,"outo")
@@ -546,55 +546,55 @@ setting: """+pprint.pformat(self._setting)+"""
                     if "/change_Currency_To" in text:
                         keywo = 'tk'
                         self._recom = mmcdb.listKen('rg','rgs',keywo,chat_id)
-                        self.sender.sendMessage(mmcMsg.selection(self._recom[1],'Currency (To)'))
+                        self.sender.sendMessage(msgMain.selection(self._recom[1],'Currency (To)'))
                         self._vez=mmctool.printvez(self._vez)
                     elif "/change_Currency" in text:
                         keywo = 'kr'
                         self._recom = mmcdb.listKen('rg','rgs',keywo,chat_id)
-                        self.sender.sendMessage(mmcMsg.selection(self._recom[1],'Currency'))
+                        self.sender.sendMessage(msgMain.selection(self._recom[1],'Currency'))
                         self._vez=mmctool.printvez(self._vez)
                     elif "/change_Acc_From" in text:
                         keywo = 'fr'
                         self._recom = mmcdb.listAcc('rg','rgs',keywo,chat_id)
-                        self.sender.sendMessage(mmcMsg.selection(self._recom[1],'Account (From)'))
+                        self.sender.sendMessage(msgMain.selection(self._recom[1],'Account (From)'))
                         self._vez=mmctool.printvez(self._vez)
                     elif "/change_Acc_To" in text:
                         keywo = 'to'
                         self._recom = mmcdb.listAcc('rg','rgs',keywo,chat_id)
-                        self.sender.sendMessage(mmcMsg.selection(self._recom[1],'Account (To)'))
+                        self.sender.sendMessage(msgMain.selection(self._recom[1],'Account (To)'))
                         self._vez=mmctool.printvez(self._vez)
                     elif text.replace('/change_','') in ['Seller','Agent','Place']:
                         keywo = 'sh'
                         self._recom = mmcdb.listAcc('rg','rgs',keywo,chat_id)
-                        self.sender.sendMessage(mmcMsg.selection(self._recom[1],text.replace('/change_','')))
+                        self.sender.sendMessage(msgMain.selection(self._recom[1],text.replace('/change_','')))
                         self._vez=mmctool.printvez(self._vez)
 
             elif "/whats_now" in text:
                 if self._mod[-1] == 'outo':
-                    self.sender.sendMessage(outoMsg.main(self._temra)+mmcMsg.short('rekeswd'))
+                    self.sender.sendMessage(msgOuto.main(self._temra)+msgMain.short('rekeswd'))
                     self._vez=mmctool.printvez(self._vez)
                 elif self._mod[-1] == 'inco':
-                    self.sender.sendMessage(incoMsg.main(self._temra)+mmcMsg.short('rekeswd'))
+                    self.sender.sendMessage(msgInco.main(self._temra)+msgMain.short('rekeswd'))
                     self._vez=mmctool.printvez(self._vez)
                 elif self._mod[-1] == 'tran':
-                    self.sender.sendMessage(tranMsg.main(self._temra)+mmcMsg.short('rekeswd'))
+                    self.sender.sendMessage(msgTran.main(self._temra)+msgMain.short('rekeswd'))
                     self._vez=mmctool.printvez(self._vez)
                 elif self._mod[-1] == 'edit':
-                    self.sender.sendMessage(editMsg.main(self._temra,self._list.get('uuid',''))+mmcMsg.short('rekeswd'))
+                    self.sender.sendMessage(msgEdit.main(self._temra,self._list.get('uuid',''))+msgMain.short('rekeswd'))
                     self._vez=mmctool.printvez(self._vez)
 
             elif "/Back" in text:
                 if self._mod[-1] == 'outo':
-                    self.sender.sendMessage(outoMsg.main(self._temra)+mmcMsg.short('rekeswd'))
+                    self.sender.sendMessage(msgOuto.main(self._temra)+msgMain.short('rekeswd'))
                     self._vez=mmctool.printvez(self._vez)
                 elif self._mod[-1] == 'inco':
-                    self.sender.sendMessage(incoMsg.main(self._temra)+mmcMsg.short('rekeswd'))
+                    self.sender.sendMessage(msgInco.main(self._temra)+msgMain.short('rekeswd'))
                     self._vez=mmctool.printvez(self._vez)
                 elif self._mod[-1] == 'tran':
-                    self.sender.sendMessage(tranMsg.main(self._temra)+mmcMsg.short('rekeswd'))
+                    self.sender.sendMessage(msgTran.main(self._temra)+msgMain.short('rekeswd'))
                     self._vez=mmctool.printvez(self._vez)
                 elif self._mod[-1] == 'edit':
-                    self.sender.sendMessage(editMsg.main(self._temra,self._list.get('uuid',''))+mmcMsg.short('rekeswd'))
+                    self.sender.sendMessage(msgEdit.main(self._temra,self._list.get('uuid',''))+msgMain.short('rekeswd'))
                     self._vez=mmctool.printvez(self._vez)
 
         elif self._mod[-1] == 'defSett':
@@ -604,7 +604,7 @@ setting: """+pprint.pformat(self._setting)+"""
                     self._temra[key]=""
 
                 mmctool.printbug("Discard Account Setting\n mod",self._mod,chat_id)
-                self.sender.sendMessage(defSettMsg.discard())
+                self.sender.sendMessage(msgDefSet.discard())
                 self._vez=mmctool.printvez(self._vez)
 
                 self._mod=mmctool.popmod(self._mod)
@@ -612,20 +612,20 @@ setting: """+pprint.pformat(self._setting)+"""
 
             elif "/Save" in text:
                 mmcdb.changeSetting(self._setting,chat_id)
-                self.sender.sendMessage(defSettMsg.fins(self._setting))
+                self.sender.sendMessage(msgDefSet.fins(self._setting))
                 self._vez=mmctool.printvez(self._vez)
                 self._mod=mmctool.popmod(self._mod)
 
             elif "/Explain" in text:
-                self.sender.sendMessage(defSettMsg.warn())
+                self.sender.sendMessage(msgDefSet.warn())
                 self._vez=mmctool.printvez(self._vez)
 
             elif "/Back" in text:
-                self.sender.sendMessage(defSettMsg.lista(self._setting))
+                self.sender.sendMessage(msgDefSet.lista(self._setting))
                 self._vez=mmctool.printvez(self._vez)
 
             elif "/whats_now" in text:
-                self.sender.sendMessage(defSettMsg.lista(self._temra))
+                self.sender.sendMessage(msgDefSet.lista(self._temra))
                 self._vez=mmctool.printvez(self._vez)
 
             elif "/change_" in text:
@@ -648,7 +648,7 @@ setting: """+pprint.pformat(self._setting)+"""
                     self._defSett = mmcdb.listKen('ch','chu',keywo,chat_id)
                     kenwo = sfdic[keywo]
                     sasak = mmcDefauV.keywo('ssalk')[kenwo]
-                self.sender.sendMessage(mmcMsg.selection(self._defSett[1],sasak))
+                self.sender.sendMessage(msgMain.selection(self._defSett[1],sasak))
                 self._vez=mmctool.printvez(self._vez)
 
             elif "/ch" in text:
@@ -662,11 +662,11 @@ setting: """+pprint.pformat(self._setting)+"""
                                 self._setting.update({ mmcDefauV.keywo('sf')[sette[5:7]] : self._defSett[2][sette[8:len(sette)]] })
                                 tasDeSetCha=''
                             except KeyError:
-                                tasDeSetCha=mmcMsg.keywo('rgsWarn')
+                                tasDeSetCha=msgMain.keywo('rgsWarn')
                         elif "/ch_" in sette:
                             self._setting[mmcDefauV.keywo('sf')[sette[4:6]]] = sette[7:len(sette)]
                             tasDeSetCha=''
-                tasDeSetCha=tasDeSetCha+defSettMsg.lista(self._setting)
+                tasDeSetCha=tasDeSetCha+msgDefSet.lista(self._setting)
                 self.sender.sendMessage(tasDeSetCha)
                 self._vez=mmctool.printvez(self._vez)
 
@@ -684,7 +684,7 @@ setting: """+pprint.pformat(self._setting)+"""
         self._vez=mmctool.printvez(self._vez)
 
         if content_type != 'text':
-            self.sender.sendMessage(mmcMsg.error())
+            self.sender.sendMessage(msgMain.error())
             self._vez=mmctool.printvez(self._vez)
             self.close()
             return
@@ -694,7 +694,7 @@ setting: """+pprint.pformat(self._setting)+"""
         else:
             if "/" not in initial_msg["text"]:
                 self._keywo = initial_msg["text"].replace(" ","_")
-            self.sender.sendMessage(mmcMsg.home(self._keywo))
+            self.sender.sendMessage(msgMain.home(self._keywo))
             self._vez=mmctool.printvez(self._vez)
 
         return True  # prevent on_message() from being called on the initial message
@@ -705,7 +705,7 @@ setting: """+pprint.pformat(self._setting)+"""
         mmctool.printbug("msg",msg,chat_id)
 
         if content_type != 'text':
-            self.sender.sendMessage(mmcMsg.error())
+            self.sender.sendMessage(msgMain.error())
             self.close()
             return
 
@@ -716,40 +716,40 @@ setting: """+pprint.pformat(self._setting)+"""
                 self._keywo = msg["text"].replace(" ","_")
 
             if len(self._mod) == 0:
-                self.sender.sendMessage(mmcMsg.home(self._keywo))
+                self.sender.sendMessage(msgMain.home(self._keywo))
                 self._vez=mmctool.printvez(self._vez)
 
             elif self._mod[-1] == "list":
-                self.sender.sendMessage(listMsg.main(self._list.get('datte',''),mmcdb.listList(self._list.get('datte',''),chat_id)))
+                self.sender.sendMessage(msgList.main(self._list.get('datte',''),mmcdb.listList(self._list.get('datte',''),chat_id)))
                 self._vez=mmctool.printvez(self._vez)
             elif self._mod[-1] == "edit":
-                self.sender.sendMessage(editMsg.main(self._temra,self._list.get('uuid','')))
+                self.sender.sendMessage(msgEdit.main(self._temra,self._list.get('uuid','')))
                 self._vez=mmctool.printvez(self._vez)
-                self.sender.sendMessage(editMsg.keyword(self._keywo))
+                self.sender.sendMessage(msgEdit.keyword(self._keywo))
                 self._vez=mmctool.printvez(self._vez)
 
             elif self._mod[-1] == 'statics':
                 if self._statics['mode'] == 'abratio':
-                    self.sender.sendMessage(analiMsg.abratioKeywo(self._keywo))
+                    self.sender.sendMessage(msgAnali.abratioKeywo(self._keywo))
                     self._vez=mmctool.printvez(self._vez)
                 elif self._statics['mode'] == 'atren':
-                    self.sender.sendMessage(analiMsg.atrenKeywo(self._keywo))
+                    self.sender.sendMessage(msgAnali.atrenKeywo(self._keywo))
                     self._vez=mmctool.printvez(self._vez)
 
             elif self._mod[-1] == "outo":
-                self.sender.sendMessage(outoMsg.main(self._temra))
+                self.sender.sendMessage(msgOuto.main(self._temra))
                 self._vez=mmctool.printvez(self._vez)
-                self.sender.sendMessage(outoMsg.keyword(self._keywo))
+                self.sender.sendMessage(msgOuto.keyword(self._keywo))
                 self._vez=mmctool.printvez(self._vez)
             elif self._mod[-1] == "inco":
-                self.sender.sendMessage(incoMsg.main(self._temra))
+                self.sender.sendMessage(msgInco.main(self._temra))
                 self._vez=mmctool.printvez(self._vez)
-                self.sender.sendMessage(incoMsg.keyword(self._keywo))
+                self.sender.sendMessage(msgInco.keyword(self._keywo))
                 self._vez=mmctool.printvez(self._vez)
             elif self._mod[-1] == "tran":
-                self.sender.sendMessage(tranMsg.main(self._temra))
+                self.sender.sendMessage(msgTran.main(self._temra))
                 self._vez=mmctool.printvez(self._vez)
-                self.sender.sendMessage(tranMsg.keyword(self._keywo))
+                self.sender.sendMessage(msgTran.keyword(self._keywo))
                 self._vez=mmctool.printvez(self._vez)
 
             elif self._mod[-1] == 'defSett':
@@ -760,11 +760,11 @@ setting: """+pprint.pformat(self._setting)+"""
                     self._defSett={1:["/ch_","_"+self._keywo],2:[]}
                 except UnicodeEncodeError:
                     self._defSett={1:["/chu_","_"+numme+" "+self._keywo],2:{numme:self._keywo}}
-                self.sender.sendMessage(defSettMsg.setup(self._keywo,self._defSett))
+                self.sender.sendMessage(msgDefSet.setup(self._keywo,self._defSett))
                 self._vez=mmctool.printvez(self._vez)
 
     def on__idle(self, event): # Timeout Region
-        self.sender.sendMessage(mmcMsg.timesout()+mmcMsg.short('cof'))
+        self.sender.sendMessage(msgMain.timesout()+msgMain.short('cof'))
         self._vez=mmctool.printvez(self._vez)
         self.close()
 

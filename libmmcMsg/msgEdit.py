@@ -1,4 +1,4 @@
-"""editMsg:
+"""msgEdit:
         main(temra,uuid,usrid)
         keyword(keywo)
         fin(uuid,usrid,libra)

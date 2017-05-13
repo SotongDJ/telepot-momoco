@@ -1,6 +1,6 @@
 import tool, json
 import mmctool
-# outoMsg : main(), keyword(), recom(), finis(), discard()
+# msgOuto : main(), keyword(), recom(), finis(), discard()
 
 """ self.sender.sendMessage(mmcmsg.outo(self._temra)) """
 def main(dicto):
