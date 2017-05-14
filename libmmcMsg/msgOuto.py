@@ -48,7 +48,6 @@ Keyword:
 
 　/set_as_Currency_Source
 ——————————
-　/Discard　/Save　/setting
 """
     return final
 

@@ -93,6 +93,7 @@ I received your keyword:
 
 What do you want to do?
 　/new　/list
+
 　/statics
 ——————————
 　/setting　/help
