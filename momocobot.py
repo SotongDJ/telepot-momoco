@@ -1,6 +1,6 @@
 import sys, os, traceback, telepot, time, json, random, pprint
 import tool, auth, log, mmctool, mmcdb, mmcDefauV, mmcAnali
-from libmmcMsg import msgMain, msgOuto, msgInco, msgTran, msgDefSet, msgList, msgEdit, msgAnali
+from libmsgMmc import msgMain, msgOuto, msgInco, msgTran, msgDefSet, msgList, msgEdit, msgAnali
 from telepot.delegate import per_chat_id, create_open, pave_event_space
 
 """Command list
