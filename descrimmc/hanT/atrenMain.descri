@@ -6,13 +6,18 @@
 　起始點：@dtempo@
 　終止點：@utempo@
 　（格式：yyyy-mm-dd）
-　———　　
-篩選類別： @conde@　（類別）
+　———　　　
+目標類別： @conde@　（類別）
 　其類型： @conda@　（類型）
 　/change_conda
 　———　　
-目標類型：（類型）
-　@targe@
-　/change_targe
+尺度：
+　@leve@
+日度
+　/set_Leve_in_Day
+月度
+　/set_Leve_in_Month
+年度
+　/set_Leve_in_Year
 —————
 　/Back　/Analysis

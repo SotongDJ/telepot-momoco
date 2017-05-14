@@ -65,52 +65,23 @@ def abratioResut(ligua,resut):
 
 def atrenMain(ligua,dicto):
     ledic=mmcDefauV.keywo('leve')
-    final="""Selection Card
-——————————
-Mode: """+dicto.get('mode','')+"""
-　　——————　　
-Set time period:
-　Begin: """+dicto.get('dtempo','')+"""
-　End: """+dicto.get('utempo','')+"""
-(Format of Date: yyyy-mm-dd)
-　　——————　　
-Target Class:
-　"""+dicto.get('conde','')+"""
-　From :"""+dicto.get('conda','')+"""
-　/change_conda (Top Class)
-　　——————　　
-Viewing Level:"""+ledic.get(dicto.get('leve',10),'')+"""
-　Day View
-　/set_Leve_in_Day
-　Month View
-　/set_Leve_in_Month
-　Year View
-　/set_Leve_in_Year
-——————————
-　/Back　/Analysis
-"""
+    final = open('descrimmc/'+ligua+'/atrenMain.descri').read()
+    final = final.replace('@mode@',dicto.get('mode',''))
+    final = final.replace('@dtempo@',dicto.get('dtempo',''))
+    final = final.replace('@utempo@',dicto.get('utempo',''))
+    final = final.replace('@conde@',dicto.get('conde',''))
+    final = final.replace('@conda@',dicto.get('conda',''))
+    final = final.replace('@leve@',ledic.get(dicto.get('leve',10),''))
     return final
 
 def atrenKeywo(ligua,keywo):
-    final="""Keyword Card
-——————————
-Keyword: """+keywo+"""
-　　——————　　
-Set time period:
-　Begin
-　/set_as_dtempo
-　End
-　/set_as_utempo
-　　——————　　
-Target Class:
-　/set_as_conde
-——————————
-　/Back
-"""
+    final = open('descrimmc/'+ligua+'/atrenKeywo.descri').read()
+    final = final.replace('@keywo@',keywo)
     return final
 
 def atrenResut(ligua,resut):
     print('resut : '+pprint.pformat(resut, compact=True))
+
     dtempo = resut.get('dtempo','')
     utempo = resut.get('utempo','')
     conda = resut.get('conda','')
@@ -119,46 +90,42 @@ def atrenResut(ligua,resut):
     des = resut.get('des','')
     karen = resut.get('karen','')
     sam = resut.get('sam','')
+    vam = resut.get('vam','')
+    san = resut.get('san','')
+    van = resut.get('van','')
     statik = resut.get('statik','')
+
     skdic = mmcDefauV.keywo('ssalk')
-    a = """Analytics Cards
-——————————
-Between """+dtempo+' and '+utempo+"""
-Showing Trend of """+conde+' ('+skdic.get(conda)+')'
 
-    b = """Graph of Trend:
-——————————
-"""+'\n'.join(graf)+"""
+    a = open('descrimmc/'+ligua+'/atrenResutA.descri').read()
+    a = a.replace('@dtempo@',dtempo)
+    a = a.replace('@utempo@',utempo)
+    a = a.replace('@conde@',conde)
+    a = a.replace('@conda@',skdic.get(conda))
 
-Description:
-——————————
-"""+des+"""
+    b = open('descrimmc/'+ligua+'/atrenResutB.descri').read()
+    b = b.replace('@graf@','\n'.join(graf))
+    b = b.replace('@des@',des)
+    b = b.replace('@karen@',karen)
+    b = b.replace('@sam@',str(sam))
 
-Total: """+karen+'　'+str(sam)
+    c = open('descrimmc/'+ligua+'/atrenResutC.descri').read()
+    c = c.replace('@karen@',karen)
+    c = c.replace('@sam@',str(sam))
+    c = c.replace('@san@',str(san))
+    c = c.replace('@vam@',str(vam))
+    c = c.replace('@van@',str(van))
+    c = c.replace('@sinMax@',statik.get('sinMax',''))
+    c = c.replace('@sinMaxPc@',statik.get('sinMaxPc',''))
+    c = c.replace('@sinMin@',statik.get('sinMin',''))
+    c = c.replace('@sinMinPc@',statik.get('sinMinPc',''))
+    c = c.replace('@oveMaxPc@',statik.get('oveMaxPc',''))
+    c = c.replace('@oveMaxDat@',statik.get('oveMaxDat',''))
+    c = c.replace('@oveMinPc@',statik.get('oveMinPc',''))
+    c = c.replace('@oveMinDat@',statik.get('oveMinDat',''))
+    c = c.replace('@time@',statik.get('time',''))
+    c = c.replace('@modeDat@',statik.get('modeDat',''))
 
-    c = """Statistics:
-——————————
-Total: """+karen+'　'+str(sam)+' ('+karen+'　'+str(san)+""")
-Average: """+karen+'　'+str(vam)+' ('+karen+'　'+str(van)+""")
-Normal (Removed Extreme Value)
-
-Single:
-＋Max : """+statik.get('sinMax','')+' '+karen+' '+statik.get('sinMaxPc','')+"""
-＋Min : """+statik.get('sinMin','')+' '+karen+' '+statik.get('sinMinPc','')+"""
-
-Overall:
-＋Max : """+karen+' '+statik.get('oveMaxPc','')+"""
-"""+statik.get('oveMaxDat','')+"""
-＋Min : """+karen+' '+statik.get('oveMinPc','')+"""
-"""+statik.get('oveMinDat','')+"""
-
-Mode :
-＋Times : """+statik.get('time','')+"""
-＋Date :
-"""+statik.get('modeDat','')+"""
-——————————
-　/Back
-"""
     return [a,b,c]
 
 
