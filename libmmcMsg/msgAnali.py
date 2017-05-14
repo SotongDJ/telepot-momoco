@@ -18,8 +18,9 @@ def abratioKeywo(ligua,keywo):
     final = final.replace('@keywo@',keywo)
     return final
 
-def abratioResut(resut):
+def abratioResut(ligua,resut):
     print('resut : '+pprint.pformat(resut, compact=True))
+
     dtempo = resut.get('dtempo','')
     utempo = resut.get('utempo','')
     conda = resut.get('conda','')
@@ -32,34 +33,34 @@ def abratioResut(resut):
     par = resut.get('par','')
     kub = resut.get('kub','')
     statik = resut.get('statik','')
+
     skdic = mmcDefauV.keywo('ssalk')
-    a = """Analytics Cards
-——————————
-Between """+dtempo+' and '+utempo+"""
-Choosing from """+conde+' ('+skdic.get(conda)+"""),
-Showing Ratio of """+skdic.get(targe)
 
-    b = """Graph of Ratio:
-——————————
-"""+'\n'.join(pri)+"""
+    a = open('descrimmc/'+ligua+'/abratioResutA.descri').read()
+    a = a.replace('@dtempo@',dtempo)
+    a = a.replace('@utempo@',utempo)
+    a = a.replace('@conde@',conde)
+    a = a.replace('@conda@',skdic.get(conda))
+    a = a.replace('@targe@',skdic.get(targe))
 
-Description:
-——————————
-"""+des+"""
+    b = open('descrimmc/'+ligua+'/abratioResutB.descri').read()
+    b = b.replace('@pri@','\n'.join(pri))
+    b = b.replace('@des@',des)
+    b = b.replace('@karen@',karen)
+    b = b.replace('@sam@',sam)
+    b = b.replace('@par@',par)
+    b = b.replace('@kub@',kub)
 
-Total: """+karen+' '+'　'+sam+' ('+par+'%, '+kub+')'
+    c = open('descrimmc/'+ligua+'/abratioResutC.descri').read()
+    c = c.replace('@max@',statik.get('max',''))
+    c = c.replace('@karen@',karen)
+    c = c.replace('@maxPc@',statik.get('maxPc',''))
+    c = c.replace('@max@',statik.get('max',''))
+    c = c.replace('@min@',statik.get('min',''))
+    c = c.replace('@minPc@',statik.get('minPc',''))
+    c = c.replace('@time@',statik.get('time',''))
+    c = c.replace('@dafro@',statik.get('dafro',''))
 
-    c = """Statistics:
-——————————
-Max : """+statik.get('max','')+' '+karen+' '+statik.get('maxPc','')+"""
-Min : """+statik.get('min','')+' '+karen+' '+statik.get('minPc','')+"""
-
-Mode :
-＋Times : """+statik.get('time','')+"""
-＋Date :
-"""+statik.get('dafro','')+"""
-——————————
-　/Back"""
     return [a,b,c]
 
 def atrenMain(ligua,dicto):
@@ -90,7 +91,7 @@ Viewing Level:"""+ledic.get(dicto.get('leve',10),'')+"""
 """
     return final
 
-def atrenKeywo(keywo):
+def atrenKeywo(ligua,keywo):
     final="""Keyword Card
 ——————————
 Keyword: """+keywo+"""
@@ -108,7 +109,7 @@ Target Class:
 """
     return final
 
-def atrenResut(resut):
+def atrenResut(ligua,resut):
     print('resut : '+pprint.pformat(resut, compact=True))
     dtempo = resut.get('dtempo','')
     utempo = resut.get('utempo','')
@@ -133,10 +134,14 @@ Description:
 ——————————
 """+des+"""
 
-Total: """+karen+'　'+sam
+Total: """+karen+'　'+str(sam)
 
     c = """Statistics:
 ——————————
+Total: """+karen+'　'+str(sam)+' ('+karen+'　'+str(san)+""")
+Average: """+karen+'　'+str(vam)+' ('+karen+'　'+str(van)+""")
+Normal (Removed Extreme Value)
+
 Single:
 ＋Max : """+statik.get('sinMax','')+' '+karen+' '+statik.get('sinMaxPc','')+"""
 ＋Min : """+statik.get('sinMin','')+' '+karen+' '+statik.get('sinMinPc','')+"""
@@ -157,13 +162,6 @@ Mode :
     return [a,b,c]
 
 
-def disca():
-    final="""¡ Discard !
-——————————
-
-　Closed Statistics Card
-
-——————————
-　/whats_now　/setting
-"""
+def disca(ligua):
+    final = open('descrimmc/'+ligua+'/analiDisca.descri').read()
     return final

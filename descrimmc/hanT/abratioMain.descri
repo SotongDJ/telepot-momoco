@@ -3,8 +3,8 @@
 模式：@mode@
 　———　　
 時間範圍
-　起始：@dtempo@
-　終止：@utempo@
+　起始點：@dtempo@
+　終止點：@utempo@
 　（格式：yyyy-mm-dd）
 　———　　
 篩選類別： @conde@　（類別）

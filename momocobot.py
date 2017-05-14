@@ -477,9 +477,10 @@ setting: """+pprint.pformat(self._setting)+"""
                                 tasRgs=msgTran.main(self._temra)
                             elif self._mod[-1] == 'edit':
                                 tasRgs=msgEdit.main(self._temra,self._list.get('uuid',''))
+                            tasRgs = tasRgs +'\n\n'+msgOuto.recom(self._recom[1],self._keywo)
                             self.sender.sendMessage(tasRgs)
                             self._vez=mmctool.printvez(self._vez)
-                            self.sender.sendMessage(msgOuto.recom(self._recom[1],self._keywo))
+                            #self.sender.sendMessage(msgOuto.recom(self._recom[1],self._keywo))
                             self._vez=mmctool.printvez(self._vez)
                         except KeyError:
                             print("KeyError : Doesn't Exist or Expired")

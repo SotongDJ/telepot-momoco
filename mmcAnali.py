@@ -1,4 +1,4 @@
-import pprint
+import pprint, np
 import mmcdb, tool, mmcDefauV
 
 def tima(downlimit,uplimit,lib):
@@ -283,14 +283,12 @@ def atren(usrid,dicto):
         lina = diasa + '｜' + (miro * laf)# + ' ' + str(gas.get(m))
         graf.append(lina)
 
-    som = 0
     desta=[]
     for n in sorted(gus):
         diasa = tool.uni(str(n))
         if len(diasa) < nugra:
             diasa = ('　' * (nugra-len(diasa))) + diasa
         m = gus.get(n)
-        som = som + gas.get(m)
         pttl = karen+' '+str(round(gas.get(m),2))
         ofe = pprint.pformat(gasa.get(m))#.replace('[','').replace(']','').replace('\'','')
         desta.append(diasa+'　'+m)
@@ -298,7 +296,12 @@ def atren(usrid,dicto):
         #desta.append('　'+ofe)
     des='\n'.join(desta)
 
-    sam=str(round(som,2))
+    oridat = [x for x in list(gas.values())]
+    sam = round(sum(oridat),2)
+    vam = round(sam/len(oridat),2)
+    fildat = [x for x in list(gas.values()) if abs(x - np.mean(oridat)) <= (np.std(oridat)*1)]
+    san = round(sum(fildat),2)
+    van = round(san/len(fildat),2)
 
     statik = {}
     for m in gas.keys():
@@ -358,6 +361,9 @@ def atren(usrid,dicto):
     resut.update({'des': des })
     resut.update({'karen': karen })
     resut.update({'sam': sam })
+    resut.update({'vam': vam })
+    resut.update({'san': san })
+    resut.update({'van': van })
     resut.update({'statik': statik })
 
     return resut
