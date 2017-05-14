@@ -40,8 +40,8 @@ def abratioResut(ligua,resut):
     a = a.replace('@dtempo@',dtempo)
     a = a.replace('@utempo@',utempo)
     a = a.replace('@conde@',conde)
-    a = a.replace('@conda@',skdic.get(conda))
-    a = a.replace('@targe@',skdic.get(targe))
+    a = a.replace('@conda@',skdic.get(conda,''))
+    a = a.replace('@targe@',skdic.get(targe,''))
 
     b = open('descrimmc/'+ligua+'/abratioResutB.descri').read()
     b = b.replace('@pri@','\n'.join(pri))
@@ -101,7 +101,7 @@ def atrenResut(ligua,resut):
     a = a.replace('@dtempo@',dtempo)
     a = a.replace('@utempo@',utempo)
     a = a.replace('@conde@',conde)
-    a = a.replace('@conda@',skdic.get(conda))
+    a = a.replace('@conda@',skdic.get(conda,''))
 
     b = open('descrimmc/'+ligua+'/atrenResutB.descri').read()
     b = b.replace('@graf@','\n'.join(graf))

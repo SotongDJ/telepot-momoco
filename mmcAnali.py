@@ -97,6 +97,8 @@ def abratio(usrid,dicto):
     print('gisi : '+pprint.pformat(gisi,compact=True))
 
     som = round(sum(list(gas.values())),2)
+    if round(som,2) == 0.00:
+        return {'pri':['No Data','Maybe using wrong combination']}
     sam = str(som)
     print(' som : '+pprint.pformat(som))
 
@@ -257,6 +259,8 @@ def atren(usrid,dicto):
     print('gafa : '+pprint.pformat(gafa,compact=True))
     dias = sorted(gas)
     print('dias : '+pprint.pformat(dias,compact=True))
+    if round(meksi,2) == 0.00:
+        return {'graf':['No Data','Maybe using wrong combination']}
     meksi = round(meksi,2)
     print('meksi : '+pprint.pformat(meksi))
     nume = 1

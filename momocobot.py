@@ -705,6 +705,7 @@ setting: """+pprint.pformat(self._setting)+"""
         content_type, chat_type, chat_id = telepot.glance(msg)
         self.printbug("Received",chat_id)
         mmctool.printbug("msg",msg,chat_id)
+        lingua = self._setting['ligua']
 
         if content_type != 'text':
             self.sender.sendMessage(msgMain.error())
