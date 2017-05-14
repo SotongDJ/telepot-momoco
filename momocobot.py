@@ -386,6 +386,7 @@ setting: """+pprint.pformat(self._setting)+"""
                     self.close()
 
             elif "/set_as" in text :
+                self._keywo = self._keywo.replace(" ","_")
                 if "/set_as_Date" in text:
                     self._temra.update({ 'datte' : self._keywo })
                     self._keys='datte'
@@ -712,11 +713,10 @@ setting: """+pprint.pformat(self._setting)+"""
             self.close()
             return
 
-        if "/" in msg["text"]:
+        if msg["text"][0] == '/':
             self.comme(msg)
         else:
-            if "/" not in msg["text"]:
-                self._keywo = msg["text"].replace(" ","_")
+            self._keywo = msg["text"].replace("/","")
 
             if len(self._mod) == 0:
                 self.sender.sendMessage(msgMain.home(self._keywo))
