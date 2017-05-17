@@ -122,8 +122,7 @@ setting: """+pprint.pformat(self._setting)+"""
                 self._temra['tkare'] = self._setting['karen']
             if self._keywo != "":
                 if '/' not in self._keywo:
-                    tasOut= msgMain.short('refesfin')+msgOuto.main(self._temra)
-                    tasOut= tasOut + msgMain.short('band') + msgOuto.keyword(self._keywo)
+                    tasOut = msgMain.short('refesfin') + msgOuto.keyword(self._keywo)
                     self.sender.sendMessage(tasOut)
                     self._vez=mmctool.printvez(self._vez)
             else:
@@ -733,9 +732,7 @@ setting: """+pprint.pformat(self._setting)+"""
                 self.sender.sendMessage(msgList.main(self._list.get('datte',''),mmcdb.listList(self._list.get('datte',''),chat_id)))
                 self._vez=mmctool.printvez(self._vez)
             elif self._mod[-1] == "edit":
-                tasEdit = msgEdit.main(self._temra,self._list.get('uuid',''))
-                tasEdit = tasEdit + msgMain.short('band')
-                tasEdit = tasEdit + msgEdit.keyword(self._keywo)
+                tasEdit = msgEdit.keyword(self._keywo)
                 self.sender.sendMessage(tasEdit)
                 self._vez=mmctool.printvez(self._vez)
 
@@ -748,18 +745,15 @@ setting: """+pprint.pformat(self._setting)+"""
                     self._vez=mmctool.printvez(self._vez)
 
             elif self._mod[-1] == "outo":
-                tasOut= msgOuto.main(self._temra)
-                tasOut= tasOut + msgMain.short('band') + msgOuto.keyword(self._keywo)
+                tasOut= msgOuto.keyword(self._keywo)
                 self.sender.sendMessage(tasOut)
                 self._vez=mmctool.printvez(self._vez)
             elif self._mod[-1] == "inco":
-                tasInco = msgInco.main(self._temra)
-                tasInco = tasInco + msgMain.short('band') + msgInco.keyword(self._keywo)
+                tasInco = msgInco.keyword(self._keywo)
                 self.sender.sendMessage(tasInco)
                 self._vez=mmctool.printvez(self._vez)
             elif self._mod[-1] == "tran":
-                tasTran = msgTran.main(self._temra)
-                tasTran = tasTran + msgMain.short('band') + msgTran.keyword(self._keywo)
+                tasTran = msgTran.keyword(self._keywo)
                 self.sender.sendMessage(tasTran)
                 self._vez=mmctool.printvez(self._vez)
 
