@@ -13,6 +13,7 @@ def short(tasta):
         'whatsnow':"Try /whats_now ",
         'analitempo':'abratio => dtempo,utempo,conda,conde,targe\natren => dtempo,utempo,leve,conda,conde',
         'analiWarn':"Fill in all the spaces",
+        'band':'～～～～～～～～～～\n',
     }
     return dicta.get(tasta,'')
 """ self.sender.sendMessage(mmcmsg.start()) """
