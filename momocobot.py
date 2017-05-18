@@ -369,6 +369,16 @@ setting: """+pprint.pformat(self._setting)+"""
                 if self._mod[-1] == 'edit':
                     uuid = self._list.get('uuid','')
                     record = mmcdb.chRaw(self._temra,uuid,chat_id)
+                elif self._mod[-1] == 'inco':
+                    self._temra['price'] = self._temra['tpric']
+                    self._temra['karen'] = self._temra['tkare']
+                    self._temra['fromm'] = self._setting['genis']
+                    record = mmcdb.addRaw(chat_id,self._temra)
+                elif self._mod[-1] == 'outo':
+                    self._temra['tpric'] = self._temra['price']
+                    self._temra['tkare'] = self._temra['karen']
+                    self._temra['toooo'] = self._setting['ovede']
+                    record = mmcdb.addRaw(chat_id,self._temra)
                 else:
                     record = mmcdb.addRaw(chat_id,self._temra)
 
@@ -430,8 +440,8 @@ setting: """+pprint.pformat(self._setting)+"""
                     self._temra.update({ 'desci' : self._keywo })
                     self._keys='desci'
                 elif "/set_as_Income" in text:
-                    self._temra.update({ 'price' : self._keywo })
-                    self._keys='price'
+                    self._temra.update({ 'tpric' : self._keywo })
+                    self._keys='tpric'
                 elif "/set_as_Amount_From" in text:
                     self._temra.update({ 'price' : self._keywo })
                     self._keys='price'
@@ -484,11 +494,11 @@ setting: """+pprint.pformat(self._setting)+"""
                                 tasRgs=msgTran.main(self._temra)
                             elif self._mod[-1] == 'edit':
                                 tasRgs=msgEdit.main(self._temra,self._list.get('uuid',''))
-                            tasRgs = tasRgs +'\n\n'+msgOuto.recom(self._recom[1],self._keywo)
+                            #tasRgs = tasRgs +'\n\n'+msgOuto.recom(self._recom[1],self._keywo)
                             self.sender.sendMessage(tasRgs)
                             self._vez=mmctool.printvez(self._vez)
                             #self.sender.sendMessage(msgOuto.recom(self._recom[1],self._keywo))
-                            self._vez=mmctool.printvez(self._vez)
+                            #self._vez=mmctool.printvez(self._vez)
                         except KeyError:
                             print("KeyError : Doesn't Exist or Expired")
 
@@ -516,8 +526,8 @@ setting: """+pprint.pformat(self._setting)+"""
                             tasRg=msgEdit.main(self._temra,self._list.get('uuid',''))
                         self.sender.sendMessage(tasRg)
                         self._vez=mmctool.printvez(self._vez)
-                        self.sender.sendMessage(msgOuto.recom(self._recom[1],self._keywo))
-                        self._vez=mmctool.printvez(self._vez)
+                        #self.sender.sendMessage(msgOuto.recom(self._recom[1],self._keywo))
+                        #self._vez=mmctool.printvez(self._vez)
 
             elif "/change" in text:
                 if "/change_to_" in text:
@@ -526,6 +536,8 @@ setting: """+pprint.pformat(self._setting)+"""
                         self._temra['toooo'] = self._setting['dinco']
                         self._temra['shoop'] = ''
                         self._temra['klass'] = self._setting['incom']
+                        self._temra['karen'] = self._setting['karen']
+                        self._temra['tkare'] = self._setting['karen']
                         self.sender.sendMessage(msgInco.main(self._temra)+msgMain.short('rekeswd'))
                         self._vez=mmctool.printvez(self._vez)
                         self._mod=mmctool.popmod(self._mod)
@@ -536,6 +548,8 @@ setting: """+pprint.pformat(self._setting)+"""
                         self._temra['toooo'] = self._setting['dexpe']
                         self._temra['shoop'] = ''
                         self._temra['klass'] = self._setting['tanfe']
+                        self._temra['karen'] = self._setting['karen']
+                        self._temra['tkare'] = self._setting['karen']
                         self.sender.sendMessage(msgTran.main(self._temra)+msgMain.short('rekeswd'))
                         self._vez=mmctool.printvez(self._vez)
                         self._mod=mmctool.popmod(self._mod)
@@ -544,7 +558,9 @@ setting: """+pprint.pformat(self._setting)+"""
                     elif '/change_to_Expense' in text:
                         self._temra['fromm'] = self._setting['dexpe']
                         self._temra['toooo'] = self._setting['ovede']
-                        self._temra['klass'] = self._setting['']
+                        self._temra['klass'] = ''
+                        self._temra['karen'] = self._setting['karen']
+                        self._temra['tkare'] = self._setting['karen']
                         self.sender.sendMessage(msgOuto.main(self._temra)+msgMain.short('rekeswd'))
                         self._vez=mmctool.printvez(self._vez)
                         self._mod=mmctool.popmod(self._mod)

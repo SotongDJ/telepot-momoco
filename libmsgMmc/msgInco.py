@@ -37,9 +37,9 @@ def keyword(keywo):
 Keyword:
 　"""+keywo+"""
 
-　/set_as_Date
+　/set_as_Date　/set_as_Agent　
 (Format of Date: yyyy-mm-dd)
-　/set_as_Agent　/set_as_Notes
+　/set_as_Remind　/set_as_Notes
 　　——————　　
 　/set_as_Account_To　/set_as_Income
 
