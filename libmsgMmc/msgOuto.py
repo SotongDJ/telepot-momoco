@@ -48,6 +48,7 @@ Keyword:
 
 　/set_as_Currency_Source
 ——————————
+　/Discard　/whats_now
 """
     return final
 

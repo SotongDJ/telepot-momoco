@@ -60,7 +60,7 @@ Keyword:
 
 　/set_as_Currency_Target
 ——————————
-　/Discard　/Save　/setting
+　/Discard　/whats_now
 """
     return final
 
