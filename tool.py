@@ -1,4 +1,5 @@
-import os, time, random
+import os, time, random, subprocess, pprint
+import halfu
 def date(mode,text):
     a,b,c,d,e,f,g,h,i = time.localtime(time.time())
     j=[]
@@ -19,19 +20,20 @@ def date(mode,text):
         zero = '0000'
         numo = str(random.choice(range(0,10000)))
         return "".join(j)+zero[0:4-len(numo)]+numo
-
+    elif mode == 5 : # output: "yyyy-mm-dd-hh" if text = '-'
+        return text.join(j[0:4])
 
 def path(glass,id):
-    os.system("mkdir -p ./database/usr/"+str(id)+"/"+glass)
+    subprocess.call(['mkdir','-p','./database/usr/'+str(id)+'/'+glass])
     return "./database/usr/"+str(id)+"/"+glass+"/"
 
-def check(glass,id):
-    if glass == "mode":
-        aa=open("./database/usr/"+str(id)+"/mode","a")
-        aa.write("--")
-        aa.close()
-        bb=open("./database/usr/"+str(id)+"/mode").read().splitlines()[0].replace("--","")
-        return bb
+def ckpath(pafa,fille):
+    subprocess.call(['mkdir','-p',pafa])
+    try:
+        alla = pprint.pformat(open(pafa+fille).read().splitlines())
+    except FileNotFoundError:
+        temp=open(pafa+fille,'w')
+        temp.close
 
 def change(glass,target,id):
     if glass == "mode":
@@ -48,3 +50,10 @@ def append(glass,id):
 
 def msg(type):
     return open("database/msg/"+type).read()
+
+def uni(keywo):
+    try:
+        keywo.encode('latin-1')
+        return halfu.fullen(keywo)
+    except UnicodeEncodeError:
+        return keywo

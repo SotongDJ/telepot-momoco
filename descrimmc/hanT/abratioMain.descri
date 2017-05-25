@@ -1,0 +1,18 @@
+選擇卡
+—————
+模式：@mode@
+　———　　
+時間範圍
+　起始點：@dtempo@
+　終止點：@utempo@
+　（格式：yyyy-mm-dd）
+　———　　
+篩選類別： @conde@　（類別）
+　其類型： @conda@　（類型）
+　/change_conda
+　———　　
+目標類型：（類型）
+　@targe@
+　/change_targe
+—————
+　/Back　/Analysis
