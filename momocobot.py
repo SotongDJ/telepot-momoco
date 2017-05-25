@@ -590,6 +590,7 @@ setting: """+pprint.pformat(self._setting)+"""
                         self._vez=mmctool.printvez(self._vez)
                     elif text.replace('/change_','') in ['Seller','Agent','Place']:
                         keywo = 'sh'
+                        #self._mod[-1]
                         self._recom = mmcdb.listAcc('rg','rgs',keywo,chat_id)
                         self.sender.sendMessage(msgMain.selection(self._recom[1],text.replace('/change_','')))
                         self._vez=mmctool.printvez(self._vez)

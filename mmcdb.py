@@ -344,6 +344,8 @@ def listAcc(pref,prefs,keywo,usrid):
                 nodda = nodda + 1
     return {1:finno,2:conta}
 
+
+
 """ mmcdb.listKas('ch','chu',keywo,chat_id)"""
 def listKas(pref,prefs,keywo,usrid):
     listo = []
