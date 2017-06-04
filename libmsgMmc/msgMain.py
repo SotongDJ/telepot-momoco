@@ -1,21 +1,5 @@
 import tool, json, mmctool
 
-def short(tasta):
-    dicta={
-        'presys':'This chatbot is UNDER CONSTRUCTING\n——————————\n',
-        'con':'Create New Conversation',
-        'cof':'～～～～～～～～～～\nConversation Closed\n(Key word to start a new conv.)',
-        'refeson':'This chatbot is UNDER CONSTRUCTING\n——————————\nRefreshing database...',
-        'refesfin':'Refreshing Finished !\n～～～～～～～～～～\n',
-        'rekeswd':'～～～～～～～～～～\nGive me a word or a number',
-        'bye':'See you next time! Bye!\n(Conversation Closed !)',
-        'rgsWarn':"The keyword that you selected doesn't Exist or Expired\n～～～～～～～～～～\n",
-        'whatsnow':"Try /whats_now ",
-        'analitempo':'abratio => dtempo,utempo,conda,conde,targe\natren => dtempo,utempo,leve,conda,conde',
-        'analiWarn':"Fill in all the spaces",
-        'band':'～～～～～～～～～～\n',
-    }
-    return dicta.get(tasta,'')
 """ self.sender.sendMessage(mmcmsg.start()) """
 def start():
     final="""　Welcome

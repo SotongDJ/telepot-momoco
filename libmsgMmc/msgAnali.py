@@ -1,16 +1,16 @@
-import mmcDefauV,pprint
+import mmcDefauV, mmctool, pprint
 def chooseMode(ligua):
     final = open('descrimmc/'+ligua+'/analiChoose.descri').read()
     return final
 
 def abratioMain(ligua,dicto):
     final = open('descrimmc/'+ligua+'/abratioMain.descri').read()
-    final = final.replace('@mode@',dicto.get('mode',''))
-    final = final.replace('@dtempo@',dicto.get('dtempo',''))
-    final = final.replace('@utempo@',dicto.get('utempo',''))
-    final = final.replace('@conde@',dicto.get('conde',''))
-    final = final.replace('@conda@',dicto.get('conda',''))
-    final = final.replace('@targe@',dicto.get('targe',''))
+    final = final.replace('@mode@',mmctool.ul(dicto.get('mode','')))
+    final = final.replace('@dtempo@',mmctool.ul(dicto.get('dtempo','')))
+    final = final.replace('@utempo@',mmctool.ul(dicto.get('utempo','')))
+    final = final.replace('@conde@',mmctool.ul(dicto.get('conde','')))
+    final = final.replace('@conda@',mmctool.ul(dicto.get('conda','')))
+    final = final.replace('@targe@',mmctool.ul(dicto.get('targe','')))
     return final
 
 def abratioKeywo(ligua,keywo):
@@ -66,12 +66,12 @@ def abratioResut(ligua,resut):
 def atrenMain(ligua,dicto):
     ledic=mmcDefauV.keywo('leve')
     final = open('descrimmc/'+ligua+'/atrenMain.descri').read()
-    final = final.replace('@mode@',dicto.get('mode',''))
-    final = final.replace('@dtempo@',dicto.get('dtempo',''))
-    final = final.replace('@utempo@',dicto.get('utempo',''))
-    final = final.replace('@conde@',dicto.get('conde',''))
-    final = final.replace('@conda@',dicto.get('conda',''))
-    final = final.replace('@leve@',ledic.get(dicto.get('leve',10),''))
+    final = final.replace('@mode@',mmctool.ul(dicto.get('mode','')))
+    final = final.replace('@dtempo@',mmctool.ul(dicto.get('dtempo','')))
+    final = final.replace('@utempo@',mmctool.ul(dicto.get('utempo','')))
+    final = final.replace('@conde@',mmctool.ul(dicto.get('conde','')))
+    final = final.replace('@conda@',mmctool.ul(dicto.get('conda','')))
+    final = final.replace('@leve@',mmctool.ul(ledic.get(dicto.get('leve',10),'')))
     return final
 
 def atrenKeywo(ligua,keywo):

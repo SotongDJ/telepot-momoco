@@ -41,6 +41,12 @@ def printvez(vez):
     veces.close()
     return vez+1
 
+def finvez(vez):
+    veces = open(tool.path('log/mmcbot',auth.id())+tool.date(1,'-')+'.c','a')
+    veces.write(str(vez)+"c\n")
+    veces.close()
+    return vez+1
+
 def cmdzDate(setta):
     pri = ''
     for n in setta[0]:
@@ -85,3 +91,9 @@ def filteDate(setta,leve):
             if leve in n:
                 conta.append(n)
         return [sorted(set(conta),reverse=True),'ch']
+
+def ul(testa): #underlining
+    if testa == '':
+        return '_____'
+    else:
+        return testa
