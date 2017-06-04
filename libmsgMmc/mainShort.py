@@ -15,6 +15,7 @@ def woood(lingua,tasta):
             'band':'～～～～～～～～～～\n',
             'spitpre':'--- PREV MSG ---\n',
             'spitpost':'\n--- NEXT MSG ---',
+            'emptylist':'Sorry, try fill in other blank before request list\n',
         },
         'hanT':{
             'presys':'本聊天機器人仍處於早期開發階段\n——————————\n',
@@ -31,6 +32,7 @@ def woood(lingua,tasta):
             'band':'～～～～～～～～～～\n',
             'spitpre':'～文接上文～\n',
             'spitpost':'\n～文接下文～',
+            'emptylist':'抱歉，請在索取項目列表前\n先嘗試填寫其他空格\n',
         },
     }
     return dicta.get(lingua,{}).get(tasta,'')

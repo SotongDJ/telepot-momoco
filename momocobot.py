@@ -567,9 +567,11 @@ setting: """+pprint.pformat(self._setting)+"""
                         self.sending(msgMain.selection(self._recom[1],'Account (To)'))
                     elif text.replace('/change_','') in ['Seller','Agent','Place']:
                         keywo = 'sh'
-                        #self._mod[-1]
-                        self._recom = mmcdb.listAcc('rg','rgs',keywo,chat_id)
-                        self.sending(msgMain.selection(self._recom[1],text.replace('/change_','')))
+                        self._recom = mmcdb.listSeller(self._temra.get('klass',''),'rg','rgs',keywo,chat_id)
+                        if self._recom[1] != '':
+                            self.sending(msgMain.selection(self._recom[1],text.replace('/change_','')))
+                        else:
+                            self.sending(mainShort.woood(lingua,'emptylist')+mainShort.woood(lingua,'rekeswd'))
 
             elif "/whats_now" in text:
                 if self._mod[-1] == 'outo':
