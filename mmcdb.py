@@ -344,7 +344,33 @@ def listAcc(pref,prefs,keywo,usrid):
                 nodda = nodda + 1
     return {1:finno,2:conta}
 
+""" mmcdb.listSeller(self._temra.get('klass',''),'rg','rgs',keywo,chat_id)"""
+def listSeller(klass,pref,prefs,keywo,usrid):
+    skdic = mmcDefauV.keywo('ssalk')
+    sfdic = mmcDefauV.keywo('sf')
+    listo = []
+    finno = ""
+    conta = {}
+    numme = str(random.choice(range(100,1000)))
+    nodda = 0
 
+    rawdb = opendb(usrid).get('raw',{})
+    keydb = opendb(usrid).get('key',{})
+    listo = []
+    for uuid in keydb.get('klass',{}).get(klass,[]):
+        listo.append(rawdb.get(uuid,{}).get('shoop',''))
+    lists = set(listo)
+
+    for intta in lists:
+        if intta != '':
+            try:
+                intta.encode('latin-1')
+                finno = finno + "    /"+pref+"_"+keywo+"_"+intta+" "+intta+" ("+skdic.get(keywo, skdic.get(sfdic.get(keywo,''),'') )+")\n\n"
+            except UnicodeEncodeError:
+                conta.update( { numme+str(nodda) : intta })
+                finno = finno + "    /"+prefs+"_"+keywo+"_"+numme+str(nodda)+" "+intta+" ("+skdic.get(keywo, skdic.get(sfdic.get(keywo,''),'') )+")\n\n"
+                nodda = nodda + 1
+    return {1:finno,2:conta}
 
 """ mmcdb.listKas('ch','chu',keywo,chat_id)"""
 def listKas(pref,prefs,keywo,usrid):
