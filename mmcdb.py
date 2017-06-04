@@ -293,32 +293,67 @@ def recomb(srckey,veluo,deskey,usrid):
             mmctool.printbug("No keywo",'',usrid)
     return lista
 
+""" recomc(self._keys,self._keywo,knolib,unoset,usrid) """
+def recomc(srckey,veluo,knolib,unoset,usrid):
+    #refesdb(usrid)
+    rawdb = opendb(usrid).get('raw',{})
+    keydb = opendb(usrid).get('key',{})
+    rslib = {}
+    for uuid in keydb.get(srckey,{}).get(veluo,[]):
+        mdlib = {}
+        for rawkey in rawdb.get(uuid,{}):
+            if rawkey in unoset:
+                mdlib.update({ rawkey : rawdb.get(uuid,{}).get(rawkey,'') })
+            elif rawkey in knolib.keys():
+                if rawdb.get(uuid,{}).get(rawkey,'') != knolib.get(rawkey,''):
+                    mdlib.update({ 'mismo' : 'no' })
+        if mdlib.get('mismo','') != 'no':
+            for mdkey in mdlib.keys():
+                mdlist = rslib.get(mdkey,[])
+                mdlist.append(mdlib.get(mdkey,''))
+                rslib.update({ mdkey : [x for x in mdlist if x != ''] })
+    for rskey in rslib:
+        lista = []
+        listo = rslib.get(rskey,[])
+        setto = set(listo)
+        for n in [1,2,3,4,5]:
+            try:
+                dan = max(setto,key=listo.count)
+                lista.append(dan)
+                setto.remove(dan)
+            except ValueError:
+                mmctool.printbug("Finish",'',usrid)
+        rslib.update({ rskey : lista })
+    return rslib
+
 """ mmcdb.recomtxt(self._temra,self._keys,self._keywo,['namma','klass','shoop','price'],chat_id) """
 def recomtxt(temra,keysa,keywo,deset,usrid):
     #refesdb(usrid)
     fsdic = mmcDefauV.keywo('fs')
     skdic = mmcDefauV.keywo('ssalk')
-    setto = []
+
     finno = ""
     conta = {}
     numme = str(random.choice(range(10,100)))
     nodda = 0
-    for deskey in deset:
-        mmctool.printbug('temra[deskey]',temra[deskey],usrid)
-        if temra[deskey] == "":
-            setto = recomb(keysa,keywo,deskey,usrid)
-            mmctool.printbug('setto',setto,usrid)
-            if setto != []:
-                for itema in setto:
-                    try:
-                        itema.encode('latin-1')
-                        finno = finno + "    /rg_"+fsdic[deskey]+"_"+itema+" "+itema+" ("+skdic[deskey]+")\n\n"
-                    except UnicodeEncodeError:
-                        conta[numme+str(nodda)]=itema
-                        finno = finno + "    /rgs_"+fsdic[deskey]+"_"+numme+str(nodda)+" "+itema+" ("+skdic[deskey]+")\n\n"
-                        nodda = nodda + 1
-                # old time :rgkey=" /rg_"+fsdic[deskey]+"_"
-                #           finno=finno+rgkey+rgkey.join(setto)+"\n"
+
+    knolib = {}
+    knoset = [ x for x in deset if temra.get(x,'') != '' ]
+    unoset = set(deset) - set(knoset)
+
+    for knokey in knoset:
+        knolib.update({ knokey : temra.get(knokey,'') })
+
+    rslib = recomc(keysa,keywo,knolib,unoset,usrid)
+    for rskey in rslib:
+        for itema in rslib.get(rskey,[]):
+            try:
+                itema.encode('latin-1')
+                finno = finno + "    /rg_"+fsdic[rskey]+"_"+itema+" "+itema+" ("+skdic[rskey]+")\n\n"
+            except UnicodeEncodeError:
+                conta[numme+str(nodda)]=itema
+                finno = finno + "    /rgs_"+fsdic[rskey]+"_"+numme+str(nodda)+" "+itema+" ("+skdic[rskey]+")\n\n"
+                nodda = nodda + 1
     return { 1:finno , 2:conta}
 
 """ mmcdb.listAcc('ch','chu',keywo,chat_id)"""
