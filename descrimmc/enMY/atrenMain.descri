@@ -1,23 +1,24 @@
 Selection Card
 ——————————
 Mode: @mode@
-　　——————　　
+　　　　
 Set time period:
-　Begin: @dtempo@
-　End: @utempo@
+＃Begin: @dtempo@
+＃End: @utempo@
 (Format of Date: yyyy-mm-dd)
-　　——————　　
+　　　　
 Target Class:
 　@conde@
-　From: @conda@
+＃From: @conda@
 　/change_conda (Top Class)
-　　——————　　
+　　　　
 Viewing Level:@leve@
-　Day View
+－Day View
 　/set_Leve_in_Day
-　Month View
+－Month View
 　/set_Leve_in_Month
-　Year View
+－Year View
 　/set_Leve_in_Year
+　　　　
 ——————————
 　/Back　/Analysis

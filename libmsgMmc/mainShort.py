@@ -29,8 +29,8 @@ def woood(lingua,tasta):
             'analitempo':'abratio => dtempo,utempo,conda,conde,targe\natren => dtempo,utempo,leve,conda,conde',
             'analiWarn':"請把所有空格填滿",
             'band':'～～～～～～～～～～\n',
-            'spitpre':'－文接上文－\n',
-            'spitpost':'\n－文接下文－',
+            'spitpre':'～文接上文～\n',
+            'spitpost':'\n～文接下文～',
         },
     }
     return dicta.get(lingua,{}).get(tasta,'')
