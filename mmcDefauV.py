@@ -75,5 +75,6 @@ def keywo(text):
             'Month':7,
             'Year':4,
         },
+        'recset':['namma', 'klass', 'shoop', 'price'],
     }
     return dicto[text]

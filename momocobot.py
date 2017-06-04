@@ -460,8 +460,8 @@ setting: """+pprint.pformat(self._setting)+"""
                 elif self._mod[-1] == 'edit':
                     tasRef=msgEdit.main(self._temra,self._list.get('uuid',''))
 
-                if self._keys in ['namma', 'klass', 'shoop', 'price']:
-                    self._recom = mmcdb.recomtxt(self._temra,self._keys,self._keywo,['namma','klass','shoop','price'],chat_id)
+                if self._keys in mmcDefauV.keywo('recset'):
+                    self._recom = mmcdb.recomtxt(self._temra,self._keys,self._keywo,mmcDefauV.keywo('recset'),chat_id)
                     if self._recom[1] !="" :
                         self.sending(tasRef)
                         self.sending(msgOuto.recom(self._recom[1],self._keywo))
@@ -474,30 +474,40 @@ setting: """+pprint.pformat(self._setting)+"""
                 for sette in text.split(" "):
                     if "/rgs_" in sette:
                         try:
-                            self._temra.update({ mmcDefauV.keywo('sf')[sette[5:7]] : self._recom[2][sette[8:len(sette)]] })
+                            self._keys = mmcDefauV.keywo('sf')[sette[5:7]]
+                            self._keywo = self._recom[2][sette[8:len(sette)]]
+                            self._temra.update({ self._keys : self._keywo })
+
                             if self._mod[-1] == 'outo':
-                                tasRgs=msgOuto.main(self._temra)
+                                tasRg=msgOuto.main(self._temra)
                             elif self._mod[-1] == 'inco':
-                                tasRgs=msgInco.main(self._temra)
+                                tasRg=msgInco.main(self._temra)
                             elif self._mod[-1] == 'tran':
-                                tasRgs=msgTran.main(self._temra)
+                                tasRg=msgTran.main(self._temra)
                             elif self._mod[-1] == 'edit':
-                                tasRgs=msgEdit.main(self._temra,self._list.get('uuid',''))
-                            #tasRgs = tasRgs +'\n\n'+msgOuto.recom(self._recom[1],self._keywo)
-                            self.sending(tasRgs)
+                                tasRg=msgEdit.main(self._temra,self._list.get('uuid',''))
+
                         except KeyError:
                             print("KeyError : Doesn't Exist or Expired")
 
                             if self._mod[-1] == 'outo':
-                                tasRgs=mainShort.woood(lingua,'rgsWarn')+msgOuto.main(self._temra)+mainShort.woood(lingua,'rekeswd')
+                                tasRg=mainShort.woood(lingua,'rgsWarn')+msgOuto.main(self._temra)+mainShort.woood(lingua,'rekeswd')
                             elif self._mod[-1] == 'inco':
-                                tasRgs=mainShort.woood(lingua,'rgsWarn')+msgInco.main(self._temra)+mainShort.woood(lingua,'rekeswd')
+                                tasRg=mainShort.woood(lingua,'rgsWarn')+msgInco.main(self._temra)+mainShort.woood(lingua,'rekeswd')
                             elif self._mod[-1] == 'tran':
-                                tasRgs=mainShort.woood(lingua,'rgsWarn')+msgTran.main(self._temra)+mainShort.woood(lingua,'rekeswd')
+                                tasRg=mainShort.woood(lingua,'rgsWarn')+msgTran.main(self._temra)+mainShort.woood(lingua,'rekeswd')
                             elif self._mod[-1] == 'edit':
-                                tasRgs=mainShort.woood(lingua,'rgsWarn')+msgEdit.main(self._temra,self._list.get('uuid',''))+mainShort.woood(lingua,'rekeswd')
+                                tasRg=mainShort.woood(lingua,'rgsWarn')+msgEdit.main(self._temra,self._list.get('uuid',''))+mainShort.woood(lingua,'rekeswd')
 
-                            self.sending(tasRgs)
+                        if self._keys in mmcDefauV.keywo('recset'):
+                            self._recom = mmcdb.recomtxt(self._temra,self._keys,self._keywo,mmcDefauV.keywo('recset'),chat_id)
+                            if self._recom[1] !="" :
+                                self.sending(tasRg)
+                                self.sending(msgOuto.recom(self._recom[1],self._keywo))
+                            else:
+                                self.sending(tasRg+mainShort.woood(lingua,'rekeswd'))
+                        else:
+                            self.sending(tasRg+mainShort.woood(lingua,'rekeswd'))
 
                     elif "/rg_" in sette:
                         self._temra.update({ mmcDefauV.keywo('sf')[sette[4:6]] : sette[7:len(sette)] })
@@ -509,7 +519,16 @@ setting: """+pprint.pformat(self._setting)+"""
                             tasRg=msgTran.main(self._temra)
                         elif self._mod[-1] == 'edit':
                             tasRg=msgEdit.main(self._temra,self._list.get('uuid',''))
-                        self.sending(tasRg)
+
+                        if self._keys in mmcDefauV.keywo('recset'):
+                            self._recom = mmcdb.recomtxt(self._temra,self._keys,self._keywo,mmcDefauV.keywo('recset'),chat_id)
+                            if self._recom[1] !="" :
+                                self.sending(tasRg)
+                                self.sending(msgOuto.recom(self._recom[1],self._keywo))
+                            else:
+                                self.sending(tasRg+mainShort.woood(lingua,'rekeswd'))
+                        else:
+                            self.sending(tasRg+mainShort.woood(lingua,'rekeswd'))
 
             elif "/change" in text:
                 if "/change_to_" in text:
