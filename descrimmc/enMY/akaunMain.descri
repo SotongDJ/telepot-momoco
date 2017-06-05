@@ -1,0 +1,19 @@
+Selection Card
+——————————
+Mode: @mode@
+　　　　
+Set time period:
+＃Begin: @dtempo@
+＃End: @utempo@
+(Format of Date: yyyy-mm-dd)
+　　　　
+Title Class:
+　@cokas@
+　/change_cokas
+　　　　
+Target Account:
+　@targe@
+　/change_targe
+　　　　
+——————————
+　/Back　/Analysis

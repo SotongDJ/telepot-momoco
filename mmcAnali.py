@@ -373,43 +373,52 @@ def atren(usrid,dicto):
     return resut
 
 def aKaun(usrid,dicto):
+    dtempo = dicto.get('dtempo')
+    utempo = dicto.get('utempo')
     targe = dicto.get('targe','')
-    print('targe : '+targe)
-    cokey = dicto.get('cokey','')
-    print('cokey : '+cokey)
+    cokas = dicto.get('cokas','')
     balan = dicto.get('balan','0')
-    print('balan : '+balan)
+
+    libra = mmcdb.opendb(usrid)
+    rawdb = libra.get('raw',{})
+    keydb = libra.get('key',{})
+    karatio = mmcdb.openKaratio()
+    saita = mmcdb.openSetting(usrid)
+    timon = tima(dtempo,utempo,libra)
+    karen = saita.get('karen','')
+
     idsrc = []
+    tiset = []
     ssalk = mmcDefauV.keywo('ssalk')
     rslib = {
-        'list':['datte', targe, 'toooo', 'fromm'],
-        'tsil':[ssalk.get('datte',''),ssalk.get(targe,''),ssalk.get('toooo',''),ssalk.get('fromm','')]
+        'list':['datte', 'toooo', 'fromm', cokas],
+        'tsil':[ssalk.get('datte',''),ssalk.get('toooo',''),ssalk.get('fromm',''),ssalk.get(cokas,'')]
         }
+    lelib = {'datte':0, 'toooo':0, 'fromm':0, cokas:0}
     uilib = {}
     inval = 0.0
     outva = 0.0
 
-    rawdb = mmcdb.opendb(usrid).get('raw',{})
-    keydb = mmcdb.opendb(usrid).get('key',{})
-    karatio = mmcdb.openKaratio()
-    saita = mmcdb.openSetting(usrid)
-    karen = saita['karen']
+    for tiora in timon:
+        tiset.extend(keydb.get('datte',{}).get(tiora,[]))
 
-    if cokey in keydb.get('fromm',{}).keys():
-        print(cokey + ' in fromm')
-        idsrc.extend(keydb.get('fromm',{}).get(cokey,[]))
+    if targe in keydb.get('fromm',{}).keys():
+        print(targe + ' in fromm')
+        idsrc.extend(keydb.get('fromm',{}).get(targe,[]))
 
-    if cokey in keydb.get('toooo',{}).keys():
-        print(cokey + ' in toooo')
-        idsrc.extend(keydb.get('toooo',{}).get(cokey,[]))
+    if targe in keydb.get('toooo',{}).keys():
+        print(targe + ' in toooo')
+        idsrc.extend(keydb.get('toooo',{}).get(targe,[]))
 
-    for uuid in idsrc:
+    idset = sorted(list( set(idsrc) - ( set(idsrc)-set(tiset) )))
+
+    for uuid in idset:
         #print(uuid)
         idlib = rawdb.get(uuid,{})
         fromm = ''
         toooo = ''
 
-        if idlib.get('fromm','') == cokey :
+        if idlib.get('fromm','') == targe :
             if idlib.get('karen','') == karen:
                 #print('karen match')
                 price = round(float(idlib.get('price','')),2)
@@ -422,7 +431,7 @@ def aKaun(usrid,dicto):
             outva = outva + price
             print('outva: '+str(outva)+' ('+str(price)+')')
 
-        elif idlib.get('toooo','') == cokey :
+        elif idlib.get('toooo','') == targe :
             if idlib.get('tkare','') == karen:
                 #print('tkare match')
                 price = round(float(idlib.get('tpric','')),2)
@@ -435,15 +444,21 @@ def aKaun(usrid,dicto):
             inval = inval + price
             print('inval: '+str(inval)+' ('+str(price)+')')
 
+        datte = tool.uni(idlib.get('datte','          ').replace('-0','- ')[5:10])
         mdlib = uilib.get(uuid,{})
         mdlib.update({
-            'datte' : idlib.get('datte'),
-            targe : idlib.get(targe),
+            'datte' : datte,
+            cokas : idlib.get(cokas,''),
             'fromm' : fromm,
             'toooo' : toooo,
         })
+        for keyo in mdlib.keys():
+            if len(mdlib.get(keyo,'')) > lelib.get(keyo,0):
+                lelib.update({ keyo : len(mdlib.get(keyo,'')) })
         uilib.update({ uuid : mdlib })
+
     rslib.update({ 'uuid' : uilib })
+    rslib.update({ 'lelib' : lelib })
     oriva = float(balan) - inval + outva
     rslib.update({ 'insum' : round(inval,2) })
     rslib.update({ 'otsum' : round(outva,2) })
