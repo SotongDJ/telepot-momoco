@@ -373,29 +373,30 @@ def atren(usrid,dicto):
     return resut
 
 def aKaun(usrid,dicto):
+    libra = mmcdb.opendb(usrid)
+    rawdb = libra.get('raw',{})
+    keydb = libra.get('key',{})
+
+    karatio = mmcdb.openKaratio()
+    saita = mmcdb.openSetting(usrid)
+    karen = saita.get('karen','')
+
     dtempo = dicto.get('dtempo')
     utempo = dicto.get('utempo')
+    timon = tima(dtempo,utempo,libra)
+
     targe = dicto.get('targe','')
     cokas = dicto.get('cokas','')
     balan = dicto.get('balan','0')
 
-    libra = mmcdb.opendb(usrid)
-    rawdb = libra.get('raw',{})
-    keydb = libra.get('key',{})
-    karatio = mmcdb.openKaratio()
-    saita = mmcdb.openSetting(usrid)
-    timon = tima(dtempo,utempo,libra)
-    karen = saita.get('karen','')
-
-    idsrc = []
-    tiset = []
+    idsrc = [] # uuid set (related with cokas)
+    tiset = [] # uuid set (related with tempo)
     ssalk = mmcDefauV.keywo('ssalk')
-    rslib = {
-        'list':['datte', 'toooo', 'fromm', cokas],
-        'tsil':[ssalk.get('datte',''),ssalk.get('toooo',''),ssalk.get('fromm',''),ssalk.get(cokas,'')]
-        }
-    lelib = {'datte':0, 'toooo':0, 'fromm':0, cokas:0}
-    uilib = {}
+    rslib = {} # rs = result
+    lelib = {'nummo':0, 'toooo':0, 'fromm':0, 'datte':0, cokas:0}
+    uilib = {} # ui = uuid sublib
+    dtlib = {} # dt = datte sublib
+    colib = {} # co = co
     inval = 0.0
     outva = 0.0
 
@@ -411,59 +412,138 @@ def aKaun(usrid,dicto):
         idsrc.extend(keydb.get('toooo',{}).get(targe,[]))
 
     idset = sorted(list( set(idsrc) - ( set(idsrc)-set(tiset) )))
+    # uuid set ( final )
+    nummo = 0
 
     for uuid in idset:
-        #print(uuid)
         idlib = rawdb.get(uuid,{})
         fromm = ''
         toooo = ''
+        nummo = nummo + 1
 
         if idlib.get('fromm','') == targe :
+
             if idlib.get('karen','') == karen:
-                #print('karen match')
                 price = round(float(idlib.get('price','')),2)
             else:
                 kaset = idlib.get('karen','')+karen
-                #print('karen converted ('+kaset+')')
                 rate = float(karatio[kaset])
                 price = round((float(idlib.get('price','')) * rate),2)
-            fromm = str(price)
+
+            fromm = tool.roundostr(price)
             outva = outva + price
-            print('outva: '+str(outva)+' ('+str(price)+')')
 
         elif idlib.get('toooo','') == targe :
+
             if idlib.get('tkare','') == karen:
-                #print('tkare match')
                 price = round(float(idlib.get('tpric','')),2)
             else:
                 kaset = idlib.get('tkare','')+karen
-                #print('tkare converted ('+kaset+')')
                 rate = float(karatio[kaset])
                 price = round((float(idlib.get('tpric','')) * rate),2)
-            toooo = str(price)
-            inval = inval + price
-            print('inval: '+str(inval)+' ('+str(price)+')')
 
-        datte = tool.uni(idlib.get('datte','          ').replace('-0','- ')[5:10])
+            toooo = tool.roundostr(price)
+            inval = inval + price
+
+        unino = tool.uni(str(nummo))
+
         mdlib = uilib.get(uuid,{})
         mdlib.update({
-            'datte' : datte,
-            cokas : idlib.get(cokas,''),
+            'nummo' : str(nummo),
+            'unino' : unino,
             'fromm' : fromm,
             'toooo' : toooo,
         })
-        for keyo in mdlib.keys():
-            if len(mdlib.get(keyo,'')) > lelib.get(keyo,0):
-                lelib.update({ keyo : len(mdlib.get(keyo,'')) })
         uilib.update({ uuid : mdlib })
 
-    rslib.update({ 'uuid' : uilib })
+        if len(unino) > lelib.get('nummo',0):
+            lelib.update({ 'nummo' : len(unino) })
+
+        for keyo in ['fromm','toooo']:
+            if mdlib.get(keyo,'') != '':
+                lalal = mdlib.get(keyo,'')
+                lelel = len(tool.roundostr(lalal))
+                if lelel > lelib.get(keyo,0):
+                    lelib.update({ keyo : lelel })
+
+        datte = tool.uni(idlib.get('datte','          ').replace('-0','- ')[5:10])
+        mdlis = dtlib.get(datte,[])
+        mdlis.append( str(nummo) )
+        dtlib.update({ datte : mdlis })
+        if len(datte) > lelib.get('datte',0):
+            lelib.update({ 'datte' : len(datte) })
+
+        cokey = idlib.get(cokas,'')
+        mdlis = colib.get(cokey,[])
+        mdlis.append( str(nummo) )
+        colib.update({ cokey : mdlis })
+        if len(cokey) > lelib.get(cokas,0):
+            lelib.update({ cokas : len(cokey) })
+
+    rslib.update({ 'uilib' : uilib })
+    rslib.update({ 'colib' : colib })
+    rslib.update({ 'dtlib' : dtlib })
     rslib.update({ 'lelib' : lelib })
+
     oriva = float(balan) - inval + outva
-    rslib.update({ 'insum' : round(inval,2) })
-    rslib.update({ 'otsum' : round(outva,2) })
-    rslib.update({ 'oriva' : round(oriva,2) })
-    rslib.update({ 'balva' : round(float(balan),2) })
+    rslib.update({ 'calcu' : {
+        'insum' : tool.roundostr(inval),
+        'otsum' : tool.roundostr(outva),
+        'oriva' : tool.roundostr(oriva),
+        'balva' : tool.roundostr(balan),
+        } })
+
+#    pprint.pprint(rslib,width=200,compact=True)
+
+    codes = ''
+    for cokey in colib.keys():
+        codes = codes + cokey+':\n'
+        conte = "　"
+        conut = 0
+        for iteme in colib.get(cokey):
+            if conut + len(iteme+'，') >= 13:
+                conte = conte + '\n　' + iteme + '，'
+                conut = len(iteme+'，')
+            else:
+                conte = conte + iteme + '，'
+                conut = conut + len(iteme+'，')
+        codes = codes + conte + '\n\n'
+
+    dtdes = ''
+    for dtkey in dtlib.keys():
+        dtdes = dtdes + dtkey +':\n'
+        conte = "　"
+        conut = 0
+        for iteme in dtlib.get(dtkey):
+            if conut + len(iteme+'，') >= 13:
+                conte = conte + '\n　' + iteme + '，'
+                conut = len(iteme+'，')
+            else:
+                conte = conte + iteme + '，'
+                conut = conut + len(iteme+'，')
+        dtdes = dtdes + conte + '\n\n'
+
+    uides = ''
+
+    for uuid in sorted(list(uilib.keys())):
+        unino = uilib.get(uuid).get('nummo')
+        if len(unino) < lelib.get('nummo',0):
+            unino = '　'*(lelib.get('nummo',0) - len(unino)) + unino
+
+        toooo = uilib.get(uuid).get('toooo')
+        if len(toooo) < lelib.get('toooo',0):
+            toooo = '　'*(lelib.get('toooo',0) - len(toooo)) + toooo
+
+        fromm = uilib.get(uuid).get('fromm')
+        if len(fromm) < lelib.get('fromm',0):
+            fromm = '　'*(lelib.get('fromm',0) - len(fromm)) + fromm
+
+        uides = uides + tool.uni(unino + ' ' + toooo + ' ' + fromm + '\n')
+
+    rslib.update({ 'codes' : codes })
+    rslib.update({ 'dtdes' : dtdes })
+    rslib.update({ 'uides' : uides })
+
     return rslib
 
 def listClass(keywo):

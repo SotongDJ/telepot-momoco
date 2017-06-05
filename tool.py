@@ -60,3 +60,11 @@ def uni(keywo):
         except UnicodeEncodeError:
             rsstr = rsstr + keno
     return rsstr
+
+def roundostr(numbe): # round() dos str
+    numba = round(float(numbe),2)
+    tamba = str(numba).split('.')
+    tampa = ''
+    if len(tamba[1]) != 2:
+        tampa = '0'
+    return str(numba)+tampa
