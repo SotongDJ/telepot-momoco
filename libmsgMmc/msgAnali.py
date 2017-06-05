@@ -8,8 +8,8 @@ def abratioMain(ligua,dicto):
     final = final.replace('@mode@',mmctool.ul(dicto.get('mode','')))
     final = final.replace('@dtempo@',mmctool.ul(dicto.get('dtempo','')))
     final = final.replace('@utempo@',mmctool.ul(dicto.get('utempo','')))
-    final = final.replace('@conde@',mmctool.ul(dicto.get('conde','')))
-    final = final.replace('@conda@',mmctool.ul(dicto.get('conda','')))
+    final = final.replace('@cokey@',mmctool.ul(dicto.get('cokey','')))
+    final = final.replace('@cokas@',mmctool.ul(dicto.get('cokas','')))
     final = final.replace('@targe@',mmctool.ul(dicto.get('targe','')))
     return final
 
@@ -23,8 +23,8 @@ def abratioResut(ligua,resut):
 
     dtempo = resut.get('dtempo','')
     utempo = resut.get('utempo','')
-    conda = resut.get('conda','')
-    conde = resut.get('conde','')
+    cokas = resut.get('cokas','')
+    cokey = resut.get('cokey','')
     targe = resut.get('targe','')
     pri = resut.get('pri',[])
     des = resut.get('des','')
@@ -39,8 +39,8 @@ def abratioResut(ligua,resut):
     a = open('descrimmc/'+ligua+'/abratioResutA.descri').read()
     a = a.replace('@dtempo@',dtempo)
     a = a.replace('@utempo@',utempo)
-    a = a.replace('@conde@',conde)
-    a = a.replace('@conda@',skdic.get(conda,''))
+    a = a.replace('@cokey@',cokey)
+    a = a.replace('@cokas@',skdic.get(cokas,''))
     a = a.replace('@targe@',skdic.get(targe,''))
 
     b = open('descrimmc/'+ligua+'/abratioResutB.descri').read()
@@ -69,8 +69,8 @@ def atrenMain(ligua,dicto):
     final = final.replace('@mode@',mmctool.ul(dicto.get('mode','')))
     final = final.replace('@dtempo@',mmctool.ul(dicto.get('dtempo','')))
     final = final.replace('@utempo@',mmctool.ul(dicto.get('utempo','')))
-    final = final.replace('@conde@',mmctool.ul(dicto.get('conde','')))
-    final = final.replace('@conda@',mmctool.ul(dicto.get('conda','')))
+    final = final.replace('@cokey@',mmctool.ul(dicto.get('cokey','')))
+    final = final.replace('@cokas@',mmctool.ul(dicto.get('cokas','')))
     final = final.replace('@leve@',mmctool.ul(ledic.get(dicto.get('leve',10),'')))
     return final
 
@@ -84,8 +84,8 @@ def atrenResut(ligua,resut):
 
     dtempo = resut.get('dtempo','')
     utempo = resut.get('utempo','')
-    conda = resut.get('conda','')
-    conde = resut.get('conde','')
+    cokas = resut.get('cokas','')
+    cokey = resut.get('cokey','')
     graf = resut.get('graf',[])
     des = resut.get('des','')
     karen = resut.get('karen','')
@@ -100,8 +100,8 @@ def atrenResut(ligua,resut):
     a = open('descrimmc/'+ligua+'/atrenResutA.descri').read()
     a = a.replace('@dtempo@',dtempo)
     a = a.replace('@utempo@',utempo)
-    a = a.replace('@conde@',conde)
-    a = a.replace('@conda@',skdic.get(conda,''))
+    a = a.replace('@cokey@',cokey)
+    a = a.replace('@cokas@',skdic.get(cokas,''))
 
     b = open('descrimmc/'+ligua+'/atrenResutB.descri').read()
     b = b.replace('@graf@','\n'.join(graf))

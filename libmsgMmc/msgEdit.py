@@ -12,7 +12,7 @@ Date: """+temra.get('datte','')+"""
 Item: """+temra.get('namma','')+"""
 Category: """+temra.get('klass','')+"""
 Seller: """+temra.get('shoop','')+"""
-　/change_Seller (or Place or Agent)
+　/change_Seller (or Agent)
 　　——————　　
 Spent from:
 """+temra.get('karen','')+" "+temra.get('price','')+' ('+temra.get('fromm','')+""")

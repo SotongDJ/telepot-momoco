@@ -21,7 +21,7 @@ def tima(downlimit,uplimit,lib):
                 if downlimit[0:4] in n:
                     toka = tik.index(n)
                     ck = 1
-                    #print('toka got : secondary')
+                    #print('toka got : secokasry')
     try:
         toko = tik.index(uplimit)
     except ValueError:
@@ -36,7 +36,7 @@ def tima(downlimit,uplimit,lib):
                 if uplimit[0:4] in n:
                     toko = tik.index(n)
                     ck = 1
-                    #print('toko got : secondary')
+                    #print('toko got : secokasry')
     tok = tik[toka:toko+1]
     print('tok : '+pprint.pformat(tok,compact=True))
     return tok
@@ -49,8 +49,8 @@ def abratio(usrid,dicto):
     dtempo=dicto.get('dtempo')
     utempo=dicto.get('utempo')
     targe=dicto.get('targe')
-    conda=dicto.get('conda')
-    conde=dicto.get('conde')
+    cokas=dicto.get('cokas')
+    cokey=dicto.get('cokey')
 
     karatio = mmcdb.openKaratio()
 
@@ -69,7 +69,7 @@ def abratio(usrid,dicto):
     kdatedb = keydb.get('datte',{})
     for tim in timon:
         for uid in kdatedb.get(tim,[]):
-            if libra['raw'][uid][conda] == conde:
+            if libra['raw'][uid][cokas] == cokey:
                 if libra['raw'][uid]['karen'] == karen:
                     price = round(float(libra['raw'][uid]['price']),2)
                 else:
@@ -184,8 +184,8 @@ def abratio(usrid,dicto):
 
     resut.update({'dtempo': dtempo })
     resut.update({'utempo': utempo })
-    resut.update({'conda': conda })
-    resut.update({'conde': conde })
+    resut.update({'cokas': cokas })
+    resut.update({'cokey': cokey })
     resut.update({'targe': targe })
     resut.update({'pri': pri })
     resut.update({'des': des })
@@ -201,8 +201,8 @@ def atren(usrid,dicto):
     dtempo=dicto.get('dtempo')
     utempo=dicto.get('utempo')
     leve=dicto.get('leve')
-    conda=dicto.get('conda')
-    conde=dicto.get('conde')
+    cokas=dicto.get('cokas')
+    cokey=dicto.get('cokey')
     karatio = mmcdb.openKaratio()
 
     saita = mmcdb.openSetting(usrid)
@@ -215,7 +215,7 @@ def atren(usrid,dicto):
     rawdb = libra['raw']
     keydb = libra['key']
     kdatedb = keydb.get('datte',{})
-    miro = tool.uni(conde[0])
+    miro = tool.uni(cokey[0])
     gas = {} # { datte : price'int'sum}
     gaf = {} # { price'int'sum : [datte]}
     gasa = {} # { datte : [price'int'indi]}
@@ -227,7 +227,7 @@ def atren(usrid,dicto):
     for tim in timon:
         for uid in kdatedb.get(tim,[]):
             datte = rawdb[uid]['datte'][0:leve]
-            if rawdb[uid][conda] == conde:
+            if rawdb[uid][cokas] == cokey:
                 if libra['raw'][uid]['karen'] == karen:
                     price = round(float(libra['raw'][uid]['price']),2)
                 else:
@@ -359,8 +359,8 @@ def atren(usrid,dicto):
 
     resut.update({'dtempo': dtempo })
     resut.update({'utempo': utempo })
-    resut.update({'conda': conda })
-    resut.update({'conde': conde })
+    resut.update({'cokas': cokas })
+    resut.update({'cokey': cokey })
     resut.update({'graf': graf })
     resut.update({'des': des })
     resut.update({'karen': karen })
@@ -371,6 +371,84 @@ def atren(usrid,dicto):
     resut.update({'statik': statik })
 
     return resut
+
+def aKaun(usrid,dicto):
+    targe = dicto.get('targe','')
+    print('targe : '+targe)
+    cokey = dicto.get('cokey','')
+    print('cokey : '+cokey)
+    balan = dicto.get('balan','0')
+    print('balan : '+balan)
+    idsrc = []
+    ssalk = mmcDefauV.keywo('ssalk')
+    rslib = {
+        'list':['datte', targe, 'toooo', 'fromm'],
+        'tsil':[ssalk.get('datte',''),ssalk.get(targe,''),ssalk.get('toooo',''),ssalk.get('fromm','')]
+        }
+    inval = 0.0
+    outva = 0.0
+
+    rawdb = mmcdb.opendb(usrid).get('raw',{})
+    keydb = mmcdb.opendb(usrid).get('key',{})
+    karatio = mmcdb.openKaratio()
+    saita = mmcdb.openSetting(usrid)
+    karen = saita['karen']
+
+    if cokey in keydb.get('fromm',{}).keys():
+        print(cokey + ' in fromm')
+        idsrc.extend(keydb.get('fromm',{}).get(cokey,[]))
+
+    if cokey in keydb.get('toooo',{}).keys():
+        print(cokey + ' in toooo')
+        idsrc.extend(keydb.get('toooo',{}).get(cokey,[]))
+
+    for uuid in idsrc:
+        #print(uuid)
+        idlib = rawdb.get(uuid,{})
+        fromm = ''
+        toooo = ''
+
+        if idlib.get('fromm','') == cokey :
+            if idlib.get('karen','') == karen:
+                #print('karen match')
+                price = round(float(idlib.get('price','')),2)
+            else:
+                kaset = idlib.get('karen','')+karen
+                #print('karen converted ('+kaset+')')
+                rate = float(karatio[kaset])
+                price = round((float(idlib.get('price','')) * rate),2)
+            fromm = str(price)
+            outva = outva + price
+            print('outva: '+str(outva)+' ('+str(price)+')')
+
+        elif idlib.get('toooo','') == cokey :
+            if idlib.get('tkare','') == karen:
+                #print('tkare match')
+                price = round(float(idlib.get('tpric','')),2)
+            else:
+                kaset = idlib.get('tkare','')+karen
+                #print('tkare converted ('+kaset+')')
+                rate = float(karatio[kaset])
+                price = round((float(idlib.get('tpric','')) * rate),2)
+            toooo = str(price)
+            inval = inval + price
+            print('inval: '+str(inval)+' ('+str(price)+')')
+
+        mdlib = rslib.get(uuid,{})
+        mdlib.update({
+            'datte' : idlib.get('datte'),
+            targe : idlib.get(targe),
+            'fromm' : fromm,
+            'toooo' : toooo,
+        })
+        rslib.update({ uuid : mdlib })
+    oriva = float(balan) - inval + outva
+    rslib.update({ 'insum' : round(inval,2) })
+    rslib.update({ 'otsum' : round(outva,2) })
+    rslib.update({ 'oriva' : round(oriva,2) })
+    rslib.update({ 'balva' : round(float(balan),2) })
+    pprint.pprint(a,width=160,compact=True)
+    return rslib
 
 def listClass(keywo):
     finno = ""

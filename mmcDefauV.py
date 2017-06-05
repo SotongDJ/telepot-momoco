@@ -28,12 +28,12 @@ def keywo(text):
         },
         'ssalk' : {
             "datte":"Date",
-            "namma":"Name, e.g item", "shoop":"Place, e.g. Seller",
+            "namma":"Name, e.g item", "shoop":"Agent, e.g. Seller",
             'fromm':'Account','toooo':'Account[To]','dinco':'Account','dexpe':'Account','genis':'Account','ovede':'Account',
             'klass':'Category','tanfe':'Category','incom':'Category',
             'karen':'Currency','tkare':'Currency[To]',
             'price':'Price','tpric':'Price',
-            'conda':'Top Class', 'conde':'Class',
+            'cokas':'Top Class', 'cokey':'Class',
             'targe':'Target Class', 'desci':'Description',
         },
         'temra' : {
@@ -47,7 +47,7 @@ def keywo(text):
             'mode':'',
             'leve':10,
             'dtempo':'','utempo':'',
-            'conda':'','conde':'',
+            'cokas':'','cokey':'',
             'targe':'',
         },
         'list' : {

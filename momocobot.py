@@ -294,15 +294,15 @@ setting: """+pprint.pformat(self._setting)+"""
 
             elif '/change_' in text:
                 skdic = mmcDefauV.keywo('ssalk')
-                if '/change_conda' in text:
-                    keywo = 'conda'
+                if '/change_cokas' in text:
+                    keywo = 'cokas'
                 elif '/change_targe' in text:
                     keywo = 'targe'
                 titil = skdic.get(keywo,'')
                 self.sending(msgMain.selection(mmcAnali.listClass(keywo),titil))
 
-            elif '/set_conda_as_' in text:
-                self._statics.update({ 'conda' : text.replace('/set_conda_as_','') })
+            elif '/set_cokas_as_' in text:
+                self._statics.update({ 'cokas' : text.replace('/set_cokas_as_','') })
                 if self._statics['mode'] == 'abratio':
                     self.sending(msgAnali.abratioMain(lingua,self._statics))
                 elif self._statics['mode'] == 'atren':
@@ -333,8 +333,8 @@ setting: """+pprint.pformat(self._setting)+"""
                     self._statics.update({ 'dtempo' : self._keywo })
                 elif '/set_as_utempo' in text:
                     self._statics.update({ 'utempo' : self._keywo })
-                elif '/set_as_conde' in text:
-                    self._statics.update({ 'conde' : self._keywo })
+                elif '/set_as_cokey' in text:
+                    self._statics.update({ 'cokey' : self._keywo })
                 elif '/set_as_targe' in text:
                     self._statics.update({ 'targe' : self._keywo })
 
@@ -409,9 +409,6 @@ setting: """+pprint.pformat(self._setting)+"""
                     self._temra.update({ 'klass' : self._keywo })
                     self._keys='klass'
                 elif "/set_as_Seller" in text:
-                    self._temra.update({ 'shoop' : self._keywo })
-                    self._keys='shoop'
-                elif "/set_as_Place" in text:
                     self._temra.update({ 'shoop' : self._keywo })
                     self._keys='shoop'
                 elif "/set_as_Agent" in text:
@@ -505,9 +502,9 @@ setting: """+pprint.pformat(self._setting)+"""
                                 self.sending(tasRg)
                                 self.sending(msgOuto.recom(self._recom[1],self._keywo))
                             else:
-                                self.sending(tasRg+mainShort.woood(lingua,'rekeswd'))
+                                self.sending(tasRg)
                         else:
-                            self.sending(tasRg+mainShort.woood(lingua,'rekeswd'))
+                            self.sending(tasRg)
 
                     elif "/rg_" in sette:
                         self._temra.update({ mmcDefauV.keywo('sf')[sette[4:6]] : sette[7:len(sette)] })
@@ -584,7 +581,7 @@ setting: """+pprint.pformat(self._setting)+"""
                         keywo = 'to'
                         self._recom = mmcdb.listAcc('rg','rgs',keywo,chat_id)
                         self.sending(msgMain.selection(self._recom[1],'Account (To)'))
-                    elif text.replace('/change_','') in ['Seller','Agent','Place']:
+                    elif text.replace('/change_','') in ['Seller','Agent']:
                         keywo = 'sh'
                         self._recom = mmcdb.listSeller(self._temra.get('klass',''),'rg','rgs',keywo,chat_id)
                         if self._recom[1] != '':
