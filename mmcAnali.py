@@ -385,6 +385,7 @@ def aKaun(usrid,dicto):
         'list':['datte', targe, 'toooo', 'fromm'],
         'tsil':[ssalk.get('datte',''),ssalk.get(targe,''),ssalk.get('toooo',''),ssalk.get('fromm','')]
         }
+    uilib = {}
     inval = 0.0
     outva = 0.0
 
@@ -434,20 +435,20 @@ def aKaun(usrid,dicto):
             inval = inval + price
             print('inval: '+str(inval)+' ('+str(price)+')')
 
-        mdlib = rslib.get(uuid,{})
+        mdlib = uilib.get(uuid,{})
         mdlib.update({
             'datte' : idlib.get('datte'),
             targe : idlib.get(targe),
             'fromm' : fromm,
             'toooo' : toooo,
         })
-        rslib.update({ uuid : mdlib })
+        uilib.update({ uuid : mdlib })
+    rslib.update({ 'uuid' : uilib })
     oriva = float(balan) - inval + outva
     rslib.update({ 'insum' : round(inval,2) })
     rslib.update({ 'otsum' : round(outva,2) })
     rslib.update({ 'oriva' : round(oriva,2) })
     rslib.update({ 'balva' : round(float(balan),2) })
-    pprint.pprint(a,width=160,compact=True)
     return rslib
 
 def listClass(keywo):
