@@ -394,13 +394,6 @@ def aKaun(usrid,dicto):
     coset = [] # cokey set
     ssalk = mmcDefauV.keywo('ssalk')
     rslib = {} # rs = result
-    lelib = {'nummo':0, 'tosum':0, 'fosum':0, 'cokey':0}
-    uilib = {} # ui = uuid
-    colib = {} # co = cokey
-    folib = {} # fo = fromm
-    tolib = {} # to = toooo
-    inval = 0.0
-    outva = 0.0
 
     for tiora in timon:
         tiset.extend(keydb.get('datte',{}).get(tiora,[]))
@@ -415,6 +408,13 @@ def aKaun(usrid,dicto):
 
     idset = sorted(list( set(idsrc) - ( set(idsrc)-set(tiset) )))
     # uuid set ( final )
+
+    uilib = {} # ui = uuid
+    colib = {} # co = cokey
+    folib = {} # fo = fromm
+    tolib = {} # to = toooo
+    inval = 0.0
+    outva = 0.0
 
     for uuid in idset:
         idlib = rawdb.get(uuid,{})
@@ -463,6 +463,11 @@ def aKaun(usrid,dicto):
         mdlis.append(toooo)
         tolib.update({ cokey : mdlis })
 
+    otsum = tool.roundostr(outva)
+    insum = tool.roundostr(inval)
+    rslib.update({ 'otsum' : otsum })
+    rslib.update({ 'insum' : insum })
+
     rslib.update({ 'uilib' : uilib })
     rslib.update({ 'colib' : colib })
     rslib.update({ 'folib' : folib })
@@ -470,6 +475,7 @@ def aKaun(usrid,dicto):
 
     nummo = 0
     pilib = {} # pi = price
+    lelib = {'nummo':0, 'tosum':0, 'fosum':0, 'cokey':0}
 
     for uuid in uilib.keys():
         nummo = nummo + 1
@@ -498,13 +504,16 @@ def aKaun(usrid,dicto):
             if len(mdlib.get(keyo,'')) > lelib.get(keyo,0):
                 lelib.update({ keyo : len(mdlib.get(keyo,'')) })
 
+        for sumwo,sumke in [['tosum',insum],['fosum',otsum]]:
+            if len(sumke) > lelib.get(sumwo,0):
+                lelib.update({ sumwo : len(sumke) })
+
         lelib.update({ 'nummo' : len(str(nummo))})
 
     rslib.update({ 'lelib' : lelib })
     rslib.update({ 'pilib' : pilib })
 
     pides = '' # pi = price
-    codes = '' # co = cokey
 
     lingua = mmcdb.openSetting(usrid).get('lingua')
     ssalk = mmcDefauV.keywo('ssalk',lingua=lingua)
@@ -516,11 +525,11 @@ def aKaun(usrid,dicto):
     c = '　'*(lelib.get('tosum',0) - 2 - b)
     d = round((lelib.get('fosum',0) - 3)/2)
     dd = '　'*d
-    ee = lelib.get('fosum',0) - 3 - d
+    e = lelib.get('fosum',0) - 3 - d
 
-    e = a +'　'+bb+'ＩＮ'+c+'　'+dd+'ＯＵＴ'
-    f = len(e)+ee
-    pides = e + '\n' + '—'*f + '\n'
+    f = a +'　'+bb+'ＩＮ'+c+'　'+dd+'ＯＵＴ'
+    g = len(f)+e
+    pides = f + '\n' + '—'*g + '\n'
 
     for nummo in sorted(list(pilib.keys())):
         cokey = pilib.get(nummo,{}).get('cokey')
@@ -544,12 +553,25 @@ def aKaun(usrid,dicto):
         d = a + str(nummo) + '　'  + b + tosum + '　'  + c + fosum
         pides = pides + tool.uni(d) + '\n'
 
-    pides = pides + '—'*f + '\n'
+    pides = pides + '—'*g + '\n'
 
     a = '　'*lelib.get('nummo',0)
 
-    pides = pides + '∑' + a 
+    if len(insum) < lelib.get('tosum',0):
+        b = '　'*(lelib.get('tosum',0) - len(insum))
+    else:
+        b = ''
 
+    if len(otsum) < lelib.get('fosum',0):
+        c = '　'*(lelib.get('fosum',0) - len(otsum))
+    else:
+        c = ''
+
+    e = '∑' + a + '　'  + b + insum + '　'  + c + otsum
+    pides = pides + tool.uni(e) + '\n'
+    pides = pides + '—'*g + '\n' + f
+
+    codes = '' # co = cokey
 
     rslib.update({ 'pides' : pides })
     rslib.update({ 'codes' : codes })
