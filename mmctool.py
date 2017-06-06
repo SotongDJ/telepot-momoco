@@ -1,5 +1,5 @@
 import json, pprint
-import tool, auth
+import tool, auth, mmcDefauV
 
 def apmod(mode,text):
     mode.append(text)
@@ -92,8 +92,14 @@ def filteDate(setta,leve):
                 conta.append(n)
         return [sorted(set(conta),reverse=True),'ch']
 
-def ul(testa): #underlining
+def ul(testa,modda='',lingua='enMY'):
+    resut = ''
+    transle = mmcDefauV.keywo('transle',lingua=lingua)
     if testa == '':
-        return '_____'
+        resut = '_____'
     else:
-        return testa
+        if modda == 'klass' :
+            resut = transle.get(testa,testa)
+        else:
+            resut = testa
+    return resut

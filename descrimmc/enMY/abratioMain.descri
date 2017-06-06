@@ -5,15 +5,17 @@ Mode: @mode@
 Set time period:
 ＃Begin: @dtempo@
 ＃End: @utempo@
-(Format of Date: yyyy-mm-dd)
+＊Format: yyyy-mm-dd
 　　　　
-Class to limit: @cokey@
-(Top Class: @cokas@ )
+Class to limit ( Top Class ):
+　@cokey@ ( @cokas@ )
 　/change_cokas
+＊E.g. Restaurant (Seller)
 　　　　
 Target Class:
 　@targe@
 　/change_targe
+＊E.g. Account
 　　　　
 ——————————
 　/Back　/Analysis

@@ -11,14 +11,13 @@
 ＃其類型： @cokas@　（類型）
 　/change_cokas
 　　　　
-尺度：
-　@leve@
-－日度
-　/set_Leve_in_Day
-－月度
-　/set_Leve_in_Month
-－年度
-　/set_Leve_in_Year
+單位： @leve@
+/set_Leve_in_Day
+　＞天數
+/set_Leve_in_Month
+　＞月數
+/set_Leve_in_Year
+　＞年數
 　　　　
 —————
 　/Back　/Analysis

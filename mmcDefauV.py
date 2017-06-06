@@ -39,6 +39,7 @@ def keywo(text,lingua='enMY'):
             'dtempo':'','utempo':'',
             'cokas':'','cokey':'',
             'targe':'',
+            'acuno':'','balan':'0',
         },
         'list' : {
             'datte': '',
@@ -66,32 +67,47 @@ def keywo(text,lingua='enMY'):
             'Year':4,
         },
         'recset':['namma', 'klass', 'shoop', 'price'],
+        'staset':{
+            'abratio':['dtempo','utempo','cokey','cokas','targe'],
+            'atren':['dtempo','utempo','cokey','cokas','leve'],
+            'akaun':['dtempo','utempo','cokey','cokas','acuno','balan'],
+        }
     }
     woood = {
         'enMY' : {
-            'ssalk' : {
+            'transle' : {
                 "datte":"Date",
-                "namma":"Name, e.g item", "shoop":"Agent, e.g. Seller",
-                'fromm':'Account','toooo':'Account[To]','dinco':'Account','dexpe':'Account','genis':'Account','ovede':'Account',
+                "namma":"Item/Remind", "shoop":"Seller/Agent",
+                'aconu':'Account','fromm':'Account[General/From]','toooo':'Account[To]',
+                'dinco':'Account[income]','dexpe':'Account[expense]',
+                'genis':'Account[G.I.S.]','ovede':'Account[O.E.D.]',
                 'klass':'Category','tanfe':'Category','incom':'Category',
-                'karen':'Currency','tkare':'Currency[To]',
-                'price':'Price','tpric':'Price',
-                'cokas':'Top Class', 'cokey':'Class',
+                'karen':'Currency[General/From]','tkare':'Currency[To]',
+                'price':'Price[General/From]','tpric':'Price[To]',
+                'cokas':'Top Class (Set)', 'cokey':'Class (Object)',
                 'targe':'Target Class', 'desci':'Description',
                 'lingua':'Language',
+                'Day':'Day',
+                'Month':'Month',
+                'Year':'Year',
             },
         },
         'hanT' : {
-            'ssalk' : {
+            'transle' : {
                 "datte":"日期",
-                "namma":"名稱，例：品名", "shoop":"中介，例：商家",
-                'fromm':'賬號','toooo':'賬戶［目標］','dinco':'賬號','dexpe':'賬號','genis':'賬號','ovede':'賬號',
-                'klass':'類別','tanfe':'類別','incom':'類別',
-                'karen':'幣種','tkare':'幣種［目標］',
-                'price':'價格','tpric':'價格［目標］',
-                'cokas':'類型', 'cokey':'類別',
-                'targe':'目標類型', 'desci':'註釋',
+                "namma":"品名／備註", "shoop":"商家／中介",
+                'aconu':'賬戶','fromm':'賬戶［通用/來源］','toooo':'賬戶［目標］',
+                'dinco':'賬戶［收入］','dexpe':'賬戶［支出］',
+                'genis':'收入賬戶［分析］','ovede':'支出賬戶［分析］',
+                'klass':'類別［用途］','tanfe':'類別［用途］','incom':'類別［用途］',
+                'karen':'幣種［通用/來源］','tkare':'幣種［目標］',
+                'price':'價格［通用/來源］','tpric':'價格［目標］',
+                'cokas':'類型［集合］', 'cokey':'類別［物件］',
+                'targe':'類型［目標］', 'desci':'註釋',
                 'lingua':'語言',
+                'Day':'天數',
+                'Month':'月數',
+                'Year':'年數',
             },
         },
     }

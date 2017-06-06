@@ -1,4 +1,5 @@
 import mmcDefauV, mmctool, pprint
+
 def chooseMode(lingua):
     final = open('descrimmc/'+lingua+'/analiChoose.descri').read()
     return final
@@ -9,8 +10,8 @@ def abratioMain(lingua,dicto):
     final = final.replace('@dtempo@',mmctool.ul(dicto.get('dtempo','')))
     final = final.replace('@utempo@',mmctool.ul(dicto.get('utempo','')))
     final = final.replace('@cokey@',mmctool.ul(dicto.get('cokey','')))
-    final = final.replace('@cokas@',mmctool.ul(dicto.get('cokas','')))
-    final = final.replace('@targe@',mmctool.ul(dicto.get('targe','')))
+    final = final.replace('@cokas@',mmctool.ul(dicto.get('cokas',''),modda='klass',lingua=lingua))
+    final = final.replace('@targe@',mmctool.ul(dicto.get('targe',''),modda='klass',lingua=lingua))
     return final
 
 def abratioKeywo(lingua,keywo):
@@ -34,7 +35,7 @@ def abratioResut(lingua,resut):
     kub = resut.get('kub','')
     statik = resut.get('statik','')
 
-    skdic = mmcDefauV.keywo('ssalk')
+    skdic = mmcDefauV.keywo('transle',lingua=lingua)
 
     a = open('descrimmc/'+lingua+'/abratioResutA.descri').read()
     a = a.replace('@dtempo@',dtempo)
@@ -64,14 +65,16 @@ def abratioResut(lingua,resut):
     return [a,b,c]
 
 def atrenMain(lingua,dicto):
-    ledic=mmcDefauV.keywo('leve')
+    ledic = mmcDefauV.keywo('leve')
+
     final = open('descrimmc/'+lingua+'/atrenMain.descri').read()
+
     final = final.replace('@mode@',mmctool.ul(dicto.get('mode','')))
     final = final.replace('@dtempo@',mmctool.ul(dicto.get('dtempo','')))
     final = final.replace('@utempo@',mmctool.ul(dicto.get('utempo','')))
     final = final.replace('@cokey@',mmctool.ul(dicto.get('cokey','')))
-    final = final.replace('@cokas@',mmctool.ul(dicto.get('cokas','')))
-    final = final.replace('@leve@',mmctool.ul(ledic.get(dicto.get('leve',10),'')))
+    final = final.replace('@cokas@',mmctool.ul(dicto.get('cokas',''),modda='klass',lingua=lingua))
+    final = final.replace('@leve@',mmctool.ul(ledic.get(dicto.get('leve',10),''),modda='klass',lingua=lingua))
     return final
 
 def atrenKeywo(lingua,keywo):
@@ -95,7 +98,7 @@ def atrenResut(lingua,resut):
     van = resut.get('van','')
     statik = resut.get('statik','')
 
-    skdic = mmcDefauV.keywo('ssalk')
+    skdic = mmcDefauV.keywo('transle',lingua=lingua)
 
     a = open('descrimmc/'+lingua+'/atrenResutA.descri').read()
     a = a.replace('@dtempo@',dtempo)

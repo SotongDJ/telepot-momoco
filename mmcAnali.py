@@ -295,8 +295,9 @@ def atren(usrid,dicto):
         m = gus.get(n)
         pttl = karen+' '+str(round(gas.get(m),2))
         ofe = pprint.pformat(gasa.get(m))#.replace('[','').replace(']','').replace('\'','')
-        desta.append(diasa+'　'+m)
-        desta.append(('　'*(nugra+1)+pttl))
+        desta.append(diasa+'：')
+        desta.append('　'*(nugra-1) + m )
+        desta.append('　'*(nugra-1) + pttl + '\n' )
         #desta.append('　'+ofe)
     des='\n'.join(desta)
 
@@ -372,7 +373,7 @@ def atren(usrid,dicto):
 
     return resut
 
-def aKaun(usrid,dicto):
+def akaun(usrid,dicto):
     libra = mmcdb.opendb(usrid)
     rawdb = libra.get('raw',{})
     keydb = libra.get('key',{})
@@ -385,16 +386,30 @@ def aKaun(usrid,dicto):
     utempo = dicto.get('utempo')
     timon = tima(dtempo,utempo,libra)
 
-    targe = dicto.get('targe','')
+    acuno = dicto.get('acuno','')
     cokas = dicto.get('cokas','')
     balan = dicto.get('balan','0')
 
     idsrc = [] # uuid set (related with cokas)
     tiset = [] # uuid set (related with tempo)
     coset = [] # cokey set
-    ssalk = mmcDefauV.keywo('ssalk')
+    transle = mmcDefauV.keywo('transle')
     rslib = {} # rs = result
-    lelib = {'nummo':0, 'tosum':0, 'fosum':0, 'cokey':0}
+
+    for tiora in timon:
+        tiset.extend(keydb.get('datte',{}).get(tiora,[]))
+
+    if acuno in keydb.get('fromm',{}).keys():
+        print(acuno + ' in fromm')
+        idsrc.extend(keydb.get('fromm',{}).get(acuno,[]))
+
+    if acuno in keydb.get('toooo',{}).keys():
+        print(acuno + ' in toooo')
+        idsrc.extend(keydb.get('toooo',{}).get(acuno,[]))
+
+    idset = sorted(list( set(idsrc) - ( set(idsrc)-set(tiset) )))
+    # uuid set ( final )
+
     uilib = {} # ui = uuid
     colib = {} # co = cokey
     folib = {} # fo = fromm
@@ -402,26 +417,12 @@ def aKaun(usrid,dicto):
     inval = 0.0
     outva = 0.0
 
-    for tiora in timon:
-        tiset.extend(keydb.get('datte',{}).get(tiora,[]))
-
-    if targe in keydb.get('fromm',{}).keys():
-        print(targe + ' in fromm')
-        idsrc.extend(keydb.get('fromm',{}).get(targe,[]))
-
-    if targe in keydb.get('toooo',{}).keys():
-        print(targe + ' in toooo')
-        idsrc.extend(keydb.get('toooo',{}).get(targe,[]))
-
-    idset = sorted(list( set(idsrc) - ( set(idsrc)-set(tiset) )))
-    # uuid set ( final )
-
     for uuid in idset:
         idlib = rawdb.get(uuid,{})
         fromm = ''
         toooo = ''
 
-        if idlib.get('fromm','') == targe :
+        if idlib.get('fromm','') == acuno :
 
             if idlib.get('karen','') == karen:
                 price = round(float(idlib.get('price','')),2)
@@ -433,7 +434,7 @@ def aKaun(usrid,dicto):
             fromm = tool.roundostr(price)
             outva = outva + price
 
-        elif idlib.get('toooo','') == targe :
+        elif idlib.get('toooo','') == acuno :
 
             if idlib.get('tkare','') == karen:
                 price = round(float(idlib.get('tpric','')),2)
@@ -463,6 +464,11 @@ def aKaun(usrid,dicto):
         mdlis.append(toooo)
         tolib.update({ cokey : mdlis })
 
+    otsum = tool.roundostr(outva)
+    insum = tool.roundostr(inval)
+    rslib.update({ 'otsum' : otsum })
+    rslib.update({ 'insum' : insum })
+
     rslib.update({ 'uilib' : uilib })
     rslib.update({ 'colib' : colib })
     rslib.update({ 'folib' : folib })
@@ -470,6 +476,7 @@ def aKaun(usrid,dicto):
 
     nummo = 0
     pilib = {} # pi = price
+    lelib = {'nummo':0, 'tosum':0, 'fosum':0, 'cokey':0}
 
     for uuid in uilib.keys():
         nummo = nummo + 1
@@ -498,31 +505,102 @@ def aKaun(usrid,dicto):
             if len(mdlib.get(keyo,'')) > lelib.get(keyo,0):
                 lelib.update({ keyo : len(mdlib.get(keyo,'')) })
 
+        for sumwo,sumke in [['tosum',insum],['fosum',otsum]]:
+            if len(sumke) > lelib.get(sumwo,0):
+                lelib.update({ sumwo : len(sumke) })
+
         lelib.update({ 'nummo' : len(str(nummo))})
 
     rslib.update({ 'lelib' : lelib })
     rslib.update({ 'pilib' : pilib })
 
     pides = '' # pi = price
-    codes = '' # co = cokey
 
     lingua = mmcdb.openSetting(usrid).get('lingua')
-    ssalk = mmcDefauV.keywo('ssalk',lingua=lingua)
-    rslib.update({ 'cokas' : ssalk.get(cokas,'') })
+    transle = mmcDefauV.keywo('transle',lingua=lingua)
+    namcokas = transle.get(cokas,'')
+
+    a = '　'*lelib.get('nummo',0)
+    b = round((lelib.get('tosum',0) - 2)/2)
+    bb = '　'*b
+    c = '　'*(lelib.get('tosum',0) - 2 - b)
+    d = round((lelib.get('fosum',0) - 3)/2)
+    dd = '　'*d
+    e = lelib.get('fosum',0) - 3 - d
+
+    f = a +'　'+bb+'ＩＮ'+c+'　'+dd+'ＯＵＴ'
+    g = len(f)+e
+    pides = f + '\n' + '—'*g + '\n'
 
     for nummo in sorted(list(pilib.keys())):
-        cokey = pilib.get(nummo,'')
-        fosum = pilib.get(nummo,'')
-        tosum = pilib.get(nummo,'')
+        fosum = pilib.get(nummo,{}).get('fosum')
+        tosum = pilib.get(nummo,{}).get('tosum')
 
+        if len(str(nummo)) < lelib.get('nummo',0):
+            a = '　'*(lelib.get('nummo',0) - len(str(nummo)))
+        else:
+            a = ''
 
+        if len(tosum) < lelib.get('tosum',0):
+            b = '　'*(lelib.get('tosum',0) - len(tosum))
+        else:
+            b = ''
+
+        if len(fosum) < lelib.get('fosum',0):
+            c = '　'*(lelib.get('fosum',0) - len(fosum))
+        else:
+            c = ''
+        d = a + str(nummo) + '　'  + b + tosum + '　'  + c + fosum
+        pides = pides + tool.uni(d) + '\n'
+
+    pides = pides + '—'*g + '\n'
+
+    a = '　'*lelib.get('nummo',0)
+
+    if len(insum) < lelib.get('tosum',0):
+        b = '　'*(lelib.get('tosum',0) - len(insum))
+    else:
+        b = ''
+
+    if len(otsum) < lelib.get('fosum',0):
+        c = '　'*(lelib.get('fosum',0) - len(otsum))
+    else:
+        c = ''
+
+    e = '∑' + a + '　'  + b + insum + '　'  + c + otsum
+    pides = pides + tool.uni(e) + '\n'
+    pides = pides + '—'*g + '\n' + f
+
+    codes = '' # co = cokey
+
+    for nummo in sorted(list(pilib.keys())):
+        cokey = pilib.get(nummo,{}).get('cokey')
+
+        if len(str(nummo)) < lelib.get('nummo',0):
+            a = '　'*(lelib.get('nummo',0) - len(str(nummo)))
+        else:
+            a = ''
+
+        d = a + str(nummo) + '：'
+        codes = codes + tool.uni(d) + cokey + '\n'
+
+    rslib.update({ 'pides' : pides })
+    rslib.update({ 'codes' : codes })
 
     return rslib
 
-def listClass(keywo):
+def listClass(keywo,lingua='enMY'):
     finno = ""
-    skdic = mmcDefauV.keywo('ssalk')
-    listo = list(mmcDefauV.keywo('temra'))
+    skdic = mmcDefauV.keywo('transle',lingua=lingua)
+    listo = sorted(list(mmcDefauV.keywo('temra')))
     for intta in listo:
-        finno = finno +'>'+skdic.get(intta)+'\n　/set_'+keywo+'_as_'+intta+'\n'
+        finno = finno + '/set_'+keywo+'_as_'+intta+'\n' +'＞　'+skdic.get(intta)+'\n\n'
     return finno
+
+def check(keset):
+    modda = keset.get('mode','')
+    resut = False
+    for keyo in mmcDefauV.keywo('staset').get(modda,[]):
+        if keset.get(keyo,'') == '':
+            resut = True
+    return resut

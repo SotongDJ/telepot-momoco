@@ -330,7 +330,7 @@ def recomc(srckey,veluo,knolib,unoset,usrid):
 def recomtxt(temra,keysa,keywo,deset,usrid):
     #refesdb(usrid)
     fsdic = mmcDefauV.keywo('fs')
-    skdic = mmcDefauV.keywo('ssalk')
+    skdic = mmcDefauV.keywo('transle')
 
     finno = ""
     conta = {}
@@ -358,7 +358,7 @@ def recomtxt(temra,keysa,keywo,deset,usrid):
 
 """ mmcdb.listAcc('ch','chu',keywo,chat_id)"""
 def listAcc(pref,prefs,keywo,usrid):
-    skdic = mmcDefauV.keywo('ssalk')
+    skdic = mmcDefauV.keywo('transle')
     sfdic = mmcDefauV.keywo('sf')
     listo = []
     finno = ""
@@ -381,7 +381,7 @@ def listAcc(pref,prefs,keywo,usrid):
 
 """ mmcdb.listSeller(self._temra.get('klass',''),'rg','rgs',keywo,chat_id)"""
 def listSeller(klass,pref,prefs,keywo,usrid):
-    skdic = mmcDefauV.keywo('ssalk')
+    skdic = mmcDefauV.keywo('transle')
     sfdic = mmcDefauV.keywo('sf')
     listo = []
     finno = ""

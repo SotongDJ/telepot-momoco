@@ -5,15 +5,17 @@
 時間範圍
 ＃起始點：@dtempo@
 ＃終止點：@utempo@
-　（格式：yyyy-mm-dd）
+＊格式：yyyy-mm-dd
 　　　　
-篩選類別： @cokey@　（類別）
-＃其類型： @cokas@　（類型）
+篩選條件（其類型）：
+　@cokey@　（@cokas@）
 　/change_cokas
+＊例：餐廳（商家）
 　　　　
 目標類型：（類型）
 　@targe@
 　/change_targe
+＊例：賬戶
 　　　　
 —————
 　/Back　/Analysis
