@@ -295,8 +295,9 @@ def atren(usrid,dicto):
         m = gus.get(n)
         pttl = karen+' '+str(round(gas.get(m),2))
         ofe = pprint.pformat(gasa.get(m))#.replace('[','').replace(']','').replace('\'','')
-        desta.append(diasa+'　'+m)
-        desta.append(('　'*(nugra+1)+pttl))
+        desta.append(diasa+'：')
+        desta.append('　'*(nugra-1) + m )
+        desta.append('　'*(nugra-1) + pttl + '\n' )
         #desta.append('　'+ofe)
     des='\n'.join(desta)
 
@@ -372,7 +373,7 @@ def atren(usrid,dicto):
 
     return resut
 
-def aKaun(usrid,dicto):
+def akaun(usrid,dicto):
     libra = mmcdb.opendb(usrid)
     rawdb = libra.get('raw',{})
     keydb = libra.get('key',{})
@@ -385,26 +386,26 @@ def aKaun(usrid,dicto):
     utempo = dicto.get('utempo')
     timon = tima(dtempo,utempo,libra)
 
-    targe = dicto.get('targe','')
+    acuno = dicto.get('acuno','')
     cokas = dicto.get('cokas','')
     balan = dicto.get('balan','0')
 
     idsrc = [] # uuid set (related with cokas)
     tiset = [] # uuid set (related with tempo)
     coset = [] # cokey set
-    ssalk = mmcDefauV.keywo('ssalk')
+    transle = mmcDefauV.keywo('transle')
     rslib = {} # rs = result
 
     for tiora in timon:
         tiset.extend(keydb.get('datte',{}).get(tiora,[]))
 
-    if targe in keydb.get('fromm',{}).keys():
-        print(targe + ' in fromm')
-        idsrc.extend(keydb.get('fromm',{}).get(targe,[]))
+    if acuno in keydb.get('fromm',{}).keys():
+        print(acuno + ' in fromm')
+        idsrc.extend(keydb.get('fromm',{}).get(acuno,[]))
 
-    if targe in keydb.get('toooo',{}).keys():
-        print(targe + ' in toooo')
-        idsrc.extend(keydb.get('toooo',{}).get(targe,[]))
+    if acuno in keydb.get('toooo',{}).keys():
+        print(acuno + ' in toooo')
+        idsrc.extend(keydb.get('toooo',{}).get(acuno,[]))
 
     idset = sorted(list( set(idsrc) - ( set(idsrc)-set(tiset) )))
     # uuid set ( final )
@@ -421,7 +422,7 @@ def aKaun(usrid,dicto):
         fromm = ''
         toooo = ''
 
-        if idlib.get('fromm','') == targe :
+        if idlib.get('fromm','') == acuno :
 
             if idlib.get('karen','') == karen:
                 price = round(float(idlib.get('price','')),2)
@@ -433,7 +434,7 @@ def aKaun(usrid,dicto):
             fromm = tool.roundostr(price)
             outva = outva + price
 
-        elif idlib.get('toooo','') == targe :
+        elif idlib.get('toooo','') == acuno :
 
             if idlib.get('tkare','') == karen:
                 price = round(float(idlib.get('tpric','')),2)
@@ -516,8 +517,8 @@ def aKaun(usrid,dicto):
     pides = '' # pi = price
 
     lingua = mmcdb.openSetting(usrid).get('lingua')
-    ssalk = mmcDefauV.keywo('ssalk',lingua=lingua)
-    namcokas = ssalk.get(cokas,'')
+    transle = mmcDefauV.keywo('transle',lingua=lingua)
+    namcokas = transle.get(cokas,'')
 
     a = '　'*lelib.get('nummo',0)
     b = round((lelib.get('tosum',0) - 2)/2)
@@ -532,7 +533,6 @@ def aKaun(usrid,dicto):
     pides = f + '\n' + '—'*g + '\n'
 
     for nummo in sorted(list(pilib.keys())):
-        cokey = pilib.get(nummo,{}).get('cokey')
         fosum = pilib.get(nummo,{}).get('fosum')
         tosum = pilib.get(nummo,{}).get('tosum')
 
@@ -573,15 +573,34 @@ def aKaun(usrid,dicto):
 
     codes = '' # co = cokey
 
+    for nummo in sorted(list(pilib.keys())):
+        cokey = pilib.get(nummo,{}).get('cokey')
+
+        if len(str(nummo)) < lelib.get('nummo',0):
+            a = '　'*(lelib.get('nummo',0) - len(str(nummo)))
+        else:
+            a = ''
+
+        d = a + str(nummo) + '：'
+        codes = codes + tool.uni(d) + cokey + '\n'
+
     rslib.update({ 'pides' : pides })
     rslib.update({ 'codes' : codes })
 
     return rslib
 
-def listClass(keywo):
+def listClass(keywo,lingua='enMY'):
     finno = ""
-    skdic = mmcDefauV.keywo('ssalk')
+    skdic = mmcDefauV.keywo('transle',lingua=lingua)
     listo = list(mmcDefauV.keywo('temra'))
     for intta in listo:
-        finno = finno +'>'+skdic.get(intta)+'\n　/set_'+keywo+'_as_'+intta+'\n'
+        finno = finno + '/set_'+keywo+'_as_'+intta+'\n' +'＞　'+skdic.get(intta)+'\n\n'
     return finno
+
+def check(keset):
+    modda = keset.get('mode','')
+    resut = False
+    for keyo in mmcDefauV.keywo('staset').get(modda,[]):
+        if keset.get(keyo,'') == '':
+            resut = True
+    return resut

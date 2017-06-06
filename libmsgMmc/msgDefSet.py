@@ -43,7 +43,7 @@ Tranfer:
 　Bank A ---> Bank B , Category: Transfer
 ——————————
 Notes:
-　Chatbot are using G.I.S. and O.E.D for Analystic Purpose
+　Chatbot are using G.I.S. and O.E.D. for Analystic Purpose
 """
     return final
 

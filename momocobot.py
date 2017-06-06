@@ -34,19 +34,17 @@ class User(telepot.helper.ChatHandler):
     def printbug(self,text,usrid):
         filla = open(tool.path('log/mmcbot',auth.id())+tool.date(5,'-'),'a')
         print("---"+text+"---")
-        filla.write("""
---- pri: """+text+"""---
-Time: """+tool.date(2,'-:')+"""
-User: """+str(auth.id())+"""
-keywo: """+pprint.pformat(self._keywo)+"""
-keys: """+pprint.pformat(self._keys)+"""
-mod: """+pprint.pformat(self._mod)+"""
-temra: """+pprint.pformat(self._temra)+"""
-recom: """+pprint.pformat(self._recom)+"""
-defSett: """+pprint.pformat(self._defSett)+"""
-setting: """+pprint.pformat(self._setting)+"""
---- pri fin ---
-""")
+        filla.write('\n--- pri: ' + text + '---\n')
+        filla.write('Time: ' + tool.date(2,'-:') + '\n')
+        filla.write('User: ' + str(auth.id()) + '\n')
+        filla.write('keywo: ' + pprint.pformat(self._keywo) + '\n')
+        filla.write('keys: ' + pprint.pformat(self._keys) + '\n')
+        filla.write('mod: ' + pprint.pformat(self._mod) + '\n')
+        filla.write('temra: ' + pprint.pformat(self._temra) + '\n')
+        filla.write('recom: ' + pprint.pformat(self._recom) + '\n')
+        filla.write('defSett: ' + pprint.pformat(self._defSett) + '\n')
+        filla.write('setting: ' + pprint.pformat(self._setting) + '\n')
+        filla.write('--- pri fin ---\n')
         filla.close()
 
     def sending(self,wuerd,modda=0):
@@ -246,10 +244,9 @@ setting: """+pprint.pformat(self._setting)+"""
         elif self._mod[-1] == "statics":
             if "/Analysis" in text:
                 if self._statics['mode'] != '':
-                    if self._statics['mode'] == 'atren':
-                        self._statics['targe'] = '－－'
                     print('statics : '+pprint.pformat(self._statics, compact=True))
-                    if '' in self._statics.values():
+
+                    if mmcAnali.check(self._statics):
                         self.sending(mainShort.woood(lingua,'analiWarn'))
                     else:
                         if self._statics['mode'] == 'abratio':
@@ -284,6 +281,12 @@ setting: """+pprint.pformat(self._setting)+"""
                 self._mod=[]
                 self.close()
 
+            elif "/Discard" in text:
+                if self._statics['mode'] == 'abratio':
+                    self.sending(msgAnali.abratioMain(lingua,self._statics))
+                elif self._statics['mode'] == 'atren':
+                    self.sending(msgAnali.atrenMain(lingua,self._statics))
+
             elif '/set_Mode_as_' in text:
                 if '/set_Mode_as_abratio' in text:
                     self._statics['mode'] = 'abratio'
@@ -293,13 +296,13 @@ setting: """+pprint.pformat(self._setting)+"""
                     self.sending(msgAnali.atrenMain(lingua,self._statics))
 
             elif '/change_' in text:
-                skdic = mmcDefauV.keywo('ssalk')
+                skdic = mmcDefauV.keywo('transle')
                 if '/change_cokas' in text:
                     keywo = 'cokas'
                 elif '/change_targe' in text:
                     keywo = 'targe'
                 titil = skdic.get(keywo,'')
-                self.sending(msgMain.selection(mmcAnali.listClass(keywo),titil))
+                self.sending(msgMain.selection(mmcAnali.listClass(keywo,lingua=lingua),titil))
 
             elif '/set_cokas_as_' in text:
                 self._statics.update({ 'cokas' : text.replace('/set_cokas_as_','') })
@@ -642,19 +645,19 @@ setting: """+pprint.pformat(self._setting)+"""
                 if '/change_lingua' in text:
                     keywo = 'lingua'
                     self._defSett = mmcdb.listLigua('ch',keywo,chat_id)
-                    sasak = mmcDefauV.keywo('ssalk')['lingua']
+                    sasak = mmcDefauV.keywo('transle')['lingua']
                 elif keywo in mmcDefauV.keywo('klass')['Acc']:
                     self._defSett = mmcdb.listAcc('ch','chu',keywo,chat_id)
                     kenwo = sfdic[keywo]
-                    sasak = mmcDefauV.keywo('ssalk')[kenwo]
+                    sasak = mmcDefauV.keywo('transle')[kenwo]
                 elif keywo in mmcDefauV.keywo('klass')['Kas']:
                     self._defSett = mmcdb.listKas('ch','chu',keywo,chat_id)
                     kenwo = sfdic[keywo]
-                    sasak = mmcDefauV.keywo('ssalk')[kenwo]
+                    sasak = mmcDefauV.keywo('transle')[kenwo]
                 elif keywo in mmcDefauV.keywo('klass')['Ken']:
                     self._defSett = mmcdb.listKen('ch','chu',keywo,chat_id)
                     kenwo = sfdic[keywo]
-                    sasak = mmcDefauV.keywo('ssalk')[kenwo]
+                    sasak = mmcDefauV.keywo('transle')[kenwo]
                 self.sending(msgMain.selection(self._defSett[1],sasak))
 
             elif "/ch" in text:
@@ -753,6 +756,7 @@ setting: """+pprint.pformat(self._setting)+"""
                 self.sending(msgDefSet.setup(self._keywo,self._defSett))
 
     def on__idle(self, event): # Timeout Region
+        lingua = self._setting['lingua']
         self.sending(msgMain.timesout()+mainShort.woood(lingua,'cof') , modda = 1 )
         self.close()
 
