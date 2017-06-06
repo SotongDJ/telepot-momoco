@@ -592,7 +592,7 @@ def akaun(usrid,dicto):
 def listClass(keywo,lingua='enMY'):
     finno = ""
     skdic = mmcDefauV.keywo('transle',lingua=lingua)
-    listo = list(mmcDefauV.keywo('temra'))
+    listo = sorted(list(mmcDefauV.keywo('temra')))
     for intta in listo:
         finno = finno + '/set_'+keywo+'_as_'+intta+'\n' +'＞　'+skdic.get(intta)+'\n\n'
     return finno

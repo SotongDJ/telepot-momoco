@@ -35,7 +35,7 @@ def abratioResut(lingua,resut):
     kub = resut.get('kub','')
     statik = resut.get('statik','')
 
-    skdic = mmcDefauV.keywo('transle')
+    skdic = mmcDefauV.keywo('transle',lingua=lingua)
 
     a = open('descrimmc/'+lingua+'/abratioResutA.descri').read()
     a = a.replace('@dtempo@',dtempo)
@@ -98,7 +98,7 @@ def atrenResut(lingua,resut):
     van = resut.get('van','')
     statik = resut.get('statik','')
 
-    skdic = mmcDefauV.keywo('transle')
+    skdic = mmcDefauV.keywo('transle',lingua=lingua)
 
     a = open('descrimmc/'+lingua+'/atrenResutA.descri').read()
     a = a.replace('@dtempo@',dtempo)
