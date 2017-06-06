@@ -1,5 +1,5 @@
-def keywo(text):
-    dicto= {
+def keywo(text,lingua='enMY'):
+    genar = {
         'sf' : {
             "dt":"datte",
             "nm":"namma", "kl":"klass", "sh":"shoop",
@@ -25,16 +25,6 @@ def keywo(text):
             'Kas':['kl','tf','ic'],
             'Ken':['kr','tk'],
             'Pis':['pr','tp'],
-        },
-        'ssalk' : {
-            "datte":"Date",
-            "namma":"Name, e.g item", "shoop":"Agent, e.g. Seller",
-            'fromm':'Account','toooo':'Account[To]','dinco':'Account','dexpe':'Account','genis':'Account','ovede':'Account',
-            'klass':'Category','tanfe':'Category','incom':'Category',
-            'karen':'Currency','tkare':'Currency[To]',
-            'price':'Price','tpric':'Price',
-            'cokas':'Top Class', 'cokey':'Class',
-            'targe':'Target Class', 'desci':'Description',
         },
         'temra' : {
             "datte":"",
@@ -63,10 +53,10 @@ def keywo(text):
             'screen':13,
             'limit':'',
             'krset':{},
-            'ligua':'enMY',
+            'lingua':'enMY',
             'natio':'',
         },
-        'ligua':['enMY','hanT'],
+        'lingua':['enMY','hanT'],
         'leve':{
             10:'Day',
             7:'Month',
@@ -77,4 +67,36 @@ def keywo(text):
         },
         'recset':['namma', 'klass', 'shoop', 'price'],
     }
-    return dicto[text]
+    woood = {
+        'enMY' : {
+            'ssalk' : {
+                "datte":"Date",
+                "namma":"Name, e.g item", "shoop":"Agent, e.g. Seller",
+                'fromm':'Account','toooo':'Account[To]','dinco':'Account','dexpe':'Account','genis':'Account','ovede':'Account',
+                'klass':'Category','tanfe':'Category','incom':'Category',
+                'karen':'Currency','tkare':'Currency[To]',
+                'price':'Price','tpric':'Price',
+                'cokas':'Top Class', 'cokey':'Class',
+                'targe':'Target Class', 'desci':'Description',
+                'lingua':'Language',
+            },
+        },
+        'hanT' : {
+            'ssalk' : {
+                "datte":"日期",
+                "namma":"名稱，例：品名", "shoop":"中介，例：商家",
+                'fromm':'賬號','toooo':'賬戶［目標］','dinco':'賬號','dexpe':'賬號','genis':'賬號','ovede':'賬號',
+                'klass':'類別','tanfe':'類別','incom':'類別',
+                'karen':'幣種','tkare':'幣種［目標］',
+                'price':'價格','tpric':'價格［目標］',
+                'cokas':'類型', 'cokey':'類別',
+                'targe':'目標類型', 'desci':'註釋',
+                'lingua':'語言',
+            },
+        },
+    }
+    if text in genar.keys():
+        resut = genar.get(text,{})
+    elif text in woood[lingua].keys():
+        resut = woood[lingua].get(text,{})
+    return resut

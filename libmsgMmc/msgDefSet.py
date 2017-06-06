@@ -19,7 +19,7 @@ Curency:
 　Default Currency: """+setting['karen']+"""
 　　　——————　　
 Language:
-　Default Language: """+setting['ligua']+"""
+　Default Language: """+setting['lingua']+"""
 ——————————
 　/modify_Setting　/whats_now
 Remind:
@@ -70,7 +70,7 @@ Default Currency: (For Expense)
 　"""+setting['karen']+"""　/change_kr
 ————— Curency —————
 Default Language:
-　"""+setting['ligua']+"""　/change_ligua
+　"""+setting['lingua']+"""　/change_lingua
 ——————————
 　/Discard　/Save　/Explain
 Note:
@@ -122,7 +122,7 @@ Default Transfer: """+setting['incom']+"""
 　　——————　　
 Default Currency: """+setting['karen']+"""
 　　——————　　
-Default Language: """+setting['ligua']+"""
+Default Language: """+setting['lingua']+"""
 ——————————
 　/setting　/help　/whats_now
 Note:

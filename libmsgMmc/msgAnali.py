@@ -1,10 +1,10 @@
 import mmcDefauV, mmctool, pprint
-def chooseMode(ligua):
-    final = open('descrimmc/'+ligua+'/analiChoose.descri').read()
+def chooseMode(lingua):
+    final = open('descrimmc/'+lingua+'/analiChoose.descri').read()
     return final
 
-def abratioMain(ligua,dicto):
-    final = open('descrimmc/'+ligua+'/abratioMain.descri').read()
+def abratioMain(lingua,dicto):
+    final = open('descrimmc/'+lingua+'/abratioMain.descri').read()
     final = final.replace('@mode@',mmctool.ul(dicto.get('mode','')))
     final = final.replace('@dtempo@',mmctool.ul(dicto.get('dtempo','')))
     final = final.replace('@utempo@',mmctool.ul(dicto.get('utempo','')))
@@ -13,12 +13,12 @@ def abratioMain(ligua,dicto):
     final = final.replace('@targe@',mmctool.ul(dicto.get('targe','')))
     return final
 
-def abratioKeywo(ligua,keywo):
-    final = open('descrimmc/'+ligua+'/abratioKeywo.descri').read()
+def abratioKeywo(lingua,keywo):
+    final = open('descrimmc/'+lingua+'/abratioKeywo.descri').read()
     final = final.replace('@keywo@',keywo)
     return final
 
-def abratioResut(ligua,resut):
+def abratioResut(lingua,resut):
     print('resut : '+pprint.pformat(resut, compact=True))
 
     dtempo = resut.get('dtempo','')
@@ -36,14 +36,14 @@ def abratioResut(ligua,resut):
 
     skdic = mmcDefauV.keywo('ssalk')
 
-    a = open('descrimmc/'+ligua+'/abratioResutA.descri').read()
+    a = open('descrimmc/'+lingua+'/abratioResutA.descri').read()
     a = a.replace('@dtempo@',dtempo)
     a = a.replace('@utempo@',utempo)
     a = a.replace('@cokey@',cokey)
     a = a.replace('@cokas@',skdic.get(cokas,''))
     a = a.replace('@targe@',skdic.get(targe,''))
 
-    b = open('descrimmc/'+ligua+'/abratioResutB.descri').read()
+    b = open('descrimmc/'+lingua+'/abratioResutB.descri').read()
     b = b.replace('@pri@','\n'.join(pri))
     b = b.replace('@des@',des)
     b = b.replace('@karen@',karen)
@@ -51,7 +51,7 @@ def abratioResut(ligua,resut):
     b = b.replace('@par@',par)
     b = b.replace('@kub@',kub)
 
-    c = open('descrimmc/'+ligua+'/abratioResutC.descri').read()
+    c = open('descrimmc/'+lingua+'/abratioResutC.descri').read()
     c = c.replace('@max@',statik.get('max',''))
     c = c.replace('@karen@',karen)
     c = c.replace('@maxPc@',statik.get('maxPc',''))
@@ -63,9 +63,9 @@ def abratioResut(ligua,resut):
 
     return [a,b,c]
 
-def atrenMain(ligua,dicto):
+def atrenMain(lingua,dicto):
     ledic=mmcDefauV.keywo('leve')
-    final = open('descrimmc/'+ligua+'/atrenMain.descri').read()
+    final = open('descrimmc/'+lingua+'/atrenMain.descri').read()
     final = final.replace('@mode@',mmctool.ul(dicto.get('mode','')))
     final = final.replace('@dtempo@',mmctool.ul(dicto.get('dtempo','')))
     final = final.replace('@utempo@',mmctool.ul(dicto.get('utempo','')))
@@ -74,12 +74,12 @@ def atrenMain(ligua,dicto):
     final = final.replace('@leve@',mmctool.ul(ledic.get(dicto.get('leve',10),'')))
     return final
 
-def atrenKeywo(ligua,keywo):
-    final = open('descrimmc/'+ligua+'/atrenKeywo.descri').read()
+def atrenKeywo(lingua,keywo):
+    final = open('descrimmc/'+lingua+'/atrenKeywo.descri').read()
     final = final.replace('@keywo@',keywo)
     return final
 
-def atrenResut(ligua,resut):
+def atrenResut(lingua,resut):
     print('resut : '+pprint.pformat(resut, compact=True))
 
     dtempo = resut.get('dtempo','')
@@ -97,19 +97,19 @@ def atrenResut(ligua,resut):
 
     skdic = mmcDefauV.keywo('ssalk')
 
-    a = open('descrimmc/'+ligua+'/atrenResutA.descri').read()
+    a = open('descrimmc/'+lingua+'/atrenResutA.descri').read()
     a = a.replace('@dtempo@',dtempo)
     a = a.replace('@utempo@',utempo)
     a = a.replace('@cokey@',cokey)
     a = a.replace('@cokas@',skdic.get(cokas,''))
 
-    b = open('descrimmc/'+ligua+'/atrenResutB.descri').read()
+    b = open('descrimmc/'+lingua+'/atrenResutB.descri').read()
     b = b.replace('@graf@','\n'.join(graf))
     b = b.replace('@des@',des)
     b = b.replace('@karen@',karen)
     b = b.replace('@sam@',str(sam))
 
-    c = open('descrimmc/'+ligua+'/atrenResutC.descri').read()
+    c = open('descrimmc/'+lingua+'/atrenResutC.descri').read()
     c = c.replace('@karen@',karen)
     c = c.replace('@sam@',str(sam))
     c = c.replace('@san@',str(san))
@@ -129,6 +129,6 @@ def atrenResut(ligua,resut):
     return [a,b,c]
 
 
-def disca(ligua):
-    final = open('descrimmc/'+ligua+'/analiDisca.descri').read()
+def disca(lingua):
+    final = open('descrimmc/'+lingua+'/analiDisca.descri').read()
     return final

@@ -391,12 +391,14 @@ def aKaun(usrid,dicto):
 
     idsrc = [] # uuid set (related with cokas)
     tiset = [] # uuid set (related with tempo)
+    coset = [] # cokey set
     ssalk = mmcDefauV.keywo('ssalk')
     rslib = {} # rs = result
-    lelib = {'nummo':0, 'toooo':0, 'fromm':0, 'datte':0, cokas:0}
-    uilib = {} # ui = uuid sublib
-    dtlib = {} # dt = datte sublib
-    colib = {} # co = co
+    lelib = {'nummo':0, 'tosum':0, 'fosum':0, 'cokey':0}
+    uilib = {} # ui = uuid
+    colib = {} # co = cokey
+    folib = {} # fo = fromm
+    tolib = {} # to = toooo
     inval = 0.0
     outva = 0.0
 
@@ -413,13 +415,11 @@ def aKaun(usrid,dicto):
 
     idset = sorted(list( set(idsrc) - ( set(idsrc)-set(tiset) )))
     # uuid set ( final )
-    nummo = 0
 
     for uuid in idset:
         idlib = rawdb.get(uuid,{})
         fromm = ''
         toooo = ''
-        nummo = nummo + 1
 
         if idlib.get('fromm','') == targe :
 
@@ -445,104 +445,77 @@ def aKaun(usrid,dicto):
             toooo = tool.roundostr(price)
             inval = inval + price
 
-        unino = tool.uni(str(nummo))
-
-        mdlib = uilib.get(uuid,{})
-        mdlib.update({
-            'nummo' : str(nummo),
-            'unino' : unino,
-            'fromm' : fromm,
-            'toooo' : toooo,
-        })
-        uilib.update({ uuid : mdlib })
-
-        if len(unino) > lelib.get('nummo',0):
-            lelib.update({ 'nummo' : len(unino) })
-
-        for keyo in ['fromm','toooo']:
-            if mdlib.get(keyo,'') != '':
-                lalal = mdlib.get(keyo,'')
-                lelel = len(tool.roundostr(lalal))
-                if lelel > lelib.get(keyo,0):
-                    lelib.update({ keyo : lelel })
-
-        datte = tool.uni(idlib.get('datte','          ').replace('-0','- ')[5:10])
-        mdlis = dtlib.get(datte,[])
-        mdlis.append( str(nummo) )
-        dtlib.update({ datte : mdlis })
-        if len(datte) > lelib.get('datte',0):
-            lelib.update({ 'datte' : len(datte) })
-
         cokey = idlib.get(cokas,'')
+
+        if cokey not in coset:
+            uilib.update({ uuid : cokey })
+            coset.append(cokey)
+
         mdlis = colib.get(cokey,[])
-        mdlis.append( str(nummo) )
+        mdlis.append(uuid)
         colib.update({ cokey : mdlis })
-        if len(cokey) > lelib.get(cokas,0):
-            lelib.update({ cokas : len(cokey) })
+
+        mdlis = folib.get(cokey,[])
+        mdlis.append(fromm)
+        folib.update({ cokey : mdlis })
+
+        mdlis = tolib.get(cokey,[])
+        mdlis.append(toooo)
+        tolib.update({ cokey : mdlis })
 
     rslib.update({ 'uilib' : uilib })
     rslib.update({ 'colib' : colib })
-    rslib.update({ 'dtlib' : dtlib })
+    rslib.update({ 'folib' : folib })
+    rslib.update({ 'tolib' : tolib })
+
+    nummo = 0
+    pilib = {} # pi = price
+
+    for uuid in uilib.keys():
+        nummo = nummo + 1
+        cokey = uilib.get(uuid,'')
+
+        foset = [float(x) for x in folib.get(cokey) if x != '']
+        if sum(foset) != 0.0:
+            fosum = tool.roundostr(sum(foset))
+        else:
+            fosum = ''
+
+        toset = [float(x) for x in tolib.get(cokey) if x != '']
+        if sum(toset) != 0.0:
+            tosum = tool.roundostr(sum(toset))
+        else:
+            tosum = ''
+
+        mdlib = {
+            'cokey' : cokey,
+            'fosum' : fosum,
+            'tosum' : tosum,
+        }
+        pilib.update({ nummo : mdlib })
+
+        for keyo in mdlib.keys():
+            if len(mdlib.get(keyo,'')) > lelib.get(keyo,0):
+                lelib.update({ keyo : len(mdlib.get(keyo,'')) })
+
+        lelib.update({ 'nummo' : len(str(nummo))})
+
     rslib.update({ 'lelib' : lelib })
+    rslib.update({ 'pilib' : pilib })
 
-    oriva = float(balan) - inval + outva
-    rslib.update({ 'calcu' : {
-        'insum' : tool.roundostr(inval),
-        'otsum' : tool.roundostr(outva),
-        'oriva' : tool.roundostr(oriva),
-        'balva' : tool.roundostr(balan),
-        } })
+    pides = '' # pi = price
+    codes = '' # co = cokey
 
-#    pprint.pprint(rslib,width=200,compact=True)
+    lingua = mmcdb.openSetting(usrid).get('lingua')
+    ssalk = mmcDefauV.keywo('ssalk',lingua=lingua)
+    rslib.update({ 'cokas' : ssalk.get(cokas,'') })
 
-    codes = ''
-    for cokey in colib.keys():
-        codes = codes + cokey+':\n'
-        conte = "　"
-        conut = 0
-        for iteme in colib.get(cokey):
-            if conut + len(iteme+'，') >= 13:
-                conte = conte + '\n　' + iteme + '，'
-                conut = len(iteme+'，')
-            else:
-                conte = conte + iteme + '，'
-                conut = conut + len(iteme+'，')
-        codes = codes + conte + '\n\n'
+    for nummo in sorted(list(pilib.keys())):
+        cokey = pilib.get(nummo,'')
+        fosum = pilib.get(nummo,'')
+        tosum = pilib.get(nummo,'')
 
-    dtdes = ''
-    for dtkey in dtlib.keys():
-        dtdes = dtdes + dtkey +':\n'
-        conte = "　"
-        conut = 0
-        for iteme in dtlib.get(dtkey):
-            if conut + len(iteme+'，') >= 13:
-                conte = conte + '\n　' + iteme + '，'
-                conut = len(iteme+'，')
-            else:
-                conte = conte + iteme + '，'
-                conut = conut + len(iteme+'，')
-        dtdes = dtdes + conte + '\n\n'
 
-    uides = ''
-
-    for uuid in sorted(list(uilib.keys())):
-        unino = uilib.get(uuid).get('nummo')
-        if len(unino) < lelib.get('nummo',0):
-            unino = '　'*(lelib.get('nummo',0) - len(unino)) + unino
-
-        toooo = uilib.get(uuid).get('toooo')
-        if len(toooo) < lelib.get('toooo',0):
-            toooo = '　'*(lelib.get('toooo',0) - len(toooo)) + toooo
-
-        fromm = uilib.get(uuid).get('fromm')
-        if len(fromm) < lelib.get('fromm',0):
-            fromm = '　'*(lelib.get('fromm',0) - len(fromm)) + fromm
-
-        uides = uides + tool.uni(unino + ' ' + toooo + ' ' + fromm + '\n')
-
-    rslib.update({ 'codes' : codes })
-    rslib.update({ 'dtdes' : dtdes })
-    rslib.update({ 'uides' : uides })
 
     return rslib
 
