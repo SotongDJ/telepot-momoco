@@ -508,14 +508,51 @@ def aKaun(usrid,dicto):
 
     lingua = mmcdb.openSetting(usrid).get('lingua')
     ssalk = mmcDefauV.keywo('ssalk',lingua=lingua)
-    rslib.update({ 'cokas' : ssalk.get(cokas,'') })
+    namcokas = ssalk.get(cokas,'')
+
+    a = '　'*lelib.get('nummo',0)
+    b = round((lelib.get('tosum',0) - 2)/2)
+    bb = '　'*b
+    c = '　'*(lelib.get('tosum',0) - 2 - b)
+    d = round((lelib.get('fosum',0) - 3)/2)
+    dd = '　'*d
+    ee = lelib.get('fosum',0) - 3 - d
+
+    e = a +'　'+bb+'ＩＮ'+c+'　'+dd+'ＯＵＴ'
+    f = len(e)+ee
+    pides = e + '\n' + '—'*f + '\n'
 
     for nummo in sorted(list(pilib.keys())):
-        cokey = pilib.get(nummo,'')
-        fosum = pilib.get(nummo,'')
-        tosum = pilib.get(nummo,'')
+        cokey = pilib.get(nummo,{}).get('cokey')
+        fosum = pilib.get(nummo,{}).get('fosum')
+        tosum = pilib.get(nummo,{}).get('tosum')
+
+        if len(str(nummo)) < lelib.get('nummo',0):
+            a = '　'*(lelib.get('nummo',0) - len(str(nummo)))
+        else:
+            a = ''
+
+        if len(tosum) < lelib.get('tosum',0):
+            b = '　'*(lelib.get('tosum',0) - len(tosum))
+        else:
+            b = ''
+
+        if len(fosum) < lelib.get('fosum',0):
+            c = '　'*(lelib.get('fosum',0) - len(fosum))
+        else:
+            c = ''
+        d = a + str(nummo) + '　'  + b + tosum + '　'  + c + fosum
+        pides = pides + tool.uni(d) + '\n'
+
+    pides = pides + '—'*f + '\n'
+
+    a = '　'*lelib.get('nummo',0)
+
+    pides = pides + '∑' + a 
 
 
+    rslib.update({ 'pides' : pides })
+    rslib.update({ 'codes' : codes })
 
     return rslib
 
