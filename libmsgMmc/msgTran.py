@@ -9,8 +9,8 @@ def main(dicto):
 Date: """+dicto["datte"]+"""
 Remind: """+dicto["namma"]+"""
 Category: """+dicto["klass"]+"""
-Place: """+dicto["shoop"]+"""
-　/change_Place
+Agent: """+dicto["shoop"]+"""
+　/change_Agent
 　　——————　　
 Transfer from:
 　"""+dicto["karen"]+" "+dicto["price"]+' ('+dicto["fromm"]+""")
@@ -44,7 +44,7 @@ def keyword(keywo):
 Keyword:
 　"""+keywo+"""
 
-　/set_as_Date　/set_as_Place
+　/set_as_Date　/set_as_Agent
 (Format of Date: yyyy-mm-dd)
 　/set_as_Remind　/set_as_Notes
 ——————————
@@ -70,7 +70,7 @@ def finis(dicto):
 Date: """+dicto["datte"]+"""
 Remind: """+dicto["namma"]+"""
 Category: """+dicto["klass"]+"""
-Place: """+dicto["shoop"]+"""
+Agent: """+dicto["shoop"]+"""
 　　——————　　
 Transfer from:
 """+dicto["karen"]+" "+dicto["price"]+' ('+dicto["fromm"]+""")

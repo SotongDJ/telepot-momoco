@@ -50,7 +50,7 @@ setting: """+pprint.pformat(self._setting)+"""
         filla.close()
 
     def sending(self,wuerd,modda=0):
-        lingua = self._setting['ligua']
+        lingua = self._setting['lingua']
         if len(wuerd) >=4069:
             parta = [ wuerd[i:i+4000] for i in range(0, len(wuerd), 4000) ]
             for numo in range(0,len(parta)):
@@ -74,7 +74,7 @@ setting: """+pprint.pformat(self._setting)+"""
                 self._vez=mmctool.printvez(self._vez)
 
     def stacksend(self,staak,modda=0):
-        lingua = self._setting['ligua']
+        lingua = self._setting['lingua']
         for wuerd in staak:
             splitsend(wuerd)
 
@@ -84,7 +84,7 @@ setting: """+pprint.pformat(self._setting)+"""
     def comme(self,msg):
         content_type, chat_type, chat_id = telepot.glance(msg)
         text=msg['text']
-        lingua = self._setting['ligua']
+        lingua = self._setting['lingua']
         if "/start" in text:
             if len(self._mod) == 0:
                 tasStart=msgMain.start()+mainShort.woood(lingua,'cof')
@@ -294,15 +294,15 @@ setting: """+pprint.pformat(self._setting)+"""
 
             elif '/change_' in text:
                 skdic = mmcDefauV.keywo('ssalk')
-                if '/change_conda' in text:
-                    keywo = 'conda'
+                if '/change_cokas' in text:
+                    keywo = 'cokas'
                 elif '/change_targe' in text:
                     keywo = 'targe'
                 titil = skdic.get(keywo,'')
                 self.sending(msgMain.selection(mmcAnali.listClass(keywo),titil))
 
-            elif '/set_conda_as_' in text:
-                self._statics.update({ 'conda' : text.replace('/set_conda_as_','') })
+            elif '/set_cokas_as_' in text:
+                self._statics.update({ 'cokas' : text.replace('/set_cokas_as_','') })
                 if self._statics['mode'] == 'abratio':
                     self.sending(msgAnali.abratioMain(lingua,self._statics))
                 elif self._statics['mode'] == 'atren':
@@ -333,8 +333,8 @@ setting: """+pprint.pformat(self._setting)+"""
                     self._statics.update({ 'dtempo' : self._keywo })
                 elif '/set_as_utempo' in text:
                     self._statics.update({ 'utempo' : self._keywo })
-                elif '/set_as_conde' in text:
-                    self._statics.update({ 'conde' : self._keywo })
+                elif '/set_as_cokey' in text:
+                    self._statics.update({ 'cokey' : self._keywo })
                 elif '/set_as_targe' in text:
                     self._statics.update({ 'targe' : self._keywo })
 
@@ -409,9 +409,6 @@ setting: """+pprint.pformat(self._setting)+"""
                     self._temra.update({ 'klass' : self._keywo })
                     self._keys='klass'
                 elif "/set_as_Seller" in text:
-                    self._temra.update({ 'shoop' : self._keywo })
-                    self._keys='shoop'
-                elif "/set_as_Place" in text:
                     self._temra.update({ 'shoop' : self._keywo })
                     self._keys='shoop'
                 elif "/set_as_Agent" in text:
@@ -505,9 +502,9 @@ setting: """+pprint.pformat(self._setting)+"""
                                 self.sending(tasRg)
                                 self.sending(msgOuto.recom(self._recom[1],self._keywo))
                             else:
-                                self.sending(tasRg+mainShort.woood(lingua,'rekeswd'))
+                                self.sending(tasRg)
                         else:
-                            self.sending(tasRg+mainShort.woood(lingua,'rekeswd'))
+                            self.sending(tasRg)
 
                     elif "/rg_" in sette:
                         self._temra.update({ mmcDefauV.keywo('sf')[sette[4:6]] : sette[7:len(sette)] })
@@ -584,7 +581,7 @@ setting: """+pprint.pformat(self._setting)+"""
                         keywo = 'to'
                         self._recom = mmcdb.listAcc('rg','rgs',keywo,chat_id)
                         self.sending(msgMain.selection(self._recom[1],'Account (To)'))
-                    elif text.replace('/change_','') in ['Seller','Agent','Place']:
+                    elif text.replace('/change_','') in ['Seller','Agent']:
                         keywo = 'sh'
                         self._recom = mmcdb.listSeller(self._temra.get('klass',''),'rg','rgs',keywo,chat_id)
                         if self._recom[1] != '':
@@ -642,10 +639,10 @@ setting: """+pprint.pformat(self._setting)+"""
                 keywo = text[8:10]
                 sfdic = mmcDefauV.keywo('sf')
                 self._defSett = {}
-                if '/change_ligua' in text:
-                    keywo = 'ligua'
+                if '/change_lingua' in text:
+                    keywo = 'lingua'
                     self._defSett = mmcdb.listLigua('ch',keywo,chat_id)
-                    sasak = 'Language'
+                    sasak = mmcDefauV.keywo('ssalk')['lingua']
                 elif keywo in mmcDefauV.keywo('klass')['Acc']:
                     self._defSett = mmcdb.listAcc('ch','chu',keywo,chat_id)
                     kenwo = sfdic[keywo]
@@ -661,8 +658,8 @@ setting: """+pprint.pformat(self._setting)+"""
                 self.sending(msgMain.selection(self._defSett[1],sasak))
 
             elif "/ch" in text:
-                if '/ch_ligua_' in text:
-                    self._setting['ligua'] = text.replace('/ch_ligua_','')
+                if '/ch_lingua_' in text:
+                    self._setting['lingua'] = text.replace('/ch_lingua_','')
                     tasDeSetCha=''
                 else:
                     for sette in text.split(" "):
@@ -708,7 +705,7 @@ setting: """+pprint.pformat(self._setting)+"""
         content_type, chat_type, chat_id = telepot.glance(msg)
         self.printbug("Received",chat_id)
         mmctool.printbug("msg",msg,chat_id)
-        lingua = self._setting['ligua']
+        lingua = self._setting['lingua']
 
         if content_type != 'text':
             self.sending(msgMain.error(), modda = 1)

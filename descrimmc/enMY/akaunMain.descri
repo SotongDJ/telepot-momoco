@@ -7,18 +7,13 @@ Set time period:
 ＃End: @utempo@
 (Format of Date: yyyy-mm-dd)
 　　　　
-Target Class:
-　@cokey@
-＃From: @cokas@
-　/change_cokas (Top Class)
+Title Class:
+　@cokas@
+　/change_cokas
 　　　　
-Viewing Level:@leve@
-－Day View
-　/set_Leve_in_Day
-－Month View
-　/set_Leve_in_Month
-－Year View
-　/set_Leve_in_Year
+Target Account:
+　@targe@
+　/change_targe
 　　　　
 ——————————
 　/Back　/Analysis

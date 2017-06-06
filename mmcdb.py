@@ -451,7 +451,7 @@ def listKen(pref,prefs,keywo,usrid):
 
 def listLigua(pref,keywo,usrid):
     finno = ""
-    listo = mmcDefauV.keywo('ligua')
+    listo = mmcDefauV.keywo('lingua')
     for intta in listo:
         finno = finno + "    /"+pref+"_"+keywo+"_"+intta+" "+intta+"\n\n"
     return {1:finno,2:{}}

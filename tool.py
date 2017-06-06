@@ -52,8 +52,19 @@ def msg(type):
     return open("database/msg/"+type).read()
 
 def uni(keywo):
-    try:
-        keywo.encode('latin-1')
-        return halfu.fullen(keywo)
-    except UnicodeEncodeError:
-        return keywo
+    rsstr = ''
+    for keno in keywo:
+        try:
+            keno.encode('latin-1')
+            rsstr = rsstr + halfu.fullen(keno)
+        except UnicodeEncodeError:
+            rsstr = rsstr + keno
+    return rsstr
+
+def roundostr(numbe): # round() dos str
+    numba = round(float(numbe),2)
+    tamba = str(numba).split('.')
+    tampa = ''
+    if len(tamba[1]) != 2:
+        tampa = '0'
+    return str(numba)+tampa
