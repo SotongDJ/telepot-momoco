@@ -388,7 +388,7 @@ def akaun(usrid,dicto):
 
     acuno = dicto.get('acuno','')
     cokas = dicto.get('cokas','')
-    balan = dicto.get('balan','0')
+    balan = float(dicto.get('balan','0.0'))
 
     idsrc = [] # uuid set (related with cokas)
     tiset = [] # uuid set (related with tempo)
@@ -464,8 +464,11 @@ def akaun(usrid,dicto):
         mdlis.append(toooo)
         tolib.update({ cokey : mdlis })
 
+    pebal = balan - inval + outva
+    pesum = tool.roundostr(pebal)
     otsum = tool.roundostr(outva)
     insum = tool.roundostr(inval)
+    basum = tool.roundostr(balan)
     rslib.update({ 'otsum' : otsum })
     rslib.update({ 'insum' : insum })
 
@@ -586,6 +589,32 @@ def akaun(usrid,dicto):
 
     rslib.update({ 'pides' : pides })
     rslib.update({ 'codes' : codes })
+
+    lefin = 0
+
+    if lelib.get('fosum',0) > lelib.get('tosum',0):
+        lefin = lelib.get('fosum',0)
+    else:
+        lefin = lelib.get('tosum',0)
+
+    if len(basum) > lefin:
+        lefin = len(basum)
+    elif len(pesum) > lefin:
+        lefin = len(pesum)
+
+    blanc = '　'*lefin
+    pefin = '　'*(lefin-len(pesum)) + pesum
+    infin = '　'*(lefin-len(insum)) + insum
+    otfin = '　'*(lefin-len(otsum)) + otsum
+    linec = '—'*lefin
+    bafin = '　'*(lefin-len(basum)) + basum
+
+    rslib.update({ 'blanc' : blanc })
+    rslib.update({ 'pefin' : pefin })
+    rslib.update({ 'infin' : infin })
+    rslib.update({ 'otfin' : otfin })
+    rslib.update({ 'linec' : linec })
+    rslib.update({ 'bafin' : bafin })
 
     return rslib
 

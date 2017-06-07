@@ -3,9 +3,9 @@ Keyword Card
 Keyword: @keywo@
 　　——————　　
 Set time period:
-　Begin
+＃Begin
 　/set_as_dtempo
-　End
+＃End
 　/set_as_utempo
 　　——————　　
 Target Class:
