@@ -731,7 +731,7 @@ class User(telepot.helper.ChatHandler):
         content_type, chat_type, chat_id = telepot.glance(initial_msg)
         self.printbug("Intitial",chat_id)
         mmctool.printbug("inti_msg",initial_msg,chat_id)
-        self._mod = []
+        self._mod = ['']
         self._setting = mmcdb.upgradeSetting(self._setting,chat_id)
         self._karatio = mmcdb.openKaratio()
         self._rawdb = mmcdb.opendb(chat_id)['raw']
