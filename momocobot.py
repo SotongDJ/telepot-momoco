@@ -20,7 +20,7 @@ class User(telepot.helper.ChatHandler):
         self._vez = 0
         self._keywo = ""
         self._keys = ""
-        self._mod = []
+        self._mod = ['']
         self._temra = mmcDefauV.keywo('temra')
         self._recom = {}
         self._defSett = {}
@@ -84,7 +84,7 @@ class User(telepot.helper.ChatHandler):
         text=msg['text']
         lingua = self._setting['lingua']
         if "/start" in text:
-            if len(self._mod) == 0:
+            if self._mod[-1] == '':
                 tasStart=msgMain.start()+mainShort.woood(lingua,'cof')
                 finno = 1
             else:
@@ -93,11 +93,11 @@ class User(telepot.helper.ChatHandler):
 
             self.sending(tasStart, modda = finno )
 
-            if len(self._mod) == 0:
+            if self._mod[-1] == '':
                 self.close()
 
         elif "/help" in text:
-            if len(self._mod) == 0:
+            if self._mod[-1] == '':
                 tasHelp=msgMain.help()+mainShort.woood(lingua,'cof')
                 finno = 1
             else:
@@ -106,7 +106,7 @@ class User(telepot.helper.ChatHandler):
 
             self.sending(tasHelp, modda = finno )
 
-            if len(self._mod) == 0:
+            if self._mod[-1] == '':
                 self.close()
 
         elif "/setting" in text:
@@ -117,7 +117,7 @@ class User(telepot.helper.ChatHandler):
             mmcdb.refesdb(chat_id)
             self._rawdb = mmcdb.opendb(chat_id)['raw']
             self._keydb = mmcdb.opendb(chat_id)['key']
-            if len(self._mod) == 0:
+            if self._mod[-1] == '':
                 self._mod=mmctool.apmod(self._mod,'defSett')
             else:
                 if self._mod[-1] != 'defSett':
@@ -140,7 +140,7 @@ class User(telepot.helper.ChatHandler):
             mmcdb.refesdb(chat_id)
             self._rawdb = mmcdb.opendb(chat_id)['raw']
             self._keydb = mmcdb.opendb(chat_id)['key']
-            if len(self._mod) == 0:
+            if self._mod[-1] == '':
                 self._temra["datte"] = tool.date(modde=1)
                 self._temra['fromm'] = self._setting['dexpe']
                 self._temra['toooo'] = self._setting['ovede']
@@ -161,7 +161,7 @@ class User(telepot.helper.ChatHandler):
             mmcdb.refesdb(chat_id)
             self._rawdb = mmcdb.opendb(chat_id)['raw']
             self._keydb = mmcdb.opendb(chat_id)['key']
-            if len(self._mod) == 0:
+            if self._mod[-1] == '':
                 lastdate = list(self._keydb['datte'])
                 lastdate.sort()
                 try:
@@ -209,7 +209,7 @@ class User(telepot.helper.ChatHandler):
             self._mod=mmctool.popmod(self._mod)
             self._mod=mmctool.apmod(self._mod,"statics")
 
-        elif len(self._mod) == 0:
+        elif self._mod[-1] == '':
             self.sending(msgMain.bored()+mainShort.woood(lingua,'cof') , modda = 1)
             self.close()
 
@@ -769,7 +769,7 @@ class User(telepot.helper.ChatHandler):
         else:
             self._keywo = msg["text"].replace("/","")
 
-            if len(self._mod) == 0:
+            if self._mod[-1] == '':
                 self.sending(msgMain.home(self._keywo))
 
             elif self._mod[-1] == "list":
