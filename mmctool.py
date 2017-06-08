@@ -12,9 +12,12 @@ def ckmod(mode):
 def popmod(mode):
     try:
         mode.pop()
+        if len(mode) == 0:
+            mode = ['']
         return mode
     except IndexError:
         print("IndexError: pop from empty list")
+        mode = ['']
         return mode
 
 def chstr(a,b,c,d): # if a == b, return c; else return d
