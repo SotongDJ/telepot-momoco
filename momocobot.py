@@ -502,7 +502,7 @@ class User(telepot.helper.ChatHandler):
                     tasRef=msgEdit.main(self._temra,self._list.get('uuid',''))
 
                 if self._keys in mmcDefauV.keywo('recset'):
-                    self._recom = mmcdb.recomtxt(self._temra,self._keys,self._keywo,mmcDefauV.keywo('recset'),chat_id)
+                    self._recom = mmcdb.recomtxt(self._temra,self._recom,self._keys,self._keywo,mmcDefauV.keywo('recset'),chat_id)
                     if self._recom[1] !="" :
                         self.sending(tasRef)
                         self.sending(msgOuto.recom(self._recom[1],self._keywo))
@@ -541,7 +541,7 @@ class User(telepot.helper.ChatHandler):
                                 tasRg=mainShort.woood(lingua,'rgsWarn')+msgEdit.main(self._temra,self._list.get('uuid',''))+mainShort.woood(lingua,'rekeswd')
 
                         if self._keys in mmcDefauV.keywo('recset'):
-                            self._recom = mmcdb.recomtxt(self._temra,self._keys,self._keywo,mmcDefauV.keywo('recset'),chat_id)
+                            self._recom = mmcdb.recomtxt(self._temra,self._recom,self._keys,self._keywo,mmcDefauV.keywo('recset'),chat_id)
                             if self._recom[1] !="" :
                                 self.sending(tasRg)
                                 self.sending(msgOuto.recom(self._recom[1],self._keywo))
@@ -562,7 +562,7 @@ class User(telepot.helper.ChatHandler):
                             tasRg=msgEdit.main(self._temra,self._list.get('uuid',''))
 
                         if self._keys in mmcDefauV.keywo('recset'):
-                            self._recom = mmcdb.recomtxt(self._temra,self._keys,self._keywo,mmcDefauV.keywo('recset'),chat_id)
+                            self._recom = mmcdb.recomtxt(self._temra,self._recom,self._keys,self._keywo,mmcDefauV.keywo('recset'),chat_id)
                             if self._recom[1] !="" :
                                 self.sending(tasRg)
                                 self.sending(msgOuto.recom(self._recom[1],self._keywo))

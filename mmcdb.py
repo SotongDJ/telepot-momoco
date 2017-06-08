@@ -327,13 +327,13 @@ def recomc(srckey,veluo,knolib,unoset,usrid):
     return rslib
 
 """ mmcdb.recomtxt(self._temra,self._keys,self._keywo,['namma','klass','shoop','price'],chat_id) """
-def recomtxt(temra,keysa,keywo,deset,usrid):
+def recomtxt(temra,vetco,keysa,keywo,deset,usrid):
     #refesdb(usrid)
     fsdic = mmcDefauV.keywo('fs')
     skdic = mmcDefauV.keywo('transle')
 
     finno = ""
-    conta = {}
+    conta = vetco.get(2,{})
     numme = str(random.choice(range(10,100)))
     nodda = 0
 
@@ -351,9 +351,10 @@ def recomtxt(temra,keysa,keywo,deset,usrid):
                 itema.encode('latin-1')
                 finno = finno + "    /rg_"+fsdic[rskey]+"_"+itema+" "+itema+" ("+skdic[rskey]+")\n\n"
             except UnicodeEncodeError:
-                conta[numme+str(nodda)]=itema
+                conta.update({ numme+str(nodda) : itema })
                 finno = finno + "    /rgs_"+fsdic[rskey]+"_"+numme+str(nodda)+" "+itema+" ("+skdic[rskey]+")\n\n"
                 nodda = nodda + 1
+
     return { 1:finno , 2:conta}
 
 """ mmcdb.listAcc('ch','chu',keywo,chat_id)"""
