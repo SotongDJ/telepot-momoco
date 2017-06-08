@@ -1,5 +1,6 @@
 import subprocess, json, time, pprint
-import tool
+from subprocess import Popen, call
+import tool, auth
 
 def update():
     try:
@@ -9,7 +10,7 @@ def update():
         json.dump({'system':'reopening'},statfl)
         statfl.close()
     except FileNotFoundError:
-        subprocess.call(['mkdir','-p','database/opt'])
+        call(['mkdir','-p','database/opt'])
         temp = open('database/opt/bot.json','w')
         temp.close()
         temp = open('database/opt/bot.pid','w')
@@ -28,21 +29,21 @@ def update():
     print('Stage 2 [stat]: '+pprint.pformat(stat))
 
     if stat['momocobot.py'] != []:
-        subprocess.call(['pkill','-e','python3.4'])
+        call(['pkill','-e','python3.4'])
         stat = {'momocobot.py':[],'trmbot.py':[]}
     elif stat['trmbot.py'] != []:
-        subprocess.call(['pkill','-e','python3.4'])
+        call(['pkill','-e','python3.4'])
         stat = {'momocobot.py':[],'trmbot.py':[]}
     print('Stage 3 [stat]: '+pprint.pformat(stat))
     stat = {'momocobot.py':[],'trmbot.py':[]}
 
-    subprocess.call(['pgrep','-l','python3'], stdout=open('database/opt/bot.pid', 'w'))
+    call(['pgrep','-l','python3'], stdout=open('database/opt/bot.pid', 'w'))
     before = open('database/opt/bot.pid').read().splitlines()
     print('Stage 4 (1/2) trmbot.py [before]:'+pprint.pformat(before))
 
-    subprocess.Popen(['python3.4', 'trmbot.py'])
+    Popen(['python3.4', 'trmbot.py'], stdout=open(tool.path('log/mmcbot',usrid=auth.id())+tool.date(modde=3)+'-trmbot.run','w' ))
 
-    subprocess.call(['pgrep','-l','python3'], stdout=open('database/opt/bot.pid', 'w'))
+    call(['pgrep','-l','python3'], stdout=open('database/opt/bot.pid', 'w'))
     after = open('database/opt/bot.pid').read().splitlines()
     print('Stage 4 (1/2) trmbot.py [after]'+pprint.pformat(after))
     setga = list(set(after)-set(before))
@@ -52,13 +53,13 @@ def update():
     print('Stage 4 (1/2) [stat]: '+pprint.pformat(stat))
 
 
-    subprocess.call(['pgrep','-l','python3'], stdout=open('database/opt/bot.pid', 'w'))
+    call(['pgrep','-l','python3'], stdout=open('database/opt/bot.pid', 'w'))
     before = open('database/opt/bot.pid').read().splitlines()
     print('Stage 4 (2/2) momocobot.py [before]:'+pprint.pformat(before))
 
-    subprocess.Popen(['python3.4', 'momocobot.py'])
+    Popen(['python3.4', 'momocobot.py'], stdout=open(tool.path('log/mmcbot',usrid=auth.id())+tool.date(modde=3)+'-momocobot.run','w' ))
 
-    subprocess.call(['pgrep','-l','python3'], stdout=open('database/opt/bot.pid', 'w'))
+    call(['pgrep','-l','python3'], stdout=open('database/opt/bot.pid', 'w'))
     after = open('database/opt/bot.pid').read().splitlines()
     print('after:'+pprint.pformat(after))
     setga = list(set(after)-set(before))
@@ -82,7 +83,7 @@ def mmcd():
         json.dump({'system':'reopening'},statfl)
         statfl.close()
     except FileNotFoundError:
-        subprocess.call(['mkdir','-p','database/opt'])
+        call(['mkdir','-p','database/opt'])
         temp = open('database/opt/bot.json','w')
         temp.close()
         temp = open('database/opt/bot.pid','w')
@@ -97,18 +98,18 @@ def mmcd():
     print('Stage 2 [stat]: '+pprint.pformat(stat))
 
     if stat['momocobot.py'] != []:
-        subprocess.call(['kill',stat['momocobot.py'][-1]])
+        call(['kill',stat['momocobot.py'][-1]])
         stat.update( { 'momocobot.py':[] } )
     print('Stage 3 [stat]: '+pprint.pformat(stat))
     stat.update( { 'momocobot.py':[] } )
 
-    subprocess.call(['pgrep','-l','python3'], stdout=open('database/opt/bot.pid', 'w'))
+    call(['pgrep','-l','python3'], stdout=open('database/opt/bot.pid', 'w'))
     before = open('database/opt/bot.pid').read().splitlines()
     print('Stage 4 momocobot.py [before]:'+pprint.pformat(before))
 
-    subprocess.Popen(['python3.4', 'momocobot.py'])
+    Popen(['python3.4', 'momocobot.py'], stdout=open(tool.path('log/mmcbot',usrid=auth.id())+tool.date(modde=3)+'-momocobot.run','w' ))
 
-    subprocess.call(['pgrep','-l','python3'], stdout=open('database/opt/bot.pid', 'w'))
+    call(['pgrep','-l','python3'], stdout=open('database/opt/bot.pid', 'w'))
     after = open('database/opt/bot.pid').read().splitlines()
     print('after:'+pprint.pformat(after))
     setga = list(set(after)-set(before))
@@ -129,7 +130,7 @@ def kmmc():
         json.dump({'system':'reopening'},statfl)
         statfl.close()
     except FileNotFoundError:
-        subprocess.call(['mkdir','-p','database/opt'])
+        call(['mkdir','-p','database/opt'])
         temp = open('database/opt/bot.json','w')
         temp.close()
         temp = open('database/opt/bot.pid','w')
@@ -144,7 +145,7 @@ def kmmc():
     print('Stage 2 [stat]: '+pprint.pformat(stat))
 
     if stat['momocobot.py'] != []:
-        subprocess.call(['kill',stat['momocobot.py'][-1]])
+        call(['kill',stat['momocobot.py'][-1]])
         stat.update( { 'momocobot.py':[] } )
     print('Stage 3 [stat]: '+pprint.pformat(stat))
 
