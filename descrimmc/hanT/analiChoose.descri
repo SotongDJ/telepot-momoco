@@ -9,5 +9,10 @@
 　/set_Mode_as_atren
 　　指定時間範圍
 　　顯示目標類別的趨勢
+
+　/set_Mode_as_akaun
+　　指定時間範圍
+　　顯示目標賬戶的金額流動
+　　
 —————
 　/Close /help

@@ -255,6 +255,9 @@ class User(telepot.helper.ChatHandler):
                         elif self._statics['mode'] == 'atren':
                             medio = mmcAnali.atren(chat_id,self._statics)
                             secto = msgAnali.atrenResut(lingua,medio)
+                        elif self._statics['mode'] == 'akaun':
+                            medio = mmcAnali.akaun(chat_id,self._statics)
+                            secto = msgAnali.akaunResut(lingua,medio)
                         for lun in secto:
                             self.sending(lun)
                 else:
@@ -262,7 +265,6 @@ class User(telepot.helper.ChatHandler):
 
             elif "/whats_now" in text:
                 self.sending(msgMain.keywo('whatsnow'))
-                self._vez = mmctool.printvez(self._vez)
 
             elif "/Back" in text:
                 if self._statics['mode'] != '':
@@ -270,6 +272,9 @@ class User(telepot.helper.ChatHandler):
                         self.sending(msgAnali.chooseMode(lingua))
                         self._statics['mode'] = ''
                     elif self._statics['mode'] == 'atren':
+                        self.sending(msgAnali.chooseMode(lingua))
+                        self._statics['mode'] = ''
+                    elif self._statics['mode'] == 'akaun':
                         self.sending(msgAnali.chooseMode(lingua))
                         self._statics['mode'] = ''
                 else:
@@ -286,6 +291,8 @@ class User(telepot.helper.ChatHandler):
                     self.sending(msgAnali.abratioMain(lingua,self._statics))
                 elif self._statics['mode'] == 'atren':
                     self.sending(msgAnali.atrenMain(lingua,self._statics))
+                elif self._statics['mode'] == 'akaun':
+                    self.sending(msgAnali.akaunMain(lingua,self._statics))
 
             elif '/set_Mode_as_' in text:
                 if '/set_Mode_as_abratio' in text:
@@ -294,6 +301,13 @@ class User(telepot.helper.ChatHandler):
                 elif '/set_Mode_as_atren' in text:
                     self._statics['mode'] = 'atren'
                     self.sending(msgAnali.atrenMain(lingua,self._statics))
+                elif '/set_Mode_as_akaun' in text:
+                    self._statics['mode'] = 'akaun'
+                    self.sending(msgAnali.akaunMain(lingua,self._statics))
+
+            elif '/change_acuno' in text:
+                self._recom = mmcdb.listAcc('ch','chs','acuno',chat_id)
+                self.sending(msgMain.selection(self._recom[1],mmcDefauV.keywo('transle',lingua=lingua).get('acuno','acuno')))
 
             elif '/change_' in text:
                 skdic = mmcDefauV.keywo('transle')
@@ -310,6 +324,8 @@ class User(telepot.helper.ChatHandler):
                     self.sending(msgAnali.abratioMain(lingua,self._statics))
                 elif self._statics['mode'] == 'atren':
                     self.sending(msgAnali.atrenMain(lingua,self._statics))
+                elif self._statics['mode'] == 'akaun':
+                    self.sending(msgAnali.akaunMain(lingua,self._statics))
 
             elif '/set_targe_as_' in text:
                 self._statics.update({ 'targe' : text.replace('/set_targe_as_','') })
@@ -345,6 +361,31 @@ class User(telepot.helper.ChatHandler):
                     self.sending(msgAnali.abratioMain(lingua,self._statics))
                 elif self._statics['mode'] == 'atren':
                     self.sending(msgAnali.atrenMain(lingua,self._statics))
+                elif self._statics['mode'] == 'akaun':
+                    self.sending(msgAnali.akaunMain(lingua,self._statics))
+
+            elif "/ch" in text :
+                for sette in text.split(" "):
+                    if "/chs_" in sette:
+                        try:
+                            wahfu = sette.split('_')
+                            self._keys = wahfu[1]
+                            self._keywo = self._recom[2][wahfu[2]]
+                            self._statics.update({ self._keys : self._keywo })
+
+                            if self._statics['mode'] == 'akaun':
+                                self.sending(msgAnali.akaunMain(lingua,self._statics))
+
+                        except KeyError:
+                            print("KeyError : Doesn't Exist or Expired")
+
+                            if self._statics['mode'] == 'akaun':
+                                self.sending(mainShort.woood(lingua,'rgsWarn')+msgAnali.akaunMain(lingua,self._statics)+mainShort.woood(lingua,'rekeswd'))
+
+                    elif "/ch_" in sette:
+                        self._statics.update({ wahfu[1] : wahfu[2] })
+                        if self._statics['mode'] == 'akaun':
+                            self.sending(msgAnali.akaunMain(lingua,self._statics))
 
         elif self._mod[-1] in ['outo','inco','tran','edit']:
             if "/Discard" in text:
@@ -734,6 +775,8 @@ class User(telepot.helper.ChatHandler):
                     self.sending(msgAnali.abratioKeywo(lingua,self._keywo))
                 elif self._statics['mode'] == 'atren':
                     self.sending(msgAnali.atrenKeywo(lingua,self._keywo))
+                elif self._statics['mode'] == 'akaun':
+                    self.sending(msgAnali.akaunKeywo(lingua,self._keywo))
 
             elif self._mod[-1] == "outo":
                 tasOut= msgOuto.keyword(self._keywo)

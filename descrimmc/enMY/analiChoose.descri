@@ -5,9 +5,15 @@ Choose the statistics modes:
 　　Between specific time period
 　　Choosing from specific class
 　　Showing Ratio of target class
-
+　
 　/set_Mode_as_atren
 　　Between specific time period
 　　Showing Trend of target class
+　
+　/set_Mode_as_akaun
+　　Between specific time period
+　　Showing Money Flow
+　　From Specific Account
+　
 ——————————
 　/Close /help

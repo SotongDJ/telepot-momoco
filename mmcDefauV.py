@@ -1,4 +1,5 @@
 def keywo(text,lingua='enMY'):
+    resut = {}
     genar = {
         'sf' : {
             "dt":"datte",
@@ -70,7 +71,7 @@ def keywo(text,lingua='enMY'):
         'staset':{
             'abratio':['dtempo','utempo','cokey','cokas','targe'],
             'atren':['dtempo','utempo','cokey','cokas','leve'],
-            'akaun':['dtempo','utempo','cokey','cokas','acuno','balan'],
+            'akaun':['dtempo','utempo','cokas','acuno','balan'],
         }
     }
     woood = {

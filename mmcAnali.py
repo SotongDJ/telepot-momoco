@@ -377,6 +377,7 @@ def akaun(usrid,dicto):
     libra = mmcdb.opendb(usrid)
     rawdb = libra.get('raw',{})
     keydb = libra.get('key',{})
+    rslib = {} # rs = result
 
     karatio = mmcdb.openKaratio()
     saita = mmcdb.openSetting(usrid)
@@ -384,17 +385,20 @@ def akaun(usrid,dicto):
 
     dtempo = dicto.get('dtempo')
     utempo = dicto.get('utempo')
+    rslib.update({ 'dtempo' : dtempo })
+    rslib.update({ 'utempo' : utempo })
     timon = tima(dtempo,utempo,libra)
 
     acuno = dicto.get('acuno','')
+    rslib.update({ 'acuno' : acuno })
     cokas = dicto.get('cokas','')
+    rslib.update({ 'cokas' : cokas })
     balan = float(dicto.get('balan','0.0'))
 
     idsrc = [] # uuid set (related with cokas)
     tiset = [] # uuid set (related with tempo)
     coset = [] # cokey set
     transle = mmcDefauV.keywo('transle')
-    rslib = {} # rs = result
 
     for tiora in timon:
         tiset.extend(keydb.get('datte',{}).get(tiora,[]))
@@ -471,6 +475,7 @@ def akaun(usrid,dicto):
     basum = tool.roundostr(balan)
     rslib.update({ 'otsum' : otsum })
     rslib.update({ 'insum' : insum })
+    rslib.update({ 'basum' : basum })
 
     rslib.update({ 'uilib' : uilib })
     rslib.update({ 'colib' : colib })
