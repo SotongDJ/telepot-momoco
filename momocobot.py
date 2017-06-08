@@ -32,10 +32,10 @@ class User(telepot.helper.ChatHandler):
         self._keydb = {}
     #
     def printbug(self,text,usrid):
-        filla = open(tool.path('log/mmcbot',auth.id())+tool.date(5,'-'),'a')
+        filla = open(tool.path('log/mmcbot',usrid=auth.id())+tool.date(modde=5),'a')
         print("---"+text+"---")
         filla.write('\n--- pri: ' + text + '---\n')
-        filla.write('Time: ' + tool.date(2,'-:') + '\n')
+        filla.write('Time: ' + tool.date(modde=2) + '\n')
         filla.write('User: ' + str(auth.id()) + '\n')
         filla.write('keywo: ' + pprint.pformat(self._keywo) + '\n')
         filla.write('keys: ' + pprint.pformat(self._keys) + '\n')
@@ -141,7 +141,7 @@ class User(telepot.helper.ChatHandler):
             self._rawdb = mmcdb.opendb(chat_id)['raw']
             self._keydb = mmcdb.opendb(chat_id)['key']
             if len(self._mod) == 0:
-                self._temra["datte"] = tool.date(1,'-')
+                self._temra["datte"] = tool.date(modde=1)
                 self._temra['fromm'] = self._setting['dexpe']
                 self._temra['toooo'] = self._setting['ovede']
                 self._temra['karen'] = self._setting['karen']
@@ -194,9 +194,17 @@ class User(telepot.helper.ChatHandler):
             mmcdb.refesdb(chat_id)
             self._rawdb = mmcdb.opendb(chat_id)['raw']
             self._keydb = mmcdb.opendb(chat_id)['key']
-            mmcdb.refesKaratio(self._keydb)
+            tasPoce=mainShort.woood(lingua,'refesfin')
+            resKa = mmcdb.getKaratio(self._keydb)
+            if resKa:
+                tasPoce=tasPoce+mainShort.woood(lingua,'refka')
+                self.sending(tasPoce)
+                tasPoce=''
+            else:
+                tasPoce = tasPoce+mainShort.woood(lingua,'kaDatte')+tool.acedate('momoco','karen')
+                tasPoce = tasPoce+mainShort.woood(lingua,'cband')
             self._karatio = mmcdb.openKaratio()
-            tasList=mainShort.woood(lingua,'refesfin')+msgAnali.chooseMode(lingua)
+            tasList=tasPoce+msgAnali.chooseMode(lingua)
             self.sending(tasList)
             self._mod=mmctool.popmod(self._mod)
             self._mod=mmctool.apmod(self._mod,"statics")
@@ -729,7 +737,7 @@ class User(telepot.helper.ChatHandler):
         self._rawdb = mmcdb.opendb(chat_id)['raw']
         self._keydb = mmcdb.opendb(chat_id)['key']
         self._vez=0
-        open(tool.path('log/mmcbot',auth.id())+tool.date(1,'-')+'.c','a').write('\n')
+        open(tool.path('log/mmcbot',usrid=auth.id())+tool.date(modde=1)+'.c','a').write('\n')
 
         if content_type != 'text':
             self.sending(msgMain.error(), modda = 1)

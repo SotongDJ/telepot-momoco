@@ -1,6 +1,6 @@
 import tool
 def logging(id,lines,source):
-    nana=open(tool.path("log",id)+source,"a")
+    nana=open(tool.path("log",usrid=id)+source,"a")
     nana.write(lines+"\n")
     nana.close()
     print(lines)
