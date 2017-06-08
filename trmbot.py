@@ -23,7 +23,7 @@ class User(telepot.helper.ChatHandler):
         logfl = open('database/opt/temp.json','r')
         logdb = json.load(logfl)
         subprocess.call(['/opt/vc/bin/vcgencmd', 'measure_temp'], stdout=open('database/opt/temp.log', 'w'))
-        datelog = ''.join(tool.date(0,"")[1:4])
+        datelog = ''.join(tool.date(modde=0)[1:4])
         templog = open('database/opt/temp.log').read().splitlines()[-1].split('=')[-1].split("'")[0]
         logdb.update( { datelog : templog })
 

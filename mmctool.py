@@ -29,20 +29,20 @@ def check(file_name):
     pprint.pprint(b)
 
 def printbug(text,thing,usrid):
-    filla = open(tool.path('log/mmcbot',usrid)+tool.date(5,'-'),'a')
+    filla = open(tool.path('log/mmcbot',usrid=usrid)+tool.date(modde=5),'a')
     #print("--- pra "+text+"---")
     filla.write(text+" = "+pprint.pformat(thing)+"""
 """)
     filla.close()
 
 def printvez(vez):
-    veces = open(tool.path('log/mmcbot',auth.id())+tool.date(1,'-')+'.c','a')
+    veces = open(tool.path('log/mmcbot',usrid=auth.id())+tool.date(modde=1)+'.c','a')
     veces.write(str(vez))
     veces.close()
     return vez+1
 
 def finvez(vez):
-    veces = open(tool.path('log/mmcbot',auth.id())+tool.date(1,'-')+'.c','a')
+    veces = open(tool.path('log/mmcbot',usrid=auth.id())+tool.date(modde=1)+'.c','a')
     veces.write(str(vez)+"c\n")
     veces.close()
     return vez+1

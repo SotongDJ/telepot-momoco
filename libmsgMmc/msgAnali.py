@@ -132,6 +132,62 @@ def atrenResut(lingua,resut):
     return [a,b,c]
 
 
+def akaunMain(lingua,dicto):
+    final = open('descrimmc/'+lingua+'/akaunMain.descri').read()
+
+    final = final.replace('@mode@',mmctool.ul(dicto.get('mode','')))
+    final = final.replace('@dtempo@',mmctool.ul(dicto.get('dtempo','')))
+    final = final.replace('@utempo@',mmctool.ul(dicto.get('utempo','')))
+    final = final.replace('@cokas@',mmctool.ul(dicto.get('cokas',''),modda='klass',lingua=lingua))
+    final = final.replace('@acuno@',mmctool.ul(dicto.get('acuno',''),modda='klass',lingua=lingua))
+    final = final.replace('@balan@',mmctool.ul(dicto.get('balan','')))
+    return final
+
+def akaunKeywo(lingua,keywo):
+    final = open('descrimmc/'+lingua+'/akaunKeywo.descri').read()
+    final = final.replace('@keywo@',keywo)
+    return final
+
+def akaunResut(lingua,resut):
+    print('resut : '+pprint.pformat(resut, compact=True))
+
+    dtempo = resut.get('dtempo','')
+    utempo = resut.get('utempo','')
+    acuno = resut.get('acuno','')
+    cokas = resut.get('cokas','')
+    balan = resut.get('basum','')
+    pides = resut.get('pides','')
+    codes = resut.get('codes','')
+    blanc = resut.get('blanc','')
+    pefin = resut.get('pefin','')
+    infin = resut.get('infin','')
+    otfin = resut.get('otfin','')
+    linec = resut.get('linec','')
+    bafin = resut.get('bafin','')
+
+    skdic = mmcDefauV.keywo('transle',lingua=lingua)
+
+    a = open('descrimmc/'+lingua+'/akaunResutA.descri').read()
+    a = a.replace('@dtempo@',dtempo)
+    a = a.replace('@utempo@',utempo)
+    a = a.replace('@cokas@',skdic.get(cokas,''))
+    a = a.replace('@acuno@',acuno)
+    a = a.replace('@balan@',balan)
+
+    b = open('descrimmc/'+lingua+'/akaunResutB.descri').read()
+    b = b.replace('@pides@',pides)
+    b = b.replace('@codes@',codes)
+
+    c = open('descrimmc/'+lingua+'/akaunResutC.descri').read()
+    c = c.replace('@blanc@',blanc)
+    c = c.replace('@pefin@',pefin)
+    c = c.replace('@infin@',infin)
+    c = c.replace('@otfin@',otfin)
+    c = c.replace('@linec@',linec)
+    c = c.replace('@bafin@',bafin)
+
+    return [a,b,c]
+
 def disca(lingua):
     final = open('descrimmc/'+lingua+'/analiDisca.descri').read()
     return final

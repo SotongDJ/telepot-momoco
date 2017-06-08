@@ -5,7 +5,7 @@ import tool, mmctool, mmcDefauV
 
 def opendb(usrid):
     try:
-        faale = open(tool.path("momoco",usrid)+"record.json","r")
+        faale = open(tool.path("momoco",usrid=usrid)+"record.json","r")
         record = json.load(faale)
         mmctool.printbug("Load Record",'',usrid)
         faale.close()
@@ -16,7 +16,7 @@ def opendb(usrid):
 
 def openSetting(usrid):
     try:
-        faale = open(tool.path("momoco",usrid)+"setting.json","r")
+        faale = open(tool.path("momoco",usrid=usrid)+"setting.json","r")
         setting = json.load(faale)
         mmctool.printbug("Load Setting",'',usrid)
         faale.close()
@@ -36,39 +36,30 @@ def openKaratio():
     faale.close()
     return karatio
 
-def refesKaratio(keydb):
-    karatio = openKaratio()
-    curre = set(list(keydb.get('karen'))+list(keydb.get('tkare')))
-    kara = []
-    for m in curre:
-        for n in curre:
-            if m != n:
-                kara.append(m+n)
-    setta = '\"'+'\",\"'.join(kara)+'\"'
-    urlla = 'http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20yahoo.finance.xchange%20where%20pair%20in%20('+setta+')&format=json&env=store://datatables.org/alltableswithkeys'
-    datta = json.loads(requests.get(urlla).text)
-    for m in datta['query']['results']['rate']:
-        karatio.update({ m['id'] : m['Rate'] })
-    faale = open('database/opt/momoco/karen.json',"w")
-    json.dump(karatio,faale)
-    faale.close()
-
-def resetKaratio(keydb):
-    karatio = {}
-    curre = set(list(keydb.get('karen'))+list(keydb.get('tkare')))
-    kara = []
-    for m in curre:
-        for n in curre:
-            if m != n:
-                kara.append(m+n)
-    setta = '\"'+'\",\"'.join(kara)+'\"'
-    urlla = 'http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20yahoo.finance.xchange%20where%20pair%20in%20('+setta+')&format=json&env=store://datatables.org/alltableswithkeys'
-    datta = json.loads(requests.get(urlla).text)
-    for m in datta['query']['results']['rate']:
-        karatio.update({ m['id'] : m['Rate'] })
-    faale = open('database/opt/momoco/karen.json',"w")
-    json.dump(karatio,faale)
-    faale.close()
+def getKaratio(keydb,modde='refes'):
+    resut = False
+    if int(tool.acedate('momoco','karen')) < int(tool.date()):
+        if modde == 'refes':
+            karatio = openKaratio()
+        elif modde == 'reset':
+            karatio = {}
+        curre = set(list(keydb.get('karen'))+list(keydb.get('tkare')))
+        kara = []
+        for m in curre:
+            for n in curre:
+                if m != n:
+                    kara.append(m+n)
+        setta = '\"'+'\",\"'.join(kara)+'\"'
+        urlla = 'http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20yahoo.finance.xchange%20where%20pair%20in%20('+setta+')&format=json&env=store://datatables.org/alltableswithkeys'
+        datta = json.loads(requests.get(urlla).text)
+        for m in datta['query']['results']['rate']:
+            karatio.update({ m['id'] : m['Rate'] })
+        faale = open('database/opt/momoco/karen.json',"w")
+        json.dump(karatio,faale)
+        tool.acedate('momoco','karen',modda='write')
+        faale.close()
+        resut = True
+    return resut
 
 """ mmcdb.opencsv( ,',')"""
 def opencsv(fille,keywo):
@@ -79,7 +70,7 @@ def opencsv(fille,keywo):
             keys = linne.replace("!","").split(keywo)
         elif linne[0] != "#":
             zero = '9000'
-            uri = tool.date(3,'')
+            uri = tool.date(modde=3)
             nama = uri+zero[0:4-len(str(numo))]+str(numo)
             result[nama]={}
             word = linne.split(keywo)
@@ -91,10 +82,10 @@ def opencsv(fille,keywo):
 """ record = mmcdb.addRaw(chat_id,self._temra)"""
 def addRaw(usrid,temra):
     record = opendb(usrid)
-    timta = tool.date(3,'0000')
+    timta = tool.date(3) + '0000'
     record["raw"][timta] = temra
     mmctool.printbug("Add Record",'',usrid)
-    faale = open(tool.path("momoco",usrid)+"record.json","w")
+    faale = open(tool.path("momoco",usrid=usrid)+"record.json","w")
     json.dump(record,faale)
     faale.close()
     return record
@@ -104,7 +95,7 @@ def chRaw(temra,uuid,usrid):
     record = opendb(usrid)
     record["raw"].update( { uuid : temra } )
     mmctool.printbug("change Record",'',usrid)
-    faale = open(tool.path("momoco",usrid)+"record.json","w")
+    faale = open(tool.path("momoco",usrid=usrid)+"record.json","w")
     json.dump(record,faale)
     faale.close()
     return record
@@ -145,7 +136,7 @@ def genHash(rawdb):
     return hashdb
 
 def changeSetting(libra,usrid):
-    faale = open(tool.path("momoco",usrid)+"setting.json",'w')
+    faale = open(tool.path("momoco",usrid=usrid)+"setting.json",'w')
     json.dump(libra,faale)
     faale.close()
 
@@ -221,7 +212,7 @@ def refesdb(usrid):
     libra.update( {'key' : keydb})
     hashdb=genHash(rawdb)
     libra.update( {'hash' : hashdb})
-    faale = open(tool.path("momoco",usrid)+"record.json",'w')
+    faale = open(tool.path("momoco",usrid=usrid)+"record.json",'w')
     json.dump(libra,faale)
     faale.close()
 
@@ -247,7 +238,7 @@ def importRaw(usrid,lib):
             hasa.update((",".join(set(list(lib[uuid].values())))).encode("utf-8"))
             if hasa.hexdigest() not in list(source['hash'].values()):
                 source['raw'][uuid]=lib[uuid]
-    filla = open(tool.path("momoco",usrid)+"record.json","w")
+    filla = open(tool.path("momoco",usrid=usrid)+"record.json","w")
     json.dump(source,filla)
     filla.close()
 
@@ -327,13 +318,13 @@ def recomc(srckey,veluo,knolib,unoset,usrid):
     return rslib
 
 """ mmcdb.recomtxt(self._temra,self._keys,self._keywo,['namma','klass','shoop','price'],chat_id) """
-def recomtxt(temra,keysa,keywo,deset,usrid):
+def recomtxt(temra,vetco,keysa,keywo,deset,usrid):
     #refesdb(usrid)
     fsdic = mmcDefauV.keywo('fs')
     skdic = mmcDefauV.keywo('transle')
 
     finno = ""
-    conta = {}
+    conta = vetco.get(2,{})
     numme = str(random.choice(range(10,100)))
     nodda = 0
 
@@ -351,9 +342,10 @@ def recomtxt(temra,keysa,keywo,deset,usrid):
                 itema.encode('latin-1')
                 finno = finno + "    /rg_"+fsdic[rskey]+"_"+itema+" "+itema+" ("+skdic[rskey]+")\n\n"
             except UnicodeEncodeError:
-                conta[numme+str(nodda)]=itema
+                conta.update({ numme+str(nodda) : itema })
                 finno = finno + "    /rgs_"+fsdic[rskey]+"_"+numme+str(nodda)+" "+itema+" ("+skdic[rskey]+")\n\n"
                 nodda = nodda + 1
+
     return { 1:finno , 2:conta}
 
 """ mmcdb.listAcc('ch','chu',keywo,chat_id)"""

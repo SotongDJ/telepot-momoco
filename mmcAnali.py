@@ -377,6 +377,7 @@ def akaun(usrid,dicto):
     libra = mmcdb.opendb(usrid)
     rawdb = libra.get('raw',{})
     keydb = libra.get('key',{})
+    rslib = {} # rs = result
 
     karatio = mmcdb.openKaratio()
     saita = mmcdb.openSetting(usrid)
@@ -384,17 +385,20 @@ def akaun(usrid,dicto):
 
     dtempo = dicto.get('dtempo')
     utempo = dicto.get('utempo')
+    rslib.update({ 'dtempo' : dtempo })
+    rslib.update({ 'utempo' : utempo })
     timon = tima(dtempo,utempo,libra)
 
     acuno = dicto.get('acuno','')
+    rslib.update({ 'acuno' : acuno })
     cokas = dicto.get('cokas','')
-    balan = dicto.get('balan','0')
+    rslib.update({ 'cokas' : cokas })
+    balan = float(dicto.get('balan','0.0'))
 
     idsrc = [] # uuid set (related with cokas)
     tiset = [] # uuid set (related with tempo)
     coset = [] # cokey set
     transle = mmcDefauV.keywo('transle')
-    rslib = {} # rs = result
 
     for tiora in timon:
         tiset.extend(keydb.get('datte',{}).get(tiora,[]))
@@ -464,10 +468,14 @@ def akaun(usrid,dicto):
         mdlis.append(toooo)
         tolib.update({ cokey : mdlis })
 
+    pebal = balan - inval + outva
+    pesum = tool.roundostr(pebal)
     otsum = tool.roundostr(outva)
     insum = tool.roundostr(inval)
+    basum = tool.roundostr(balan)
     rslib.update({ 'otsum' : otsum })
     rslib.update({ 'insum' : insum })
+    rslib.update({ 'basum' : basum })
 
     rslib.update({ 'uilib' : uilib })
     rslib.update({ 'colib' : colib })
@@ -586,6 +594,32 @@ def akaun(usrid,dicto):
 
     rslib.update({ 'pides' : pides })
     rslib.update({ 'codes' : codes })
+
+    lefin = 0
+
+    if lelib.get('fosum',0) > lelib.get('tosum',0):
+        lefin = lelib.get('fosum',0)
+    else:
+        lefin = lelib.get('tosum',0)
+
+    if len(basum) > lefin:
+        lefin = len(basum)
+    elif len(pesum) > lefin:
+        lefin = len(pesum)
+
+    blanc = '　'*lefin
+    pefin = '　'*(lefin-len(pesum)) + pesum
+    infin = '　'*(lefin-len(insum)) + insum
+    otfin = '　'*(lefin-len(otsum)) + otsum
+    linec = '—'*lefin
+    bafin = '　'*(lefin-len(basum)) + basum
+
+    rslib.update({ 'blanc' : blanc })
+    rslib.update({ 'pefin' : pefin })
+    rslib.update({ 'infin' : infin })
+    rslib.update({ 'otfin' : otfin })
+    rslib.update({ 'linec' : linec })
+    rslib.update({ 'bafin' : bafin })
 
     return rslib
 

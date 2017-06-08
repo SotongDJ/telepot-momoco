@@ -5,15 +5,20 @@ Mode: @mode@
 Set time period:
 ＃Begin: @dtempo@
 ＃End: @utempo@
-(Format of Date: yyyy-mm-dd)
+＊Format: yyyy-mm-dd
 　　　　
 Title Class:
 　@cokas@
 　/change_cokas
+＊E.g. Category
 　　　　
 Target Account:
-　@targe@
-　/change_targe
+　@acuno@
+　/change_acuno
+＊E.g. Cash
+　　　　
+Recent Balance:
+　@balan@
 　　　　
 ——————————
 　/Back　/Analysis

@@ -5,12 +5,13 @@ Mode: @mode@
 Set time period:
 ＃Begin: @dtempo@
 ＃End: @utempo@
-(Format of Date: yyyy-mm-dd)
+＊Format: yyyy-mm-dd
 　　　　
 Target Class:
 　@cokey@
 ＃From: @cokas@
 　/change_cokas (Top Class)
+＊E.g. Cash From Account[From]
 　　　　
 Viewing Level: @leve@
 －Day View

@@ -32,10 +32,10 @@ class User(telepot.helper.ChatHandler):
         self._keydb = {}
     #
     def printbug(self,text,usrid):
-        filla = open(tool.path('log/mmcbot',auth.id())+tool.date(5,'-'),'a')
+        filla = open(tool.path('log/mmcbot',usrid=auth.id())+tool.date(modde=5),'a')
         print("---"+text+"---")
         filla.write('\n--- pri: ' + text + '---\n')
-        filla.write('Time: ' + tool.date(2,'-:') + '\n')
+        filla.write('Time: ' + tool.date(modde=2) + '\n')
         filla.write('User: ' + str(auth.id()) + '\n')
         filla.write('keywo: ' + pprint.pformat(self._keywo) + '\n')
         filla.write('keys: ' + pprint.pformat(self._keys) + '\n')
@@ -141,7 +141,7 @@ class User(telepot.helper.ChatHandler):
             self._rawdb = mmcdb.opendb(chat_id)['raw']
             self._keydb = mmcdb.opendb(chat_id)['key']
             if len(self._mod) == 0:
-                self._temra["datte"] = tool.date(1,'-')
+                self._temra["datte"] = tool.date(modde=1)
                 self._temra['fromm'] = self._setting['dexpe']
                 self._temra['toooo'] = self._setting['ovede']
                 self._temra['karen'] = self._setting['karen']
@@ -194,9 +194,17 @@ class User(telepot.helper.ChatHandler):
             mmcdb.refesdb(chat_id)
             self._rawdb = mmcdb.opendb(chat_id)['raw']
             self._keydb = mmcdb.opendb(chat_id)['key']
-            mmcdb.refesKaratio(self._keydb)
+            tasPoce=mainShort.woood(lingua,'refesfin')
+            resKa = mmcdb.getKaratio(self._keydb)
+            if resKa:
+                tasPoce=tasPoce+mainShort.woood(lingua,'refka')
+                self.sending(tasPoce)
+                tasPoce=''
+            else:
+                tasPoce = tasPoce+mainShort.woood(lingua,'kaDatte')+tool.acedate('momoco','karen')
+                tasPoce = tasPoce+mainShort.woood(lingua,'cband')
             self._karatio = mmcdb.openKaratio()
-            tasList=mainShort.woood(lingua,'refesfin')+msgAnali.chooseMode(lingua)
+            tasList=tasPoce+msgAnali.chooseMode(lingua)
             self.sending(tasList)
             self._mod=mmctool.popmod(self._mod)
             self._mod=mmctool.apmod(self._mod,"statics")
@@ -255,6 +263,9 @@ class User(telepot.helper.ChatHandler):
                         elif self._statics['mode'] == 'atren':
                             medio = mmcAnali.atren(chat_id,self._statics)
                             secto = msgAnali.atrenResut(lingua,medio)
+                        elif self._statics['mode'] == 'akaun':
+                            medio = mmcAnali.akaun(chat_id,self._statics)
+                            secto = msgAnali.akaunResut(lingua,medio)
                         for lun in secto:
                             self.sending(lun)
                 else:
@@ -262,7 +273,6 @@ class User(telepot.helper.ChatHandler):
 
             elif "/whats_now" in text:
                 self.sending(msgMain.keywo('whatsnow'))
-                self._vez = mmctool.printvez(self._vez)
 
             elif "/Back" in text:
                 if self._statics['mode'] != '':
@@ -270,6 +280,9 @@ class User(telepot.helper.ChatHandler):
                         self.sending(msgAnali.chooseMode(lingua))
                         self._statics['mode'] = ''
                     elif self._statics['mode'] == 'atren':
+                        self.sending(msgAnali.chooseMode(lingua))
+                        self._statics['mode'] = ''
+                    elif self._statics['mode'] == 'akaun':
                         self.sending(msgAnali.chooseMode(lingua))
                         self._statics['mode'] = ''
                 else:
@@ -286,6 +299,8 @@ class User(telepot.helper.ChatHandler):
                     self.sending(msgAnali.abratioMain(lingua,self._statics))
                 elif self._statics['mode'] == 'atren':
                     self.sending(msgAnali.atrenMain(lingua,self._statics))
+                elif self._statics['mode'] == 'akaun':
+                    self.sending(msgAnali.akaunMain(lingua,self._statics))
 
             elif '/set_Mode_as_' in text:
                 if '/set_Mode_as_abratio' in text:
@@ -294,6 +309,13 @@ class User(telepot.helper.ChatHandler):
                 elif '/set_Mode_as_atren' in text:
                     self._statics['mode'] = 'atren'
                     self.sending(msgAnali.atrenMain(lingua,self._statics))
+                elif '/set_Mode_as_akaun' in text:
+                    self._statics['mode'] = 'akaun'
+                    self.sending(msgAnali.akaunMain(lingua,self._statics))
+
+            elif '/change_acuno' in text:
+                self._recom = mmcdb.listAcc('ch','chs','acuno',chat_id)
+                self.sending(msgMain.selection(self._recom[1],mmcDefauV.keywo('transle',lingua=lingua).get('acuno','acuno')))
 
             elif '/change_' in text:
                 skdic = mmcDefauV.keywo('transle')
@@ -310,6 +332,8 @@ class User(telepot.helper.ChatHandler):
                     self.sending(msgAnali.abratioMain(lingua,self._statics))
                 elif self._statics['mode'] == 'atren':
                     self.sending(msgAnali.atrenMain(lingua,self._statics))
+                elif self._statics['mode'] == 'akaun':
+                    self.sending(msgAnali.akaunMain(lingua,self._statics))
 
             elif '/set_targe_as_' in text:
                 self._statics.update({ 'targe' : text.replace('/set_targe_as_','') })
@@ -345,6 +369,31 @@ class User(telepot.helper.ChatHandler):
                     self.sending(msgAnali.abratioMain(lingua,self._statics))
                 elif self._statics['mode'] == 'atren':
                     self.sending(msgAnali.atrenMain(lingua,self._statics))
+                elif self._statics['mode'] == 'akaun':
+                    self.sending(msgAnali.akaunMain(lingua,self._statics))
+
+            elif "/ch" in text :
+                for sette in text.split(" "):
+                    if "/chs_" in sette:
+                        try:
+                            wahfu = sette.split('_')
+                            self._keys = wahfu[1]
+                            self._keywo = self._recom[2][wahfu[2]]
+                            self._statics.update({ self._keys : self._keywo })
+
+                            if self._statics['mode'] == 'akaun':
+                                self.sending(msgAnali.akaunMain(lingua,self._statics))
+
+                        except KeyError:
+                            print("KeyError : Doesn't Exist or Expired")
+
+                            if self._statics['mode'] == 'akaun':
+                                self.sending(mainShort.woood(lingua,'rgsWarn')+msgAnali.akaunMain(lingua,self._statics)+mainShort.woood(lingua,'rekeswd'))
+
+                    elif "/ch_" in sette:
+                        self._statics.update({ wahfu[1] : wahfu[2] })
+                        if self._statics['mode'] == 'akaun':
+                            self.sending(msgAnali.akaunMain(lingua,self._statics))
 
         elif self._mod[-1] in ['outo','inco','tran','edit']:
             if "/Discard" in text:
@@ -461,7 +510,7 @@ class User(telepot.helper.ChatHandler):
                     tasRef=msgEdit.main(self._temra,self._list.get('uuid',''))
 
                 if self._keys in mmcDefauV.keywo('recset'):
-                    self._recom = mmcdb.recomtxt(self._temra,self._keys,self._keywo,mmcDefauV.keywo('recset'),chat_id)
+                    self._recom = mmcdb.recomtxt(self._temra,self._recom,self._keys,self._keywo,mmcDefauV.keywo('recset'),chat_id)
                     if self._recom[1] !="" :
                         self.sending(tasRef)
                         self.sending(msgOuto.recom(self._recom[1],self._keywo))
@@ -500,7 +549,7 @@ class User(telepot.helper.ChatHandler):
                                 tasRg=mainShort.woood(lingua,'rgsWarn')+msgEdit.main(self._temra,self._list.get('uuid',''))+mainShort.woood(lingua,'rekeswd')
 
                         if self._keys in mmcDefauV.keywo('recset'):
-                            self._recom = mmcdb.recomtxt(self._temra,self._keys,self._keywo,mmcDefauV.keywo('recset'),chat_id)
+                            self._recom = mmcdb.recomtxt(self._temra,self._recom,self._keys,self._keywo,mmcDefauV.keywo('recset'),chat_id)
                             if self._recom[1] !="" :
                                 self.sending(tasRg)
                                 self.sending(msgOuto.recom(self._recom[1],self._keywo))
@@ -521,7 +570,7 @@ class User(telepot.helper.ChatHandler):
                             tasRg=msgEdit.main(self._temra,self._list.get('uuid',''))
 
                         if self._keys in mmcDefauV.keywo('recset'):
-                            self._recom = mmcdb.recomtxt(self._temra,self._keys,self._keywo,mmcDefauV.keywo('recset'),chat_id)
+                            self._recom = mmcdb.recomtxt(self._temra,self._recom,self._keys,self._keywo,mmcDefauV.keywo('recset'),chat_id)
                             if self._recom[1] !="" :
                                 self.sending(tasRg)
                                 self.sending(msgOuto.recom(self._recom[1],self._keywo))
@@ -688,7 +737,7 @@ class User(telepot.helper.ChatHandler):
         self._rawdb = mmcdb.opendb(chat_id)['raw']
         self._keydb = mmcdb.opendb(chat_id)['key']
         self._vez=0
-        open(tool.path('log/mmcbot',auth.id())+tool.date(1,'-')+'.c','a').write('\n')
+        open(tool.path('log/mmcbot',usrid=auth.id())+tool.date(modde=1)+'.c','a').write('\n')
 
         if content_type != 'text':
             self.sending(msgMain.error(), modda = 1)
@@ -734,6 +783,8 @@ class User(telepot.helper.ChatHandler):
                     self.sending(msgAnali.abratioKeywo(lingua,self._keywo))
                 elif self._statics['mode'] == 'atren':
                     self.sending(msgAnali.atrenKeywo(lingua,self._keywo))
+                elif self._statics['mode'] == 'akaun':
+                    self.sending(msgAnali.akaunKeywo(lingua,self._keywo))
 
             elif self._mod[-1] == "outo":
                 tasOut= msgOuto.keyword(self._keywo)
