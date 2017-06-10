@@ -36,7 +36,7 @@ def tima(downlimit,uplimit,lib):
                 if uplimit[0:4] in n:
                     toko = tik.index(n)
                     ck = 1
-                    
+
     tok = tik[toka:toko+1]
     print('tok : '+pprint.pformat(tok,compact=True))
     return tok
@@ -55,7 +55,7 @@ def abratio(usrid,dicto):
     karatio = mmcdb.openKaratio()
 
     libra = mmcdb.opendb(usrid)
-    timon = tima(dtempo,utempo,libra)
+    timon = mmcdb.timra(usrid,dtempo,utempo)
     gas = {} # { targe : price'int'total}
     gos = {} # { targe : (price'int'total/sum)*(lim^2) }
     gis = {} # { price'int'total : [targe1,targe2...] }
@@ -66,30 +66,28 @@ def abratio(usrid,dicto):
     som = 0
     rawdb = libra['raw']
     keydb = libra['key']
-    kdatedb = keydb.get('datte',{})
-    for tim in timon:
-        for uid in kdatedb.get(tim,[]):
-            if libra['raw'][uid][cokas] == cokey:
-                if libra['raw'][uid]['karen'] == karen:
-                    price = round(float(libra['raw'][uid]['price']),2)
-                else:
-                    rate = float(karatio[libra['raw'][uid]['karen']+karen])
-                    price = round(float(libra['raw'][uid]['price']) * rate,2)
-                laf = ges.get(libra['raw'][uid][targe],[])
-                laf.append(str(price))
-                ges.update( { libra['raw'][uid][targe] : laf } )
+    for uid in timon:
+        if libra['raw'][uid][cokas] == cokey:
+            if libra['raw'][uid]['karen'] == karen:
+                price = round(float(libra['raw'][uid]['price']),2)
+            else:
+                rate = float(karatio[libra['raw'][uid]['karen']+karen])
+                price = round(float(libra['raw'][uid]['price']) * rate,2)
+            laf = ges.get(libra['raw'][uid][targe],[])
+            laf.append(str(price))
+            ges.update( { libra['raw'][uid][targe] : laf } )
 
-                lif = gese.get(len(laf),[])
-                lif.append(libra['raw'][uid][targe])
-                gese.update( { len(laf) : lif } )
+            lif = gese.get(len(laf),[])
+            lif.append(libra['raw'][uid][targe])
+            gese.update( { len(laf) : lif } )
 
-                lof = gas.get(libra['raw'][uid][targe],0.00)
-                lof = round(lof + price,2)
-                gas.update( { libra['raw'][uid][targe] : lof } )
+            lof = gas.get(libra['raw'][uid][targe],0.00)
+            lof = round(lof + price,2)
+            gas.update( { libra['raw'][uid][targe] : lof } )
 
-                lef = gisi.get(price,[])
-                lef.append(libra['raw'][uid][targe])
-                gisi.update( { price : lef } )
+            lef = gisi.get(price,[])
+            lef.append(libra['raw'][uid][targe])
+            gisi.update( { price : lef } )
 
     print('ges : '+pprint.pformat(ges,compact=True))
     print('gese : '+pprint.pformat(gese,compact=True))
@@ -210,11 +208,10 @@ def atren(usrid,dicto):
     lim = saita['screen'] -3
 
     libra = mmcdb.opendb(usrid)
-    timon = tima(dtempo,utempo,libra)
+    timon = mmcdb.timra(usrid,dtempo,utempo)
     meksi = 0.00
     rawdb = libra['raw']
     keydb = libra['key']
-    kdatedb = keydb.get('datte',{})
     miro = tool.uni(cokey[0])
     gas = {} # { datte : price'int'sum}
     gaf = {} # { price'int'sum : [datte]}
@@ -224,35 +221,34 @@ def atren(usrid,dicto):
     ges = {} # { datte : (price'int'sum)/meksi*lim}
     gus = {} # { num : datte}
 
-    for tim in timon:
-        for uid in kdatedb.get(tim,[]):
-            datte = rawdb[uid]['datte'][0:leve]
-            if rawdb[uid][cokas] == cokey:
-                if libra['raw'][uid]['karen'] == karen:
-                    price = round(float(libra['raw'][uid]['price']),2)
-                else:
-                    rate = float(karatio[libra['raw'][uid]['karen']+karen])
-                    price = round(float(libra['raw'][uid]['price']) * rate,2)
-                laf = gas.get(datte,0)
-                laf = round(laf + price,2)
-                gas.update( { datte : laf } )
-
-                lafa = gasa.get(datte,[])
-                lafa.append(str(price))
-                gasa.update( { datte : lafa } )
-
-                lafo = gafa.get(price,[])
-                lafo.append(datte)
-                gafa.update( { price : lafo } )
-
-                if laf > meksi:
-                    meksi = laf
+    for uid in timon:
+        datte = rawdb[uid]['datte'][0:leve]
+        if rawdb[uid][cokas] == cokey:
+            if libra['raw'][uid]['karen'] == karen:
+                price = round(float(libra['raw'][uid]['price']),2)
             else:
-                laf = gas.get(datte,0)
-                gas.update( { datte : laf } )
+                rate = float(karatio[libra['raw'][uid]['karen']+karen])
+                price = round(float(libra['raw'][uid]['price']) * rate,2)
+            laf = gas.get(datte,0)
+            laf = round(laf + price,2)
+            gas.update( { datte : laf } )
 
-                lafa = gasa.get(datte,[])
-                gasa.update( { datte : lafa } )
+            lafa = gasa.get(datte,[])
+            lafa.append(str(price))
+            gasa.update( { datte : lafa } )
+
+            lafo = gafa.get(price,[])
+            lafo.append(datte)
+            gafa.update( { price : lafo } )
+
+            if laf > meksi:
+                meksi = laf
+        else:
+            laf = gas.get(datte,0)
+            gas.update( { datte : laf } )
+
+            lafa = gasa.get(datte,[])
+            gasa.update( { datte : lafa } )
 
     print('gas : '+pprint.pformat(gas,compact=True))
     print('gasa : '+pprint.pformat(gasa,compact=True))
@@ -387,7 +383,6 @@ def akaun(usrid,dicto):
     utempo = dicto.get('utempo')
     rslib.update({ 'dtempo' : dtempo })
     rslib.update({ 'utempo' : utempo })
-    timon = tima(dtempo,utempo,libra)
 
     acuno = dicto.get('acuno','')
     rslib.update({ 'acuno' : acuno })
@@ -396,12 +391,9 @@ def akaun(usrid,dicto):
     balan = float(dicto.get('balan','0.0'))
 
     idsrc = [] # uuid set (related with cokas)
-    tiset = [] # uuid set (related with tempo)
+    tiset = mmcdb.timra(usrid,dtempo,utempo) # uuid set (related with tempo)
     coset = [] # cokey set
     transle = mmcDefauV.keywo('transle')
-
-    for tiora in timon:
-        tiset.extend(keydb.get('datte',{}).get(tiora,[]))
 
     if acuno in keydb.get('fromm',{}).keys():
         print(acuno + ' in fromm')

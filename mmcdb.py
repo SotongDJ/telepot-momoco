@@ -463,7 +463,7 @@ def listList(datte,usrid):
     except IndexError :
         return ''
 
-def timra(usrid, dtempo='',utempo=''):
+def timra(usrid, dtempo='',utempo='', modde='uuid'):
     libra = opendb(usrid)
     rawdb = libra.get('raw',{})
     keydb = libra.get('key',{})
@@ -515,4 +515,7 @@ def timra(usrid, dtempo='',utempo=''):
     for datte in tok:
         datui.extend(keydb.get('datte',{}).get(datte,[]))
 
-    return datui
+    if modde == 'datte':
+        return tok
+    elif modde == 'uuid':
+        return datui
