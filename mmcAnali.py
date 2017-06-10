@@ -1,46 +1,6 @@
 import pprint, np
 import mmcdb, tool, mmcDefauV
 
-def tima(downlimit,uplimit,lib):
-    tok = []
-    tik = sorted(set(lib['key']['datte'].keys()))
-    print('tik : '+pprint.pformat(tik,compact=True))
-    toka = 0
-    toko = len(tik)
-    try:
-        toka = tik.index(downlimit)
-    except ValueError:
-        ck = 0
-        for n in sorted(tik, reverse=True):
-            if downlimit[0:8] in n:
-                toka = tik.index(n)
-                ck = 1
-                #print('toka got : primary')
-        if ck == 0:
-            for n in sorted(tik, reverse=True):
-                if downlimit[0:4] in n:
-                    toka = tik.index(n)
-                    ck = 1
-                    #print('toka got : secokasry')
-    try:
-        toko = tik.index(uplimit)
-    except ValueError:
-        ck = 0
-        for n in tik:
-            if uplimit[0:8] in n:
-                toko = tik.index(n)
-                ck = 1
-                #print('toko got : primary')
-        if ck == 0:
-            for n in tik:
-                if uplimit[0:4] in n:
-                    toko = tik.index(n)
-                    ck = 1
-                    #print('toko got : secokasry')
-    tok = tik[toka:toko+1]
-    print('tok : '+pprint.pformat(tok,compact=True))
-    return tok
-
 def abratio(usrid,dicto):
     saita = mmcdb.openSetting(usrid)
     karen = saita['karen']
@@ -55,131 +15,137 @@ def abratio(usrid,dicto):
     karatio = mmcdb.openKaratio()
 
     libra = mmcdb.opendb(usrid)
-    timon = tima(dtempo,utempo,libra)
-    gas = {} # { targe : price'int'total}
-    gos = {} # { targe : (price'int'total/sum)*(lim^2) }
-    gis = {} # { price'int'total : [targe1,targe2...] }
-    gisi = {} # { price'int'indi : [targe1,targe2...] }
-    gus = {} # { targe : (price'int'total/sum)*100 }
-    ges = {} # { targe : [price1'str'indi,price2'str'indi...] }
-    gese = {} # { len([price1'str'indi,price2'str'indi...])'int': [targe1, targe2] }
-    som = 0
+    timon = mmcdb.timra(usrid,dtempo,utempo)
+    pintosum = 0
+
+    tarTpinto = {}
+        # { targe : price'int'total}
+    tarTpinpos = {}
+        # { targe : (price'int'total/sum)*(lim^2) }
+    pintoTtarset = {}
+        # { price'int'total : [targe1,targe2...] }
+    pindiTtarset = {}
+        # { price'int'indi : [targe1,targe2...] }
+    tarTpinpec = {}
+        # { targe : (price'int'total/sum)*100 }
+    tarTpinsiset = {}
+        # { targe : [price1'str'indi,price2'str'indi...] }
+    lenpinsiTtarset = {}
+        # { len([price1'str'indi,price2'str'indi...])'int': [targe1, targe2] }
+
     rawdb = libra['raw']
     keydb = libra['key']
-    kdatedb = keydb.get('datte',{})
-    for tim in timon:
-        for uid in kdatedb.get(tim,[]):
-            if libra['raw'][uid][cokas] == cokey:
-                if libra['raw'][uid]['karen'] == karen:
-                    price = round(float(libra['raw'][uid]['price']),2)
-                else:
-                    rate = float(karatio[libra['raw'][uid]['karen']+karen])
-                    price = round(float(libra['raw'][uid]['price']) * rate,2)
-                laf = ges.get(libra['raw'][uid][targe],[])
-                laf.append(str(price))
-                ges.update( { libra['raw'][uid][targe] : laf } )
 
-                lif = gese.get(len(laf),[])
-                lif.append(libra['raw'][uid][targe])
-                gese.update( { len(laf) : lif } )
+    for uuid in timon:
+        if libra['raw'][uuid][cokas] == cokey:
+            if libra['raw'][uuid]['karen'] == karen:
+                price = round(float(libra['raw'][uuid]['price']),2)
+            else:
+                rate = float(karatio[libra['raw'][uuid]['karen']+karen])
+                price = round(float(libra['raw'][uuid]['price']) * rate,2)
 
-                lof = gas.get(libra['raw'][uid][targe],0.00)
-                lof = round(lof + price,2)
-                gas.update( { libra['raw'][uid][targe] : lof } )
+            pinsiset = tarTpinsiset.get(libra['raw'][uuid][targe],[])
+            pinsiset.append(str(price))
+            tarTpinsiset.update( { libra['raw'][uuid][targe] : pinsiset } )
 
-                lef = gisi.get(price,[])
-                lef.append(libra['raw'][uid][targe])
-                gisi.update( { price : lef } )
+            tarset = lenpinsiTtarset.get(len(pinsiset),[])
+            tarset.append(libra['raw'][uuid][targe])
+            lenpinsiTtarset.update( { len(pinsiset) : tarset } )
 
-    print('ges : '+pprint.pformat(ges,compact=True))
-    print('gese : '+pprint.pformat(gese,compact=True))
-    print('gas : '+pprint.pformat(gas,compact=True))
-    print('gisi : '+pprint.pformat(gisi,compact=True))
+            pinto = tarTpinto.get(libra['raw'][uuid][targe],0.00)
+            pinto = round(pinto + price,2)
+            tarTpinto.update( { libra['raw'][uuid][targe] : pinto } )
 
-    som = round(sum(list(gas.values())),2)
-    if round(som,2) == 0.00:
+            tarset = pindiTtarset.get(price,[])
+            tarset.append(libra['raw'][uuid][targe])
+            pindiTtarset.update( { price : tarset } )
+
+    print('tarTpinsiset : '+pprint.pformat(tarTpinsiset,compact=True))
+    print('lenpinsiTtarset : '+pprint.pformat(lenpinsiTtarset,compact=True))
+    print('tarTpinto : '+pprint.pformat(tarTpinto,compact=True))
+    print('pindiTtarset : '+pprint.pformat(pindiTtarset,compact=True))
+
+    pintosum = round(sum(list(tarTpinto.values())),2)
+    if round(pintosum,2) == 0.00:
         return {'pri':['No Data','Maybe using wrong combination']}
-    sam = str(som)
-    print(' som : '+pprint.pformat(som))
+    pintoSumsi = str(pintosum)
+    print(' pintosum : '+pprint.pformat(pintosum))
 
-    for nana in list(gas):
-        #print('nana : '+pprint.pformat(nana))
+    for tarto in list(tarTpinto):
 
-        lata = round((gas[nana]/som)*(lim*lim))
-        gos.update( { nana : lata } )
-        #print(' lata : '+pprint.pformat(lata))
+        pinpos = round((tarTpinto[tarto]/pintosum)*(lim*lim))
+        tarTpinpos.update( { tarto : pinpos } )
 
-        loto = round((gas[nana]/som)*(100),2)
-        gus.update( { nana : loto } )
+        pinpec = round((tarTpinto[tarto]/pintosum)*(100),2)
+        tarTpinpec.update( { tarto : pinpec } )
         #print(' loto : '+pprint.pformat(loto))
 
-        laf = gis.get(gas[nana],[])
-        laf.append(nana)
-        gis.update( { gas[nana] : laf } )
+        tarset = pintoTtarset.get(tarTpinto[tarto],[])
+        tarset.append(tarto)
+        pintoTtarset.update( { tarTpinto[tarto] : tarset } )
 
 
-    print('gos : '+pprint.pformat(gos,compact=True))
-    print('gus : '+pprint.pformat(gus,compact=True))
-    print('gis : '+pprint.pformat(gis,compact=True))
-    par = str(round(sum(list(gus.values())),2))
-    kub = str(sum(list(gos.values())))
+    print('tarTpinpos : '+pprint.pformat(tarTpinpos,compact=True))
+    print('tarTpinpec : '+pprint.pformat(tarTpinpec,compact=True))
+    print('pintoTtarset : '+pprint.pformat(pintoTtarset,compact=True))
+    pinpecSumsi = str(round(sum(list(tarTpinpec.values())),2))
+    pinposSumsi = str(sum(list(tarTpinpos.values())))
 
-    nanga = sorted( gis , reverse = True)
-    print('nanga : '+pprint.pformat(nanga,compact=True))
+    sotPinto = sorted( pintoTtarset , reverse = True)
+    print('sotPinto : '+pprint.pformat(sotPinto,compact=True))
 
     statik = {}
-    laf = sorted(gisi)
-    statik.update({ 'max' : pprint.pformat( set( gisi.get( laf[-1],'' ) ) ).replace('{','').replace('}','') })
-    statik.update({ 'maxPc' : str(laf[-1]) })
-    statik.update({ 'min' : pprint.pformat( set( gisi.get( laf[0],'' ) ) ).replace('{','').replace('}','') })
-    statik.update({ 'minPc' : str(laf[0]) })
+    sotPindi = sorted(pindiTtarset)
+    statik.update({ 'max' : pprint.pformat( set( pindiTtarset.get( sotPindi[-1],'' ) ) ).replace('{','').replace('}','') })
+    statik.update({ 'maxPc' : str(sotPindi[-1]) })
+    statik.update({ 'min' : pprint.pformat( set( pindiTtarset.get( sotPindi[0],'' ) ) ).replace('{','').replace('}','') })
+    statik.update({ 'minPc' : str(sotPindi[0]) })
 
-    lof = sorted(gese)
+    sotLenpinsi = sorted(lenpinsiTtarset)
     dafro = ''
-    for daf in gese.get(lof[-1],''):
-        dafro = dafro + '－'+daf+' '+karen+' '+pprint.pformat(gas.get(daf),compact=True).replace('[','').replace(']','')+'\n'
-        dafro = dafro + '　'+pprint.pformat(ges.get(daf),compact=True).replace('[','( ').replace(']',' )')+'\n'
-    statik.update({ 'time' : str(lof[-1]) })
+    for tar in lenpinsiTtarset.get(sotLenpinsi[-1],''):
+        dafro = dafro + '－'+tar+' '+karen+' '+pprint.pformat(tarTpinto.get(tar),compact=True).replace('[','').replace(']','')+'\n'
+        dafro = dafro + '　'+pprint.pformat(tarTpinsiset.get(tar),compact=True).replace('[','( ').replace(']',' )')+'\n'
+    statik.update({ 'time' : str(sotLenpinsi[-1]) })
     statik.update({ 'dafro' : dafro })
 
     pri = []
-    for nume in nanga:
-        print('nume : '+pprint.pformat(nume))
-        for itei in gis[nume]:
-            #print('itei : '+pprint.pformat(itei))
-            nota = gos[itei]
-            #print('nota : '+pprint.pformat(nota))
-            miro = tool.uni(itei[0])
+    for pinto in sotPinto:
+        print('nume : '+pprint.pformat(pinto))
+        for tarit in pintoTtarset[pinto]:
+            #print('tarit : '+pprint.pformat(tarit))
+            pinos = tarTpinpos[tarit]
+            #print('pinos : '+pprint.pformat(pinos))
+            fisTar = tool.uni(tarit[0])
             try:
-                rok = len(pri[-1])
+                reclinum = len(pri[-1])
             except IndexError:
                 pri = ['']
-                rok = 0
-            pprint.pprint([itei,nota,rok,lim],compact=True)
-            if nota + rok >lim:
-                if rok < lim:
-                    pri[-1]=pri[-1]+miro*(lim-rok)
-                    nota = nota + rok - lim
-                if nota > lim:
-                    tik = int(nota/lim)
-                    tok = nota % lim
+                reclinum = 0
+            pprint.pprint([tarit,pinos,reclinum,lim],compact=True)
+            if pinos + reclinum >lim:
+                if reclinum < lim:
+                    pri[-1]=pri[-1]+fisTar*(lim-reclinum)
+                    pinos = pinos + reclinum - lim
+                if pinos > lim:
+                    tik = int(pinos/lim)
+                    tok = pinos % lim
                     for n in range(0,tik):
-                        pri.append(miro*lim)
-                    pri.append(miro*tok)
-                    pprint.pprint([itei,nota,rok,lim],compact=True)
-                elif nota <= lim:
-                    pri.append(miro*nota)
-                    pprint.pprint([itei,nota,rok,lim],compact=True)
-            elif nota + rok <= lim:
-                pri[-1]=pri[-1]+miro*nota
-                print('[itei,nota,rok,lim]')
-                pprint.pprint([itei,nota,rok,lim],compact=True)
+                        pri.append(fisTar*lim)
+                    pri.append(fisTar*tok)
+                    pprint.pprint([tarit,pinos,reclinum,lim],compact=True)
+                elif pinos <= lim:
+                    pri.append(fisTar*pinos)
+                    pprint.pprint([tarit,pinos,reclinum,lim],compact=True)
+            elif pinos + reclinum <= lim:
+                pri[-1]=pri[-1]+fisTar*pinos
+                print('[tarit,pinos,reclinum,lim]')
+                pprint.pprint([tarit,pinos,reclinum,lim],compact=True)
 
     des=""
-    for m in nanga:
-        for n in gis[m]:
-            nana = n
-            des=des+nana[0]+'　'+nana+'\n　　'+karen+' '+str(gas[nana])+' ('+str(gus[nana])+'%, '+str(gos[nana])+')\n'
+    for pinto in sotPinto:
+        for taran in pintoTtarset[pinto]:
+            des=des+taran[0]+'　'+taran+'\n　　'+karen+' '+str(tarTpinto[taran])+' ('+str(tarTpinpec[taran])+'%, '+str(tarTpinpos[taran])+')\n'
     resut={}
 
     resut.update({'dtempo': dtempo })
@@ -190,9 +156,9 @@ def abratio(usrid,dicto):
     resut.update({'pri': pri })
     resut.update({'des': des })
     resut.update({'karen': karen })
-    resut.update({'sam': sam })
-    resut.update({'par': par })
-    resut.update({'kub': kub })
+    resut.update({'sam': pintoSumsi })
+    resut.update({'par': pinpecSumsi })
+    resut.update({'kub': pinposSumsi })
     resut.update({'statik': statik })
 
     return resut
@@ -210,150 +176,158 @@ def atren(usrid,dicto):
     lim = saita['screen'] -3
 
     libra = mmcdb.opendb(usrid)
-    timon = tima(dtempo,utempo,libra)
-    meksi = 0.00
+    timon = mmcdb.timra(usrid,dtempo,utempo)
+    makprin = 0.00
     rawdb = libra['raw']
     keydb = libra['key']
-    kdatedb = keydb.get('datte',{})
-    miro = tool.uni(cokey[0])
-    gas = {} # { datte : price'int'sum}
-    gaf = {} # { price'int'sum : [datte]}
-    gasa = {} # { datte : [price'int'indi]}
-    gafa = {} # { price'int'indi : [datte] }
-    gaga = {} # { len([price'int'indi]) : [datte] }
-    ges = {} # { datte : (price'int'sum)/meksi*lim}
-    gus = {} # { num : datte}
+    fisTar = tool.uni(cokey[0])
 
-    for tim in timon:
-        for uid in kdatedb.get(tim,[]):
-            datte = rawdb[uid]['datte'][0:leve]
-            if rawdb[uid][cokas] == cokey:
-                if libra['raw'][uid]['karen'] == karen:
-                    price = round(float(libra['raw'][uid]['price']),2)
-                else:
-                    rate = float(karatio[libra['raw'][uid]['karen']+karen])
-                    price = round(float(libra['raw'][uid]['price']) * rate,2)
-                laf = gas.get(datte,0)
-                laf = round(laf + price,2)
-                gas.update( { datte : laf } )
+    daTprinsum = {}
+        # { datte : price'int'sum}
+    prinsumTdaset = {}
+        # { price'int'sum : [datte]}
+    daTprinset = {}
+        # { datte : [price'int'indi]}
+    prinTdaset = {}
+        # { price'int'indi : [datte] }
+    lenprinsetTdaset = {}
+        # { len([price'int'indi]) : [datte] }
+    daTprinpos = {}
+        # { datte : (price'int'sum)/makprin*lim}
+    diaTda = {}
+        # { num : datte}
 
-                lafa = gasa.get(datte,[])
-                lafa.append(str(price))
-                gasa.update( { datte : lafa } )
-
-                lafo = gafa.get(price,[])
-                lafo.append(datte)
-                gafa.update( { price : lafo } )
-
-                if laf > meksi:
-                    meksi = laf
+    for uuid in timon:
+        datte = rawdb[uuid]['datte'][0:leve]
+        if rawdb[uuid][cokas] == cokey:
+            if libra['raw'][uuid]['karen'] == karen:
+                price = round(float(libra['raw'][uuid]['price']),2)
             else:
-                laf = gas.get(datte,0)
-                gas.update( { datte : laf } )
+                rate = float(karatio[libra['raw'][uuid]['karen']+karen])
+                price = round(float(libra['raw'][uuid]['price']) * rate,2)
 
-                lafa = gasa.get(datte,[])
-                gasa.update( { datte : lafa } )
+            prinsum = daTprinsum.get(datte,0)
+            prinsum = round(prinsum + price,2)
+            daTprinsum.update( { datte : prinsum } )
 
-    print('gas : '+pprint.pformat(gas,compact=True))
-    print('gasa : '+pprint.pformat(gasa,compact=True))
-    print('gafa : '+pprint.pformat(gafa,compact=True))
-    dias = sorted(gas)
-    print('dias : '+pprint.pformat(dias,compact=True))
-    if round(meksi,2) == 0.00:
+            prinset = daTprinset.get(datte,[])
+            prinset.append(str(price))
+            daTprinset.update( { datte : prinset } )
+
+            daset = prinTdaset.get(price,[])
+            daset.append(datte)
+            prinTdaset.update( { price : daset } )
+
+            if prinsum > makprin:
+                makprin = prinsum
+        else:
+            prinsum = daTprinsum.get(datte,0)
+            daTprinsum.update( { datte : prinsum } )
+
+            prinset = daTprinset.get(datte,[])
+            daTprinset.update( { datte : prinset } )
+
+    print('daTprinsum : '+pprint.pformat(daTprinsum,compact=True))
+    print('daTprinset : '+pprint.pformat(daTprinset,compact=True))
+    print('prinTdaset : '+pprint.pformat(prinTdaset,compact=True))
+    das = sorted(daTprinsum)
+    print('das : '+pprint.pformat(das,compact=True))
+    if round(makprin,2) == 0.00:
         return {'graf':['No Data','Maybe using wrong combination']}
-    meksi = round(meksi,2)
-    print('meksi : '+pprint.pformat(meksi))
-    nume = 1
-    for dat in dias:
-        daf = round((gas.get(dat,0) / meksi) * lim)
-        ges.update( { dat : daf } )
-        gus.update( { nume : dat } )
-        nume = nume + 1
+    makprin = round(makprin,2)
+    print('makprin : '+pprint.pformat(makprin))
+    dia = 1
+    for da in das:
+        prinpos = round((daTprinsum.get(da,0) / makprin) * lim)
+        daTprinpos.update( { da : prinpos } )
+        diaTda.update( { dia : da } )
+        dia = dia + 1
 
-    print('ges : '+pprint.pformat(ges,compact=True))
-    print('gus : '+pprint.pformat(gus,compact=True))
+    print('daTprinpos : '+pprint.pformat(daTprinpos,compact=True))
+    print('diaTda : '+pprint.pformat(diaTda,compact=True))
 
     # x against y
-    nugra = len(tool.uni(str(sorted(gus)[-1])))
+    nugra = len(tool.uni(str(sorted(diaTda)[-1])))
     print('nugra : '+pprint.pformat(nugra))
 
     graf = []
-    for n in sorted(gus):
-        m = gus.get(n)
-        laf = ges.get(m,0)
-        diasa = tool.uni(str(n))
-        if len(diasa) < nugra:
-            diasa = ('　' * (nugra-len(diasa))) + diasa
-        lina = diasa + '｜' + (miro * laf)# + ' ' + str(gas.get(m))
+    for dia in sorted(diaTda):
+        da = diaTda.get(dia)
+        prinpos = daTprinpos.get(da,0)
+        unidia = tool.uni(str(dia))
+        if len(unidia) < nugra:
+            unidia = ('　' * (nugra-len(unidia))) + unidia
+        lina = unidia + '｜' + (fisTar * prinpos)# + ' ' + str(daTprinsum.get(m))
         graf.append(lina)
 
     desta=[]
-    for n in sorted(gus):
-        diasa = tool.uni(str(n))
-        if len(diasa) < nugra:
-            diasa = ('　' * (nugra-len(diasa))) + diasa
-        m = gus.get(n)
-        pttl = karen+' '+str(round(gas.get(m),2))
-        ofe = pprint.pformat(gasa.get(m))#.replace('[','').replace(']','').replace('\'','')
-        desta.append(diasa+'：')
-        desta.append('　'*(nugra-1) + m )
-        desta.append('　'*(nugra-1) + pttl + '\n' )
+    for dia in sorted(diaTda):
+        unidia = tool.uni(str(dia))
+        if len(unidia) < nugra:
+            unidia = ('　' * (nugra-len(unidia))) + unidia
+        da = diaTda.get(dia)
+        prinsuka = karen+' '+str(round(daTprinsum.get(da),2))
+        prinsefo = pprint.pformat(daTprinset.get(da))#.replace('[','').replace(']','').replace('\'','')
+        desta.append(unidia+'：')
+        desta.append('　'*(nugra-1) + da )
+        desta.append('　'*(nugra-1) + prinsuka + '\n' )
         #desta.append('　'+ofe)
     des='\n'.join(desta)
 
-    oridat = [x for x in list(gas.values())]
-    sam = round(sum(oridat),2)
-    vam = round(sam/len(oridat),2)
-    fildat = [x for x in list(gas.values()) if abs(x - np.mean(oridat)) <= (np.std(oridat)*1)]
-    san = round(sum(fildat),2)
-    van = round(san/len(fildat),2)
+    prinsum = [x for x in list(daTprinsum.values())]
+    prinsuSum = round(sum(prinsum),2)
+    prinsumVa = round(prinsuSum/len(prinsum),2)
+    firinsu = [x for x in list(daTprinsum.values()) if abs(x - np.mean(prinsum)) <= (np.std(prinsum)*1)]
+    firinsuSum = round(sum(firinsu),2)
+    firinsumVa = round(firinsuSum/len(firinsu),2)
 
     statik = {}
-    for m in gas.keys():
-        n = gas.get(m)
-        laf = gaf.get(n,[])
-        laf.append(m)
-        gaf.update( { n : laf } )
-    print('gaf : '+pprint.pformat(gaf, compact=True))
-    for m in gasa.keys():
-        n = len(gasa.get(m))
-        laf = gaga.get(n,[])
-        laf.append(m)
-        gaga.update( { n : laf } )
-    print('gaga : '+pprint.pformat(gaga, compact=True))
+    for da in daTprinsum.keys():
+        prinsum = daTprinsum.get(da)
+        daset = prinsumTdaset.get(prinsum,[])
+        daset.append(da)
+        prinsumTdaset.update( { prinsum : daset } )
+    print('prinsumTdaset : '+pprint.pformat(prinsumTdaset, compact=True))
 
-    laf = sorted(gafa)
-    statik.update({ 'sinMax' : pprint.pformat( set( gafa.get( laf[-1],'' ) ) ).replace('}, {',' ; ').replace('{','').replace('}','') })
-    statik.update({ 'sinMaxPc' : str(laf[-1]) })
-    statik.update({ 'sinMin' : pprint.pformat( set( gafa.get( laf[0],'' ) ) ).replace('}, {',' ; ').replace('{','').replace('}','') })
-    statik.update({ 'sinMinPc' : str(laf[0]) })
+    for da in daTprinset.keys():
+        lenprinset = len(daTprinset.get(da))
+        daset = lenprinsetTdaset.get(lenprinset,[])
+        daset.append(da)
+        lenprinsetTdaset.update( { lenprinset : daset } )
+    print('lenprinsetTdaset : '+pprint.pformat(lenprinsetTdaset, compact=True))
 
-    laf = sorted(gaf)
+    prinset = sorted(prinTdaset)
+    statik.update({ 'sinMax' : pprint.pformat( set( prinTdaset.get( prinset[-1],'' ) ) ).replace('}, {',' ; ').replace('{','').replace('}','') })
+    statik.update({ 'sinMaxPc' : str(prinset[-1]) })
+    statik.update({ 'sinMin' : pprint.pformat( set( prinTdaset.get( prinset[0],'' ) ) ).replace('}, {',' ; ').replace('{','').replace('}','') })
+    statik.update({ 'sinMinPc' : str(prinset[0]) })
+
+    prinsumSet = sorted(prinsumTdaset)
     oveMaxDat=''
-    for daf in gaf.get( laf[-1],[''] ):
-        oveMaxDat = oveMaxDat+'－'+daf+' '+pprint.pformat(gasa.get(daf),compact=True).replace('[','（').replace(']','）')+'\n'
-    statik.update({ 'oveMaxPc' : str(laf[-1]) })
+    for daf in prinsumTdaset.get( prinsumSet[-1],[''] ):
+        oveMaxDat = oveMaxDat+'－'+daf+' '+pprint.pformat(daTprinset.get(daf),compact=True).replace('[','（').replace(']','）')+'\n'
+    statik.update({ 'oveMaxPc' : str(prinsumSet[-1]) })
     statik.update({ 'oveMaxDat' : oveMaxDat })
 
     oveMinDat=''
-    if laf[0] != 0:
-        mino = laf[0]
+    if prinsumSet[0] != 0:
+        mino = prinsumSet[0]
     else:
         try:
-            mino = laf[1]
+            mino = prinsumSet[1]
         except KeyError:
-            mino = laf[0]
-    for daf in gaf.get( mino,[''] ):
-        oveMinDat = oveMinDat+'－'+daf+' '+pprint.pformat(gasa.get(daf),compact=True).replace('[','（').replace(']','）')+'\n'
+            mino = prinsumSet[0]
+    for daf in prinsumTdaset.get( mino,[''] ):
+        oveMinDat = oveMinDat+'－'+daf+' '+pprint.pformat(daTprinset.get(daf),compact=True).replace('[','（').replace(']','）')+'\n'
     statik.update({ 'oveMinPc' : str(mino) })
     statik.update({ 'oveMinDat' : oveMinDat })
 
-    laf = sorted(gaga)
+    lenprinseSet = sorted(lenprinsetTdaset)
     modeDat=''
-    for daf in gaga.get(laf[-1],''):
-        modeDat = modeDat+'－'+daf+' '+karen+' '+pprint.pformat(gas.get(daf),compact=True).replace('[','').replace(']','')+'\n'
-        modeDat = modeDat+'　'+pprint.pformat(gasa.get(daf),compact=True).replace('[','（').replace(']','）')+'\n'
-    statik.update({ 'time' : str(laf[-1]) })
+    for daf in lenprinsetTdaset.get(lenprinseSet[-1],''):
+        modeDat = modeDat+'－'+daf+' '+karen+' '+pprint.pformat(daTprinsum.get(daf),compact=True).replace('[','').replace(']','')+'\n'
+        modeDat = modeDat+'　'+pprint.pformat(daTprinset.get(daf),compact=True).replace('[','（').replace(']','）')+'\n'
+    statik.update({ 'time' : str(lenprinseSet[-1]) })
     statik.update({ 'modeDat' : modeDat })
 
     resut={}
@@ -365,10 +339,10 @@ def atren(usrid,dicto):
     resut.update({'graf': graf })
     resut.update({'des': des })
     resut.update({'karen': karen })
-    resut.update({'sam': sam })
-    resut.update({'vam': vam })
-    resut.update({'san': san })
-    resut.update({'van': van })
+    resut.update({'sam': prinsuSum })
+    resut.update({'vam': prinsumVa })
+    resut.update({'san': firinsuSum })
+    resut.update({'van': firinsumVa })
     resut.update({'statik': statik })
 
     return resut
@@ -387,7 +361,6 @@ def akaun(usrid,dicto):
     utempo = dicto.get('utempo')
     rslib.update({ 'dtempo' : dtempo })
     rslib.update({ 'utempo' : utempo })
-    timon = tima(dtempo,utempo,libra)
 
     acuno = dicto.get('acuno','')
     rslib.update({ 'acuno' : acuno })
@@ -396,12 +369,9 @@ def akaun(usrid,dicto):
     balan = float(dicto.get('balan','0.0'))
 
     idsrc = [] # uuid set (related with cokas)
-    tiset = [] # uuid set (related with tempo)
+    tiset = mmcdb.timra(usrid,dtempo,utempo) # uuid set (related with tempo)
     coset = [] # cokey set
     transle = mmcDefauV.keywo('transle')
-
-    for tiora in timon:
-        tiset.extend(keydb.get('datte',{}).get(tiora,[]))
 
     if acuno in keydb.get('fromm',{}).keys():
         print(acuno + ' in fromm')
