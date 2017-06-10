@@ -8,12 +8,18 @@ def sachi(usrid,dicto):
     keywo = dicto.get('keywo','')
     dtempo = dicto.get('dtempo','')
     utempo = dicto.get('utempo','')
+    cokas = dicto.get('cokas','')
 
     tiset = mmcdb.timra(usrid, dtempo=dtempo, utempo=utempo)
 
+    if cokas == '':
+        kaset = keydb.keys()
+    else:
+        kaset = [cokas]
+
     ralib = {}
     keyra = {}
-    for keyo in keydb.keys():
+    for keyo in kaset:
         for valo in keydb.get(keyo).keys():
             vakey = ralib.get(valo,[])
             nonom = len(vakey)
@@ -27,8 +33,8 @@ def sachi(usrid,dicto):
                 kekey.extend([keyo])
                 keyra.update({ valo : kekey })
 
-    kelib = {}
-    keyto = {}
+    kelib = {} # searchresut : uuid
+    keyto = {} # searchresut : class
     for valo in ralib.keys():
         if keywo in valo:
             kelib.update({ valo : ralib.get(valo,[]) })

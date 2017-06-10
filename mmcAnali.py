@@ -1,46 +1,6 @@
 import pprint, np
 import mmcdb, tool, mmcDefauV
 
-def tima(downlimit,uplimit,lib):
-    tok = []
-    tik = sorted(set(lib['key']['datte'].keys()))
-    print('tik : '+pprint.pformat(tik,compact=True))
-    toka = 0
-    toko = len(tik)
-    try:
-        toka = tik.index(downlimit)
-    except ValueError:
-        ck = 0
-        for n in sorted(tik, reverse=True):
-            if downlimit[0:8] in n:
-                toka = tik.index(n)
-                ck = 1
-
-        if ck == 0:
-            for n in sorted(tik, reverse=True):
-                if downlimit[0:4] in n:
-                    toka = tik.index(n)
-                    ck = 1
-
-    try:
-        toko = tik.index(uplimit)
-    except ValueError:
-        ck = 0
-        for n in tik:
-            if uplimit[0:8] in n:
-                toko = tik.index(n)
-                ck = 1
-
-        if ck == 0:
-            for n in tik:
-                if uplimit[0:4] in n:
-                    toko = tik.index(n)
-                    ck = 1
-
-    tok = tik[toka:toko+1]
-    print('tok : '+pprint.pformat(tok,compact=True))
-    return tok
-
 def abratio(usrid,dicto):
     saita = mmcdb.openSetting(usrid)
     karen = saita['karen']
