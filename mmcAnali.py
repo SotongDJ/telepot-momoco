@@ -16,128 +16,136 @@ def abratio(usrid,dicto):
 
     libra = mmcdb.opendb(usrid)
     timon = mmcdb.timra(usrid,dtempo,utempo)
-    gas = {} # { targe : price'int'total}
-    gos = {} # { targe : (price'int'total/sum)*(lim^2) }
-    gis = {} # { price'int'total : [targe1,targe2...] }
-    gisi = {} # { price'int'indi : [targe1,targe2...] }
-    gus = {} # { targe : (price'int'total/sum)*100 }
-    ges = {} # { targe : [price1'str'indi,price2'str'indi...] }
-    gese = {} # { len([price1'str'indi,price2'str'indi...])'int': [targe1, targe2] }
-    som = 0
+    pintosum = 0
+
+    tarTpinto = {}
+        # { targe : price'int'total}
+    tarTpinpos = {}
+        # { targe : (price'int'total/sum)*(lim^2) }
+    pintoTtarset = {}
+        # { price'int'total : [targe1,targe2...] }
+    pindiTtarset = {}
+        # { price'int'indi : [targe1,targe2...] }
+    tarTpinpec = {}
+        # { targe : (price'int'total/sum)*100 }
+    tarTpinsiset = {}
+        # { targe : [price1'str'indi,price2'str'indi...] }
+    lenpinsiTtarset = {}
+        # { len([price1'str'indi,price2'str'indi...])'int': [targe1, targe2] }
+
     rawdb = libra['raw']
     keydb = libra['key']
-    for uid in timon:
-        if libra['raw'][uid][cokas] == cokey:
-            if libra['raw'][uid]['karen'] == karen:
-                price = round(float(libra['raw'][uid]['price']),2)
+
+    for uuid in timon:
+        if libra['raw'][uuid][cokas] == cokey:
+            if libra['raw'][uuid]['karen'] == karen:
+                price = round(float(libra['raw'][uuid]['price']),2)
             else:
-                rate = float(karatio[libra['raw'][uid]['karen']+karen])
-                price = round(float(libra['raw'][uid]['price']) * rate,2)
-            laf = ges.get(libra['raw'][uid][targe],[])
-            laf.append(str(price))
-            ges.update( { libra['raw'][uid][targe] : laf } )
+                rate = float(karatio[libra['raw'][uuid]['karen']+karen])
+                price = round(float(libra['raw'][uuid]['price']) * rate,2)
 
-            lif = gese.get(len(laf),[])
-            lif.append(libra['raw'][uid][targe])
-            gese.update( { len(laf) : lif } )
+            pinsiset = tarTpinsiset.get(libra['raw'][uuid][targe],[])
+            pinsiset.append(str(price))
+            tarTpinsiset.update( { libra['raw'][uuid][targe] : pinsiset } )
 
-            lof = gas.get(libra['raw'][uid][targe],0.00)
-            lof = round(lof + price,2)
-            gas.update( { libra['raw'][uid][targe] : lof } )
+            tarset = lenpinsiTtarset.get(len(pinsiset),[])
+            tarset.append(libra['raw'][uuid][targe])
+            lenpinsiTtarset.update( { len(pinsiset) : tarset } )
 
-            lef = gisi.get(price,[])
-            lef.append(libra['raw'][uid][targe])
-            gisi.update( { price : lef } )
+            pinto = tarTpinto.get(libra['raw'][uuid][targe],0.00)
+            pinto = round(pinto + price,2)
+            tarTpinto.update( { libra['raw'][uuid][targe] : pinto } )
 
-    print('ges : '+pprint.pformat(ges,compact=True))
-    print('gese : '+pprint.pformat(gese,compact=True))
-    print('gas : '+pprint.pformat(gas,compact=True))
-    print('gisi : '+pprint.pformat(gisi,compact=True))
+            tarset = pindiTtarset.get(price,[])
+            tarset.append(libra['raw'][uuid][targe])
+            pindiTtarset.update( { price : tarset } )
 
-    som = round(sum(list(gas.values())),2)
-    if round(som,2) == 0.00:
+    print('tarTpinsiset : '+pprint.pformat(tarTpinsiset,compact=True))
+    print('lenpinsiTtarset : '+pprint.pformat(lenpinsiTtarset,compact=True))
+    print('tarTpinto : '+pprint.pformat(tarTpinto,compact=True))
+    print('pindiTtarset : '+pprint.pformat(pindiTtarset,compact=True))
+
+    pintosum = round(sum(list(tarTpinto.values())),2)
+    if round(pintosum,2) == 0.00:
         return {'pri':['No Data','Maybe using wrong combination']}
-    sam = str(som)
-    print(' som : '+pprint.pformat(som))
+    pintoSumsi = str(pintosum)
+    print(' pintosum : '+pprint.pformat(pintosum))
 
-    for nana in list(gas):
-        #print('nana : '+pprint.pformat(nana))
+    for tarto in list(tarTpinto):
 
-        lata = round((gas[nana]/som)*(lim*lim))
-        gos.update( { nana : lata } )
-        #print(' lata : '+pprint.pformat(lata))
+        pinpos = round((tarTpinto[tarto]/pintosum)*(lim*lim))
+        tarTpinpos.update( { tarto : pinpos } )
 
-        loto = round((gas[nana]/som)*(100),2)
-        gus.update( { nana : loto } )
+        pinpec = round((tarTpinto[tarto]/pintosum)*(100),2)
+        tarTpinpec.update( { tarto : pinpec } )
         #print(' loto : '+pprint.pformat(loto))
 
-        laf = gis.get(gas[nana],[])
-        laf.append(nana)
-        gis.update( { gas[nana] : laf } )
+        tarset = pintoTtarset.get(tarTpinto[tarto],[])
+        tarset.append(tarto)
+        pintoTtarset.update( { tarTpinto[tarto] : tarset } )
 
 
-    print('gos : '+pprint.pformat(gos,compact=True))
-    print('gus : '+pprint.pformat(gus,compact=True))
-    print('gis : '+pprint.pformat(gis,compact=True))
-    par = str(round(sum(list(gus.values())),2))
-    kub = str(sum(list(gos.values())))
+    print('tarTpinpos : '+pprint.pformat(tarTpinpos,compact=True))
+    print('tarTpinpec : '+pprint.pformat(tarTpinpec,compact=True))
+    print('pintoTtarset : '+pprint.pformat(pintoTtarset,compact=True))
+    pinpecSumsi = str(round(sum(list(tarTpinpec.values())),2))
+    pinposSumsi = str(sum(list(tarTpinpos.values())))
 
-    nanga = sorted( gis , reverse = True)
-    print('nanga : '+pprint.pformat(nanga,compact=True))
+    sotPinto = sorted( pintoTtarset , reverse = True)
+    print('sotPinto : '+pprint.pformat(sotPinto,compact=True))
 
     statik = {}
-    laf = sorted(gisi)
-    statik.update({ 'max' : pprint.pformat( set( gisi.get( laf[-1],'' ) ) ).replace('{','').replace('}','') })
-    statik.update({ 'maxPc' : str(laf[-1]) })
-    statik.update({ 'min' : pprint.pformat( set( gisi.get( laf[0],'' ) ) ).replace('{','').replace('}','') })
-    statik.update({ 'minPc' : str(laf[0]) })
+    sotPindi = sorted(pindiTtarset)
+    statik.update({ 'max' : pprint.pformat( set( pindiTtarset.get( sotPindi[-1],'' ) ) ).replace('{','').replace('}','') })
+    statik.update({ 'maxPc' : str(sotPindi[-1]) })
+    statik.update({ 'min' : pprint.pformat( set( pindiTtarset.get( sotPindi[0],'' ) ) ).replace('{','').replace('}','') })
+    statik.update({ 'minPc' : str(sotPindi[0]) })
 
-    lof = sorted(gese)
+    sotLenpinsi = sorted(lenpinsiTtarset)
     dafro = ''
-    for daf in gese.get(lof[-1],''):
-        dafro = dafro + '－'+daf+' '+karen+' '+pprint.pformat(gas.get(daf),compact=True).replace('[','').replace(']','')+'\n'
-        dafro = dafro + '　'+pprint.pformat(ges.get(daf),compact=True).replace('[','( ').replace(']',' )')+'\n'
-    statik.update({ 'time' : str(lof[-1]) })
+    for tar in lenpinsiTtarset.get(sotLenpinsi[-1],''):
+        dafro = dafro + '－'+tar+' '+karen+' '+pprint.pformat(tarTpinto.get(tar),compact=True).replace('[','').replace(']','')+'\n'
+        dafro = dafro + '　'+pprint.pformat(tarTpinsiset.get(tar),compact=True).replace('[','( ').replace(']',' )')+'\n'
+    statik.update({ 'time' : str(sotLenpinsi[-1]) })
     statik.update({ 'dafro' : dafro })
 
     pri = []
-    for nume in nanga:
-        print('nume : '+pprint.pformat(nume))
-        for itei in gis[nume]:
-            #print('itei : '+pprint.pformat(itei))
-            nota = gos[itei]
-            #print('nota : '+pprint.pformat(nota))
-            miro = tool.uni(itei[0])
+    for pinto in sotPinto:
+        print('nume : '+pprint.pformat(pinto))
+        for tarit in pintoTtarset[pinto]:
+            #print('tarit : '+pprint.pformat(tarit))
+            pinos = tarTpinpos[tarit]
+            #print('pinos : '+pprint.pformat(pinos))
+            fisTar = tool.uni(tarit[0])
             try:
-                rok = len(pri[-1])
+                reclinum = len(pri[-1])
             except IndexError:
                 pri = ['']
-                rok = 0
-            pprint.pprint([itei,nota,rok,lim],compact=True)
-            if nota + rok >lim:
-                if rok < lim:
-                    pri[-1]=pri[-1]+miro*(lim-rok)
-                    nota = nota + rok - lim
-                if nota > lim:
-                    tik = int(nota/lim)
-                    tok = nota % lim
+                reclinum = 0
+            pprint.pprint([tarit,pinos,reclinum,lim],compact=True)
+            if pinos + reclinum >lim:
+                if reclinum < lim:
+                    pri[-1]=pri[-1]+fisTar*(lim-reclinum)
+                    pinos = pinos + reclinum - lim
+                if pinos > lim:
+                    tik = int(pinos/lim)
+                    tok = pinos % lim
                     for n in range(0,tik):
-                        pri.append(miro*lim)
-                    pri.append(miro*tok)
-                    pprint.pprint([itei,nota,rok,lim],compact=True)
-                elif nota <= lim:
-                    pri.append(miro*nota)
-                    pprint.pprint([itei,nota,rok,lim],compact=True)
-            elif nota + rok <= lim:
-                pri[-1]=pri[-1]+miro*nota
-                print('[itei,nota,rok,lim]')
-                pprint.pprint([itei,nota,rok,lim],compact=True)
+                        pri.append(fisTar*lim)
+                    pri.append(fisTar*tok)
+                    pprint.pprint([tarit,pinos,reclinum,lim],compact=True)
+                elif pinos <= lim:
+                    pri.append(fisTar*pinos)
+                    pprint.pprint([tarit,pinos,reclinum,lim],compact=True)
+            elif pinos + reclinum <= lim:
+                pri[-1]=pri[-1]+fisTar*pinos
+                print('[tarit,pinos,reclinum,lim]')
+                pprint.pprint([tarit,pinos,reclinum,lim],compact=True)
 
     des=""
-    for m in nanga:
-        for n in gis[m]:
-            nana = n
-            des=des+nana[0]+'　'+nana+'\n　　'+karen+' '+str(gas[nana])+' ('+str(gus[nana])+'%, '+str(gos[nana])+')\n'
+    for pinto in sotPinto:
+        for taran in pintoTtarset[pinto]:
+            des=des+taran[0]+'　'+taran+'\n　　'+karen+' '+str(tarTpinto[taran])+' ('+str(tarTpinpec[taran])+'%, '+str(tarTpinpos[taran])+')\n'
     resut={}
 
     resut.update({'dtempo': dtempo })
@@ -148,9 +156,9 @@ def abratio(usrid,dicto):
     resut.update({'pri': pri })
     resut.update({'des': des })
     resut.update({'karen': karen })
-    resut.update({'sam': sam })
-    resut.update({'par': par })
-    resut.update({'kub': kub })
+    resut.update({'sam': pintoSumsi })
+    resut.update({'par': pinpecSumsi })
+    resut.update({'kub': pinposSumsi })
     resut.update({'statik': statik })
 
     return resut
