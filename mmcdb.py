@@ -462,3 +462,57 @@ def listList(datte,usrid):
         return tasta
     except IndexError :
         return ''
+
+def timra(usrid, dtempo='',utempo=''):
+    libra = opendb(usrid)
+    rawdb = libra.get('raw',{})
+    keydb = libra.get('key',{})
+
+    if dtempo == '':
+        dtempo = tool.date(modde=1)[0:8]
+    if utempo == '':
+        utempo = tool.date(modde=1)[0:8]
+
+    tok = []
+    tik = sorted(set(keydb.get('datte',{}).keys()))
+    print('tik : '+pprint.pformat(tik,compact=True))
+    toka = 0
+    toko = len(tik)
+    try:
+        toka = tik.index(dtempo)
+    except ValueError:
+        ck = 0
+        for n in sorted(tik, reverse=True):
+            if dtempo[0:8] in n:
+                toka = tik.index(n)
+                ck = 1
+
+        if ck == 0:
+            for n in sorted(tik, reverse=True):
+                if dtempo[0:4] in n:
+                    toka = tik.index(n)
+                    ck = 1
+
+    try:
+        toko = tik.index(utempo)
+    except ValueError:
+        ck = 0
+        for n in tik:
+            if utempo[0:8] in n:
+                toko = tik.index(n)
+                ck = 1
+
+        if ck == 0:
+            for n in tik:
+                if utempo[0:4] in n:
+                    toko = tik.index(n)
+                    ck = 1
+
+    tok = tik[toka:toko+1]
+    print('tok : '+pprint.pformat(tok,compact=True))
+
+    datui = []
+    for datte in tok:
+        datui.extend(keydb.get('datte',{}).get(datte,[]))
+
+    return datui

@@ -15,13 +15,13 @@ def tima(downlimit,uplimit,lib):
             if downlimit[0:8] in n:
                 toka = tik.index(n)
                 ck = 1
-                #print('toka got : primary')
+
         if ck == 0:
             for n in sorted(tik, reverse=True):
                 if downlimit[0:4] in n:
                     toka = tik.index(n)
                     ck = 1
-                    #print('toka got : secokasry')
+
     try:
         toko = tik.index(uplimit)
     except ValueError:
@@ -30,13 +30,13 @@ def tima(downlimit,uplimit,lib):
             if uplimit[0:8] in n:
                 toko = tik.index(n)
                 ck = 1
-                #print('toko got : primary')
+
         if ck == 0:
             for n in tik:
                 if uplimit[0:4] in n:
                     toko = tik.index(n)
                     ck = 1
-                    #print('toko got : secokasry')
+                    
     tok = tik[toka:toko+1]
     print('tok : '+pprint.pformat(tok,compact=True))
     return tok
