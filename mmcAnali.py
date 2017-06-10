@@ -545,7 +545,7 @@ def akaun(usrid,dicto):
     else:
         c = ''
 
-    e = '∑' + a + '　'  + b + insum + '　'  + c + otsum
+    e = a + '　'  + b + insum + '　'  + c + otsum
     pides = pides + tool.uni(e) + '\n'
     pides = pides + '—'*g + '\n' + f
 
@@ -578,11 +578,11 @@ def akaun(usrid,dicto):
         lefin = len(pesum)
 
     blanc = '　'*lefin
-    pefin = '　'*(lefin-len(pesum)) + pesum
-    infin = '　'*(lefin-len(insum)) + insum
-    otfin = '　'*(lefin-len(otsum)) + otsum
+    pefin = '　'*(lefin-len(pesum)) + tool.uni(pesum)
+    infin = '　'*(lefin-len(insum)) + tool.uni(insum)
+    otfin = '　'*(lefin-len(otsum)) + tool.uni(otsum)
     linec = '—'*lefin
-    bafin = '　'*(lefin-len(basum)) + basum
+    bafin = '　'*(lefin-len(basum)) + tool.uni(basum)
 
     rslib.update({ 'blanc' : blanc })
     rslib.update({ 'pefin' : pefin })
