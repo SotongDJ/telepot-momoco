@@ -364,6 +364,8 @@ class User(telepot.helper.ChatHandler):
                     self._statics.update({ 'cokey' : self._keywo })
                 elif '/set_as_targe' in text:
                     self._statics.update({ 'targe' : self._keywo })
+                elif '/set_as_balan' in text:
+                    self._statics.update({ 'balan' : self._keywo })
 
                 if self._statics['mode'] == 'abratio':
                     self.sending(msgAnali.abratioMain(lingua,self._statics))
