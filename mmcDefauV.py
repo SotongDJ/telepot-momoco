@@ -39,7 +39,7 @@ def keywo(text,lingua='enMY'):
             'leve':10,
             'dtempo':'','utempo':'',
             'cokas':'','cokey':'',
-            'targe':'',
+            'targe':'','keywo':'',
             'acuno':'','balan':'0',
         },
         'list' : {
@@ -72,6 +72,7 @@ def keywo(text,lingua='enMY'):
             'abratio':['dtempo','utempo','cokey','cokas','targe'],
             'atren':['dtempo','utempo','cokey','cokas','leve'],
             'akaun':['dtempo','utempo','cokas','acuno','balan'],
+            'sachi':['dtempo','utempo','keywo']
         }
     }
     woood = {
