@@ -1,57 +1,34 @@
 """ self.sender.sendMessage(mmcmsg.listMain(self._temra)) """
-def main(datte,text):
-    final="""Listing Card
-——————————
-Date:"""+datte+"""
-List:
-"""+text+"""
-——————————
-　/Choose_day　/Choose_month　/Choose_year
-——————————
-　/Close
-"""
+def main(lingua,datte,text):
+    final = open('descrimmc/'+lingua+'/listMain.descri').read()
+    final = final.replace('@datte@',datte)
+    final = final.replace('@text@',text)
     return final
 
-def change(keywo,text):
-    final='Choose '+keywo+"""
-——————————
-List:
-"""+text+"""
-——————————
-　/Back
-"""
+def change(lingua,keywo,text):
+    final = open('descrimmc/'+lingua+'/listChange.descri').read()
+    final = final.replace('@keywo@',keywo)
+    final = final.replace('@text@',text)
     return final
 
 """ self.sender.sendMessage(mmcmsg.listSect(uuid,usrid,libra)) """
-def single(uuid,usrid,libra):
-    final="""Single record Card
-——————————
-ID: """+uuid+"""
-Date: """+libra[uuid].get('datte','')+"""
-Item: """+libra[uuid].get('namma','')+"""
-Category: """+libra[uuid].get('klass','')+"""
-Seller: """+libra[uuid].get('shoop','')+"""
-　　——————　　
-Spent from:
-"""+libra[uuid].get('karen','')+" "+libra[uuid].get('price','')+' ('+libra[uuid].get('fromm','')+""")
-Transfer to:
-"""+libra[uuid].get('tkare','')+" "+libra[uuid].get('tpric','')+' ('+libra[uuid].get('toooo','')+""")
-　　——————　　
-"""+"""Notes:
-"""+libra[uuid].get('desci','')+"""
-——————————
-　/Back　/Edit　/Delete　/setting
-"""
+def single(lingua,uuid,usrid,libra):
+    final = open('descrimmc/'+lingua+'/listSingle.descri').read()
+    final = final.replace('@uuid@',uuid)
+    final = final.replace('@datte@',libra[uuid].get('datte',''))
+    final = final.replace('@namma@',libra[uuid].get('namma',''))
+    final = final.replace('@klass@',libra[uuid].get('klass',''))
+    final = final.replace('@shoop@',libra[uuid].get('shoop',''))
+    final = final.replace('@karen@',libra[uuid].get('karen',''))
+    final = final.replace('@price@',libra[uuid].get('price',''))
+    final = final.replace('@fromm@',libra[uuid].get('fromm',''))
+    final = final.replace('@tkare@',libra[uuid].get('tkare',''))
+    final = final.replace('@tpric@',libra[uuid].get('tpric',''))
+    final = final.replace('@toooo@',libra[uuid].get('toooo',''))
+    final = final.replace('@desci@',libra[uuid].get('desci',''))
     return final
 
 """ self.sender.sendMessage(mmcmsg.listDisca()) """
-def disca():
-    final="""¡ Discard !
-——————————
-
-　Closed Listing Card
-
-——————————
-　/whats_now　/setting
-"""
+def disca(lingua):
+    final = open('descrimmc/'+lingua+'/listDisca.descri').read()
     return final

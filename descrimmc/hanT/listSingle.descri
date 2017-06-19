@@ -1,0 +1,24 @@
+記錄卡
+—————
+編號：@uuid@
+日期：@datte@
+品項：@namma@
+類別：@klass@
+商家：@shoop@
+
+來源賬戶：
+@karen@ @price@ (@fromm@)
+目標賬戶：
+@tkare@ @tpric@ (@toooo@)
+　　
+備註：
+@desci@
+—————
+編輯
+　/Edit
+刪除
+　/Delete
+設定
+　/setting
+返回
+　/Back
