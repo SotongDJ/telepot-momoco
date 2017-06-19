@@ -233,7 +233,7 @@ class User(telepot.helper.ChatHandler):
                 self.sending(msgList.main(lingua,self._list.get('datte',''),mmcdb.listList(self._list.get('datte',''),chat_id)))
 
             elif "/Close" in text:
-                self.sending(msgList.disca()+mainShort.woood(lingua,'cof') , modda = 1)
+                self.sending(msgList.disca(lingua)+mainShort.woood(lingua,'cof') , modda = 1)
                 self._mod=[]
                 self.close()
 

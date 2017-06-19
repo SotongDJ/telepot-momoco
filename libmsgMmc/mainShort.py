@@ -1,7 +1,7 @@
 def woood(lingua,tasta):
     dicta={
         'enMY':{
-            'presys':'This chatbot is UNDER CONSTRUCTING\n——————————\n',
+            'presys':'This chatbot is UNDER CONSTRUCTING\nTelegram msg limit: 1 msg/s\n——————————\n',
             'con':'Create New Conversation',
             'cof':'～～～～～～～～～～\nConversation Closed\n(Key word to start a new conv.)',
             'refeson':'This chatbot is UNDER CONSTRUCTING\n——————————\nRefreshing database...',
@@ -21,7 +21,7 @@ def woood(lingua,tasta):
             'emptylist':'Sorry, try fill in other blank before request list\n',
         },
         'hanT':{
-            'presys':'本聊天機器人仍處於早期開發階段\n——————————\n',
+            'presys':'本聊天機器人仍處於早期開發階段\nTelegram 訊息限制：每秒 1 封\n——————————\n',
             'con':'建立新的對話',
             'cof':'～～～～～～～～～～\n對話結束\n（輸入任意文字開始新的對話）',
             'refeson':'本聊天機器人仍處於早期開發階段\n——————————\n更新資料庫',
