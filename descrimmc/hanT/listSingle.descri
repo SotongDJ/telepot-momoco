@@ -2,14 +2,22 @@
 —————
 編號：@uuid@
 日期：@datte@
-品項：@namma@
-類別：@klass@
-商家：@shoop@
+　　
+品名：
+　@namma@
+　（品名／備註）
+用途類別：
+　@klass@
+商家：
+　@shoop@
+　（商家／中介）
 　　　　
-來源賬戶：
-@karen@ @price@ (@fromm@)
+通用/來源賬戶：
+　@karen@ @price@
+　(@fromm@)
 目標賬戶：
-@tkare@ @tpric@ (@toooo@)
+　@tkare@ @tpric@
+　(@toooo@)
 　　　　
 備註：
 @desci@
