@@ -19,6 +19,7 @@ def woood(lingua,tasta):
             'spitpre':'--- PREV MSG ---\n',
             'spitpost':'\n--- NEXT MSG ---',
             'emptylist':'Sorry, try fill in other blank before request list\n',
+            'emptysachi':'Word? Search thing with /Search mode',
         },
         'hanT':{
             'presys':'本聊天機器人仍處於早期開發階段\nTelegram 訊息限制：每秒 1 封\n——————————\n',
@@ -39,6 +40,7 @@ def woood(lingua,tasta):
             'spitpre':'～文接上文～\n',
             'spitpost':'\n～文接下文～',
             'emptylist':'抱歉，請在索取項目列表前\n先嘗試填寫其他空格\n',
+            'emptysachi':'文字？如果要搜索，請使用搜索模式 /Search',
         },
     }
     return dicta.get(lingua,{}).get(tasta,'')

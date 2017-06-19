@@ -1,6 +1,7 @@
 import sys, os, traceback, telepot, time, json, random, pprint
-import tool, auth, log, mmctool, mmcdb, mmcDefauV, mmcAnali
-from libmsgMmc import msgMain, mainShort, msgCreo, msgOuto, msgInco, msgTran, msgDefSet, msgList, msgEdit, msgAnali
+import tool, auth, log, mmctool, mmcdb, mmcDefauV, mmcAnali, mmcSachi
+from libmsgMmc import msgMain, mainShort, msgCreo, msgOuto, msgInco, msgTran
+from libmsgMmc import msgDefSet, msgList, msgEdit, msgAnali, msgSachi
 from telepot.delegate import per_chat_id, create_open, pave_event_space
 
 """Command list
@@ -225,11 +226,52 @@ class User(telepot.helper.ChatHandler):
             self.close()
 
         elif self._mod[-1] == "list":
-            if "/whats_now" in text:
-                self.sending(msgList.main(lingua,self._list.get('datte',''),mmcdb.listList(self._list.get('datte',''),chat_id)))
+            if self._sumo == 'sachi':
+                if "/Back" in text:
+                    self._sumo = ''
+                    self._list.update({'uuid' : '' })
+                    self.sending(msgList.main(lingua,self._list.get('datte',''),mmcdb.listList(self._list.get('datte',''),chat_id)))
 
-            elif "/Back" in text:
-                self._list.update({'uuid' : '' })
+                elif "/Search" in text:
+                    self._statics.update({ 'mode' : 'sachi' })
+                    if mmcAnali.check(self._statics):
+                        self.sending(mainShort.woood(lingua,'analiWarn'))
+                    else:
+                        self._sumo = ''
+                        melib = mmcSachi.sachi(chat_id,self._statics)
+                        tasta = mmcSachi.listSachi(chat_id,melib)
+                        self.sending(msgList.main(lingua,' - ',tasta))
+
+                elif '/change_cokas' in text:
+                    skdic = mmcDefauV.keywo('transle')
+                    keywo = 'cokas'
+                    titil = skdic.get(keywo,'')
+                    self.sending(msgMain.selection(mmcAnali.listClass(keywo,lingua=lingua),titil))
+
+                elif '/set_cokas_as_' in text:
+                    self._statics.update({ 'cokas' : text.replace('/set_cokas_as_','') })
+                    self.sending(msgSachi.listMain(lingua,self._statics))
+
+                elif '/set_as_' in text:
+                    if '/set_as_dtempo' in text:
+                        self._statics.update({ 'dtempo' : self._keywo })
+                    elif '/set_as_utempo' in text:
+                        self._statics.update({ 'utempo' : self._keywo })
+                    elif '/set_as_keywo' in text:
+                        self._statics.update({ 'keywo' : self._keywo })
+
+                    self.sending(msgSachi.listMain(lingua,self._statics))
+
+            else:
+                if "/Back" in text:
+                    self._list.update({'uuid' : '' })
+                    self.sending(msgList.main(lingua,self._list.get('datte',''),mmcdb.listList(self._list.get('datte',''),chat_id)))
+
+                elif "/Search" in text:
+                    self._sumo = 'sachi'
+                    self.sending(msgSachi.listMain(lingua,self._statics))
+
+            if "/whats_now" in text:
                 self.sending(msgList.main(lingua,self._list.get('datte',''),mmcdb.listList(self._list.get('datte',''),chat_id)))
 
             elif "/Close" in text:
@@ -253,6 +295,7 @@ class User(telepot.helper.ChatHandler):
                 self.sending(msgList.change(lingua,keywo,testa))
 
             elif "/ch_" in text:
+                self._sumo = ''
                 tasta = ''
                 for takso in text.split(' '):
                     if '/ch_' in takso:
@@ -789,7 +832,11 @@ class User(telepot.helper.ChatHandler):
                 self.sending(msgMain.home(self._keywo))
 
             elif self._mod[-1] == "list":
-                self.sending(msgList.main(lingua,self._list.get('datte',''),mmcdb.listList(self._list.get('datte',''),chat_id)))
+                if self._sumo == 'sachi':
+                    self.sending(msgSachi.listKeywo(lingua,self._keywo))
+                else:
+                    self.sending(mainShort.woood(lingua,'emptysachi'))
+
             elif self._mod[-1] == "edit":
                 tasEdit = msgEdit.keyword(self._keywo)
                 self.sending(tasEdit)
@@ -801,6 +848,7 @@ class User(telepot.helper.ChatHandler):
                     self.sending(msgAnali.atrenKeywo(lingua,self._keywo))
                 elif self._statics['mode'] == 'akaun':
                     self.sending(msgAnali.akaunKeywo(lingua,self._keywo))
+
             elif self._mod[-1] == "creo":
                 if self._sumo == 'outo':
                     tasOut= msgCreo.keyword(self._keywo)
