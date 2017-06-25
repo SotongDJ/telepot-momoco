@@ -8,7 +8,7 @@ from son import LoginScreen
 class MyApp(App):
 
     def build(self):
-        return LoginScreen()
+        return LoginScreen(uOtext='None',pOtext='None')
 
 
 if __name__ == '__main__':

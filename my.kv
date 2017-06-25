@@ -1,0 +1,64 @@
+<Label>
+    font_name: 'database/yahei_mono.ttf'
+    color: 0, 0, 0, 1
+
+<Button>
+    background_color: 1, 1, 1, 1
+
+<LoginScreen>
+    canvas.before:
+        Color:
+            rgba: 1, 1, 1, 1
+        Rectangle:
+            # self here refers to the widget i.e FloatLayout
+            pos: self.pos
+            size: self.size
+
+    usnan : usnan.__self__
+    paswd : paswd.__self__
+    resut : resut.__self__
+
+    rows: 4
+
+    GridLayout:
+        id: usnan
+        cols: 2
+
+        Label:
+            text: root.usnanText
+
+        TextInput:
+            id: usnanIn
+            multiline: False
+            on_text_validate: root.sendinu(usnanIn.text)
+
+    GridLayout:
+        id: paswd
+        cols: 2
+
+        Label:
+            text: root.paswdText
+
+        TextInput:
+            id: paswdIn
+            password: True
+            multiline: False
+            on_text_validate: root.sendinp(paswdIn.text)
+
+    Button:
+        text: root.sumitText
+        on_press: root.sumited(usnanIn.text,paswdIn.text)
+
+    GridLayout:
+        id: resut
+        cols: 4
+        Label:
+            text: 'Name:'
+        Label:
+            id: usnanOut
+            text: root.uOtext
+        Label:
+            text: 'Password:'
+        Label:
+            id: paswdOut
+            text: root.pOtext
