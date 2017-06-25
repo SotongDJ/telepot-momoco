@@ -9,32 +9,20 @@ class LoginScreen(GridLayout):
 
     usnan = ObjectProperty()
     paswd = ObjectProperty()
-    usnanIn = ObjectProperty()
-    paswdIn = ObjectProperty()
-    resut = ObjectProperty()
-    usnanOut = ObjectProperty()
-    paswdOut = ObjectProperty()
 
+    usnanTitle = StringProperty()
+    paswdTitle = StringProperty()
+    
+    sumitText = StringProperty()
     usnanText = StringProperty()
     paswdText = StringProperty()
-    sumitText = StringProperty()
-    uOtext = StringProperty()
-    pOtext = StringProperty()
-
-    def sendinu(self,tast):
-        self.uOtext = tast
-        print(self.uOtext + tast)
-
-    def sendinp(self,tast):
-        self.pOtext = tast
-        print(self.pOtext + tast)
 
     def sumited(self,taa,tao):
-        self.uOtext = taa
-        self.pOtext = tao
+        self.usnanText = taa
+        self.paswdText = tao
 
     def __init__(self, **kwargs):
         super(LoginScreen, self).__init__(**kwargs)
-        self.usnanText = '名稱'
-        self.paswdText = '密碼'
+        self.usnanTitle = '名稱'
+        self.paswdTitle = '密碼'
         self.sumitText = '提交'

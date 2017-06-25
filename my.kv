@@ -14,51 +14,40 @@
             pos: self.pos
             size: self.size
 
-    usnan : usnan.__self__
-    paswd : paswd.__self__
-    resut : resut.__self__
-
     rows: 4
 
     GridLayout:
-        id: usnan
         cols: 2
 
         Label:
-            text: root.usnanText
+            text: root.usnanTitle
 
         TextInput:
-            id: usnanIn
+            id: usnan
             multiline: False
-            on_text_validate: root.sendinu(usnanIn.text)
 
     GridLayout:
-        id: paswd
         cols: 2
 
         Label:
-            text: root.paswdText
+            text: root.paswdTitle
 
         TextInput:
-            id: paswdIn
+            id: paswd
             password: True
             multiline: False
-            on_text_validate: root.sendinp(paswdIn.text)
 
     Button:
         text: root.sumitText
-        on_press: root.sumited(usnanIn.text,paswdIn.text)
+        on_press: root.sumited(usnan.text,paswd.text)
 
     GridLayout:
-        id: resut
         cols: 4
         Label:
             text: 'Name:'
         Label:
-            id: usnanOut
-            text: root.uOtext
+            text: root.usnanText
         Label:
             text: 'Password:'
         Label:
-            id: paswdOut
-            text: root.pOtext
+            text: root.paswdText
