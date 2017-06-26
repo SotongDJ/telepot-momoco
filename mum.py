@@ -5,11 +5,12 @@ os.environ['KIVY_METRICS_DENSITY'] = '2'
 from kivy.app import App
 from son import LoginScreen
 
-class MyApp(App):
+class MomocoApp(App):
 
     def build(self):
-        return LoginScreen(usnanText='None',paswdText='None')
+        return LoginScreen(usnanText='None',paswdText='None',usrdir=usrdir)
 
 
 if __name__ == '__main__':
-    MyApp().run()
+    usrdir = MomocoApp().user_data_dir
+    MomocoApp().run()
