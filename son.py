@@ -12,17 +12,22 @@ class LoginScreen(GridLayout):
 
     usnanTitle = StringProperty()
     paswdTitle = StringProperty()
-    
+
     sumitText = StringProperty()
     usnanText = StringProperty()
     paswdText = StringProperty()
+    closeText = StringProperty()
 
     def sumited(self,taa,tao):
         self.usnanText = taa
         self.paswdText = tao
+
+    def close(self):
+        App.get_running_app().stop()
 
     def __init__(self, **kwargs):
         super(LoginScreen, self).__init__(**kwargs)
         self.usnanTitle = '名稱'
         self.paswdTitle = '密碼'
         self.sumitText = '提交'
+        self.closeText = '關閉'

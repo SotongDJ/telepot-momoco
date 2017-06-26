@@ -37,9 +37,16 @@
             password: True
             multiline: False
 
-    Button:
-        text: root.sumitText
-        on_press: root.sumited(usnan.text,paswd.text)
+    GridLayout:
+        cols: 2
+
+        Button:
+            text: root.sumitText
+            on_press: root.sumited(usnan.text,paswd.text)
+
+        Button:
+            text: root.closeText
+            on_press: root.close()
 
     GridLayout:
         cols: 4
