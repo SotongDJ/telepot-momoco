@@ -4,6 +4,8 @@ from kivy.uix.label import Label
 from kivy.uix.button import Button
 from kivy.uix.textinput import TextInput
 from kivy.properties import ObjectProperty, StringProperty
+import pprint
+import mmcdb
 
 class LoginScreen(GridLayout):
 
@@ -17,6 +19,7 @@ class LoginScreen(GridLayout):
     usnanText = StringProperty()
     paswdText = StringProperty()
     closeText = StringProperty()
+    usrdir = StringProperty()
 
     def sumited(self,taa,tao):
         self.usnanText = taa
