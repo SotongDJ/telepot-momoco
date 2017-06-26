@@ -25,40 +25,14 @@ def date(modde=10,text='-:'):
     elif modde == 10 : # output: yyyymmdd
         return  ''.join( j[0:3] )
 
-def path(glass,usrid=0,leve='usr'):
-    pafa = ''
-    if leve == 'opt':
-        pafa = './database/opt/'+glass
-    elif leve == 'usr':
-        pafa = './database/usr/'+str(usrid)+'/'+glass
-    subprocess.call(['mkdir','-p',pafa])
-    return pafa+"/"
-
-def ckpath(pafa,fille,addi='none'):
-    subprocess.call(['mkdir','-p',pafa])
+def ckfile(usrdir,fille,addi='none'):
     try:
-        alla = pprint.pformat(open(pafa+fille).read().splitlines())
+        alla = pprint.pformat(open(usrdir+'/'+fille).read().splitlines())
     except FileNotFoundError:
-        temp=open(pafa+fille,'w')
+        temp=open(usrdir+'/'+fille,'w')
         if addi == 'json':
             json.dump({},temp)
         temp.close
-
-def change(glass,target,id):
-    if glass == "mode":
-        os.system("mkdir -p ./database/usr/"+str(id)+"/"+target)
-        aa=open("./database/usr/"+str(id)+"/mode","w")
-        aa.write(target)
-        aa.close()
-
-def append(glass,id):
-    if glass == "mode":
-        aa=open("./database/usr/"+str(id)+"/mode","a")
-        aa.write("--")
-        aa.close()
-
-def msg(type):
-    return open("database/msg/"+type).read()
 
 def uni(keywo):
     rsstr = ''
@@ -78,21 +52,17 @@ def roundostr(numbe): # round() dos str
         tampa = '0'
     return str(numba)+tampa
 
-def acedate(glass,modde,usrid=0,modda='check',desti='opt'):
+def acedate(usrdir,modde,modda='check'):
     filla = modde + '.date'
-    pafa = path(glass,usrid=usrid,leve=desti)
-    ckpath(pafa,filla,addi='json')
-    fillo = open(path(glass,usrid=usrid,leve=desti)+filla,'r')
-    try:
-        recod = json.load(fillo)
-    except ValueError:
-        recod = {}
+    ckpath(usrdir,filla,addi='json')
+    fillo = open(usrdir + '/' + filla,'r')
+    recod = json.load(fillo)
 
     datte = recod.get('datte','00000000')
 
     if modda == 'write':
         recod.update({ 'datte' : date() })
-        fillo = open(path(glass,usrid=usrid,leve=desti)+filla,'w')
+        fillo = open(path(usrdir + '/' + filla,'w')
         json.dump(recod,fillo)
         fillo.close()
 
