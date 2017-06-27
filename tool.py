@@ -1,5 +1,5 @@
 import os, time, random, subprocess, pprint, json
-import halfu
+import toolHalfu
 def date(modde=10,text='-:'):
     a,b,c,d,e,f,g,h,i = time.localtime(time.time())
     j=[]
@@ -39,7 +39,7 @@ def uni(keywo):
     for keno in keywo:
         try:
             keno.encode('latin-1')
-            rsstr = rsstr + halfu.fullen(keno)
+            rsstr = rsstr + toolHalfu.fullen(keno)
         except UnicodeEncodeError:
             rsstr = rsstr + keno
     return rsstr
