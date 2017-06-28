@@ -4,11 +4,12 @@ os.environ['KIVY_METRICS_DENSITY'] = '2'
 
 from kivy.app import App
 from dbMgr import ListData
+from cardCreating import CreateCard
 
 class MomocoApp(App):
 
     def build(self):
-        return ListData(usrdir=usrdir)
+        return CreateCard(usrdir=usrdir)
 
 
 if __name__ == '__main__':
