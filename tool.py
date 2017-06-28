@@ -62,7 +62,7 @@ def acedate(usrdir,modde,modda='check'):
 
     if modda == 'write':
         recod.update({ 'datte' : date() })
-        fillo = open(path(usrdir + '/' + filla,'w')
+        fillo = open(usrdir + '/' + filla,'w')
         json.dump(recod,fillo)
         fillo.close()
 
