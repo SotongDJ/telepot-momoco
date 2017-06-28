@@ -5,7 +5,6 @@ from kivy.uix.button import Button
 from kivy.uix.textinput import TextInput
 from kivy.properties import ObjectProperty, StringProperty
 import pprint
-import mmcdb
 
 class LoginScreen(GridLayout):
 
@@ -30,7 +29,7 @@ class LoginScreen(GridLayout):
 
     def __init__(self, **kwargs):
         super(LoginScreen, self).__init__(**kwargs)
-        self.usnanTitle = '名稱'
-        self.paswdTitle = '密碼'
-        self.sumitText = '提交'
-        self.closeText = '關閉'
+        self.usnanTitle = 'Name'
+        self.paswdTitle = 'Password'
+        self.sumitText = 'Sumit'
+        self.closeText = 'Close'
