@@ -96,7 +96,6 @@ class MomocoApp(App):
         datteText = tool.date(modde=1)
         return CreateCard(datteText=datteText,usrdir=usrdir)
 
-
 if __name__ == '__main__':
     usrdir = MomocoApp().user_data_dir
     MomocoApp().run()

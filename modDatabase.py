@@ -1,7 +1,5 @@
 import json, random, hashlib, pprint, requests
 import tool, mmcDefauV
-# fille = __
-# mmcdb.writedb(fille,'raw',mmcdb.opencsv(fille,','))
 
 def opendb(usrdir):
     print('modDatabase.opendb: '+usrdir)
@@ -79,7 +77,6 @@ def getKaratio(usrdir,keydb,modde='refes'):
         resut = True
     return resut
 
-""" mmcdb.opencsv( ,',')"""
 def opencsv(fille,keywo):
     print('modDatabase.opencsv')
     print('fille: '+fille)
@@ -100,7 +97,6 @@ def opencsv(fille,keywo):
             numo = numo + 1
     return result
 
-""" record = mmcdb.addRaw(chat_id,self._temra)"""
 def addRaw(usrdir,temra):
     print('modDatabase.addRaw: '+usrdir)
     print('temra: '+pprint.pformat(temra))
@@ -112,7 +108,6 @@ def addRaw(usrdir,temra):
     faale.close()
     return record
 
-""" record = mmcdb.addRaw(chat_id,self._temra)"""
 def chRaw(usrdir,uuid,temra):
     print('modDatabase.chRaw: '+usrdir)
     print('uuid: '+uuid)
@@ -151,7 +146,6 @@ def genKey(rawdb):
                 eledb.update({ eleme : tadd })
     return eledb
 
-""" genHash(rawdb)"""
 def genHash(rawdb):
     print('modDatabase.genHash')
     hashdb = {}
@@ -183,7 +177,6 @@ def ckdb(a,b):
                     l.update( { m+' '+n  : [sorted(b[m][n]) , sorted(a[m][n])] } )
     return l
 
-""" fixAcc(libra[raw],usrid)"""
 def fixAcc(usrdir,rawdb):
     print('modDatabase.fixAcc: '+usrdir)
     setti = openSetting(usrdir)
@@ -229,7 +222,6 @@ def fixAcc(usrdir,rawdb):
         rawdb.update({ n : ndb })
     return rawdb
 
-""" mmcdb.refesdb(chat_id)"""
 def refesdb(usrdir):
     print('modDatabase.refesdb: '+usrdir)
     libra = {}
@@ -244,7 +236,6 @@ def refesdb(usrdir):
     json.dump(libra,faale)
     faale.close()
 
-""" mmcdb.upgradeSetting(self._setting,chat_id)"""
 def upgradeSetting(usrdir,lib):
     print('modDatabase.upgradeSetting: '+usrdir)
     print('lib: '+pprint.pformat(lib))
@@ -257,7 +248,6 @@ def upgradeSetting(usrdir,lib):
         changeSetting(usrdir,lib)
         return lib
 
-""" importRaw(usrid,lib)"""
 def importRaw(usrdir,lib):
     print('modDatabase.importRaw: '+usrdir)
     refesdb(usrdir)
@@ -344,7 +334,6 @@ def recomtxt(usrdir,temra,vetco,keysa,keywo,deset):
 
     return { 1:finno , 2:conta}
 
-""" mmcdb.listAcc('ch','chu',keywo,chat_id)"""
 def listAcc(usrdir,pref,prefs,keywo):
     print('modDatabase.listAcc: '+usrdir)
     print('pref: '+pref)
@@ -373,7 +362,6 @@ def listAcc(usrdir,pref,prefs,keywo):
                 nodda = nodda + 1
     return {1:finno,2:conta}
 
-""" mmcdb.listSeller(self._temra.get('klass',''),'rg','rgs',keywo,chat_id)"""
 def listSeller(usrdir,klass,pref,prefs,keywo):
     print('modDatabase.listSeller: '+usrdir)
     print('klass: '+klass)
@@ -406,7 +394,6 @@ def listSeller(usrdir,klass,pref,prefs,keywo):
                 nodda = nodda + 1
     return {1:finno,2:conta}
 
-""" mmcdb.listKas('ch','chu',keywo,chat_id)"""
 def listKas(usrdir,pref,prefs,keywo):
     print('modDatabase.listKas: '+usrdir)
     print('pref: '+pref)
@@ -432,7 +419,6 @@ def listKas(usrdir,pref,prefs,keywo):
                 nodda = nodda + 1
     return {1:finno,2:conta}
 
-""" mmcdb.listKen('ch','chu',keywo,chat_id)"""
 def listKen(usrdir,pref,prefs,keywo):
     print('modDatabase.listKen: '+usrdir)
     print('pref: '+pref)
