@@ -8,7 +8,6 @@ import pprint
 import modDatabase
 import tool
 
-
 class CreateCard(GridLayout):
 
     datte = ObjectProperty()
@@ -58,6 +57,7 @@ class CreateCard(GridLayout):
 
     def sumited(self):
         pprint.pprint(self.temra)
+        modDatabase.addRaw(usrdir=self.usrdir,temra=self.temra)
 
     def __init__(self, **kwargs):
         super(CreateCard, self).__init__(**kwargs)
