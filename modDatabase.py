@@ -1,5 +1,5 @@
 import json, random, hashlib, pprint, requests
-import tool, mmcDefauV
+import tool, modVariables
 
 def opendb(usrdir):
     print('modDatabase.opendb: '+usrdir)
@@ -24,7 +24,7 @@ def openSetting(usrdir):
         return setting
     except FileNotFoundError:
         faale = open(usrdir + '/setting.json','w')
-        setting = mmcDefauV.keywo('setting')
+        setting = modVariables.keywo('setting')
         json.dump(setting,faale)
         faale.close()
         return setting
@@ -306,8 +306,8 @@ def recomtxt(usrdir,temra,vetco,keysa,keywo,deset):
     print('modDatabase.recomtxt: '+usrdir)
     print('temra: '+pprint.pformat(temra))
     print('vetco: '+pprint.pformat(vetco))
-    fsdic = mmcDefauV.keywo('fs')
-    skdic = mmcDefauV.keywo('transle')
+    fsdic = modVariables.keywo('fs')
+    skdic = modVariables.keywo('transle')
 
     finno = ""
     conta = vetco.get(2,{})
@@ -339,8 +339,8 @@ def listAcc(usrdir,pref,prefs,keywo):
     print('pref: '+pref)
     print('prefs: '+prefs)
     print('keywo: '+keywo)
-    skdic = mmcDefauV.keywo('transle')
-    sfdic = mmcDefauV.keywo('sf')
+    skdic = modVariables.keywo('transle')
+    sfdic = modVariables.keywo('sf')
     listo = []
     finno = ""
     conta = {}
@@ -368,8 +368,8 @@ def listSeller(usrdir,klass,pref,prefs,keywo):
     print('pref: '+pref)
     print('prefs: '+prefs)
     print('keywo: '+keywo)
-    skdic = mmcDefauV.keywo('transle')
-    sfdic = mmcDefauV.keywo('sf')
+    skdic = modVariables.keywo('transle')
+    sfdic = modVariables.keywo('sf')
     listo = []
     finno = ""
     conta = {}
@@ -450,7 +450,7 @@ def listLigua(pref,keywo):
     print('pref: '+pref)
     print('keywo: '+keywo)
     finno = ""
-    listo = mmcDefauV.keywo('lingua')
+    listo = modVariables.keywo('lingua')
     for intta in listo:
         finno = finno + "    /"+pref+"_"+keywo+"_"+intta+" "+intta+"\n\n"
     return {1:finno,2:{}}
