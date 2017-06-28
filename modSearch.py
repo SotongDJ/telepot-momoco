@@ -1,7 +1,7 @@
-import mmcdb, mmcDefauV
+import modDatabase, modVariables
 
-def sachi(usrid,dicto):
-    libra = mmcdb.opendb(usrid)
+def sachi(usrdir,dicto):
+    libra = modDatabase.opendb(usrdir)
     rawdb = libra.get('raw',{})
     keydb = libra.get('key',{})
 
@@ -10,7 +10,7 @@ def sachi(usrid,dicto):
     utempo = dicto.get('utempo','')
     cokas = dicto.get('cokas','')
 
-    tiset = mmcdb.timra(usrid, dtempo=dtempo, utempo=utempo)
+    tiset = modDatabase.timra(usrdir, dtempo=dtempo, utempo=utempo)
 
     if cokas == '':
         kaset = keydb.keys()
@@ -42,14 +42,14 @@ def sachi(usrid,dicto):
 
     return { 'kelib': kelib , 'keyto': keyto }
 
-def listSachi(usrid,libto,lingua='enMY'):
-    libra = mmcdb.opendb(usrid)
+def listSachi(usrdir,libto,lingua='enMY'):
+    libra = modDatabase.opendb(usrdir)
     rawdb = libra.get('raw',{})
 
     kelib = libto.get('kelib',{})
     keyto = libto.get('keyto',{})
 
-    transle = mmcDefauV.keywo('transle',lingua=lingua)
+    transle = modVariables.keywo('transle',lingua=lingua)
     resut = ''
     for keyo in kelib.keys():
         resut = resut + keyo+ ' (' + ', '.join([transle.get(x,'') for x in keyto.get(keyo,[]) ])+ ') ' + ': \n'
