@@ -90,12 +90,12 @@ class CreateCard(GridLayout):
             'desci' : self.desciText,
         }
 
-class MomocoApp(App):
+class CreatingApp(App):
 
     def build(self):
         datteText = tool.date(modde=1)
         return CreateCard(datteText=datteText,usrdir=usrdir)
 
 if __name__ == '__main__':
-    usrdir = MomocoApp().user_data_dir
-    MomocoApp().run()
+    usrdir = CreatingApp().user_data_dir
+    CreatingApp().run()

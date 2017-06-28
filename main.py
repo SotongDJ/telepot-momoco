@@ -6,12 +6,12 @@ from kivy.app import App
 from dbMgr import ListData
 from cardCreating import CreateCard
 
-class MomocoApp(App):
+class CreatingApp(App):
 
     def build(self):
         return CreateCard(usrdir=usrdir)
 
 
 if __name__ == '__main__':
-    usrdir = MomocoApp().user_data_dir
-    MomocoApp().run()
+    usrdir = CreatingApp().user_data_dir
+    CreatingApp().run()
