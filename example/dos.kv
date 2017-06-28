@@ -4,93 +4,186 @@
 <Button>
     background_color: 1, 1, 1, 1
 
-<Buto>
-    size_hint: 0.5,0.01
-    on_press: root.pus()
-
-<Choose>
+<CreateCard>
     canvas.before:
         Color:
             rgba: 1, 1, 1, 1
         Rectangle:
-            # self here refers to the widget
+            # self here refers to the widget i.e FloatLayout
             pos: self.pos
             size: self.size
 
-    rows: 2
-
-    hiwi: hiwi.__self__
+    rows: 12
 
     GridLayout:
-        id: hiwi
-        rows: 1
-        size_hint_y: 0.8
+        cols:4
+        Label:
+            text: root.datteTitle
+        TextInput:
+            id: datte
+            multiline: False
+            on_text_validate: root.stored(tar=datteResut,fro=datte.text,too=root.datteText,tan='datte')
+        Button:
+            text: root.storeText
+            on_press: root.stored(tar=datteResut,fro=datte.text,too=root.datteText,tan='datte')
+        Label:
+            id: datteResut
+            text: root.datteText
+
+    GridLayout:
+        cols:4
+        Label:
+            text: root.nammaTitle
+        TextInput:
+            id: namma
+            multiline: False
+            on_text_validate: root.stored(tar=nammaResut,fro=namma.text,too=root.nammaText,tan='namma')
+        Button:
+            text: root.storeText
+            on_press: root.stored(tar=nammaResut,fro=namma.text,too=root.nammaText,tan='namma')
+        Label:
+            id: nammaResut
+            text: root.nammaText
+
+    GridLayout:
+        cols:4
+        Label:
+            text: root.klassTitle
+        TextInput:
+            id: klass
+            multiline: False
+            on_text_validate: root.stored(tar=klassResut,fro=klass.text,too=root.klassText,tan='klass')
+        Button:
+            text: root.storeText
+            on_press: root.stored(tar=klassResut,fro=klass.text,too=root.klassText,tan='klass')
+        Label:
+            id: klassResut
+            text: root.klassText
+
+    GridLayout:
+        cols:4
+        Label:
+            text: root.shoopTitle
+        TextInput:
+            id: shoop
+            multiline: False
+            on_text_validate: root.stored(tar=shoopResut,fro=shoop.text,too=root.shoopText,tan='shoop')
+        Button:
+            text: root.storeText
+            on_press: root.stored(tar=shoopResut,fro=shoop.text,too=root.shoopText,tan='shoop')
+        Label:
+            id: shoopResut
+            text: root.shoopText
+
+    GridLayout:
+        cols:4
+        Label:
+            text: root.frommTitle
+        TextInput:
+            id: fromm
+            multiline: False
+            on_text_validate: root.stored(tar=frommResut,fro=fromm.text,too=root.frommText,tan='fromm')
+        Button:
+            text: root.storeText
+            on_press: root.stored(tar=frommResut,fro=fromm.text,too=root.frommText,tan='fromm')
+        Label:
+            id: frommResut
+            text: root.frommText
+
+    GridLayout:
+        cols:4
+        Label:
+            text: root.karenTitle
+        TextInput:
+            id: karen
+            multiline: False
+            on_text_validate: root.stored(tar=karenResut,fro=karen.text,too=root.karenText,tan='karen')
+        Button:
+            text: root.storeText
+            on_press: root.stored(tar=karenResut,fro=karen.text,too=root.karenText,tan='karen')
+        Label:
+            id: karenResut
+            text: root.karenText
+
+    GridLayout:
+        cols:4
+        Label:
+            text: root.priceTitle
+        TextInput:
+            id: price
+            multiline: False
+            on_text_validate: root.stored(tar=priceResut,fro=price.text,too=root.priceText,tan='price')
+        Button:
+            text: root.storeText
+            on_press: root.stored(tar=priceResut,fro=price.text,too=root.priceText,tan='price')
+        Label:
+            id: priceResut
+            text: root.priceText
+
+    GridLayout:
+        cols:4
+        Label:
+            text: root.tooooTitle
+        TextInput:
+            id: toooo
+            multiline: False
+            on_text_validate: root.stored(tar=tooooResut,fro=toooo.text,too=root.tooooText,tan='toooo')
+        Button:
+            text: root.storeText
+            on_press: root.stored(tar=tooooResut,fro=toooo.text,too=root.tooooText,tan='toooo')
+        Label:
+            id: tooooResut
+            text: root.tooooText
+
+    GridLayout:
+        cols:4
+        Label:
+            text: root.tkareTitle
+        TextInput:
+            id: tkare
+            multiline: False
+            on_text_validate: root.stored(tar=tkareResut,fro=tkare.text,too=root.tkareText,tan='tkare')
+        Button:
+            text: root.storeText
+            on_press: root.stored(tar=tkareResut,fro=tkare.text,too=root.tkareText,tan='tkare')
+        Label:
+            id: tkareResut
+            text: root.tkareText
+
+    GridLayout:
+        cols:4
+        Label:
+            text: root.tpricTitle
+        TextInput:
+            id: tpric
+            multiline: False
+            on_text_validate: root.stored(tar=tpricResut,fro=tpric.text,too=root.tpricText,tan='tpric')
+        Button:
+            text: root.storeText
+            on_press: root.stored(tar=tpricResut,fro=tpric.text,too=root.tpricText,tan='tpric')
+        Label:
+            id: tpricResut
+            text: root.tpricText
+
+    GridLayout:
+        cols:4
+        Label:
+            text: root.desciTitle
+        TextInput:
+            id: desci
+            multiline: False
+            on_text_validate: root.stored(tar=desciResut,fro=desci.text,too=root.desciText,tan='desci')
+        Button:
+            text: root.storeText
+            on_press: root.stored(tar=desciResut,fro=desci.text,too=root.desciText,tan='desci')
+        Label:
+            id: desciResut
+            text: root.desciText
 
     AnchorLayout:
-        size_hint_y: 0.2
-        anchor_y: 'center'
-        anchor_x: 'center'
-        Button:
-            text: "Return"
-            on_press: root.returan()
-            size_hint: 0.5,1
-
-<Selection>
-    anchor_y: 'center'
-    anchor_x: 'center'
-
-    GridLayout:
-        rows: 3
-        size_hint: 0.5,0.5
-
-        Button:
-            text: "Login"
-            size_hint: 1,1
-            on_press: root.login(hiwi)
-
-<LoginScreen>
-    canvas.before:
-        Color:
-            rgba: 1, 1, 1, 1
-        Rectangle:
-            # self here refers to the widget
-            pos: self.pos
-            size: self.size
-
-    rows: 3
-
-    GridLayout:
-        cols: 4
-        size_hint_y: 0.2
-
-        Label:
-            text: root.usnanTitle
-
-        TextInput:
-            id: usnan
-            multiline: False
-
-        Label:
-            text: root.paswdTitle
-
-        TextInput:
-            id: paswd
-            password: True
-            multiline: False
-
-    AnchorLayout:
-        size_hint_y: 0.2
         anchor_y: 'center'
         anchor_x: 'center'
         Button:
             text: root.sumitText
-            on_press: root.sumited(resut,usnan.text,paswd.text)
+            on_press: root.sumited()
             size_hint: 0.5,1
-
-    ScrollView:
-        size_hint: 1, 1
-
-        StackLayout:
-            id: resut
-            cols: 2
-            size_hint_y: 20
