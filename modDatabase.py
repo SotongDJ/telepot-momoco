@@ -4,6 +4,7 @@ import tool, mmcDefauV
 # mmcdb.writedb(fille,'raw',mmcdb.opencsv(fille,','))
 
 def opendb(usrdir):
+    print('modDatabase.opendb: '+usrdir)
     try:
         faale = open(usrdir + '/record.json','r')
         record = json.load(faale)
@@ -17,6 +18,7 @@ def opendb(usrdir):
         return db
 
 def openSetting(usrdir):
+    print('modDatabase.openSetting: '+usrdir)
     try:
         faale = open(usrdir + '/setting.json','r')
         setting = json.load(faale)
@@ -30,11 +32,14 @@ def openSetting(usrdir):
         return setting
 
 def changeSetting(usrdir,libra):
+    print('modDatabase.changeSetting: '+usrdir)
+    print('libra: '+pprint.pformat(libra))
     faale = open(usrdir + '/setting.json','w')
     json.dump(libra,faale)
     faale.close()
 
 def openKaratio(usrdir):
+    print('modDatabase.openKaratio: '+usrdir)
     tool.ckfile(usrdir,'karen.json',addi='json')
     faale = open(usrdir + '/karen.json',"r")
     try:
@@ -45,6 +50,9 @@ def openKaratio(usrdir):
     return karatio
 
 def getKaratio(usrdir,keydb,modde='refes'):
+    print('modDatabase.getKaratio: '+ usrdir)
+    print('keydb: '+pprint.pformat(keydb))
+    print('modde: '+modde)
     resut = False
     if int(tool.acedate(usrdir,'karen')) < int(tool.date()):
         if modde == 'refes':
@@ -73,6 +81,9 @@ def getKaratio(usrdir,keydb,modde='refes'):
 
 """ mmcdb.opencsv( ,',')"""
 def opencsv(fille,keywo):
+    print('modDatabase.opencsv')
+    print('fille: '+fille)
+    print('keywo: '+keywo)
     result = {}
     numo = 0
     for linne in open(fille).read().splitlines():
@@ -91,6 +102,8 @@ def opencsv(fille,keywo):
 
 """ record = mmcdb.addRaw(chat_id,self._temra)"""
 def addRaw(usrdir,temra):
+    print('modDatabase.addRaw: '+usrdir)
+    print('temra: '+pprint.pformat(temra))
     record = opendb(usrdir)
     timta = tool.date(3) + '0000'
     record.get('raw',{}).update({ timta : temra })
@@ -101,6 +114,9 @@ def addRaw(usrdir,temra):
 
 """ record = mmcdb.addRaw(chat_id,self._temra)"""
 def chRaw(usrdir,uuid,temra):
+    print('modDatabase.chRaw: '+usrdir)
+    print('uuid: '+uuid)
+    print('temra: '+pprint.pformat(temra))
     record = opendb(usrdir)
     record.get('raw',{}).update( { uuid : temra } )
     faale = open(usrdir + '/record.json','w')
@@ -109,6 +125,7 @@ def chRaw(usrdir,uuid,temra):
     return record
 
 def diffdb(a,b):
+    print('modDatabase.diffdb')
     for m in a.keys():
         if a.get(m) != b.get(m):
             c=pprint.pformat(a.get(m)).replace('\n', '  ')
@@ -116,6 +133,7 @@ def diffdb(a,b):
             print(c+'\n'+d)
 
 def genKey(rawdb):
+    print('modDatabase.genKey')
     keydb = {}
     eledb = {}
     valudb = {}
@@ -135,6 +153,7 @@ def genKey(rawdb):
 
 """ genHash(rawdb)"""
 def genHash(rawdb):
+    print('modDatabase.genHash')
     hashdb = {}
     for uuid in list(rawdb.keys()):
         hasa = hashlib.sha512()
@@ -144,6 +163,7 @@ def genHash(rawdb):
     return hashdb
 
 def ckrpt(h):
+    print('modDatabase.ckrpt')
     l={}
     for n in h.keys():
         if '' in h[n].values():
@@ -154,6 +174,7 @@ def ckrpt(h):
     return l
 
 def ckdb(a,b):
+    print('modDatabase.ckdb')
     l={}
     for m in a:
         for n in a[m]:
@@ -164,6 +185,7 @@ def ckdb(a,b):
 
 """ fixAcc(libra[raw],usrid)"""
 def fixAcc(usrdir,rawdb):
+    print('modDatabase.fixAcc: '+usrdir)
     setti = openSetting(usrdir)
     #rawdb = opendb(usrid).get('raw',{})
 
@@ -209,6 +231,7 @@ def fixAcc(usrdir,rawdb):
 
 """ mmcdb.refesdb(chat_id)"""
 def refesdb(usrdir):
+    print('modDatabase.refesdb: '+usrdir)
     libra = {}
     rawdb = opendb(usrdir).get('raw',{})
     rawdb = fixAcc(usrdir,rawdb)
@@ -223,6 +246,8 @@ def refesdb(usrdir):
 
 """ mmcdb.upgradeSetting(self._setting,chat_id)"""
 def upgradeSetting(usrdir,lib):
+    print('modDatabase.upgradeSetting: '+usrdir)
+    print('lib: '+pprint.pformat(lib))
     libra = openSetting(usrdir)
     if set(libra.keys()) == set(lib.keys()):
         return libra
@@ -234,6 +259,7 @@ def upgradeSetting(usrdir,lib):
 
 """ importRaw(usrid,lib)"""
 def importRaw(usrdir,lib):
+    print('modDatabase.importRaw: '+usrdir)
     refesdb(usrdir)
     lib=fixAcc(usrdir,lib)
     source = opendb(usrdir)
@@ -249,7 +275,12 @@ def importRaw(usrdir,lib):
 
 """ recomc(self._keys,self._keywo,knolib,unoset,usrid) """
 def recomc(usrdir,srckey,veluo,knolib,unoset):
-    #refesdb(usrid)
+    print('modDatabase.recomc: '+usrdir)
+    print('srckey: '+pprint.pformat(srckey))
+    print('veluo: '+pprint.pformat(veluo))
+    print('knolib: '+pprint.pformat(knolib))
+    print('unoset: '+pprint.pformat(unoset))
+
     rawdb = opendb(usrdir).get('raw',{})
     keydb = opendb(usrdir).get('key',{})
     rslib = {}
@@ -282,6 +313,9 @@ def recomc(usrdir,srckey,veluo,knolib,unoset):
 
 """ mmcdb.recomtxt(self._temra,self._keys,self._keywo,['namma','klass','shoop','price'],chat_id) """
 def recomtxt(usrdir,temra,vetco,keysa,keywo,deset):
+    print('modDatabase.recomtxt: '+usrdir)
+    print('temra: '+pprint.pformat(temra))
+    print('vetco: '+pprint.pformat(vetco))
     fsdic = mmcDefauV.keywo('fs')
     skdic = mmcDefauV.keywo('transle')
 
@@ -312,6 +346,10 @@ def recomtxt(usrdir,temra,vetco,keysa,keywo,deset):
 
 """ mmcdb.listAcc('ch','chu',keywo,chat_id)"""
 def listAcc(usrdir,pref,prefs,keywo):
+    print('modDatabase.listAcc: '+usrdir)
+    print('pref: '+pref)
+    print('prefs: '+prefs)
+    print('keywo: '+keywo)
     skdic = mmcDefauV.keywo('transle')
     sfdic = mmcDefauV.keywo('sf')
     listo = []
@@ -337,6 +375,11 @@ def listAcc(usrdir,pref,prefs,keywo):
 
 """ mmcdb.listSeller(self._temra.get('klass',''),'rg','rgs',keywo,chat_id)"""
 def listSeller(usrdir,klass,pref,prefs,keywo):
+    print('modDatabase.listSeller: '+usrdir)
+    print('klass: '+klass)
+    print('pref: '+pref)
+    print('prefs: '+prefs)
+    print('keywo: '+keywo)
     skdic = mmcDefauV.keywo('transle')
     sfdic = mmcDefauV.keywo('sf')
     listo = []
@@ -365,6 +408,10 @@ def listSeller(usrdir,klass,pref,prefs,keywo):
 
 """ mmcdb.listKas('ch','chu',keywo,chat_id)"""
 def listKas(usrdir,pref,prefs,keywo):
+    print('modDatabase.listKas: '+usrdir)
+    print('pref: '+pref)
+    print('prefs: '+prefs)
+    print('keywo: '+keywo)
     listo = []
     finno = ""
     conta = {}
@@ -387,6 +434,10 @@ def listKas(usrdir,pref,prefs,keywo):
 
 """ mmcdb.listKen('ch','chu',keywo,chat_id)"""
 def listKen(usrdir,pref,prefs,keywo):
+    print('modDatabase.listKen: '+usrdir)
+    print('pref: '+pref)
+    print('prefs: '+prefs)
+    print('keywo: '+keywo)
     listo = []
     finno = ""
     conta = {}
@@ -409,6 +460,9 @@ def listKen(usrdir,pref,prefs,keywo):
     return {1:finno,2:conta}
 
 def listLigua(pref,keywo):
+    print('modDatabase.listLigua')
+    print('pref: '+pref)
+    print('keywo: '+keywo)
     finno = ""
     listo = mmcDefauV.keywo('lingua')
     for intta in listo:
@@ -416,6 +470,8 @@ def listLigua(pref,keywo):
     return {1:finno,2:{}}
 
 def listList(usrdir,datte):
+    print('modDatabase.listList: '+usrdir)
+    print('datte: '+datte)
     tasta=""
     try:
         libron = opendb(usrdir)
@@ -434,6 +490,10 @@ def listList(usrdir,datte):
         return ''
 
 def timra(usrdir, dtempo='',utempo='', modde='uuid'):
+    print('modDatabase.timra: '+usrdir)
+    print('dtempo: '+dtempo)
+    print('utempo: '+utempo)
+    print('modde: '+modde)
     libra = opendb(usrdir)
     rawdb = libra.get('raw',{})
     keydb = libra.get('key',{})
