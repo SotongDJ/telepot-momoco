@@ -22,6 +22,8 @@ def date(modde=10,text='-:'):
         return "".join(j)+zero[0:4-len(numo)]+numo
     elif modde == 5 : # output: "yyyy-mm-dd-hh" if text = '-'
         return text[0].join(j[0:4])
+    elif modde == 6 : # output: "yyyy-mm" if text = '-'
+        return text[0].join(j[0:2])
     elif modde == 10 : # output: yyyymmdd
         return  ''.join( j[0:3] )
 
