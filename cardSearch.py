@@ -1,11 +1,14 @@
-# -*- coding: utf-8 -*-
 from kivy.app import App
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.label import Label
 from kivy.uix.button import Button
 from kivy.uix.textinput import TextInput
 from kivy.properties import ObjectProperty, StringProperty
-import pprint, json
+
+from kivy.lang import Builder
+Builder.load_file('cakvSearching.kv')
+
+import pprint
 import modSearch
 import tool
 

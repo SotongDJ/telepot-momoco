@@ -4,6 +4,10 @@ from kivy.uix.label import Label
 from kivy.uix.button import Button
 from kivy.uix.textinput import TextInput
 from kivy.properties import ObjectProperty, StringProperty
+
+from kivy.lang import Builder
+Builder.load_file('cakvCreating.kv')
+
 import pprint
 import modDatabase
 import tool
@@ -90,12 +94,12 @@ class CreateCard(GridLayout):
             'desci' : self.desciText,
         }
 
-class CreatingApp(App):
+class MomocoApp(App):
 
     def build(self):
         datteText = tool.date(modde=1)
         return CreateCard(datteText=datteText,usrdir=usrdir)
 
 if __name__ == '__main__':
-    usrdir = CreatingApp().user_data_dir
-    CreatingApp().run()
+    usrdir = MomocoApp().user_data_dir
+    MomocoApp().run()
