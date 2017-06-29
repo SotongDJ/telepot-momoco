@@ -42,3 +42,49 @@ def sachi(usrdir,dicto):
             keyto.update({ valo : keyra.get(valo,[]) })
 
     return { 'kelib': kelib , 'keyto': keyto }
+
+def listSachi(usrdir,libto,lingua='enMY'):
+    libra = modDatabase.opendb(usrdir)
+    rawdb = libra.get('raw',{})
+
+    kelib = libto.get('kelib',{})
+    keyto = libto.get('keyto',{})
+
+    transle = modVariables.keywo('transle',lingua=lingua)
+    resut = {'resut':{},'lenam':1,'lenes':1}
+
+    lenam = 1
+    lenes = 1
+    for keyo in kelib.keys():
+        conto = []
+        namma = keyo + '\n'
+        lenna = len(namma)
+        if lenam < lenna:
+            lenam = lenna
+        otnoc = [transle.get(x,'') for x in keyto.get(keyo,[]) ]
+        namma = namma +'(' + ',\n'.join(otnoc)+ ')'
+        masio = max(otnoc, key=len)
+        if lenam < len(masio):
+            lenam = len(masio)
+        for uuid in set(kelib.get(keyo,[])):
+            testa = 'uuid:'+ uuid +'　'
+            testa = testa + rawdb.get(uuid,{}).get('datte','')+'\n'
+            lenta = len(testa)
+            if lenes < lenta:
+                lenes = lenta
+            testa = testa + rawdb.get(uuid,{}).get('namma','')+'　'
+            testa = testa + rawdb.get(uuid,{}).get('shoop','')+'　'
+            testa = testa + rawdb.get(uuid,{}).get('klass','')+'\n'
+            if lenes < len(testa) - lenta:
+                lenes = len(testa) - lenta
+            lenta = len(testa) - lenta
+            testa = testa + rawdb.get(uuid,{}).get('karen','')+' '
+            testa = testa + rawdb.get(uuid,{}).get('price','')
+            if lenes < len(testa)-lenta:
+                lenes = len(testa)-lenta
+            conto.append(testa)
+        resut.get('resut').update({ namma : conto })
+    resut.update({'lenam':lenam})
+    resut.update({'lenes':lenes})
+
+    return resut
