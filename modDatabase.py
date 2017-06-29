@@ -31,7 +31,6 @@ def openSetting(usrdir):
 
 def changeSetting(usrdir,libra):
     print('modDatabase.changeSetting: '+usrdir)
-    print('libra: '+pprint.pformat(libra))
     faale = open(usrdir + '/setting.json','w')
     json.dump(libra,faale)
     faale.close()
@@ -49,7 +48,6 @@ def openKaratio(usrdir):
 
 def getKaratio(usrdir,keydb,modde='refes'):
     print('modDatabase.getKaratio: '+ usrdir)
-    print('keydb: '+pprint.pformat(keydb))
     print('modde: '+modde)
     resut = False
     if int(tool.acedate(usrdir,'karen')) < int(tool.date()):
@@ -79,7 +77,6 @@ def getKaratio(usrdir,keydb,modde='refes'):
 
 def opencsv(fille,keywo):
     print('modDatabase.opencsv')
-    print('fille: '+fille)
     print('keywo: '+keywo)
     result = {}
     numo = 0
@@ -99,7 +96,6 @@ def opencsv(fille,keywo):
 
 def addRaw(usrdir,temra):
     print('modDatabase.addRaw: '+usrdir)
-    print('temra: '+pprint.pformat(temra))
     record = opendb(usrdir)
     timta = tool.date(3) + '0000'
     record.get('raw',{}).update({ timta : temra })
@@ -111,7 +107,6 @@ def addRaw(usrdir,temra):
 def chRaw(usrdir,uuid,temra):
     print('modDatabase.chRaw: '+usrdir)
     print('uuid: '+uuid)
-    print('temra: '+pprint.pformat(temra))
     record = opendb(usrdir)
     record.get('raw',{}).update( { uuid : temra } )
     faale = open(usrdir + '/record.json','w')
@@ -238,7 +233,6 @@ def refesdb(usrdir):
 
 def upgradeSetting(usrdir,lib):
     print('modDatabase.upgradeSetting: '+usrdir)
-    print('lib: '+pprint.pformat(lib))
     libra = openSetting(usrdir)
     if set(libra.keys()) == set(lib.keys()):
         return libra
@@ -266,10 +260,6 @@ def importRaw(usrdir,lib):
 """ recomc(self._keys,self._keywo,knolib,unoset,usrid) """
 def recomc(usrdir,srckey,veluo,knolib,unoset):
     print('modDatabase.recomc: '+usrdir)
-    print('srckey: '+pprint.pformat(srckey))
-    print('veluo: '+pprint.pformat(veluo))
-    print('knolib: '+pprint.pformat(knolib))
-    print('unoset: '+pprint.pformat(unoset))
 
     rawdb = opendb(usrdir).get('raw',{})
     keydb = opendb(usrdir).get('key',{})
@@ -304,8 +294,6 @@ def recomc(usrdir,srckey,veluo,knolib,unoset):
 """ mmcdb.recomtxt(self._temra,self._keys,self._keywo,['namma','klass','shoop','price'],chat_id) """
 def recomtxt(usrdir,temra,vetco,keysa,keywo,deset):
     print('modDatabase.recomtxt: '+usrdir)
-    print('temra: '+pprint.pformat(temra))
-    print('vetco: '+pprint.pformat(vetco))
     fsdic = modVariables.keywo('fs')
     skdic = modVariables.keywo('transle')
 

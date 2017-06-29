@@ -7,13 +7,9 @@ def sachi(usrdir,dicto):
     keydb = libra.get('key',{})
 
     keywo = dicto.get('keywo','')
-    print('keywo: '+keywo)
     dtempo = dicto.get('dtempo','')
-    print('dtempo: '+dtempo)
     utempo = dicto.get('utempo','')
-    print('utempo: '+utempo)
     cokas = dicto.get('cokas','')
-    print('cokas: '+cokas)
 
     tiset = modDatabase.timra(usrdir, dtempo=dtempo, utempo=utempo)
 
