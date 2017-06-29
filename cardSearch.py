@@ -12,9 +12,6 @@ import pprint
 import modSearch
 import tool
 
-class Labo(Label):
-    pass
-
 class SearchCard(GridLayout):
 
     dtempo = ObjectProperty()
@@ -23,6 +20,7 @@ class SearchCard(GridLayout):
     keywo = ObjectProperty()
 
     tempor = ObjectProperty()
+    trasa = ObjectProperty()
 
     dtempoTitle = StringProperty()
     utempoTitle = StringProperty()
@@ -44,8 +42,23 @@ class SearchCard(GridLayout):
         self.dicto.update({ tan : too })
 
     def sumited(self,tar):
-        self.resut = modSearch.sachi(usrdir=self.usrdir,dicto=self.dicto)
-        tar.add_widget(Labo(text=pprint.pformat(self.resut,compact=True)))
+        tempa = modSearch.sachi(usrdir=self.usrdir,dicto=self.dicto)
+        self.resut = modSearch.listSachi(usrdir,tempa,lingua='hanT')
+        lenes = self.resut.get('lenes',1)
+        lenam = self.resut.get('lenam',1)
+        tar.clear_widgets()
+        for uuid in self.resut.get('resut',{}).keys():
+            hei = len(self.resut.get('resut',{}).get(uuid,['']))
+            namgro = GridLayout(cols=2,size_hint_y=hei)
+
+            itegro = GridLayout(cols=1,size_hint_x=lenes)
+            for n in self.resut.get('resut',{}).get(uuid,[]):
+                itegro.add_widget(Button(text=n,height=20))
+
+            namgro.add_widget(Button(text=uuid,size_hint_x=lenam))
+            namgro.add_widget(itegro)
+
+            tar.add_widget(namgro)
 
     def __init__(self, **kwargs):
         super(SearchCard, self).__init__(**kwargs)
@@ -64,7 +77,7 @@ class SearchCard(GridLayout):
             'keywo' : self.keywoText,
         }
 
-class SearchingApp(App):
+class MomocoApp(App):
 
     def build(self):
         dtempoText = tool.date(modde=6)
@@ -72,5 +85,5 @@ class SearchingApp(App):
         return SearchCard(dtempoText=dtempoText,utempoText=utempoText,usrdir=usrdir)
 
 if __name__ == '__main__':
-    usrdir = SearchingApp().user_data_dir
-    SearchingApp().run()
+    usrdir = MomocoApp().user_data_dir
+    MomocoApp().run()
