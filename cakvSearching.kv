@@ -96,16 +96,5 @@
 
         GridLayout:
             id: tempor
-            rows:16
+            cols: 1
             size_hint_y: 8
-
-<Labo>
-    size_hint_y: 1
-    color: 1, 1, 1, 1
-    canvas.before:
-        Color:
-            rgba: 0, 0, 0, 1
-        Rectangle:
-            # self here refers to the widget i.e FloatLayout
-            pos: self.pos
-            size: self.size
