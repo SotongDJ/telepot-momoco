@@ -9,7 +9,7 @@ from kivy.lang import Builder
 Builder.load_file('cakvSearching.kv')
 
 import pprint
-import modSearch
+import modSearch, modDatabase
 import tool
 
 class SearchCard(GridLayout):
@@ -42,6 +42,7 @@ class SearchCard(GridLayout):
         self.dicto.update({ tan : too })
 
     def sumited(self,tar):
+        modDatabase.refesdb(usrdir=self.usrdir)
         tempa = modSearch.sachi(usrdir=self.usrdir,dicto=self.dicto)
         self.resut = modSearch.listSachi(usrdir,tempa,lingua='hanT')
         lenes = self.resut.get('lenes',1)
