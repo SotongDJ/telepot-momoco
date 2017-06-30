@@ -52,12 +52,12 @@ class SearchCard(GridLayout):
         for uuid in self.resut.get('resut',{}).keys():
             hoi = hoi + len(self.resut.get('resut',{}).get(uuid,['']))
         tampo = GridLayout(cols=1,size_hint_y=(hoi/4))
-        for uuid in self.resut.get('resut',{}).keys():
+        for uuid in sorted(self.resut.get('resut',{}).keys()):
             hei = len(self.resut.get('resut',{}).get(uuid,['']))
             namgro = GridLayout(cols=2,size_hint_y=hei)
 
             itegro = GridLayout(cols=1,size_hint_x=lenes)
-            for n in self.resut.get('resut',{}).get(uuid,[]):
+            for n in sorted(self.resut.get('resut',{}).get(uuid,[])):
                 itegro.add_widget(Button(text=n,height=20))
 
             namgro.add_widget(Button(text=uuid,size_hint_x=lenam))
