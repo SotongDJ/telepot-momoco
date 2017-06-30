@@ -8,7 +8,6 @@ from kivy.properties import ObjectProperty, StringProperty
 from kivy.lang import Builder
 Builder.load_file('cakvCreating.kv')
 
-import pprint
 import modDatabase
 import tool
 
@@ -60,7 +59,6 @@ class CreateCard(GridLayout):
         self.temra.update({ tan : too })
 
     def sumited(self):
-        pprint.pprint(self.temra)
         modDatabase.addRaw(usrdir=self.usrdir,temra=self.temra)
 
     def __init__(self, **kwargs):
