@@ -48,6 +48,10 @@ class SearchCard(GridLayout):
         lenes = self.resut.get('lenes',1)
         lenam = self.resut.get('lenam',1)
         tar.clear_widgets()
+        hoi = 0
+        for uuid in self.resut.get('resut',{}).keys():
+            hoi = hoi + len(self.resut.get('resut',{}).get(uuid,['']))
+        tampo = GridLayout(cols=1,size_hint_y=(hoi/4))
         for uuid in self.resut.get('resut',{}).keys():
             hei = len(self.resut.get('resut',{}).get(uuid,['']))
             namgro = GridLayout(cols=2,size_hint_y=hei)
@@ -59,7 +63,9 @@ class SearchCard(GridLayout):
             namgro.add_widget(Button(text=uuid,size_hint_x=lenam))
             namgro.add_widget(itegro)
 
-            tar.add_widget(namgro)
+            tampo.add_widget(namgro)
+
+        tar.add_widget(tampo)
 
     def __init__(self, **kwargs):
         super(SearchCard, self).__init__(**kwargs)
