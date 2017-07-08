@@ -90,7 +90,7 @@ def opencsv(fille,keywo):
             result.update({ nama : {} })
             word = linne.split(keywo)
             for n in range(0,len(word)):
-                result.get(nama,{}).update({ keys.get(n,'') : word.get(n,'') })
+                result.get(nama,{}).update({ keys[n] : word[n] })
             numo = numo + 1
     return result
 
