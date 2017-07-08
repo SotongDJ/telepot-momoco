@@ -116,11 +116,13 @@ def chRaw(usrdir,uuid,temra):
 
 def diffdb(a,b):
     print('modDatabase.diffdb')
+    resut=[]
     for m in a.keys():
-        if a.get(m) != b.get(m):
-            c=pprint.pformat(a.get(m)).replace('\n', '  ')
-            d=pprint.pformat(b.get(m)).replace('\n', '  ')
-            print(c+'\n'+d)
+        if a.get(m,{}) != b.get(m,{}):
+            c=a.get(m,{})
+            d=b.get(m,{})
+            resut.append([c,d])
+    return resut
 
 def genKey(rawdb):
     print('modDatabase.genKey')
@@ -165,11 +167,11 @@ def ckrpt(h):
 def ckdb(a,b):
     print('modDatabase.ckdb')
     l={}
-    for m in a:
-        for n in a[m]:
+    for uuid in a:
+        for n in a[uuid]:
             if n != '':
-                if sorted(a[m][n]) !=  sorted(b[m][n]):
-                    l.update( { m+' '+n  : [sorted(b[m][n]) , sorted(a[m][n])] } )
+                if a[uuid][n] !=  b.get(uuid,{}).get(n,''):
+                    l.update( { uuid+' '+n  : [a[uuid][n], b.get(uuid,{}).get(n,'')] } )
     return l
 
 def fixAcc(usrdir,rawdb):
