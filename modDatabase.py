@@ -80,7 +80,7 @@ def opencsv(fille,keywo):
     print('keywo: '+keywo)
     result = {}
     numo = 0
-    for linne in open(fille).read().splitlines():
+    for linne in open(fille,'br').read().decode('utf-8').splitlines():
         if "!" in linne:
             keys = linne.replace("!","").split(keywo)
         elif linne[0] != "#":

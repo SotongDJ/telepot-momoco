@@ -1,4 +1,4 @@
-import os, time, random, subprocess, pprint, json
+import os, time, random, subprocess, json
 import toolHalfu
 def date(modde=10,text='-:'):
     a,b,c,d,e,f,g,h,i = time.localtime(time.time())
@@ -29,7 +29,7 @@ def date(modde=10,text='-:'):
 
 def ckfile(usrdir,fille,addi='none'):
     try:
-        alla = pprint.pformat(open(usrdir+'/'+fille).read().splitlines())
+        alla = open(usrdir+'/'+fille,'br')
     except FileNotFoundError:
         temp=open(usrdir+'/'+fille,'w')
         if addi == 'json':
