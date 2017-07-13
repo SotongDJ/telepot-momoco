@@ -34,7 +34,7 @@ def keywo(text,lingua='enMY'):
             "toooo":"", "tpric":"", "tkare":"",
             "desci":"",
         },
-        'statics':{
+        'stati':{
             'mode':'',
             'leve':10,
             'dtempo':'','utempo':'',
@@ -42,7 +42,7 @@ def keywo(text,lingua='enMY'):
             'targe':'','keywo':'',
             'acuno':'','balan':'0',
         },
-        'list' : {
+        'listi' : {
             'datte': '',
             'uuid' : ''
         },
