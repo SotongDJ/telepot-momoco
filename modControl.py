@@ -1,11 +1,16 @@
 import modDatabase, modVariables
-def comman(prese,testa):
+
+#def printo(prese,tar):
+
+#def comman(prese):
+
+def filto(prese,testa,tar):
     usrdir = prese.get('usrdir','')
     lingua = prese.get('lingua','enMY')
 
     keywo = prese.get('keywo','')
     keyse = prese.get('keyse','')
-    primo = prese.get('modli','')
+    primo = prese.get('primo','')
     submo = prese.get('submo','')
     temra = prese.get('temra',modVariables.keywo('temra'))
     recom = prese.get('recom',{})
