@@ -6,27 +6,35 @@ from kivy.uix.textinput import TextInput
 from kivy.properties import ObjectProperty, StringProperty
 
 from kivy.lang import Builder
-Builder.load_file('cakvSearching.kv')
+Builder.load_file('cakvMain.kv')
 
 import pprint
-import modSearch, modDatabase, modVariables
+import modSearch, modDatabase, modVariables, modControl
 import tool
 
 class MainCard(GridLayout):
+    tastala = ObjectProperty()
+    resutla = ObjectProperty()
+    butonla = ObjectProperty()
+
+    def sumited(self,tar,testa):
+        self.prese = modControl.filto(prese=self.prese,testa=testa,tar=tar)
+
     def __init__(self, **kwargs):
-        super(MainApp, self).__init__(**kwargs)
+        super(MainCard, self).__init__(**kwargs)
         self.prese = {}
         self.prese.update({ 'setti' : modDatabase.openSetting(usrdir) })
+        self.prese.update({ 'usrdir' : usrdir })
         self.prese.update({ 'temra' : modVariables.keywo('temra') })
         self.prese.update({ 'stati' : modVariables.keywo('statics') })
         self.prese.update({ 'listi' : modVariables.keywo('listi') })
         self.prese.update({ 'karatio' : modDatabase.openKaratio(usrdir) })
 
-class MainApp(App):
+class MomocoApp(App):
 
     def build(self):
         return MainCard()
 
 if __name__ == '__main__':
-    usrdir = MainApp().user_data_dir
-    MainApp().run()
+    usrdir = MomocoApp().user_data_dir
+    MomocoApp().run()
