@@ -1,0 +1,41 @@
+<Label>
+    font_name: 'database/yahei_mono.ttf'
+    color: 0, 0, 0, 1
+
+<MainCard>
+    canvas.before:
+        Color:
+            rgba: 1, 1, 1, 1
+        Rectangle:
+            # self here refers to the widget i.e FloatLayout
+            pos: self.pos
+            size: self.size
+
+    cols:1
+    GridLayout:
+        cols:1
+        size_hint_y:1
+        TextInput:
+            id: tastala
+            multiline: False
+            write_tab: False
+            on_text_validate: root.sumited(tar=resutla,testa=tastala.text)
+
+    GridLayout:
+        cols:2
+        size_hint_y:9
+
+        ScrollView:
+            id: resutla
+            size_hint_y:1
+
+        ScrollView:
+            id: butonla
+            size_hint_y:1
+            canvas.before:
+                Color:
+                    rgba: 0, 0, 0, 1
+                Rectangle:
+                    # self here refers to the widget i.e FloatLayout
+                    pos: self.pos
+                    size: self.size
