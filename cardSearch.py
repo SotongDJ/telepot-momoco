@@ -12,6 +12,12 @@ import pprint
 import modSearch, modDatabase
 import tool
 
+class Titol(Label):
+    pass
+
+class Tesol(Label):
+    pass
+
 class SearchCard(GridLayout):
 
     dtempo = ObjectProperty()
@@ -36,10 +42,11 @@ class SearchCard(GridLayout):
     sumitText = StringProperty()
     usrdir = StringProperty()
 
-    def stored(self,fro,too,tar,tan):
+    def stored(self,fro,too,tar,tan,tah):
         too = fro
         tar.text = too
         self.dicto.update({ tan : too })
+        self.sumited(tah)
 
     def sumited(self,tar):
         modDatabase.refesdb(usrdir=self.usrdir)

@@ -24,10 +24,10 @@
                 text: root.dtempoText
                 multiline: False
                 write_tab: False
-                on_text_validate: root.stored(tar=dtempoResut,fro=dtempo.text,too=root.dtempoText,tan='dtempo')
+                on_text_validate: root.stored(tar=dtempoResut,fro=dtempo.text,too=root.dtempoText,tan='dtempo',tah=tempor)
             Button:
                 text: root.storeText
-                on_press: root.stored(tar=dtempoResut,fro=dtempo.text,too=root.dtempoText,tan='dtempo')
+                on_press: root.stored(tar=dtempoResut,fro=dtempo.text,too=root.dtempoText,tan='dtempo',tah=tempor)
             Label:
                 id: dtempoResut
                 text: root.dtempoText
@@ -41,10 +41,10 @@
                 text: root.utempoText
                 multiline: False
                 write_tab: False
-                on_text_validate: root.stored(tar=utempoResut,fro=utempo.text,too=root.utempoText,tan='utempo')
+                on_text_validate: root.stored(tar=utempoResut,fro=utempo.text,too=root.utempoText,tan='utempo',tah=tempor)
             Button:
                 text: root.storeText
-                on_press: root.stored(tar=utempoResut,fro=utempo.text,too=root.utempoText,tan='utempo')
+                on_press: root.stored(tar=utempoResut,fro=utempo.text,too=root.utempoText,tan='utempo',tah=tempor)
             Label:
                 id: utempoResut
                 text: root.utempoText
@@ -58,10 +58,10 @@
                 text: root.cokasText
                 multiline: False
                 write_tab: False
-                on_text_validate: root.stored(tar=cokasResut,fro=cokas.text,too=root.cokasText,tan='cokas')
+                on_text_validate: root.stored(tar=cokasResut,fro=cokas.text,too=root.cokasText,tan='cokas',tah=tempor)
             Button:
                 text: root.storeText
-                on_press: root.stored(tar=cokasResut,fro=cokas.text,too=root.cokasText,tan='cokas')
+                on_press: root.stored(tar=cokasResut,fro=cokas.text,too=root.cokasText,tan='cokas',tah=tempor)
             Label:
                 id: cokasResut
                 text: root.cokasText
@@ -75,21 +75,13 @@
                 text: root.keywoText
                 multiline: False
                 write_tab: False
-                on_text_validate: root.stored(tar=keywoResut,fro=keywo.text,too=root.keywoText,tan='keywo')
+                on_text_validate: root.stored(tar=keywoResut,fro=keywo.text,too=root.keywoText,tan='keywo',tah=tempor)
             Button:
                 text: root.storeText
-                on_press: root.stored(tar=keywoResut,fro=keywo.text,too=root.keywoText,tan='keywo')
+                on_press: root.stored(tar=keywoResut,fro=keywo.text,too=root.keywoText,tan='keywo',tah=tempor)
             Label:
                 id: keywoResut
                 text: root.keywoText
-
-        AnchorLayout:
-            anchor_y: 'center'
-            anchor_x: 'center'
-            Button:
-                text: root.sumitText
-                on_press: root.sumited(tempor)
-                size_hint: 0.5,1
 
     ScrollView:
         id: tempor
