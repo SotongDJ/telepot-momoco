@@ -56,35 +56,25 @@ def listSachi(usrdir,libto,lingua='enMY'):
     lenam = 1
     lenes = 1
     for keyo in kelib.keys():
-        conto = []
+        conto = {}
         namma = keyo + '\n'
         lenna = len(namma)
         if lenam < lenna:
             lenam = lenna
         otnoc = [transle.get(x,'') for x in keyto.get(keyo,[]) ]
         namma = namma +'(' + ',\n'.join(otnoc)+ ')'
-        masio = max(otnoc, key=len)
-        if lenam < len(masio):
-            lenam = len(masio)
         for uuid in set(kelib.get(keyo,[])):
-            testa = 'uuid:'+ uuid +'　'
-            testa = testa + rawdb.get(uuid,{}).get('datte','')+'\n'
-            lenta = len(testa)
-            if lenes < lenta:
-                lenes = lenta
-            testa = testa + rawdb.get(uuid,{}).get('namma','')+'　'
-            testa = testa + rawdb.get(uuid,{}).get('shoop','')+'　'
-            testa = testa + rawdb.get(uuid,{}).get('klass','')+'\n'
-            if lenes < len(testa) - lenta:
-                lenes = len(testa) - lenta
-            lenta = len(testa) - lenta
+            testa = '　' + rawdb.get(uuid,{}).get('datte','')+'　'
+            testa = testa + rawdb.get(uuid,{}).get('namma','')+'\n'
+            testa = testa + '　' + rawdb.get(uuid,{}).get('klass','')+'　'
+            testa = testa + rawdb.get(uuid,{}).get('shoop','')+'\n'
+            testa = testa + '　' + rawdb.get(uuid,{}).get('fromm','')+' '
             testa = testa + rawdb.get(uuid,{}).get('karen','')+' '
-            testa = testa + rawdb.get(uuid,{}).get('price','')
-            if lenes < len(testa)-lenta:
-                lenes = len(testa)-lenta
-            conto.append(testa)
+            testa = testa + rawdb.get(uuid,{}).get('price','')+'\n'
+            testa = testa + '　' + rawdb.get(uuid,{}).get('toooo','')+' '
+            testa = testa + rawdb.get(uuid,{}).get('tkare','')+' '
+            testa = testa + rawdb.get(uuid,{}).get('tpric','')+'\n'
+            conto.update({ uuid : testa })
         resut.get('resut').update({ namma : conto })
-    resut.update({'lenam':lenam})
-    resut.update({'lenes':lenes})
 
     return resut
