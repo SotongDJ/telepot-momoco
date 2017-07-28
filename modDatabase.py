@@ -500,7 +500,7 @@ def timra(usrdir, dtempo='',utempo='', modde='uuid'):
 
     tok = []
     tik = sorted(set(keydb.get('datte',{}).keys()))
-    print('tik : '+pprint.pformat(tik,compact=True))
+    print('dattedb : '+pprint.pformat(tik,compact=True))
     toka = 0
     toko = len(tik)
     try:
@@ -534,7 +534,7 @@ def timra(usrdir, dtempo='',utempo='', modde='uuid'):
                     ck = 1
 
     tok = tik[toka:toko+1]
-    print('tok : '+pprint.pformat(tok,compact=True))
+    print('filter : '+pprint.pformat(tok,compact=True))
 
     datui = []
     for datte in tok:
