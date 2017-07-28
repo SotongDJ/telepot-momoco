@@ -54,27 +54,24 @@ class SearchCard(GridLayout):
         self.resut = modSearch.listSachi(usrdir,tempa,lingua='hanT')
         tar.clear_widgets()
 
-        nutit = 0
-        nutes = 0
-        nuuid = 0
-        heuid = 0.05 #1
-        hitit = 0.10 #5
-        hites = 0.20 #5
+        nummo = 0
+        heiyo = 0.1
         for namma in self.resut.get('resut',{}).keys():
-            nutes = nutes + len(self.resut.get('resut',{}).get(namma,[]))
-        sumhi = (nutit*hitit)+(nutes*(hites+heuid))
+            nummo = nummo + 1 # for uuid TextInput
+            nummo = nummo + len(namma.splitlines())
+            conto = self.resut.get('resut',{}).get(namma,{})
+            for n in conto.keys():
+                nummo = nummo + len(conto.get(n,'').splitlines())
 
-        tampo = GridLayout(cols=1,size_hint_y=sumhi)
+        tampo = GridLayout(cols=1,size_hint_y=nummo*heiyo)
         for namma in sorted(self.resut.get('resut',{}).keys()):
             conto = self.resut.get('resut',{}).get(namma,{})
-            #itegro = GridLayout(cols=1)
-            tampo.add_widget(Titol(text=namma,size_hint_y=hitit))
+            tanum = len(namma.splitlines())
+            tampo.add_widget(Titol(text=namma,size_hint_y=tanum*heiyo))
             for n in sorted(list(conto.keys())):
-                tampo.add_widget(TextInput(text=n,size_hint_y=heuid))
-                #itegro.add_widget(TextInput(text=n,size_hint_y=heuid))
-                tampo.add_widget(Tesol(text=conto.get(n,''),size_hint_y=hites))
-                #itegro.add_widget(Tesol(text=conto.get(n,''),size_hint_y=hites))
-            #tampo.add_widget(itegro)
+                tampo.add_widget(TextInput(text=n,size_hint_y=heiyo))
+                tanum = len(conto.get(n,'').splitlines())
+                tampo.add_widget(Tesol(text=conto.get(n,''),size_hint_y=tanum*heiyo))
 
         tar.add_widget(tampo)
 
