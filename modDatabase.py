@@ -259,6 +259,25 @@ def importRaw(usrdir,lib):
     json.dump(source,filla)
     filla.close()
 
+def expocsv(usrdir,keywo):
+    print('modDatabase.opencsv')
+    result = {}
+    numo = 0
+    temla = usrdir + '/template.csv'
+    resuf = open(usrdir + '/result-' + tool.date(3) + '.csv','w')
+    rawdb = opendb(usrdir).get('raw')
+    for linne in open(temla,'br').read().decode('utf-8').splitlines():
+        if "!" in linne:
+            keys = linne.replace("!","").split(keywo)
+        resuf.write(linne + '\n')
+    for uuid in sorted(list(rawdb.keys())):
+        linno = ''
+        temra = rawdb.get(uuid,{})
+        for keyso in keys:
+            linno = linno + temra.get(keyso,'').replace('\n',' ').replace(keywo,'-') + keywo
+        resuf.write(linno+'\n')
+    resuf.close()
+
 """ recomc(self._keys,self._keywo,knolib,unoset,usrid) """
 def recomc(usrdir,srckey,veluo,knolib,unoset):
     print('modDatabase.recomc: '+usrdir)
