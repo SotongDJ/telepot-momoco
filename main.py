@@ -17,8 +17,8 @@ class MainCard(GridLayout):
     resutla = ObjectProperty()
     butonla = ObjectProperty()
 
-    def sumited(self,tar,testa):
-        self.prese = modControl.filto(prese=self.prese,testa=testa,tar=tar)
+    def sumited(self,butonla,resutla,testa):
+        self.prese = modControl.filto(prese=self.prese,testa=testa,butonla=butonla,resutla=resutla)
 
     def __init__(self, **kwargs):
         super(MainCard, self).__init__(**kwargs)
