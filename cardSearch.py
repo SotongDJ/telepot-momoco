@@ -52,25 +52,29 @@ class SearchCard(GridLayout):
         modDatabase.refesdb(usrdir=self.usrdir)
         tempa = modSearch.sachi(usrdir=self.usrdir,dicto=self.dicto)
         self.resut = modSearch.listSachi(usrdir,tempa,lingua='hanT')
-        lenes = self.resut.get('lenes',1)
-        lenam = self.resut.get('lenam',1)
         tar.clear_widgets()
-        hoi = 0
-        for uuid in self.resut.get('resut',{}).keys():
-            hoi = hoi + len(self.resut.get('resut',{}).get(uuid,['']))
-        tampo = GridLayout(cols=1,size_hint_y=(hoi/4))
-        for uuid in sorted(self.resut.get('resut',{}).keys()):
-            hei = len(self.resut.get('resut',{}).get(uuid,['']))
-            namgro = GridLayout(cols=2,size_hint_y=hei)
 
-            itegro = GridLayout(cols=1,size_hint_x=lenes)
-            for n in sorted(self.resut.get('resut',{}).get(uuid,[])):
-                itegro.add_widget(Button(text=n,height=20))
+        nutit = 0
+        nutes = 0
+        nuuid = 0
+        heuid = 0.05 #1
+        hitit = 0.10 #5
+        hites = 0.20 #5
+        for namma in self.resut.get('resut',{}).keys():
+            nutes = nutes + len(self.resut.get('resut',{}).get(namma,[]))
+        sumhi = (nutit*hitit)+(nutes*(hites+heuid))
 
-            namgro.add_widget(Button(text=uuid,size_hint_x=lenam))
-            namgro.add_widget(itegro)
-
-            tampo.add_widget(namgro)
+        tampo = GridLayout(cols=1,size_hint_y=sumhi)
+        for namma in sorted(self.resut.get('resut',{}).keys()):
+            conto = self.resut.get('resut',{}).get(namma,{})
+            #itegro = GridLayout(cols=1)
+            tampo.add_widget(Titol(text=namma,size_hint_y=hitit))
+            for n in sorted(list(conto.keys())):
+                tampo.add_widget(TextInput(text=n,size_hint_y=heuid))
+                #itegro.add_widget(TextInput(text=n,size_hint_y=heuid))
+                tampo.add_widget(Tesol(text=conto.get(n,''),size_hint_y=hites))
+                #itegro.add_widget(Tesol(text=conto.get(n,''),size_hint_y=hites))
+            #tampo.add_widget(itegro)
 
         tar.add_widget(tampo)
 

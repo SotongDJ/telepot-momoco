@@ -2,6 +2,20 @@
     font_name: 'database/yahei_mono.ttf'
     color: 0, 0, 0, 1
 
+<Titol>
+    canvas.before:
+        Color:
+            rgba: 0.5, 0.5, 0.5, 1
+        Rectangle:
+            # self here refers to the widget i.e FloatLayout
+            pos: self.pos
+            size: self.size
+
+<Tesol>
+    text_size: self.size
+    halign: 'left'
+    valign: 'middle'
+
 <SearchCard>
     canvas.before:
         Color:
