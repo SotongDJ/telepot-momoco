@@ -46,7 +46,11 @@ class SearchCard(GridLayout):
         too = fro
         tar.text = too
         self.dicto.update({ tan : too })
-        self.sumited(tah)
+        if self.dicto.get('keywo','') != '':
+            self.sumited(tah)
+        else:
+            tah.clear_widgets()
+            tah.add_widget(Label(text='Require keyword'))
 
     def sumited(self,tar):
         modDatabase.refesdb(usrdir=self.usrdir)
