@@ -17,7 +17,7 @@
     rows: 3
 
     GridLayout:
-        cols: 3
+        cols: 4
         size_hint_y: 1
         Label:
             text: root.uuidTitle
@@ -29,6 +29,9 @@
         Button:
             text: root.calloutText
             on_press: root.callout(uuid=indata.text,tar=datapar)
+        Button:
+            text: root.cleenText
+            on_press: root.cleen(tar=datapar)
 
     GridLayout:
         id: datapar
@@ -224,11 +227,3 @@
         Label:
             id: desciResut
             text: root.desciText
-
-    AnchorLayout:
-        anchor_y: 'center'
-        anchor_x: 'center'
-        Button:
-            text: root.sumitText
-            on_press: root.sumited()
-            size_hint: 0.5,1

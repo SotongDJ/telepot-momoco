@@ -58,6 +58,7 @@ class DataPart(GridLayout):
         too = fro
         tar.text = too
         self.temra.update({ tan : too })
+        modDatabase.chRaw(usrdir=self.usrdir,temra=self.temra,uuid=self.uuidText)
 
     def sumited(self):
         modDatabase.chRaw(usrdir=self.usrdir,temra=self.temra,uuid=self.uuidText)
@@ -127,16 +128,20 @@ class EditCard(GridLayout):
     datapar = ObjectProperty()
 
     calloutText = StringProperty()
+    cleenText = StringProperty()
     usrdir = StringProperty()
 
     def callout(self,uuid,tar):
         tar.clear_widgets()
         tar.add_widget(DataPart(uuidText=uuid,usrdir=self.usrdir))
 
+    def cleen(self,tar):
+        tar.clear_widgets()
+
     def __init__(self, **kwargs):
         super(EditCard, self).__init__(**kwargs)
         self.uuidTitle = "UUID: "
-
+        self.cleenText = "Clean"
         self.calloutText = "Call out Data"
 
 class MomocoApp(App):
