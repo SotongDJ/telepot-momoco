@@ -11,7 +11,7 @@ def opendb(usrdir):
     except FileNotFoundError:
         faale = open(usrdir + '/record.json','w')
         db = {'raw':{},'key':{},'hash':{}}
-        json.dump(db,faale)
+        json.dump(db,faale,indent=4,sort_keys=True)
         faale.close()
         return db
 
@@ -25,14 +25,14 @@ def openSetting(usrdir):
     except FileNotFoundError:
         faale = open(usrdir + '/setting.json','w')
         setting = modVariables.keywo('setting')
-        json.dump(setting,faale)
+        json.dump(setting,faale,indent=4,sort_keys=True)
         faale.close()
         return setting
 
 def changeSetting(usrdir,libra):
     print('modDatabase.changeSetting: '+usrdir)
     faale = open(usrdir + '/setting.json','w')
-    json.dump(libra,faale)
+    json.dump(libra,faale,indent=4,sort_keys=True)
     faale.close()
 
 def openKaratio(usrdir):
@@ -68,7 +68,7 @@ def getKaratio(usrdir,keydb,modde='refes'):
             karatio.update({ m['id'] : m['Rate'] })
 
         faale = open(usrdir + '/karen.json',"w")
-        json.dump(karatio,faale)
+        json.dump(karatio,faale,indent=4,sort_keys=True)
         tool.acedate(usrdir,'karen',modda='write')
         faale.close()
 
@@ -100,7 +100,7 @@ def addRaw(usrdir,temra):
     timta = tool.date(3) + '0000'
     record.get('raw',{}).update({ timta : temra })
     faale = open(usrdir + '/record.json','w')
-    json.dump(record,faale)
+    json.dump(record,faale,indent=4,sort_keys=True)
     faale.close()
     return record
 
@@ -110,7 +110,7 @@ def chRaw(usrdir,uuid,temra):
     record = opendb(usrdir)
     record.get('raw',{}).update( { uuid : temra } )
     faale = open(usrdir + '/record.json','w')
-    json.dump(record,faale)
+    json.dump(record,faale,indent=4,sort_keys=True)
     faale.close()
     return record
 
@@ -230,7 +230,7 @@ def refesdb(usrdir):
     hashdb = genHash(rawdb)
     libra.update( {'hash' : hashdb})
     faale = open(usrdir + '/record.json','w')
-    json.dump(libra,faale)
+    json.dump(libra,faale,indent=4,sort_keys=True)
     faale.close()
 
 def upgradeSetting(usrdir,lib):
@@ -256,7 +256,7 @@ def importRaw(usrdir,lib):
             if hasa.hexdigest() not in list(source['hash'].values()):
                 source['raw'][uuid]=lib[uuid]
     filla = open(usrdir + '/record.json','w')
-    json.dump(source,filla)
+    json.dump(source,filla,indent=4,sort_keys=True)
     filla.close()
 
 def expocsv(usrdir,keywo):
