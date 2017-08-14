@@ -499,61 +499,44 @@ def listList(usrdir,datte):
 
 def timra(usrdir, dtempo='',utempo='', modde='uuid'):
     print('modDatabase.timra: '+usrdir)
-    print('dtempo: '+dtempo)
-    print('utempo: '+utempo)
     print('modde: '+modde)
     libra = opendb(usrdir)
     rawdb = libra.get('raw',{})
     keydb = libra.get('key',{})
 
     if dtempo == '':
-        dtempo = tool.date(modde=1)[0:8]
+        dtempo = tool.date(modde=1)[0:7]
     if utempo == '':
-        utempo = tool.date(modde=1)[0:8]
+        utempo = tool.date(modde=1)[0:7]
+
+    ddalit = '0000-00-00'
+    udalit = '9999-99-99'
+    dtempo = dtempo + ddalit[len(dtempo):len(ddalit)+1]
+    utempo = utempo + udalit[len(utempo):len(udalit)+1]
+    print('dtempo: '+dtempo)
+    print('utempo: '+utempo)
 
     tok = []
-    tik = sorted(set(keydb.get('datte',{}).keys()))
-    print('dattedb : '+pprint.pformat(tik,compact=True))
-    toka = 0
-    toko = len(tik)
-    try:
-        toka = tik.index(dtempo)
-    except ValueError:
-        ck = 0
-        for n in sorted(tik, reverse=True):
-            if dtempo[0:8] in n:
-                toka = tik.index(n)
-                ck = 1
+    tak = list(keydb.get('datte',{}).keys())
+    tak.append(dtempo)
+    tak.append(utempo)
+    tik = sorted(set(tak))
+    print('datte : '+pprint.pformat(tik,compact=True))
 
-        if ck == 0:
-            for n in sorted(tik, reverse=True):
-                if dtempo[0:4] in n:
-                    toka = tik.index(n)
-                    ck = 1
+    if tik.index(utempo)-tik.index(dtempo) < 0:
+        dlit = utempo
+        ulit = dtempo
+    else:
+        dlit = dtempo
+        ulit = utempo
 
-    try:
-        toko = tik.index(utempo)
-    except ValueError:
-        ck = 0
-        for n in tik:
-            if utempo[0:8] in n:
-                toko = tik.index(n)
-                ck = 1
-
-        if ck == 0:
-            for n in tik:
-                if utempo[0:4] in n:
-                    toko = tik.index(n)
-                    ck = 1
-
-    tok = tik[toka:toko+1]
-    print('filter : '+pprint.pformat(tok,compact=True))
+    tuk = tik[tik.index(dlit):tik.index(ulit)+1]
 
     datui = []
-    for datte in tok:
+    for datte in tuk:
         datui.extend(keydb.get('datte',{}).get(datte,[]))
 
     if modde == 'datte':
-        return tok
+        return tuk
     elif modde == 'uuid':
         return datui
