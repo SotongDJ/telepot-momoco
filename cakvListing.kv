@@ -1,0 +1,102 @@
+<Label>
+    font_name: 'database/yahei_mono.ttf'
+    color: 0, 0, 0, 1
+
+<Titol>
+    canvas.before:
+        Color:
+            rgba: 0.85, 0.85, 0.85, 1
+        Rectangle:
+            # self here refers to the widget i.e FloatLayout
+            pos: self.pos
+            size: self.size
+
+<Tesol>
+    text_size: self.size
+    halign: 'left'
+    valign: 'middle'
+
+<ListCard>
+    canvas.before:
+        Color:
+            rgba: 1, 1, 1, 1
+        Rectangle:
+            # self here refers to the widget i.e FloatLayout
+            pos: self.pos
+            size: self.size
+    rows:2
+    GridLayout:
+        rows: 12
+        size_hint_y:2
+
+        GridLayout:
+            cols:4
+            Label:
+                text: root.dtempoTitle
+            TextInput:
+                id: dtempo
+                text: root.dtempoText
+                multiline: False
+                write_tab: False
+                on_text_validate: root.stored(tar=dtempoResut,fro=dtempo.text,too=root.dtempoText,tan='dtempo',tah=tempor)
+            Button:
+                text: root.storeText
+                on_press: root.stored(tar=dtempoResut,fro=dtempo.text,too=root.dtempoText,tan='dtempo',tah=tempor)
+            Label:
+                id: dtempoResut
+                text: root.dtempoText
+
+        GridLayout:
+            cols:4
+            Label:
+                text: root.utempoTitle
+            TextInput:
+                id: utempo
+                text: root.utempoText
+                multiline: False
+                write_tab: False
+                on_text_validate: root.stored(tar=utempoResut,fro=utempo.text,too=root.utempoText,tan='utempo',tah=tempor)
+            Button:
+                text: root.storeText
+                on_press: root.stored(tar=utempoResut,fro=utempo.text,too=root.utempoText,tan='utempo',tah=tempor)
+            Label:
+                id: utempoResut
+                text: root.utempoText
+
+        GridLayout:
+            cols:4
+            Label:
+                text: root.cokasTitle
+            TextInput:
+                id: cokas
+                text: root.cokasText
+                multiline: False
+                write_tab: False
+                on_text_validate: root.stored(tar=cokasResut,fro=cokas.text,too=root.cokasText,tan='cokas',tah=tempor)
+            Button:
+                text: root.storeText
+                on_press: root.stored(tar=cokasResut,fro=cokas.text,too=root.cokasText,tan='cokas',tah=tempor)
+            Label:
+                id: cokasResut
+                text: root.cokasText
+
+        GridLayout:
+            cols:4
+            Label:
+                text: root.keywoTitle
+            TextInput:
+                id: keywo
+                text: root.keywoText
+                multiline: False
+                write_tab: False
+                on_text_validate: root.stored(tar=keywoResut,fro=keywo.text,too=root.keywoText,tan='keywo',tah=tempor)
+            Button:
+                text: root.storeText
+                on_press: root.stored(tar=keywoResut,fro=keywo.text,too=root.keywoText,tan='keywo',tah=tempor)
+            Label:
+                id: keywoResut
+                text: root.keywoText
+
+    ScrollView:
+        id: tempor
+        size_hint_y: 4
