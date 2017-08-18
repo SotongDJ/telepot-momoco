@@ -10,6 +10,7 @@ runMOMOCO.sh
 #privacy
 *.pyc
 database/
+database
 test/
 update/
 bin.tar.gz
