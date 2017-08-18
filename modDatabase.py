@@ -10,7 +10,7 @@ def opendb(usrdir):
         return record
     except FileNotFoundError:
         faale = open(usrdir + '/record.json','w')
-        db = {'raw':{},'key':{},'hash':{}}
+        db = {'raw':{},'key':{}}
         json.dump(db,faale,indent=4,sort_keys=True)
         faale.close()
         return db
@@ -227,8 +227,6 @@ def refesdb(usrdir):
     libra.update( {'raw' : rawdb})
     keydb = genKey(rawdb)
     libra.update( {'key' : keydb})
-    hashdb = genHash(rawdb)
-    libra.update( {'hash' : hashdb})
     faale = open(usrdir + '/record.json','w')
     json.dump(libra,faale,indent=4,sort_keys=True)
     faale.close()
@@ -259,7 +257,7 @@ def importRaw(usrdir,lib):
             hasa = hashlib.sha512()
             if lib[uuid] != {}:
                 hasa.update((",".join(set(list(lib[uuid].values())))).encode("utf-8"))
-                if hasa.hexdigest() not in list(source['hash'].values()):
+                if hasa.hexdigest() not in genHash(source.get('raw',{})).values():
                     source.get('raw',{}).update({ uuid : lib.get(uuid,{}) })
                     print('Imported: '+uuid+'(uuid)')
                 else:
