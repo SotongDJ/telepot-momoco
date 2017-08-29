@@ -9,55 +9,54 @@ from kivy.lang import Builder
 Builder.load_file('cakvListing.kv')
 
 import pprint
-import modSearch, modDatabase
+import modDatabase
 import tool
 
-class Titol(Label):
-    pass
-
-class Tesol(Label):
-    pass
-
 class ListCard(GridLayout):
+    frama = ObjectProperty()
+    lista = ObjectProperty()
 
-    dtempo = ObjectProperty()
-    utempo = ObjectProperty()
-    cokas = ObjectProperty()
-    keywo = ObjectProperty()
+    gleanTitle = StringProperty()
+    datteTitol = StringProperty()
+    nammaTitol = StringProperty()
+    klassTitol = StringProperty()
+    shoopTitol = StringProperty()
+    frommTitol = StringProperty()
+    karenTitol = StringProperty()
+    priceTitol = StringProperty()
+    tooooTitol = StringProperty()
+    tkareTitol = StringProperty()
+    tpricTitol = StringProperty()
 
-    tempor = ObjectProperty()
-    trasa = ObjectProperty()
-
-    dtempoTitle = StringProperty()
-    utempoTitle = StringProperty()
-    cokasTitle = StringProperty()
-    keywoTitle = StringProperty()
-
-    dtempoText = StringProperty()
-    utempoText = StringProperty()
-    cokasText = StringProperty()
-    keywoText = StringProperty()
-
-    storeText = StringProperty()
-    sumitText = StringProperty()
     usrdir = StringProperty()
 
-    
+    def cleno(self,tar):
+        tar.clear_widgets()
+
+    def sumito(self,kas,tar):
+        tar.clear_widgets()
+        resut = sorted(modDatabase.listKas(self.usrdir,kas))
+        lista = GridLayout(cols=1,size_hint_y=len(resut)*0.1)
+        for n in resut:
+            nunor = GridLayout(cols=2,size_hint_y=0.1)
+            nunor.add_widget(Label(text=n,size_hint_y=0.1))
+            nunor.add_widget(TextInput(text=n,size_hint_y=0.1))
+            lista.add_widget(nunor)
+        tar.add_widget(lista)
 
     def __init__(self, **kwargs):
         super(ListCard, self).__init__(**kwargs)
-        self.cokasTitle = "Class: "
-        self.keywoTitle = "Keywo: "
-
-        self.storeText = 'Store -->'
-        self.sumitText = 'Sumit'
-
-        self.dicto={
-            'dtempo' : self.dtempoText,
-            'utempo' : self.utempoText,
-            'cokas' : self.cokasText,
-            'keywo' : self.keywoText,
-        }
+        self.gleanTitle = "CLEAN"
+        self.datteTitol = "datte"
+        self.nammaTitol = "namma"
+        self.klassTitol = "klass"
+        self.shoopTitol = "shoop"
+        self.frommTitol = "fromm"
+        self.karenTitol = "karen"
+        self.priceTitol = "price"
+        self.tooooTitol = "toooo"
+        self.tkareTitol = "tkare"
+        self.tpricTitol = "tpric"
 
 class MomocoApp(App):
 
