@@ -1,3 +1,0 @@
-title=MomocoApp
-author=sotong0221@gmail.com
-orientation=portrait
