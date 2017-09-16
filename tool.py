@@ -1,5 +1,10 @@
 import os, time, random, subprocess, json
+from subprocess import call
 import toolHalfu
+
+def diro(direc=''):
+    call(['mkdir','-p',direc])
+
 def date(modde=10,text='-:'):
     a,b,c,d,e,f,g,h,i = time.localtime(time.time())
     j=[]

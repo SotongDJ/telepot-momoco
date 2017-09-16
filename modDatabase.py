@@ -9,6 +9,7 @@ def opendb(usrdir):
         faale.close()
         return record
     except FileNotFoundError:
+        tool.diro(direc=usrdir)
         faale = open(usrdir + '/record.json','w')
         db = {'raw':{},'key':{}}
         json.dump(db,faale,indent=4,sort_keys=True)
@@ -23,6 +24,7 @@ def openSetting(usrdir):
         faale.close()
         return setting
     except FileNotFoundError:
+        tool.diro(direc=usrdir)
         faale = open(usrdir + '/setting.json','w')
         setting = modVariables.initi().get('setti')
         json.dump(setting,faale,indent=4,sort_keys=True)
