@@ -13,7 +13,8 @@ def hande(msg={},arg={}):
     and reply back to user
     """
     mesut=[]
-    return {'mesut':mesut,'arg':arg}
+    cos=0
+    return {'mesut':mesut, 'arg':arg, 'cos':cos}
 
 def excut(msg={},arg={}):
     """ process  msg
@@ -22,4 +23,5 @@ def excut(msg={},arg={}):
     and reply result back to hande()
     """
     resut=[]
-    return {'resut':resut,'arg':arg}
+    cos=0
+    return {'resut':resut, 'arg':arg, 'cos':cos}
