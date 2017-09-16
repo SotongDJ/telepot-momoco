@@ -1,6 +1,6 @@
 import tool, json
 def woood(lingua='enMY',tasta='',keyse={}):
-    tasto = {
+    waaad = {
         'enMY':{
             'start':"""　Welcome
 ——————————
@@ -161,7 +161,7 @@ Input:
         }
     }
 
-    resut = tasto.get(lingua,{}).get(tasta,'')
+    resut = waaad.get(lingua,{}).get(tasta,'')
     for keywo in list(keyse.keys()):
         resut.replace("@"+keywo+"@",keyse.get(keywo,''))
 
