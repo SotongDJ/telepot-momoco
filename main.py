@@ -70,15 +70,11 @@ class User(telepot.helper.ChatHandler):
         if "/" in initial_msg['text']:
             resul = excut(msg=initial_msg, arg=self.arg)
 
-            mesut = resul.get('mesut',[])
-            self.sending(mesag=mesut)
-
-            arg = self.arg
-            self.arg = resul.get('arg',arg)
-
-            cos = resul.get('cos',0)
-            if cos == 1:
+            self.sending(mesag=resul.mesut)
+            self.arg = resul.arg
+            if resul.cos == 1:
                 self.close()
+
         elif "/" not in initial_msg["text"]:
             keywo = initial_msg["text"].replace(" ","_")
             self.arg.update({ 'keywo' : keywo })
@@ -107,14 +103,9 @@ class User(telepot.helper.ChatHandler):
         if "/" in msg['text']:
             resul = excut(msg=msg, arg=self.arg)
 
-            mesut = resul.get('mesut',[])
-            self.sending(mesag=mesut)
-
-            arg = self.arg
-            self.arg = resul.get('arg',arg)
-
-            cos = resul.get('cos',0)
-            if cos == 1:
+            self.sending(mesag=resul.mesut)
+            self.arg = resul.arg
+            if resul.cos == 1:
                 self.close()
 
         elif "/" not in msg["text"]:
