@@ -24,7 +24,7 @@ def openSetting(usrdir):
         return setting
     except FileNotFoundError:
         faale = open(usrdir + '/setting.json','w')
-        setting = modVariables.initi.get('setting')
+        setting = modVariables.initi.get('setti')
         json.dump(setting,faale,indent=4,sort_keys=True)
         faale.close()
         return setting
