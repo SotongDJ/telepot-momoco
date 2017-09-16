@@ -21,7 +21,7 @@ exit - Close conversation
 class User(telepot.helper.ChatHandler):
     def __init__(self, *args, **kwargs):
         super(User, self).__init__(*args, **kwargs)
-        self.arg = modVariables.inti()
+        self.arg = modVariables.initi()
 
     def sending(self,mesag=['']):
         lingua = self.arg.get('setti',{}).get('lingua','enMY')
