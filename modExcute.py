@@ -6,16 +6,6 @@ and reply required msg back to user.
 The codes of this file mainly lineage from comme() in momocobot.py.
 """
 
-def hande(msg={},arg={}):
-    """ handle received msg
-    pass command to excute() for futher action (which is more complex)
-    change cache info that store in memory (arg)
-    and reply back to user
-    """
-    mesut=[]
-    cos=0
-    return {'mesut':mesut, 'arg':arg, 'cos':cos}
-
 def excut(msg={},arg={}):
     """ process  msg
     grab command from hande()

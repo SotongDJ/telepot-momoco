@@ -1,6 +1,7 @@
 import sys, os, traceback, telepot, time, json, random, pprint
 import tool, modDatabase, modSearch, modVariables
-from core import hande, excut
+from modHandle import hande
+from modExcute import excut
 from libmsg import msgMain, mainShort
 from telepot.delegate import per_chat_id, create_open, pave_event_space
 
