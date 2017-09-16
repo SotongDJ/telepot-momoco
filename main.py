@@ -71,61 +71,34 @@ class User(telepot.helper.ChatHandler):
 
     def on_chat_message(self, msg): # Each Msg
         content_type, chat_type, chat_id = telepot.glance(msg)
-        self.printbug("Received",chat_id)
-        mmctool.printbug("msg",msg,chat_id)
-        lingua = self._setting['lingua']
+        usrdir = 'database/usr/'+str(chat_id)
+        lingua = modDatabase.openSetting(usrdir=usrdir).get('lingua','enMY')
+        self.arg.update({
+            'usrdir' : usrdir,
+            'lingua' : lingua,
+            'catid' : chat_id,
+            'catyp' : chat_type,
+            'cotyp' : content_type,
+            'veces' : 0,
+        })
 
         if content_type != 'text':
-            self.sending(msgMain.error(), modda = 1)
+            self.sending(mesag=msgMain(lingua=lingua,tasta='error'))
             self.close()
             return
 
-        if msg["text"][0] == '/':
-            self.comme(msg)
-        else:
-            self._keywo = msg["text"].replace("/","")
-
-            if self._mod[-1] == '':
-                self.sending(msgMain.home(self._keywo))
-
-            elif self._mod[-1] == "list":
-                if self._sumo == 'sachi':
-                    self.sending(msgSachi.listKeywo(lingua,self._keywo))
-                else:
-                    self.sending(mainShort.woood(lingua,'emptysachi'))
-
-            elif self._mod[-1] == "edit":
-                tasEdit = msgEdit.keyword(self._keywo)
-                self.sending(tasEdit)
-
-            elif self._mod[-1] == 'statics':
-                if self._statics['mode'] == 'abratio':
-                    self.sending(msgAnali.abratioKeywo(lingua,self._keywo))
-                elif self._statics['mode'] == 'atren':
-                    self.sending(msgAnali.atrenKeywo(lingua,self._keywo))
-                elif self._statics['mode'] == 'akaun':
-                    self.sending(msgAnali.akaunKeywo(lingua,self._keywo))
-
-            elif self._mod[-1] == "creo":
-                if self._sumo == 'outo':
-                    tasOut= msgCreo.keyword(self._keywo)
-                    self.sending(tasOut)
-                elif self._sumo == 'inco':
-                    tasInco = msgInco.keyword(self._keywo)
-                    self.sending(tasInco)
-                elif self._sumo == 'tran':
-                    tasTran = msgTran.keyword(self._keywo)
-                    self.sending(tasTran)
-
-            elif self._mod[-1] == 'defSett':
-                numme = str(random.choice(range(10,100)))
-                self._defSett={}
-                try:
-                    self._keywo.encode('latin-1')
-                    self._defSett={1:["/ch_","_"+self._keywo],2:[]}
-                except UnicodeEncodeError:
-                    self._defSett={1:["/chu_","_"+numme+" "+self._keywo],2:{numme:self._keywo}}
-                self.sending(msgDefSet.setup(self._keywo,self._defSett))
+        if "/" in msg['text']:
+            resul = hande(msg=msg, arg=self.arg)
+            mesut = resul.get('mesut',[])
+            arg = self.arg
+            self.arg = resul.get('arg',arg)
+            cos = resul.get('cos',0)
+            if cos == 1:
+                self.close()
+        elif "/" not in msg["text"]:
+            keywo = msg["text"].replace(" ","_")
+            self.arg.update({ 'keywo' : keywo })
+            self.sending(mesag=msgMain(lingua=lingua,tasta='home',keyse={'keywo':keywo}))
 
     def on__idle(self, event): # Timeout Region
         lingua = self._setting['lingua']
