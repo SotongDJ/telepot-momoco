@@ -90,6 +90,8 @@ def keywo(text,lingua='enMY'):
 
 def initi():
     arg={
+        'usrdir': '',
+
         'primo' : [],
         'submo' : '',
         'keywo' : '',
@@ -136,5 +138,6 @@ def initi():
 
         'catid' : 0,
         'catyp' : '',
+        'cotyp' : '',
     }
     return arg
