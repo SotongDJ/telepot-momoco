@@ -90,6 +90,18 @@ def keywo(text,lingua='enMY'):
 
 def initi():
     arg={
+        primo = [],
+        submo = '',
+        keywo = '',
+        kasso = '',
+        recom = {},
+
+        rawdb = {},
+        keydb = {},
+        karat = {},
+
+        veces = 0,
+
         'setti' : {
             'dinco':'Bank', 'dexpe':'Cash',
             'genis':'Income', 'ovede':'Expense',
