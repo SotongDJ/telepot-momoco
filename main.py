@@ -66,10 +66,14 @@ class User(telepot.helper.ChatHandler):
             return
 
         if "/" in initial_msg['text']:
-            resul = hande(msg=initial_msg, arg=self.arg)
+            resul = excut(msg=initial_msg, arg=self.arg)
+
             mesut = resul.get('mesut',[])
+            self.sending(mesag=mesut)
+
             arg = self.arg
             self.arg = resul.get('arg',arg)
+
             cos = resul.get('cos',0)
             if cos == 1:
                 self.close()
@@ -99,17 +103,30 @@ class User(telepot.helper.ChatHandler):
             return
 
         if "/" in msg['text']:
-            resul = hande(msg=msg, arg=self.arg)
+            resul = excut(msg=msg, arg=self.arg)
+
             mesut = resul.get('mesut',[])
+            self.sending(mesag=mesut)
+
             arg = self.arg
             self.arg = resul.get('arg',arg)
+
             cos = resul.get('cos',0)
             if cos == 1:
                 self.close()
+
         elif "/" not in msg["text"]:
-            keywo = msg["text"].replace(" ","_")
-            self.arg.update({ 'keywo' : keywo })
-            self.sending(mesag=[msgMain.woood(lingua=lingua,tasta='home',keyse={'keywo':keywo})])
+            resul = hande(msg=msg, arg=self.arg)
+
+            resut = resul.get('resut',[])
+            self.sending(mesag=resut)
+
+            arg = self.arg
+            self.arg = resul.get('arg',arg)
+
+            cos = resul.get('cos',0)
+            if cos == 1:
+                self.close()
 
     def on__idle(self, event): # Timeout Region
         usrdir = 'database/usr/'+str(self.arg.get('catid','admin'))
