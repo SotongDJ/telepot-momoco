@@ -2,7 +2,8 @@ import sys, os, traceback, telepot, time, json, random, pprint
 import tool, modDatabase, modSearch, modVariables
 from modHandle import hande
 from modExcute import excut
-from libmsg import msgMain, mainShort
+from msgMain import msgMain
+from msgShort import msgShort
 from telepot.delegate import per_chat_id, create_open, pave_event_space
 
 """Command list
@@ -28,14 +29,14 @@ class User(telepot.helper.ChatHandler):
                 parta = [ wuerd[i:i+4000] for i in range(0, len(wuerd), 4000) ]
                 for numo in range(0,len(parta)):
                     if numo == 0:
-                        sentes = parta[numo] + mainShort.woood(lingua=lingua,tasta='spitpost')
+                        sentes = parta[numo] + msgShort(lingua=lingua,tasta='spitpost')
                         self.sender.sendMessage(sentes)
                     elif numo == len(parta) - 1:
-                        sentes = mainShort.woood(lingua=lingua,tasta='spitpre') + parta[numo]
+                        sentes = msgShort(lingua=lingua,tasta='spitpre') + parta[numo]
                         self.sender.sendMessage(sentes)
                     else:
-                        sentes = mainShort.woood(lingua=lingua,tasta='spitpre') + parta[numo]
-                        sentes = sentes + mainShort.woood(lingua=lingua,tasta='spitpost')
+                        sentes = msgShort(lingua=lingua,tasta='spitpre') + parta[numo]
+                        sentes = sentes + msgShort(lingua=lingua,tasta='spitpost')
                         self.sender.sendMessage(sentes)
                     time.sleep(1)
             else:
@@ -62,7 +63,7 @@ class User(telepot.helper.ChatHandler):
         })
 
         if content_type != 'text':
-            self.sending(mesag=[msgMain.woood(lingua=lingua,tasta='error')])
+            self.sending(mesag=[msgMain(lingua=lingua,tasta='error')])
             self.close()
             return
 
@@ -81,7 +82,7 @@ class User(telepot.helper.ChatHandler):
         elif "/" not in initial_msg["text"]:
             keywo = initial_msg["text"].replace(" ","_")
             self.arg.update({ 'keywo' : keywo })
-            self.sending(mesag=[msgMain.woood(lingua=lingua,tasta='home',keyse={'keywo':keywo})])
+            self.sending(mesag=[msgMain(lingua=lingua,tasta='home',keyse={'keywo':keywo})])
 
         return True  # prevent on_message() from being called on the initial message
 
@@ -99,7 +100,7 @@ class User(telepot.helper.ChatHandler):
         })
 
         if content_type != 'text':
-            self.sending(mesag=[msgMain.woood(lingua=lingua,tasta='error')])
+            self.sending(mesag=[msgMain(lingua=lingua,tasta='error')])
             self.close()
             return
 
@@ -132,7 +133,7 @@ class User(telepot.helper.ChatHandler):
     def on__idle(self, event): # Timeout Region
         usrdir = 'database/usr/'+str(self.arg.get('catid','admin'))
         lingua = modDatabase.openSetting(usrdir=usrdir).get('lingua','enMY')
-        self.sending(mesag=[msgMain.woood(lingua=lingua,tasta='timesout')+mainShort.woood(lingua=lingua,tasta='cof')])
+        self.sending(mesag=[msgMain(lingua=lingua,tasta='timesout')+msgShort(lingua=lingua,tasta='cof')])
         self.close()
 
 key=json.load(open("database/key","r"))
