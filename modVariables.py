@@ -90,17 +90,17 @@ def keywo(text,lingua='enMY'):
 
 def initi():
     arg={
-        primo = [],
-        submo = '',
-        keywo = '',
-        kasso = '',
-        recom = {},
+        'primo' : [],
+        'submo' : '',
+        'keywo' : '',
+        'kasso' : '',
+        'recom' : {},
 
-        rawdb = {},
-        keydb = {},
-        karat = {},
+        'rawdb' : {},
+        'keydb' : {},
+        'karat' : {},
 
-        veces = 0,
+        'veces' : 0,
 
         'setti' : {
             'dinco':'Bank', 'dexpe':'Cash',
@@ -134,7 +134,7 @@ def initi():
             'uuid' : '',
         },
 
-        catid = 0,
-        catyp = '',
+        'catid' : 0,
+        'catyp' : '',
     }
     return arg
