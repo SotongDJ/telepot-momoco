@@ -8,7 +8,7 @@ and reply required msg back to user.
 
 The codes of this file mainly lineage from comme() in momocobot.py.
 """
-class excut:
+class Excut:
     """ process  msg
     grab command from hande()
     assign task to other mod
@@ -44,6 +44,7 @@ class excut:
         print('')
 
     def __init__(self,msg,arg):
+        super(Excut, self).__init__(*args, **kwargs)
         self.text=msg['text']
         self.arg=arg
 

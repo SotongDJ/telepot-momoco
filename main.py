@@ -1,7 +1,7 @@
 import sys, os, traceback, telepot, time, json, random, pprint
 import tool, modDatabase, modSearch, modVariables
 from modHandle import hande
-from modExcute import excut
+from modExcute import Excut
 from msgMain import msgMain
 from msgShort import msgShort
 from telepot.delegate import per_chat_id, create_open, pave_event_space
@@ -68,7 +68,7 @@ class User(telepot.helper.ChatHandler):
             return
 
         if "/" in initial_msg['text']:
-            resul = excut(msg=initial_msg, arg=self.arg)
+            resul = Excut(msg=initial_msg, arg=self.arg)
 
             self.sending(mesag=resul.mesut)
             self.arg = resul.arg
@@ -101,7 +101,7 @@ class User(telepot.helper.ChatHandler):
             return
 
         if "/" in msg['text']:
-            resul = excut(msg=msg, arg=self.arg)
+            resul = Excut(msg=msg, arg=self.arg)
 
             self.sending(mesag=resul.mesut)
             self.arg = resul.arg
