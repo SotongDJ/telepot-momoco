@@ -2,8 +2,9 @@ import sys, os, traceback, telepot, time, json, random, pprint
 # import tool, auth, log, mmctool, mmcdb, mmcDefauV, mmcAnali, mmcSachi
 import tool, modDatabase, modSearch, modVariables
 from core import hande, excut
-from libmsgMmc import msgMain, mainShort, msgCreo, msgOuto, msgInco, msgTran
-from libmsgMmc import msgDefSet, msgList, msgEdit, msgAnali, msgSachi
+from libmsgMmc import msgMain, mainShort
+#from libmsgMmc import msgMain, mainShort, msgCreo, msgOuto, msgInco, msgTran
+#from libmsgMmc import msgDefSet, msgList, msgEdit, msgAnali, msgSachi
 from telepot.delegate import per_chat_id, create_open, pave_event_space
 
 """Command list
