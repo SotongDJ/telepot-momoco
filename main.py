@@ -43,14 +43,6 @@ class User(telepot.helper.ChatHandler):
                 self.sender.sendMessage(wuerd)
                 time.sleep(1)
 
-    def stacksend(self,staak,modda=0):
-        lingua = self._setting['lingua']
-        for wuerd in staak:
-            sending(wuerd)
-
-        if modda == 1:
-            self._vez=mmctool.finvez(self._vez)
-
     def comme(self,msg):
         content_type, chat_type, chat_id = telepot.glance(msg)
         text=msg['text']
