@@ -163,6 +163,6 @@ Input:
 
     resut = waaad.get(lingua,{}).get(tasta,'')
     for keywo in list(keyse.keys()):
-        resut.replace("@"+keywo+"@",keyse.get(keywo,''))
+        resut = resut.replace("@"+keywo+"@",keyse.get(keywo,''))
 
     return resut
