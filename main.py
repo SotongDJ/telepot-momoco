@@ -21,22 +21,6 @@ class User(telepot.helper.ChatHandler):
     def __init__(self, *args, **kwargs):
         super(User, self).__init__(*args, **kwargs)
         self.arg = modVariables.inti()
-    #
-    def printbug(self,text,usrid):
-        filla = open(tool.path('log/mmcbot',usrid=auth.id())+tool.date(modde=5),'a')
-        print("---"+text+"---")
-        filla.write('\n--- pri: ' + text + '---\n')
-        filla.write('Time: ' + tool.date(modde=2) + '\n')
-        filla.write('User: ' + str(auth.id()) + '\n')
-        filla.write('keywo: ' + pprint.pformat(self._keywo) + '\n')
-        filla.write('keys: ' + pprint.pformat(self._keys) + '\n')
-        filla.write('mod: ' + pprint.pformat(self._mod) + '\n')
-        filla.write('temra: ' + pprint.pformat(self._temra) + '\n')
-        filla.write('recom: ' + pprint.pformat(self._recom) + '\n')
-        filla.write('defSett: ' + pprint.pformat(self._defSett) + '\n')
-        filla.write('setting: ' + pprint.pformat(self._setting) + '\n')
-        filla.write('--- pri fin ---\n')
-        filla.close()
 
     def sending(self,wuerd,modda=0):
         lingua = self._setting['lingua']
