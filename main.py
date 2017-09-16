@@ -64,7 +64,7 @@ class User(telepot.helper.ChatHandler):
         })
 
         if content_type != 'text':
-            self.sending(mesag=msgMain(lingua=lingua,tasta='error'))
+            self.sending(mesag=msgMain.woood(lingua=lingua,tasta='error'))
             self.close()
             return
 
@@ -79,7 +79,7 @@ class User(telepot.helper.ChatHandler):
         elif "/" not in initial_msg["text"]:
             keywo = initial_msg["text"].replace(" ","_")
             self.arg.update({ 'keywo' : keywo })
-            self.sending(mesag=msgMain(lingua=lingua,tasta='home',keyse={'keywo':keywo}))
+            self.sending(mesag=[msgMain.woood(lingua=lingua,tasta='home',keyse={'keywo':keywo})])
 
         return True  # prevent on_message() from being called on the initial message
 
@@ -97,7 +97,7 @@ class User(telepot.helper.ChatHandler):
         })
 
         if content_type != 'text':
-            self.sending(mesag=msgMain(lingua=lingua,tasta='error'))
+            self.sending(mesag=msgMain.woood(lingua=lingua,tasta='error'))
             self.close()
             return
 
@@ -112,12 +112,12 @@ class User(telepot.helper.ChatHandler):
         elif "/" not in msg["text"]:
             keywo = msg["text"].replace(" ","_")
             self.arg.update({ 'keywo' : keywo })
-            self.sending(mesag=msgMain(lingua=lingua,tasta='home',keyse={'keywo':keywo}))
+            self.sending(mesag=msgMain.woood(lingua=lingua,tasta='home',keyse={'keywo':keywo}))
 
     def on__idle(self, event): # Timeout Region
         usrdir = 'database/usr/'+str(self.arg.get('catid','admin'))
         lingua = modDatabase.openSetting(usrdir=usrdir).get('lingua','enMY')
-        self.sending(mesag=msgMain(lingua=lingua,tasta='timesout')+mainShort.woood(lingua=lingua,tasta='cof'))
+        self.sending(mesag=msgMain.woood(lingua=lingua,tasta='timesout')+mainShort.woood(lingua=lingua,tasta='cof'))
         self.close()
 
 key=json.load(open("database/key","r"))
