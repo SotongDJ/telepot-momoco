@@ -1,0 +1,25 @@
+# new
+primo = [''] # primary mode
+submo = '' # secondary mode
+rawdb = {} # database of record
+keydb = {} # database of relation
+karat = {} # convert rate of currancy
+setti = {} # setting
+temra = {} # keyinfo for new record
+stati = {} # keyinfo for modStatistics
+listi = {} # keyinfo for modList
+# old - arg
+self._vez = 0
+self._keywo = ""
+self._keys = ""
+self._mod = ['']
+self._sumo = ''
+self._temra = mmcDefauV.keywo('temra')
+self._recom = {}
+self._defSett = {}
+self._statics = mmcDefauV.keywo('statics')
+self._list = mmcDefauV.keywo('list')
+self._setting = mmcDefauV.keywo('setting')
+self._karatio = {}
+self._rawdb = {}
+self._keydb = {}

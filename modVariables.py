@@ -27,37 +27,6 @@ def keywo(text,lingua='enMY'):
             'Ken':['kr','tk'],
             'Pis':['pr','tp'],
         },
-        'temra' : {
-            "datte":"",
-            "namma":"", "klass":"", "shoop":"",
-            "fromm":"", "price":"", "karen":"",
-            "toooo":"", "tpric":"", "tkare":"",
-            "desci":"",
-        },
-        'stati':{
-            'mode':'',
-            'leve':10,
-            'dtempo':'','utempo':'',
-            'cokas':'','cokey':'',
-            'targe':'','keywo':'',
-            'acuno':'','balan':'0',
-        },
-        'listi' : {
-            'datte': '',
-            'uuid' : ''
-        },
-        'setting' : {
-            'dinco':'Bank', 'dexpe':'Cash',
-            'genis':'Income', 'ovede':'Expense',
-            'tanfe':'Transfer', 'incom':'Income',
-            'karen':'MYR',
-            'defSettWarn':0,
-            'screen':13,
-            'limit':'',
-            'krset':{},
-            'lingua':'enMY',
-            'natio':'',
-        },
         'lingua':['enMY','hanT'],
         'leve':{
             10:'Day',
@@ -118,3 +87,39 @@ def keywo(text,lingua='enMY'):
     elif text in woood[lingua].keys():
         resut = woood[lingua].get(text,{})
     return resut
+
+def initi():
+    arg={
+        'setti' : {
+            'dinco':'Bank', 'dexpe':'Cash',
+            'genis':'Income', 'ovede':'Expense',
+            'tanfe':'Transfer', 'incom':'Income',
+            'karen':'MYR',
+            'defSettWarn':0,
+            'screen':13,
+            'limit':'',
+            'krset':{},
+            'lingua':'enMY',
+            'natio':'',
+        },
+        'temra' : {
+            "datte":"",
+            "namma":"", "klass":"", "shoop":"",
+            "fromm":"", "price":"", "karen":"",
+            "toooo":"", "tpric":"", "tkare":"",
+            "desci":"",
+        },
+        'stati':{
+            'mode':'',
+            'leve':10,
+            'dtempo':'','utempo':'',
+            'cokas':'','cokey':'',
+            'targe':'','keywo':'',
+            'acuno':'','balan':'0',
+        },
+        'listi' : {
+            'datte': '',
+            'uuid' : ''
+        },
+    }
+    return arg
