@@ -1,4 +1,4 @@
-def woood(lingua,tasta):
+def woood(lingua='enMY',tasta=''):
     dicta={
         'enMY':{
             'presys':'This chatbot is UNDER CONSTRUCTING\nTelegram msg limit: 1 msg/s\n——————————\n',

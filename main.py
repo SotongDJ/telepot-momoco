@@ -22,33 +22,26 @@ class User(telepot.helper.ChatHandler):
         super(User, self).__init__(*args, **kwargs)
         self.arg = modVariables.inti()
 
-    def sending(self,wuerd,modda=0):
-        lingua = self._setting['lingua']
-        if len(wuerd) >=4069:
-            parta = [ wuerd[i:i+4000] for i in range(0, len(wuerd), 4000) ]
-            for numo in range(0,len(parta)):
-                if numo == 0:
-                    self.sender.sendMessage(parta[numo]+mainShort.woood(lingua,'spitpost'))
-                elif numo == len(parta) - 1:
-                    self.sender.sendMessage(mainShort.woood(lingua,'spitpre')+parta[numo])
-                else:
-                    self.sender.sendMessage(mainShort.woood(lingua,'spitpre')+parta[numo]+mainShort.woood(lingua,'spitpost'))
-
-                if modda == 1:
-                    self._vez=mmctool.finvez(self._vez)
-                else:
-                    self._vez=mmctool.printvez(self._vez)
-
-                time.sleep(1)
-        else:
-            self.sender.sendMessage(wuerd)
-
-            if modda == 1:
-                self._vez=mmctool.finvez(self._vez)
+    def sending(self,mesag=['']):
+        lingua = self.arg.get('setti',{}).get('lingua','enMY')
+        for wuerd in mesag:
+            if len(wuerd) >=4069:
+                parta = [ wuerd[i:i+4000] for i in range(0, len(wuerd), 4000) ]
+                for numo in range(0,len(parta)):
+                    if numo == 0:
+                        sentes = parta[numo] + mainShort.woood(lingua=lingua,tasta='spitpost')
+                        self.sender.sendMessage(sentes)
+                    elif numo == len(parta) - 1:
+                        sentes = mainShort.woood(lingua=lingua,tasta='spitpre') + parta[numo]
+                        self.sender.sendMessage(sentes)
+                    else:
+                        sentes = mainShort.woood(lingua=lingua,tasta='spitpre') + parta[numo]
+                        sentes = sentes + mainShort.woood(lingua=lingua,tasta='spitpost')
+                        self.sender.sendMessage(sentes)
+                    time.sleep(1)
             else:
-                self._vez=mmctool.printvez(self._vez)
-
-            time.sleep(1)
+                self.sender.sendMessage(wuerd)
+                time.sleep(1)
 
     def stacksend(self,staak,modda=0):
         lingua = self._setting['lingua']
