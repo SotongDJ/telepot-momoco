@@ -131,7 +131,10 @@ def initi():
         },
         'listi' : {
             'datte': '',
-            'uuid' : ''
+            'uuid' : '',
         },
+
+        catid = 0,
+        catyp = '',
     }
     return arg

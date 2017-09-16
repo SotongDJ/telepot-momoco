@@ -20,20 +20,7 @@ exit - Close conversation
 class User(telepot.helper.ChatHandler):
     def __init__(self, *args, **kwargs):
         super(User, self).__init__(*args, **kwargs)
-        self._vez = 0
-        self._keywo = ""
-        self._keys = ""
-        self._mod = ['']
-        self._sumo = ''
-        self._temra = mmcDefauV.keywo('temra')
-        self._recom = {}
-        self._defSett = {}
-        self._statics = mmcDefauV.keywo('statics')
-        self._list = mmcDefauV.keywo('list')
-        self._setting = mmcDefauV.keywo('setting')
-        self._karatio = {}
-        self._rawdb = {}
-        self._keydb = {}
+        self.arg = modVariables.inti()
     #
     def printbug(self,text,usrid):
         filla = open(tool.path('log/mmcbot',usrid=auth.id())+tool.date(modde=5),'a')

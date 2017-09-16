@@ -16,7 +16,9 @@ setti = {} # setting
 temra = {} # keyinfo for new record
 stati = {} # keyinfo for modStatistics
 listi = {} # keyinfo for modList
-
+    # msg related
+catid = 0 # chat id
+catyp = '' # content type
 # old - arg
 self._vez = 0
 self._keywo = ""
