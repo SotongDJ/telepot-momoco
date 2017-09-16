@@ -1,4 +1,4 @@
-def woood(lingua='enMY',tasta=''):
+def msgShort(lingua='enMY',tasta=''):
     dicta={
         'enMY':{
             'presys':'This chatbot is UNDER CONSTRUCTING\nTelegram msg limit: 1 msg/s\n——————————\n',

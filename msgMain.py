@@ -1,5 +1,4 @@
-import tool, json
-def woood(lingua='enMY',tasta='',keyse={}):
+def msgMain(lingua='enMY',tasta='',keyse={}):
     waaad = {
         'enMY':{
             'start':"""　Welcome
