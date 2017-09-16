@@ -12,6 +12,6 @@ def hande(msg={},arg={}):
     change cache info that store in memory (arg)
     and reply back to user
     """
-    mesut=[]
+    resut=[]
     cos=0
-    return {'mesut':mesut, 'arg':arg, 'cos':cos}
+    return {'resut':resut, 'arg':arg, 'cos':cos}
