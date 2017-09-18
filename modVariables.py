@@ -88,23 +88,23 @@ def keywo(text,lingua='enMY'):
         resut = woood[lingua].get(text,{})
     return resut
 
-def initi():
-    arg={
-        'usrdir': '',
+class Argo:
+    def __init__(self):
+        super(Argo, self).__init__()
+        self.usrdir = ''
+        self.primo = []
+        self.submo = ''
+        self.keywo = ''
+        self.kasso = ''
+        self.recom = {}
 
-        'primo' : [],
-        'submo' : '',
-        'keywo' : '',
-        'kasso' : '',
-        'recom' : {},
+        #'rawdb' : {},
+        #'keydb' : {},
+        #'karat' : {},
 
-        'rawdb' : {},
-        'keydb' : {},
-        'karat' : {},
+        self.veces = 0
 
-        'veces' : 0,
-
-        'setti' : {
+        self.setti = {
             'dinco':'Bank', 'dexpe':'Cash',
             'genis':'Income', 'ovede':'Expense',
             'tanfe':'Transfer', 'incom':'Income',
@@ -115,29 +115,27 @@ def initi():
             'krset':{},
             'lingua':'enMY',
             'natio':'',
-        },
-        'temra' : {
+        }
+        self.temra = {
             "datte":"",
             "namma":"", "klass":"", "shoop":"",
             "fromm":"", "price":"", "karen":"",
             "toooo":"", "tpric":"", "tkare":"",
             "desci":"",
-        },
-        'stati':{
+        }
+        self.stati = {
             'mode':'',
             'leve':10,
             'dtempo':'','utempo':'',
             'cokas':'','cokey':'',
             'targe':'','keywo':'',
             'acuno':'','balan':'0',
-        },
-        'listi' : {
+        }
+        self.listi = {
             'datte': '',
             'uuid' : '',
-        },
+        }
 
-        'catid' : 0,
-        'catyp' : '',
-        'cotyp' : '',
-    }
-    return arg
+        self.catid = 0
+        self.catyp = ''
+        self.cotyp = ''

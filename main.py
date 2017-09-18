@@ -1,5 +1,6 @@
 import sys, os, traceback, telepot, time, json, random, pprint
 import tool, modDatabase, modSearch, modVariables
+from modVariables import Argo
 from modHandle import hande
 from modExcute import Excut
 from msgMain import msgMain
@@ -20,10 +21,10 @@ exit - Close conversation
 class User(telepot.helper.ChatHandler):
     def __init__(self, *args, **kwargs):
         super(User, self).__init__(*args, **kwargs)
-        self.arg = modVariables.initi()
+        self.argo = Argo()
 
     def sending(self,mesag=['']):
-        lingua = self.arg.get('setti',{}).get('lingua','enMY')
+        lingua = self.argo.setti.get('lingua','enMY')
         for wuerd in mesag:
             if len(wuerd) >=4069:
                 parta = [ wuerd[i:i+4000] for i in range(0, len(wuerd), 4000) ]
@@ -47,20 +48,15 @@ class User(telepot.helper.ChatHandler):
         content_type, chat_type, chat_id = telepot.glance(initial_msg)
         usrdir = 'database/usr/'+str(chat_id)
         lingua = modDatabase.openSetting(usrdir=usrdir).get('lingua','enMY')
-        self.arg.update({
-            'usrdir' : usrdir,
-            'lingua' : lingua,
-            'catid' : chat_id,
-            'catyp' : chat_type,
-            'cotyp' : content_type,
-            'primo' : [''],
-            'submo' : '',
-            'setti' : modDatabase.openSetting(usrdir=usrdir),
-            'karat' : modDatabase.openKaratio(usrdir=usrdir),
-            'rawdb' : modDatabase.opendb(usrdir=usrdir).get('raw',{}),
-            'keydb' : modDatabase.opendb(usrdir=usrdir).get('key',{}),
-            'veces' : 0,
-        })
+        self.argo.usrdir = usrdir
+        self.argo.lingua = lingua
+        self.argo.catid = chat_id
+        self.argo.catyp = chat_type
+        self.argo.cotyp = content_type
+        self.argo.primo = ['']
+        self.argo.submo = ''
+        self.argo.setti = modDatabase.openSetting(usrdir=usrdir)
+        self.argo.veces = 0
 
         if content_type != 'text':
             self.sending(mesag=[msgMain(lingua=lingua,tasta='error')])
@@ -68,16 +64,16 @@ class User(telepot.helper.ChatHandler):
             return
 
         if "/" in initial_msg['text']:
-            resul = Excut(msg=initial_msg, arg=self.arg)
+            resul = Excut(initial_msg,self.argo)
 
             self.sending(mesag=resul.mesut)
-            self.arg = resul.arg
+            self.argo = resul.argo
             if resul.cos == 1:
                 self.close()
 
         elif "/" not in initial_msg["text"]:
             keywo = initial_msg["text"].replace(" ","_")
-            self.arg.update({ 'keywo' : keywo })
+            self.argo.keywo = keywo
             self.sending(mesag=[msgMain(lingua=lingua,tasta='home',keyse={'keywo':keywo})])
 
         return True  # prevent on_message() from being called on the initial message
@@ -86,14 +82,12 @@ class User(telepot.helper.ChatHandler):
         content_type, chat_type, chat_id = telepot.glance(msg)
         usrdir = 'database/usr/'+str(chat_id)
         lingua = modDatabase.openSetting(usrdir=usrdir).get('lingua','enMY')
-        self.arg.update({
-            'usrdir' : usrdir,
-            'lingua' : lingua,
-            'catid' : chat_id,
-            'catyp' : chat_type,
-            'cotyp' : content_type,
-            'veces' : 0,
-        })
+        self.argo.usrdir = usrdir
+        self.argo.lingua = lingua
+        self.argo.catid = chat_id
+        self.argo.catyp = chat_type
+        self.argo.cotyp = content_type
+        self.argo.veces = 0
 
         if content_type != 'text':
             self.sending(mesag=[msgMain(lingua=lingua,tasta='error')])
@@ -101,28 +95,28 @@ class User(telepot.helper.ChatHandler):
             return
 
         if "/" in msg['text']:
-            resul = Excut(msg=msg, arg=self.arg)
+            resul = Excut(msg,self.argo)
 
             self.sending(mesag=resul.mesut)
-            self.arg = resul.arg
+            self.argo = resul.argo
             if resul.cos == 1:
                 self.close()
 
         elif "/" not in msg["text"]:
-            resul = hande(msg=msg, arg=self.arg)
+            resul = hande(msg=msg, arg=self.argo)
 
             resut = resul.get('resut',[])
             self.sending(mesag=resut)
 
-            arg = self.arg
-            self.arg = resul.get('arg',arg)
+            arg = self.argo
+            self.argo = resul.get('arg',arg)
 
             cos = resul.get('cos',0)
             if cos == 1:
                 self.close()
 
     def on__idle(self, event): # Timeout Region
-        usrdir = 'database/usr/'+str(self.arg.get('catid','admin'))
+        usrdir = 'database/usr/'+str(self.argo.get('catid','admin'))
         lingua = modDatabase.openSetting(usrdir=usrdir).get('lingua','enMY')
         self.sending(mesag=[msgMain(lingua=lingua,tasta='timesout')+msgShort(lingua=lingua,tasta='cof')])
         self.close()

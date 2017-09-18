@@ -43,27 +43,27 @@ class Excut:
     def moRaw():
         print('')
 
-    def __init__(self,msg,arg):
-        super(Excut, self).__init__(*args, **kwargs)
+    def __init__(self,msg,argo):
         self.text=msg['text']
-        self.arg=arg
+        self.argo=argo
 
         self.mesut=[]
         self.cos=0
-        self.primo = arg.get('primo',[''])
-        self.submo = arg.get('submo','')
-        self.temra = arg.get('temra',{})
-        self.keywo = arg.get('keywo','')
-        self.kasso = arg.get('kasso','')
-        self.lingua = arg.get('setti',{}).get('lingua','enMY')
+
+        self.primo = self.argo.primo
+        self.submo = self.argo.submo
+        self.temra = self.argo.temra
+        self.keywo = self.argo.keywo
+        self.kasso = self.argo.kasso
+
+        self.lingua = self.argo.setti.get('lingua','enMY')
 
         if self.codGen():
             self.moGen()
 
-        self.arg.update({
-            'primo':self.primo,
-            'submo':self.submo,
-            'temra':self.temra,
-            'keywo':self.keywo,
-            'kasso':self.kasso,
-        })
+
+        self.argo.primo = self.primo
+        self.argo.submo = self.submo
+        self.argo.temra = self.temra
+        self.argo.keywo = self.keywo
+        self.argo.kasso = self.kasso
