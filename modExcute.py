@@ -25,19 +25,19 @@ class Excut:
 
     def moGen(self):
         if "/start" in self.text:
-            mesut = msgMain(lingua=self.lingua,tasta='start')
-            if self.primo == ['']:
-                mesut = mesut + msgShort(lingua=self.lingua,tasta='cof')
+            mesut = msgMain(lingua=self.argo.lingua,tasta='start')
+            if self.argo.primo == ['']:
+                mesut = mesut + msgShort(lingua=self.argo.lingua,tasta='cof')
                 self.mesut = [mesut]
                 self.cos=1
         elif "/help" in self.text:
-            mesut = msgMain(lingua=self.lingua,tasta='help')
-            if self.primo == ['']:
-                mesut = mesut + msgShort(lingua=self.lingua,tasta='cof')
+            mesut = msgMain(lingua=self.argo.lingua,tasta='help')
+            if self.argo.primo == ['']:
+                mesut = mesut + msgShort(lingua=self.argo.lingua,tasta='cof')
                 self.mesut = [mesut]
                 self.cos=1
         elif "/exit" in self.text:
-            self.mesut = [msgShort(lingua=self.lingua,tasta='bye')]
+            self.mesut = [msgShort(lingua=self.argo.lingua,tasta='bye')]
             self.cos=1
 
     def moRaw():
@@ -50,20 +50,7 @@ class Excut:
         self.mesut=[]
         self.cos=0
 
-        self.primo = self.argo.primo
-        self.submo = self.argo.submo
-        self.temra = self.argo.temra
-        self.keywo = self.argo.keywo
-        self.kasso = self.argo.kasso
-
-        self.lingua = self.argo.setti.get('lingua','enMY')
+        self.argo.lingua = self.argo.setti.get('lingua','enMY')
 
         if self.codGen():
             self.moGen()
-
-
-        self.argo.primo = self.primo
-        self.argo.submo = self.submo
-        self.argo.temra = self.temra
-        self.argo.keywo = self.keywo
-        self.argo.kasso = self.kasso
