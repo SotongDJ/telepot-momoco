@@ -1,7 +1,7 @@
 import sys, os, traceback, telepot, time, json, random, pprint
 import tool, modDatabase, modSearch, modVariables
 from modVariables import Argo
-from modHandle import hande
+from modHandle import Hande
 from modExcute import Excut
 from msgMain import msgMain
 from msgShort import msgShort
@@ -103,16 +103,11 @@ class User(telepot.helper.ChatHandler):
                 self.close()
 
         elif "/" not in msg["text"]:
-            resul = hande(msg=msg, arg=self.argo)
+            resul = Hande(msg=msg, arg=self.argo
 
-            resut = resul.get('resut',[])
-            self.sending(mesag=resut)
-
-            arg = self.argo
-            self.argo = resul.get('arg',arg)
-
-            cos = resul.get('cos',0)
-            if cos == 1:
+            self.sending(mesag=resul.resut)
+            self.argo = resul.argo
+            if resul.cos == 1:
                 self.close()
 
     def on__idle(self, event): # Timeout Region
