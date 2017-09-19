@@ -1,6 +1,6 @@
 import tool, modDatabase, modSearch, modVariables
 from msgMain import msgMain
-from msgShort import msgShort
+from msgShort import MsgShort
 
 """
 This is the main part of Momocobot to handle income msg
@@ -26,20 +26,21 @@ class Excut:
 
     def moGen(self):
         """General functions"""
+        msgShort = MsgShort(self.argo.lingua)
         if "/start" in self.text:
             mesut = msgMain(lingua=self.argo.lingua,tasta='start')
             if self.argo.primo == ['']:
-                mesut = mesut + msgShort(lingua=self.argo.lingua,tasta='cof')
+                mesut = mesut + msgShort.cof
                 self.mesut = [mesut]
                 self.cos=1
         elif "/help" in self.text:
             mesut = msgMain(lingua=self.argo.lingua,tasta='help')
             if self.argo.primo == ['']:
-                mesut = mesut + msgShort(lingua=self.argo.lingua,tasta='cof')
+                mesut = mesut + msgShort.cof
                 self.mesut = [mesut]
                 self.cos=1
         elif "/exit" in self.text:
-            self.mesut = [msgShort(lingua=self.argo.lingua,tasta='bye')]
+            self.mesut = [.bye]
             self.cos=1
 
     def moRaw(self):
