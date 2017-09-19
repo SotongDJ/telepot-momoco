@@ -1,7 +1,8 @@
-def msgMain(lingua='enMY',tasta='',keyse={}):
-    waaad = {
-        'enMY':{
-            'start':"""　Welcome
+class MsgMain:
+    def __init__(self,lingua,keyse):
+        self.lingua = lingua
+        if lingua == 'enMY':
+            self.start = """　Welcome
 ——————————
 This is Money Money Come Chatbot.
 It can help you to trace your money flow moreeasily (Sure? )
@@ -11,8 +12,9 @@ Notes:
 　　Please Setup before using
 ——————————
 　/help
-""",
-            'help':"""　Help card (Command List)
+"""
+
+            self.help = """　Help card (Command List)
 ——————————
 　/help
 　　Show command list
@@ -30,8 +32,9 @@ Notes:
 　　View setting card
 　/exit
 　　Close conversation
-""",
-            'bored':"""My "Job"　[ I am free ~ ]
+"""
+
+            self.bored = """My \"Job\"　[ I am free ~ ]
 ——————————
 　/start
 　　Welcome Card
@@ -43,42 +46,22 @@ Notes:
 　　Analystic Card
 　/setting
 　　Setting Card
-""",
-            'selection':"""Select @titil@
-——————————
-@titil@ List:
-@txt@
-——————————
-　/Discard /Save　/Back
-Remind:
-　Select above or type another selection
-""",
-            'home':"""Keyword Card
-——————————
-I received your keyword:
-　@keywo@
+"""
 
-What do you want to do?
-　/new　/list
-
-　/statics
-——————————
-　/setting　/help
-""",
-            'timesout':"""Time's Out
+            self.timesout = """Time's Out
 ——————————
 Previous unsave work was CLEAN OUT.
-""",
-            'error':"""Status
+"""
+
+            self.error = """Status
 ——————————
 Received wrong message
 Input:
 　Undetactable content type
-""",
-        },
+"""
 
-        'hanT':{
-            'start':"""　歡迎（歡迎卡）
+        elif lingua == 'hanT':
+            self.start = """　歡迎（歡迎卡）
 ——————————
 這是錢錢旺旺來記賬機器人。
 你可以使用本機器人來追蹤消費習慣和現金流動
@@ -88,8 +71,9 @@ Input:
 　　在使用前，請先完成設置
 ——————————
 　/help
-""",
-            'help':"""　指令列表（指南卡）
+"""
+
+            self.help = """　指令列表（指南卡）
 ——————————
 　/help
 　　顯示 指令列表（指南卡）
@@ -107,8 +91,9 @@ Input:
 　　顯示 設定卡
 　/exit
 　　結束本次對話
-""",
-            'bored':""" 我的能力　[ 我閑著沒事~ ]
+"""
+
+            self.bored = """ 我的能力　[ 我閑著沒事~ ]
 ——————————
 　/start
 　　顯示 歡迎卡
@@ -120,20 +105,70 @@ Input:
 　　顯示 統計卡
 　/setting
 　　顯示 設定卡
-""",
-            'selection':""" @titil@ 選單
+"""
+
+            self.timesout = """ 時間到了
 ——————————
-@titil@ 列表:
-@txt@
+未保存的工作將會清除
+
+備注：
+　時間限制是爲了避免堆積
+　太多未完成工作
+"""
+
+            self.error = """ 狀態警示
+——————————
+我收到錯誤訊息
+
+輸入錯誤：
+　無法處理的訊息類型
+"""
+
+def selection(keyse):
+    if self.lingua == "enMY":
+        resut = "Select "+keyse.get('titil',"____")+"""
+——————————
+"""+keyse.get('titil',"____")+""" List:
+"""+keyse.get('txt',"____")+"""
+——————————
+　/Discard /Save　/Back
+Remind:
+　Select above or type another selection
+"""
+        return resut
+
+    elif self.lingua == "hanT":
+        resut = " "+keyse.get('titil',"____")+""" 選單
+——————————
+"""+keyse.get('titil',"____")+""" 列表:
+"""+keyse.get('txt',"____")+"""
 ——————————
 　/Discard /Save　/Back
 備注:
 　選擇任意項 或 輸入新的選項
-""",
-            'home':""" 關鍵詞卡
+"""
+        return resut
+
+def home(keyse):
+    if self.lingua == "enMY":
+        resut = """Keyword Card
+——————————
+I received your keyword:
+　"""+keyse.get('keywo',"____")+"""
+
+What do you want to do?
+　/new　/list
+
+　/statics
+——————————
+　/setting　/help
+"""
+        return resut
+    elif self.lingua == "hanT":
+        resut = """ 關鍵詞卡
 ——————————
 我收到的你給的關鍵詞：
-　@keywo@
+　""" + keyse.get('keywo',"____") + """
 
 你想做什麽？
 　/new　創建新記錄
@@ -141,27 +176,5 @@ Input:
 　/statics　統計
 ——————————
 　/setting　/help
-""",
-            'timesout':""" 時間到了
-——————————
-未保存的工作將會清除
-
-備注：
-　時間限制是爲了避免堆積
-　太多未完成工作
-""",
-            'error':""" 狀態警示
-——————————
-我收到錯誤訊息
-
-輸入錯誤：
-　無法處理的訊息類型
-""",
-        }
-    }
-
-    resut = waaad.get(lingua,{}).get(tasta,'')
-    for keywo in list(keyse.keys()):
-        resut = resut.replace("@"+keywo+"@",keyse.get(keywo,''))
-
-    return resut
+"""
+        return resut

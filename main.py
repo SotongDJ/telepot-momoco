@@ -3,7 +3,7 @@ import tool, modDatabase, modSearch, modVariables
 from modVariables import Argo
 from modHandle import Hande
 from modExcute import Excut
-from msgMain import msgMain
+from msgMain import MsgMain
 from msgShort import MsgShort
 from telepot.delegate import per_chat_id, create_open, pave_event_space
 
@@ -49,6 +49,7 @@ class User(telepot.helper.ChatHandler):
         content_type, chat_type, chat_id = telepot.glance(initial_msg)
         usrdir = 'database/usr/'+str(chat_id)
         lingua = modDatabase.openSetting(usrdir=usrdir).get('lingua','enMY')
+        msgMain = MsgMain(lingua)
         self.argo.usrdir = usrdir
         self.argo.lingua = lingua
         self.argo.catid = chat_id
@@ -60,7 +61,7 @@ class User(telepot.helper.ChatHandler):
         self.argo.veces = 0
 
         if content_type != 'text':
-            self.sending(mesag=[msgMain(lingua=lingua,tasta='error')])
+            self.sending(mesag=[msgMain.error])
             self.close()
             return
 
@@ -75,7 +76,7 @@ class User(telepot.helper.ChatHandler):
         elif "/" not in initial_msg["text"]:
             keywo = initial_msg["text"].replace(" ","_")
             self.argo.keywo = keywo
-            self.sending(mesag=[msgMain(lingua=lingua,tasta='home',keyse={'keywo':keywo})])
+            self.sending(mesag=[msgMain.home({'keywo':keywo})])
 
         return True  # prevent on_message() from being called on the initial message
 
@@ -83,6 +84,7 @@ class User(telepot.helper.ChatHandler):
         content_type, chat_type, chat_id = telepot.glance(msg)
         usrdir = 'database/usr/'+str(chat_id)
         lingua = modDatabase.openSetting(usrdir=usrdir).get('lingua','enMY')
+        msgMain = MsgMain(lingua)
         self.argo.usrdir = usrdir
         self.argo.lingua = lingua
         self.argo.catid = chat_id
@@ -91,7 +93,7 @@ class User(telepot.helper.ChatHandler):
         self.argo.veces = 0
 
         if content_type != 'text':
-            self.sending(mesag=[msgMain(lingua=lingua,tasta='error')])
+            self.sending(mesag=[msgMain.error])
             self.close()
             return
 
@@ -114,7 +116,7 @@ class User(telepot.helper.ChatHandler):
     def on__idle(self, event): # Timeout Region
         usrdir = 'database/usr/'+str(self.argo.get('catid','admin'))
         lingua = modDatabase.openSetting(usrdir=usrdir).get('lingua','enMY')
-        self.sending(mesag=[msgMain(lingua=lingua,tasta='timesout')+msgShort.cof])
+        self.sending(mesag=[msgMain.timesout + msgShort.cof])
         self.close()
 
 key=json.load(open("database/key","r"))
