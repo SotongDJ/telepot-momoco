@@ -15,7 +15,8 @@ class Excut:
     and reply result back to hande()
     """
 
-    def codGen(self): #condition of general function
+    def codGen(self):
+        """Condition of general function"""
         resut = False
         keyse = ["/start","/help","/exit"]
         for keywo in keyse:
@@ -24,6 +25,7 @@ class Excut:
         return resut
 
     def moGen(self):
+        """General functions"""
         if "/start" in self.text:
             mesut = msgMain(lingua=self.argo.lingua,tasta='start')
             if self.argo.primo == ['']:
@@ -40,7 +42,8 @@ class Excut:
             self.mesut = [msgShort(lingua=self.argo.lingua,tasta='bye')]
             self.cos=1
 
-    def moRaw():
+    def moRaw(self):
+        """Initial Function"""
         print('')
 
     def __init__(self,msg,argo):
