@@ -1,29 +1,54 @@
 class MsgSetti:
-    pass
-def main(setting): # will replace by Start Card after finished Account Card and Currency Card
-    final="""Setting Card
+    def main(self,setti): # will replace by Start Card after finished Account Card and Currency Card
+        if self.lingua == "enMY":
+            final = """Setting Card
 ——————————
 Account:
-　Default Income: """+setting['dinco']+"""
-　Default Expense: """+setting['dexpe']+"""
-　General Income Source: """+setting['genis']+"""
-　Overall Expense Destination: """+setting['ovede']+"""
+　Default Income: """+setti.get('dinco',"____")+"""
+　Default Expense: """+setti.get('dexpe',"____")+"""
+　General Income Source: """+setti.get('genis',"____")+"""
+　Overall Expense Destination: """+setti.get('ovede',"____")+"""
 　　——————　　
 Category:
-　Default Income: """+setting['tanfe']+"""
-　Default Transfer: """+setting['incom']+"""
+　Default Income: """+setti.get('tanfe',"____")+"""
+　Default Transfer: """+setti.get('incom',"____")+"""
 　　　——————　　
 Curency:
-　Default Currency: """+setting['karen']+"""
+　Default Currency: """+setti.get('karen',"____")+"""
 　　　——————　　
 Language:
-　Default Language: """+setting['lingua']+"""
+　Default Language: """+setti.get('lingua',"____")+"""
 ——————————
 　/modify_Setting　/whats_now
 Remind:
 　Use whats_now to check status of current work
 """
-    return final
+            return final
+
+    elif self.lingua == "hanT":
+            final = """Setting Card
+——————————
+Account:
+　Default Income: """+setti.get('dinco',"____")+"""
+　Default Expense: """+setti.get('dexpe',"____")+"""
+　General Income Source: """+setti.get('genis',"____")+"""
+　Overall Expense Destination: """+setti.get('ovede',"____")+"""
+　　——————　　
+Category:
+　Default Income: """+setti.get('tanfe',"____")+"""
+　Default Transfer: """+setti.get('incom',"____")+"""
+　　　——————　　
+Curency:
+　Default Currency: """+setti.get('karen',"____")+"""
+　　　——————　　
+Language:
+　Default Language: """+setti.get('lingua',"____")+"""
+——————————
+　/modify_Setting　/whats_now
+Remind:
+　Use whats_now to check status of current work
+"""
+            return final
 
 """ self.sender.sendMessage(mmcmsg.defSettList(self._setting)) """
 def warn():
@@ -50,25 +75,25 @@ def lista(setting): # will replace by Start Card after finished Account Card and
     final="""Account Setting Card
 ————— Account —————
 Default Income: (E.g. Bank A)
-　"""+setting['dinco']+"""　/change_in
+　"""+setti.get('dinco',"____")+"""　/change_in
 Default Expense: (E.g. Cash)
-　"""+setting['dexpe']+"""　/change_ex
+　"""+setti.get('dexpe',"____")+"""　/change_ex
 　　——————　　
 General Income Source:(E.g. "Income")
-　"""+setting['genis']+"""　/change_gi
+　"""+setti.get('genis',"____")+"""　/change_gi
 Overall Expense Destination: (E.g. "Expense")
-　"""+setting['ovede']+"""　/change_oe
+　"""+setti.get('ovede',"____")+"""　/change_oe
 ————— Category —————
 Default Income:(E.g. "Income")
-　"""+setting['incom']+"""　/change_ic
+　"""+setti.get('incom',"____")+"""　/change_ic
 Default Transfer:(E.g. "Transfer")
-　"""+setting['tanfe']+"""　/change_tf
+　"""+setti.get('tanfe',"____")+"""　/change_tf
 ————— Curency —————
 Default Currency: (For Expense)
-　"""+setting['karen']+"""　/change_kr
+　"""+setti.get('karen',"____")+"""　/change_kr
 ————— Curency —————
 Default Language:
-　"""+setting['lingua']+"""　/change_lingua
+　"""+setti.get('lingua',"____")+"""　/change_lingua
 ——————————
 　/Discard　/Save　/Explain
 Note:
@@ -110,17 +135,17 @@ Curency:
 def fins(setting): # will replace by Start Card after finished Account Card and Currency Card
     final="""Account Setting #Saved
 ——————————
-Default Income: """+setting['dinco']+"""
-Default Expense: """+setting['dexpe']+"""
-General Income Source: """+setting['genis']+"""
-Overall Expense Destination: """+setting['ovede']+"""
+Default Income: """+setti.get('dinco',"____")+"""
+Default Expense: """+setti.get('dexpe',"____")+"""
+General Income Source: """+setti.get('genis',"____")+"""
+Overall Expense Destination: """+setti.get('ovede',"____")+"""
 　　——————　　
-Default Income: """+setting['tanfe']+"""
-Default Transfer: """+setting['incom']+"""
+Default Income: """+setti.get('tanfe',"____")+"""
+Default Transfer: """+setti.get('incom',"____")+"""
 　　——————　　
-Default Currency: """+setting['karen']+"""
+Default Currency: """+setti.get('karen',"____")+"""
 　　——————　　
-Default Language: """+setting['lingua']+"""
+Default Language: """+setti.get('lingua',"____")+"""
 ——————————
 　/setting　/help　/whats_now
 Note:
