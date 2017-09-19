@@ -4,7 +4,7 @@ from modVariables import Argo
 from modHandle import Hande
 from modExcute import Excut
 from msgMain import msgMain
-from msgShort import msgShort
+from msgShort import MsgShort
 from telepot.delegate import per_chat_id, create_open, pave_event_space
 
 """Command list
@@ -25,19 +25,20 @@ class User(telepot.helper.ChatHandler):
 
     def sending(self,mesag=['']):
         lingua = self.argo.setti.get('lingua','enMY')
+        msgShort = MsgShort(lingua)
         for wuerd in mesag:
             if len(wuerd) >=4069:
                 parta = [ wuerd[i:i+4000] for i in range(0, len(wuerd), 4000) ]
                 for numo in range(0,len(parta)):
                     if numo == 0:
-                        sentes = parta[numo] + msgShort(lingua=lingua,tasta='spitpost')
+                        sentes = parta[numo] + msgShort.spitpost
                         self.sender.sendMessage(sentes)
                     elif numo == len(parta) - 1:
-                        sentes = msgShort(lingua=lingua,tasta='spitpre') + parta[numo]
+                        sentes = msgShort.spitpre + parta[numo]
                         self.sender.sendMessage(sentes)
                     else:
-                        sentes = msgShort(lingua=lingua,tasta='spitpre') + parta[numo]
-                        sentes = sentes + msgShort(lingua=lingua,tasta='spitpost')
+                        sentes = msgShort.spitpre + parta[numo]
+                        sentes = sentes + msgShort.spitpost
                         self.sender.sendMessage(sentes)
                     time.sleep(1)
             else:
@@ -103,7 +104,7 @@ class User(telepot.helper.ChatHandler):
                 self.close()
 
         elif "/" not in msg["text"]:
-            resul = Hande(msg=msg, arg=self.argo
+            resul = Hande(msg,self.argo)
 
             self.sending(mesag=resul.resut)
             self.argo = resul.argo
@@ -113,7 +114,7 @@ class User(telepot.helper.ChatHandler):
     def on__idle(self, event): # Timeout Region
         usrdir = 'database/usr/'+str(self.argo.get('catid','admin'))
         lingua = modDatabase.openSetting(usrdir=usrdir).get('lingua','enMY')
-        self.sending(mesag=[msgMain(lingua=lingua,tasta='timesout')+msgShort(lingua=lingua,tasta='cof')])
+        self.sending(mesag=[msgMain(lingua=lingua,tasta='timesout')+msgShort.cof])
         self.close()
 
 key=json.load(open("database/key","r"))

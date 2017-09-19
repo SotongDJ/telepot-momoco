@@ -11,9 +11,9 @@ class MsgShort:
             self.kaDatte = 'Currency Rate Version: '
             self.bye = 'See you next time! Bye!\n(Conversation Closed !)'
             self.rgsWarn = "The keyword that you selected doesn't Exist or Expired\n～～～～～～～～～～\n"
-            self.whatsnow = 'Try /whats_now "
+            self.whatsnow = 'Try /whats_now '
             self.analitempo = 'abratio => dtempo,utempo,cokas,cokey,targe\natren => dtempo,utempo,leve,cokas,cokey'
-            self.analiWarn = 'Fill in all the spaces"
+            self.analiWarn = 'Fill in all the spaces'
             self.band = '～～～～～～～～～～\n'
             self.cband = '\n～～～～～～～～～～\n'
             self.spitpre = '--- PREV MSG ---\n'

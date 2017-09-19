@@ -40,7 +40,7 @@ class Excut:
                 self.mesut = [mesut]
                 self.cos=1
         elif "/exit" in self.text:
-            self.mesut = [.bye]
+            self.mesut = [msgShort.bye]
             self.cos=1
 
     def moRaw(self):
