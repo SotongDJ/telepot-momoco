@@ -1,7 +1,5 @@
-import tool, json, mmctool
-#msgDefSet : main(setting), warn(), lista(setting), setup(keywo,teksi), fins(setting), discard()
-
-""" self.sender.sendMessage(mmcmsg.setting()) """
+class MsgSetti:
+    pass
 def main(setting): # will replace by Start Card after finished Account Card and Currency Card
     final="""Setting Card
 ——————————
