@@ -1,5 +1,5 @@
 class MsgMain:
-    def __init__(self,lingua,keyse):
+    def __init__(self,lingua):
         self.lingua = lingua
         if lingua == 'enMY':
             self.start = """　Welcome
@@ -124,9 +124,9 @@ Input:
 　無法處理的訊息類型
 """
 
-def selection(keyse):
-    if self.lingua == "enMY":
-        resut = "Select "+keyse.get('titil',"____")+"""
+    def selection(self,keyse):
+        if self.lingua == "enMY":
+            resut = "Select "+keyse.get('titil',"____")+"""
 ——————————
 """+keyse.get('titil',"____")+""" List:
 """+keyse.get('txt',"____")+"""
@@ -135,10 +135,10 @@ def selection(keyse):
 Remind:
 　Select above or type another selection
 """
-        return resut
+            return resut
 
-    elif self.lingua == "hanT":
-        resut = " "+keyse.get('titil',"____")+""" 選單
+        elif self.lingua == "hanT":
+            resut = " "+keyse.get('titil',"____")+""" 選單
 ——————————
 """+keyse.get('titil',"____")+""" 列表:
 """+keyse.get('txt',"____")+"""
@@ -147,11 +147,11 @@ Remind:
 備注:
 　選擇任意項 或 輸入新的選項
 """
-        return resut
+            return resut
 
-def home(keyse):
-    if self.lingua == "enMY":
-        resut = """Keyword Card
+    def home(self,keyse):
+        if self.lingua == "enMY":
+            resut = """Keyword Card
 ——————————
 I received your keyword:
 　"""+keyse.get('keywo',"____")+"""
@@ -163,9 +163,9 @@ What do you want to do?
 ——————————
 　/setting　/help
 """
-        return resut
-    elif self.lingua == "hanT":
-        resut = """ 關鍵詞卡
+            return resut
+        elif self.lingua == "hanT":
+            resut = """ 關鍵詞卡
 ——————————
 我收到的你給的關鍵詞：
 　""" + keyse.get('keywo',"____") + """
@@ -177,4 +177,4 @@ What do you want to do?
 ——————————
 　/setting　/help
 """
-        return resut
+            return resut

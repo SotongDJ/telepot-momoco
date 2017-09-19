@@ -1,5 +1,5 @@
 import tool, modDatabase, modSearch, modVariables
-from msgMain import msgMain
+from msgMain import MsgMain
 from msgShort import MsgShort
 
 """
@@ -27,14 +27,15 @@ class Excut:
     def moGen(self):
         """General functions"""
         msgShort = MsgShort(self.argo.lingua)
+        msgMain = MsgMain(self.argo.lingua)
         if "/start" in self.text:
-            mesut = msgMain(lingua=self.argo.lingua,tasta='start')
+            mesut = msgMain.start
             if self.argo.primo == ['']:
                 mesut = mesut + msgShort.cof
                 self.mesut = [mesut]
                 self.cos=1
         elif "/help" in self.text:
-            mesut = msgMain(lingua=self.argo.lingua,tasta='help')
+            mesut = msgMain.help
             if self.argo.primo == ['']:
                 mesut = mesut + msgShort.cof
                 self.mesut = [mesut]
