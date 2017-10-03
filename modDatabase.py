@@ -286,6 +286,7 @@ def expocsv(usrdir,keywo):
     for uuid in sorted(list(rawdb.keys())):
         linno = ''
         temra = rawdb.get(uuid,{})
+        temra.update({ 'uuid' : uuid })
         for keyso in keys:
             linno = linno + temra.get(keyso,'').replace('\n',' ').replace(keywo,'-') + keywo
         resuf.write(linno+'\n')
