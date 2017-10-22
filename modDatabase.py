@@ -82,18 +82,26 @@ def opencsv(fille,keywo):
     print('keywo: '+keywo)
     result = {}
     numo = 0
+    keys = []
+    tite = False
     for linne in open(fille,'br').read().decode('utf-8').splitlines():
         if "!" in linne:
             keys = linne.replace("!","").split(keywo)
+            if 'uuid' in keys:
+                tite = True
         elif linne[0] != "#":
-            zero = '9000'
-            uri = tool.date(modde=3)
-            nama = uri + zero[ 0 : 4-len(str(numo)) ] + str(numo)
-            result.update({ nama : {} })
+            libo = {}
             word = linne.split(keywo)
             for n in range(0,len(word)):
-                result.get(nama,{}).update({ keys[n] : word[n] })
-            numo = numo + 1
+                libo.update({ keys[n] : word[n] })
+            if tite:
+                result.update({ libo.pop('uuid','false') : libo })
+            else:
+                zero = '9000'
+                uri = tool.date(modde=3)
+                nama = uri + zero[ 0 : 4-len(str(numo)) ] + str(numo)
+                result.update({ nama : libo })
+                numo = numo + 1
     return result
 
 def addRaw(usrdir,temra):
