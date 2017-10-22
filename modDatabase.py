@@ -1,4 +1,4 @@
-import json, random, hashlib, pprint, requests
+import json, random, pprint, requests
 import tool, modVariables
 
 def opendb(usrdir):
@@ -153,16 +153,6 @@ def genKey(rawdb):
                 eledb.update({ eleme : tadd })
     return eledb
 
-def genHash(rawdb):
-    print('modDatabase.genHash')
-    hashdb = {}
-    for uuid in list(rawdb.keys()):
-        hasa = hashlib.sha512()
-        if rawdb.get(uuid,{}) != {}:
-            hasa.update((",".join(set(list(rawdb.get(uuid,{}).values())))).encode("utf-8"))
-            hashdb.update( { uuid : hasa.hexdigest() } )
-    return hashdb
-
 def ckrpt(h):
     print('modDatabase.ckrpt')
     l={}
@@ -258,24 +248,8 @@ def importRaw(usrdir,lib):
     lib=fixAcc(usrdir,lib)
     source = opendb(usrdir)
     for uuid in list(lib.keys()):
-        tasno = 0
-        for valvu in lib.get(uuid,{}).keys():
-            if valvu not in list(source.get('key',{}).keys()):
-                tasno = 1
-                print('tasno = 1: lib-'+valvu)
-        if tasno == 0:
-            hasa = hashlib.sha512()
-            if lib[uuid] != {}:
-                hasa.update((",".join(set(list(lib[uuid].values())))).encode("utf-8"))
-                if hasa.hexdigest() not in genHash(source.get('raw',{})).values():
-                    source.get('raw',{}).update({ uuid : lib.get(uuid,{}) })
-                    print('Imported: '+uuid+'(uuid)')
-                else:
-                    print('hasa: same hash already exist')
-            else:
-                print("hasa: lib[uuid] = {}")
-        else:
-            print('tasno != 0: '+uuid+'(uuid)')
+        source.get('raw',{}).update({ uuid : lib.get(uuid,{}) })
+
     filla = open(usrdir + '/record.json','w')
     json.dump(source,filla,indent=4,sort_keys=True)
     filla.close()
