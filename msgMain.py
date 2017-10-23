@@ -1,20 +1,10 @@
 class MsgMain:
     def __init__(self,lingua):
         self.lingua = lingua
-        if lingua == 'enMY':
-            self.start = """　Welcome
-——————————
-This is Money Money Come Chatbot.
-It can help you to trace your money flow moreeasily (Sure? )
 
-Notes:
-　/setting
-　　Please Setup before using
-——————————
-　/help
-"""
+        self.start = open('descri/mainStart.'+lingua).read()
 
-            self.help = """　Help card (Command List)
+        self.help = """　Help card (Command List)
 ——————————
 　/help
 　　Show command list
