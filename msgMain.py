@@ -16,10 +16,10 @@ class MsgMain:
         resut = open('descri/mainSelection.'+self.lingua).read()
         for n in keyse.keys():
             resut = resut.replace('@'+n+'@',keyse.get(n,"____"))
-            return resut
+        return resut
 
     def home(self,keyse):
         resut = open('descri/mainHome.'+self.lingua).read()
         for n in keyse.keys():
             resut = resut.replace('@'+n+'@',keyse.get(n,"____"))
-            return resut
+        return resut
