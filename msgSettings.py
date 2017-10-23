@@ -2,32 +2,9 @@ class MsgSetti:
     def __init__(self,lingua):
         self.lingua = lingua
 
-        if lingua == 'enMY':
-            self.warn = """
-——————————
-Normal Income:
-　G.I.S. ---> Bank A , Category: Income
-Normal Expense:
-　Cash ---> O.E.D. , Category: Expense
-Withdrawal:
-　Bank A ---> Cash , Category: Transfer
-Deposit:
-　Cash ---> Bank A , Category: Transfer
-Tranfer:
-　Bank A ---> Bank B , Category: Transfer
-——————————
-Notes:
-　Chatbot are using G.I.S. and O.E.D. for Analystic Purpose
-"""
-            self.discard = """¡ Discard !
-——————————
+        self.warn = open('descri/settiWarn.'+lingua).read()
 
-　Closed Account Setting Card
-
-——————————
-　/whats_now　/setting　/help
-"""
-        elif lingua == 'enMY':
+        self.discard = open('descri/settiDiscard.'+lingua).read()
 
     def main(self,setti):
         if self.lingua == "enMY":
