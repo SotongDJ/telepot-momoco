@@ -1,30 +1,25 @@
 class MsgMain:
-    def __init__(*args, **kwargs):
-        super(MsgMain, self).__init__(*args, **kwargs)
+    def __init__(self,lingua):
+        self.lingua = lingua
 
-    def start(lingua):
-        return open('descri/mainStart.'+lingua).read()
+        self.start = open('descri/mainStart.'+lingua).read()
 
-    def help(lingua):
-        return open('descri/mainHelp.'+lingua).read()
+        self.help = open('descri/mainHelp.'+lingua).read()
 
-    def bored(lingua):
-        return open('descri/mainBored.'+lingua).read()
+        self.bored = open('descri/mainBored.'+lingua).read()
 
-    def timesout(lingua):
-        return open('descri/mainTimesout.'+lingua).read()
+        self.timesout = open('descri/mainTimesout.'+lingua).read()
 
-    def error(lingua):
-        return open('descri/mainError.'+lingua).read()
+        self.error = open('descri/mainError.'+lingua).read()
 
-    def selection(lingua,keyse):
-        resut = open('descri/mainSelection.'+lingua).read()
+    def selection(self,keyse):
+        resut = open('descri/mainSelection.'+self.lingua).read()
         for n in keyse.keys():
             resut = resut.replace('@'+n+'@',keyse.get(n,"____"))
-        return resut
+            return resut
 
-    def home(lingua,keyse):
-        resut = open('descri/mainHome.'+lingua).read()
+    def home(self,keyse):
+        resut = open('descri/mainHome.'+self.lingua).read()
         for n in keyse.keys():
             resut = resut.replace('@'+n+'@',keyse.get(n,"____"))
-        return resut
+            return resut
