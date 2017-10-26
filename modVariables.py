@@ -66,15 +66,15 @@ def keywo(text,lingua='enMY'):
         'hanT' : {
             'transle' : {
                 "datte":"日期",
-                "namma":"品名／備註", "shoop":"商家／中介",
+                "namma":"品名／品項", "shoop":"商家／中介",
                 'aconu':'賬戶','fromm':'賬戶［通用/來源］','toooo':'賬戶［目標］',
                 'dinco':'賬戶［收入］','dexpe':'賬戶［支出］',
                 'genis':'收入賬戶［分析］','ovede':'支出賬戶［分析］',
-                'klass':'類別［用途］','tanfe':'類別［用途］','incom':'類別［用途］',
+                'klass':'收支類型','tanfe':'轉賬名目［收支類型］','incom':'收入名目［收支類型］',
                 'karen':'幣種［通用/來源］','tkare':'幣種［目標］',
                 'price':'價格［通用/來源］','tpric':'價格［目標］',
                 'cokas':'類型［集合］', 'cokey':'類別［物件］',
-                'targe':'類型［目標］', 'desci':'註釋',
+                'targe':'類型［目標］', 'desci':'明細',
                 'lingua':'語言',
                 'Day':'天數',
                 'Month':'月數',
