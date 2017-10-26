@@ -1,6 +1,6 @@
 class MsgShort:
     def __init__(self,lingua):
-        if lingua == 'enMY':
+        if lingua == 'enMY' or lingua == 'SiMP':
             self.presys = 'This chatbot is UNDER CONSTRUCTING\nTelegram msg limit: 1 msg/s\n——————————\n'
             self.con = 'Create New Conversation'
             self.cof = '～～～～～～～～～～\nConversation Closed\n(Key word to start a new conv.)'
