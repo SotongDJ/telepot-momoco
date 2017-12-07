@@ -12,6 +12,7 @@ runMOMOCO.sh
 database/
 database
 core/
+core
 test/
 update/
 bin.tar.gz
