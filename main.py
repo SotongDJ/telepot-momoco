@@ -1,6 +1,10 @@
 import sys, os, traceback, telepot, time, json, random, pprint
-import tool, modDatabase, modSearch, modVariables
-from modVariables import Argo
+
+from core import tool
+from core import modDatabase
+from core import modSearch
+from core import modVariables
+
 from modHandle import Hande
 from modExcute import Excut
 from msgMain import MsgMain
@@ -21,7 +25,7 @@ exit - Close conversation
 class User(telepot.helper.ChatHandler):
     def __init__(self, *args, **kwargs):
         super(User, self).__init__(*args, **kwargs)
-        self.argo = Argo()
+        self.argo = modVariables.Argo()
 
     def sending(self,mesag=['']):
         lingua = self.argo.setti.get('lingua','enMY')
