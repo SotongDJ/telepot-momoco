@@ -11,6 +11,8 @@ runMOMOCO.sh
 *.pyc
 database/
 database
+core/
+core
 test/
 update/
 bin.tar.gz

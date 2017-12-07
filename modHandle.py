@@ -1,4 +1,8 @@
-import tool, modDatabase, modSearch, modVariables
+from core import tool
+from core import modDatabase
+from core import modSearch
+from core import modVariables
+
 """
 This is the main part of Momocobot to handle income msg
 and reply required msg back to user.

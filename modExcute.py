@@ -1,4 +1,8 @@
-import tool, modDatabase, modSearch, modVariables
+from core import tool
+from core import modDatabase
+from core import modSearch
+from core import modVariables
+
 from msgMain import MsgMain
 from msgShort import MsgShort
 
