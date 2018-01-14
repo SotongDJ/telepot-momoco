@@ -12,7 +12,7 @@ class MsgShort:
             self.bye = 'See you next time! Bye!\n(Conversation Closed !)'
             self.rgsWarn = "The keyword that you selected doesn't Exist or Expired\n～～～～～～～～～～\n"
             self.whatsnow = 'Try /whats_now '
-            self.analitempo = 'abratio => dtempo,utempo,cokas,cokey,targe\natren => dtempo,utempo,leve,cokas,cokey'
+            self.analitempo = 'abratio => btempo,ftempo,cokas,cokey,targe\natren => btempo,ftempo,leve,cokas,cokey'
             self.analiWarn = 'Fill in all the spaces'
             self.band = '～～～～～～～～～～\n'
             self.cband = '\n～～～～～～～～～～\n'
@@ -32,7 +32,7 @@ class MsgShort:
             self.bye = '後會有期！再見～\n（對話結束）'
             self.rgsWarn = "你打算選取的關鍵字似乎不存在或過期了\n～～～～～～～～～～\n",
             self.whatsnow = "試試看 /whats_now ",
-            self.analitempo = 'abratio => dtempo,utempo,cokas,cokey,targe\natren => dtempo,utempo,leve,cokas,cokey'
+            self.analitempo = 'abratio => btempo,ftempo,cokas,cokey,targe\natren => btempo,ftempo,leve,cokas,cokey'
             self.analiWarn = "請把所有空格填滿",
             self.band = '～～～～～～～～～～\n'
             self.cband = '\n～～～～～～～～～～\n'
