@@ -18,6 +18,9 @@ class Excut:
     assign task to other mod
     and reply result back to hande()
     """
+    def bord(self):
+        msgMain = MsgMain(self.argo.lingua)
+        self.mesut=[msgMain.bored]
 
     def codGen(self):
         """Condition of general function"""
@@ -82,4 +85,4 @@ class Excut:
             self.moCreo()
 
         else:
-            self.eror()
+            self.bord()
