@@ -48,6 +48,20 @@ class Excut:
             self.mesut = [msgShort.bye]
             self.cos=1
 
+    def codCreo(self):
+        """Condition of general function"""
+        resut = False
+        if self.argo.primo == ['']:
+            if "/new" in self.text:
+                resut = True
+        return resut
+
+    def moCreo(self):
+        """General functions"""
+        msgShort = MsgShort(self.argo.lingua)
+        msgMain = MsgMain(self.argo.lingua)
+        print('new')
+
     def moRaw(self):
         """Initial Function"""
         print('')
@@ -63,3 +77,9 @@ class Excut:
 
         if self.codGen():
             self.moGen()
+
+        elif self.codCreo():
+            self.moCreo()
+
+        else:
+            self.eror()
