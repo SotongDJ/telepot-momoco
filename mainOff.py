@@ -50,15 +50,13 @@ while condi:
     testa = input('[input]')
     Argo = argo()
 
-    if testa == '/exit':
-        condi = False
-
     if "/" in testa:
         resul = Excut(testa,Argo)
 
         Argo.sending(mesag=resul.mesut)
         Argo = resul.argo
         if resul.cos == 1:
+            condi = False
             print('[stop]')
 
     elif "/" not in testa:
@@ -67,4 +65,5 @@ while condi:
         Argo.sending(mesag=resul.resut)
         Argo = resul.argo
         if resul.cos == 1:
+            condi = False
             print('[stop]')
