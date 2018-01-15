@@ -11,8 +11,11 @@ from msgMain import MsgMain
 from msgShort import MsgShort
 
 usrdir = 'database/usr/'+str(auth.id())
-lingua = modDatabase.openSetting(usrdir=usrdir).get('lingua','enMY')
+Setting = modDatabase.openSetting(usrdir=usrdir)
+lingua = Setting.get('lingua','enMY')
 msgMain = MsgMain(lingua)
+defal = modVariables.Argo()
+
 class argo:
     def sending(self,mesag=['']):
         msgShort = MsgShort(self.lingua)
@@ -42,8 +45,10 @@ class argo:
         self.cotyp = 'text'
         self.primo = ['']
         self.submo = ''
-        self.setti = modDatabase.openSetting(usrdir=usrdir)
+        self.setti = Setting
         self.veces = 0
+        self.keywo = ''
+        self.temra = defal.temra
 
 condi = True
 Argon = argo()
