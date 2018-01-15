@@ -46,24 +46,24 @@ class argo:
         self.veces = 0
 
 condi = True
+Argon = argo()
 while condi:
     testa = input('[input]')
-    Argo = argo()
 
     if "/" in testa:
-        resul = Excut(testa,Argo)
+        resul = Excut(testa,Argon)
 
-        Argo.sending(mesag=resul.mesut)
-        Argo = resul.argo
+        Argon.sending(mesag=resul.mesut)
+        Argon = resul.argo
         if resul.cos == 1:
             condi = False
             print('[stop]')
 
     elif "/" not in testa:
-        resul = Hande(testa,Argo)
+        resul = Hande(testa,Argon)
 
-        Argo.sending(mesag=resul.resut)
-        Argo = resul.argo
+        Argon.sending(mesag=resul.resut)
+        Argon = resul.argo
         if resul.cos == 1:
             condi = False
             print('[stop]')

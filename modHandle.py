@@ -15,12 +15,12 @@ The codes of this file mainly lineage from open_chat_message() in momocobot.py.
 class Hande:
     """ handle received msg
     pass command to excute() for futher action (which is more complex)
-    change cache info that store in memory (arg)
+    change cache info that store in memory (argon)
     and reply back to user
     """
-    def __init__(self,msg,argo):
+    def __init__(self,msg,argon):
         self.text = msg
-        self.argo = argo
+        self.argo = argon
 
         self.resut = []
         self.cos = 0

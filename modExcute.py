@@ -69,9 +69,9 @@ class Excut:
         """Initial Function"""
         print('')
 
-    def __init__(self,msg,argo):
+    def __init__(self,msg,argon):
         self.text=msg
-        self.argo=argo
+        self.argo=argon
 
         self.mesut=[]
         self.cos=0
