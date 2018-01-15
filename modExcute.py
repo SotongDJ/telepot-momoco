@@ -63,7 +63,7 @@ class Excut:
         """General functions"""
         msgShort = MsgShort(self.argo.lingua)
         msgMain = MsgMain(self.argo.lingua)
-        print('new')
+        print("[Devol]Create new from \'"+self.argo.keywo+"\'")
 
     def moRaw(self):
         """Initial Function"""

@@ -29,3 +29,4 @@ class Hande:
 
         if self.argo.primo == ['']:
             self.resut = [msgMain.home({'keywo':self.text})]
+            self.argo.keywo = self.text
