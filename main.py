@@ -70,7 +70,7 @@ class User(telepot.helper.ChatHandler):
             return
 
         if "/" in initial_msg['text']:
-            resul = Excut(initial_msg,self.argo)
+            resul = Excut(initial_msg['text'],self.argo)
 
             self.sending(mesag=resul.mesut)
             self.argo = resul.argo
@@ -102,7 +102,7 @@ class User(telepot.helper.ChatHandler):
             return
 
         if "/" in msg['text']:
-            resul = Excut(msg,self.argo)
+            resul = Excut(msg['text'],self.argo)
 
             self.sending(mesag=resul.mesut)
             self.argo = resul.argo
@@ -110,7 +110,7 @@ class User(telepot.helper.ChatHandler):
                 self.close()
 
         elif "/" not in msg["text"]:
-            resul = Hande(msg,self.argo)
+            resul = Hande(msg['text'],self.argo)
 
             self.sending(mesag=resul.resut)
             self.argo = resul.argo

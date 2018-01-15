@@ -17,7 +17,7 @@ class Hande:
     and reply back to user
     """
     def __init__(self,msg,argo):
-        self.text = msg['text']
+        self.text = msg
         self.argo = argo
 
         self.resut = []

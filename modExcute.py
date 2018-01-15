@@ -53,7 +53,7 @@ class Excut:
         print('')
 
     def __init__(self,msg,argo):
-        self.text=msg['text']
+        self.text=msg
         self.argo=argo
 
         self.mesut=[]
