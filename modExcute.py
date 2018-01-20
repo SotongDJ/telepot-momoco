@@ -1,3 +1,5 @@
+import pprint
+
 from core import tool
 from core import modDatabase
 from core import modSearch
@@ -51,19 +53,29 @@ class Excut:
             self.mesut = [msgShort.bye]
             self.cos=1
 
+    def filto(self):
+        """Grab word from msg"""
+        setta = self.argo.keywo.split(' ')
+        pprint.pprint(setta)
+
     def codCreo(self):
         """Condition of general function"""
         resut = False
         if self.argo.primo == ['']:
             if "/new" in self.text:
                 resut = True
+        elif self.argo.primo == ['creo']:
+            resut = True
+
         return resut
 
     def moCreo(self):
         """General functions"""
-        msgShort = MsgShort(self.argo.lingua)
         msgMain = MsgMain(self.argo.lingua)
-        print("[Devol]Create new from \'"+self.argo.keywo+"\'")
+        self.argo.primo = ['creo']
+        if self.argo.submo == '':
+            print("[Devol]Create new record from \'"+self.argo.keywo+"\'")
+            self.filto()
 
     def moRaw(self):
         """Initial Function"""
@@ -76,7 +88,7 @@ class Excut:
         self.mesut=[]
         self.cos=0
 
-        self.argo.lingua = self.argo.setti.get('lingua','enMY')
+        self.argo.lingua = self.argo.setti.get('lingua','SiMP')
 
         if self.codGen():
             self.moGen()
