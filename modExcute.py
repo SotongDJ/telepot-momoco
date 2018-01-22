@@ -164,9 +164,10 @@ class Excut:
         """General functions"""
         msgMain = MsgMain(self.argo.lingua)
         self.argo.primo = ['creo']
-        if self.argo.submo == '':
+        if self.argo.submo in ['']:
             print("[Devol]Create new record from \'"+self.argo.keywo+"\'")
-            self.exper()
+            self.argo.temra.update(self.exper())
+            pprint.pprint(self.argo.temra)
 
     def moRaw(self):
         """Initial Function"""
