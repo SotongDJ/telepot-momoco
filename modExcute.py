@@ -53,16 +53,89 @@ class Excut:
             self.mesut = [msgShort.bye]
             self.cos=1
 
-    def filto(self):
-        resut = {}
+    def exper(self):
         """Grab word from msg"""
-        keywolista = modDatabase.listAll(self.argo.usrdir)
+
+        keydb = modDatabase.opendb(self.argo.usrdir).get('key',{})
+        rawdb = modDatabase.opendb(self.argo.usrdir).get('raw',{})
+        keywolista = modDatabase.listKeywo(self.argo.usrdir)
+        # keywolista = {keywo: {class : [ uuid ]}}
+
+        kasdik = {} # {class : [keyword]}
+        udilis = [] # [uuid]
+        udidik = {} # {uuid : score }
+        secodi = {} # {score : uuid}
+
         for keyto in keywolista.keys():
             if keyto in self.argo.keywo:
-                numose = list(keywolista.get(keyto).keys())
-                numose.append(0)
-                numose = sorted(numose)
-                resut.update({ keyto : keywolista.get(keyto).get(numose[-1])[0] })
+                for kasse in keywolista.get(keyto).keys():
+                    metase = kasdik.get(kasse,[])
+                    metase.append(keyto)
+                    kasdik.update({ kasse : metase })
+                    udilis.extend(keywolista.get(keyto).get(kasse))
+        # pprint.pprint(kasdik)
+        nummo = 0
+        for uuid in udilis:
+            nummo = udidik.get(uuid,0)
+            nummo = nummo + 1
+            udidik.update({ uuid : nummo })
+
+        setta = []
+        for uuid in udidik:
+            nummo = udidik.get(uuid)
+            setta = secodi.get(nummo,[])
+            setta.append(uuid)
+            secodi.update({ nummo : setta })
+        # pprint.pprint(secodi)
+
+        finudi = [] # [uuid]
+        fikali = [] # [class]
+        fikeli = [] # [keyword]
+        fikasi = '' # class-class...
+        fudidi = {} # { keywo-keywo... : score}
+
+        kasse = ''
+        keywo = ''
+        finudi = secodi.get(max(sorted(list(secodi.keys()))))
+        fikali = sorted(list(kasdik.keys()))
+        # pprint.pprint(fikeli)
+        for kasse in fikali:
+            if fikasi == "":
+                fikasi = kasse
+            else:
+                fikasi = fikasi + '@' + kasse
+        # print("fikasi:"+fikasi)
+        for kewoli in kasdik.values():
+            fikeli.extend(kewoli)
+        nummo = 0
+        for uuid in finudi:
+            metasi = ''
+            for kasse in fikali:
+                keyta = rawdb.get(uuid).get(kasse)
+                # print("keyta:"+keyta)
+                if keyta in fikeli:
+                    if metasi == '':
+                        metasi = keyta
+                    else:
+                        metasi = metasi + '@' + keyta
+            nummo = fudidi.get(metasi,0)
+            nummo = nummo + 1
+            fudidi.update({ metasi : nummo })
+        # pprint.pprint(fudidi)
+
+        resudi = {} # { score : last keywo-keywo}
+        for metakesi in fudidi.keys():
+            sekor = fudidi.get(metakesi)
+            resudi.update({ sekor : metakesi })
+
+        resut = {}
+        fikesi = resudi.get(max(sorted(list(resudi.keys()))))
+        finkase = fikasi.split('@')
+        finkese = fikesi.split('@')
+        for numelo in range(0,len(finkase)):
+            resut.update({ finkase[numelo] : finkese[numelo] })
+
+        #return resut
         pprint.pprint(resut)
 
     def codCreo(self):
@@ -82,7 +155,7 @@ class Excut:
         self.argo.primo = ['creo']
         if self.argo.submo == '':
             print("[Devol]Create new record from \'"+self.argo.keywo+"\'")
-            self.filto()
+            self.exper()
 
     def moRaw(self):
         """Initial Function"""
