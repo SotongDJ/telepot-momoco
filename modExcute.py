@@ -54,9 +54,16 @@ class Excut:
             self.cos=1
 
     def filto(self):
+        resut = {}
         """Grab word from msg"""
-        setta = self.argo.keywo.split(' ')
-        pprint.pprint(setta)
+        keywolista = modDatabase.listAll(self.argo.usrdir)
+        for keyto in keywolista.keys():
+            if keyto in self.argo.keywo:
+                numose = list(keywolista.get(keyto).keys())
+                numose.append(0)
+                numose = sorted(numose)
+                resut.update({ keyto : keywolista.get(keyto).get(numose[-1])[0] })
+        pprint.pprint(resut)
 
     def codCreo(self):
         """Condition of general function"""
