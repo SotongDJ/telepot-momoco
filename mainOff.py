@@ -53,7 +53,7 @@ class argo:
 condi = True
 Argon = argo()
 while condi:
-    testa = input('[input]')
+    testa = input('[input{'+Argon.primo[-1]+'}]')
 
     if "/" in testa:
         resul = Excut(testa,Argon)
