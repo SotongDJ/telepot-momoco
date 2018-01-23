@@ -116,6 +116,13 @@ class User(telepot.helper.ChatHandler):
             self.argo = resul.argo
             if resul.cos == 1:
                 self.close()
+            elif resul.ekgu == 1:
+                resul = Excut(msg['text'],self.argo)
+
+                self.sending(mesag=resul.mesut)
+                self.argo = resul.argo
+                if resul.cos == 1:
+                    self.close()
 
     def on__idle(self, event): # Timeout Region
         usrdir = 'database/usr/'+str(self.argo.get('catid','admin'))

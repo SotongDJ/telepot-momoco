@@ -72,3 +72,11 @@ while condi:
         if resul.cos == 1:
             condi = False
             print('[stop]')
+        elif resul.ekgu == 1:
+            resul = Excut(testa,Argon)
+
+            Argon.sending(mesag=resul.mesut)
+            Argon = resul.argo
+            if resul.cos == 1:
+                condi = False
+                print('[stop]')
