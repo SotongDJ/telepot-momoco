@@ -119,7 +119,12 @@ class Excut:
                     if keyta not in fikeli:
                         keyta = ''
                     if metasi == '':
-                        metasi = keyta
+                        if keyta == '':
+                            metasi = '@'
+                        else:
+                            metasi = keyta
+                    elif metasi == '@':
+                        metasi = metasi + keyta
                     else:
                         metasi = metasi + '@' + keyta
                 nummo = fudidi.get(metasi,0)
@@ -145,7 +150,6 @@ class Excut:
                 for numelo in range(0,len(fikase)):
                     if fikese[numelo] != '':
                         resut.update({ fikase[numelo] : fikese[numelo] })
-
             # pprint.pprint(resut)
             return resut
 
