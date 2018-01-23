@@ -168,10 +168,31 @@ class Excut:
         """General functions"""
         msgMain = MsgMain(self.argo.lingua)
         self.argo.primo = ['creo']
-        if self.argo.submo in ['']:
-            print("[Devol]Create new record from \'"+self.argo.keywo+"\'")
-            self.argo.temra.update(self.exper())
-            pprint.pprint(self.argo.temra)
+        # if self.argo.submo in ['','recom']:
+        print("[Devol]Create new record from \'"+self.argo.keywo+"\'")
+        self.argo.recom = self.exper()
+
+        if self.argo.recom != {}:
+            self.argo.submo = 'recom'
+            if self.argo.temra == modVariables.Argo().temra:
+                self.argo.temra.update(self.argo.recom)
+                if self.argo.temra.get('desci','') == '':
+                    self.argo.temra.update({ 'desci' : self.argo.keywo })
+                else:
+                    metasi = self.argo.temra.get('desci') + ' ' + self.argo.keywo
+                    self.argo.temra.update({ 'desci' : metasi })
+                print('[temra] Add')
+                pprint.pprint(self.argo.temra)
+            else:
+                print('[recom] temra need to update')
+                pprint.pprint(self.argo.recom)
+        else:
+            if self.argo.temra == modVariables.Argo().temra:
+                self.argo.primo = ['']
+                print('[Creo] Close')
+            else:
+                print('[recom] required new keyword')
+                pprint.pprint(self.argo.recom)
 
     def moRaw(self):
         """Initial Function"""

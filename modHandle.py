@@ -24,9 +24,18 @@ class Hande:
 
         self.resut = []
         self.cos = 0
+        self.ekgu = 0
 
         msgMain = MsgMain(self.argo.lingua)
 
         if self.argo.primo == ['']:
             self.resut = [msgMain.home({'keywo':self.text})]
             self.argo.keywo = self.text
+        elif self.argo.primo[-1] == 'creo':
+            if self.argo.submo == '':
+                self.resut = [msgMain.home({'keywo':self.text})]
+                self.argo.keywo = self.text
+                self.ekgu = 1
+            elif self.argo.submo == 'recom':
+                self.argo.keywo = self.text
+                self.ekgu = 1
