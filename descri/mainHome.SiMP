@@ -2,7 +2,11 @@ Keyword Card
 ——————————
 keywo:　@keywo@
 Action:
-　/new　/list
+　/expense
+
+　/transfer
+
+　/income
 
 　/statics
 ——————————

@@ -157,7 +157,14 @@ class Excut:
         """Condition of general function"""
         resut = False
         if self.argo.primo == ['']:
-            if "/new" in self.text:
+            if "/expense" in self.text:
+                self.argo.submo = 'expe'
+                resut = True
+            elif "/transfer" in self.text:
+                self.argo.submo = 'tafe'
+                resut = True
+            elif "/income" in self.text:
+                self.argo.submo = 'inco'
                 resut = True
         elif self.argo.primo == ['creo']:
             resut = True
@@ -166,9 +173,23 @@ class Excut:
 
     def moCreo(self):
         """General functions"""
-        msgMain = MsgMain(self.argo.lingua)
         self.argo.primo = ['creo']
-        # if self.argo.submo in ['','recom']:
+
+        if self.argo.temra == modVariables.Argo().temra:
+            self.argo.temra.update({ 'datte' : tool.date(modde='1',text='-') })
+            self.argo.temra.update({ 'karen' : self.argo.setti.get('karen','') })
+            self.argo.temra.update({ 'tkare' : self.argo.setti.get('karen','') })
+            if self.argo.submo == 'expe':
+                self.argo.temra.update({ 'fromm' : self.argo.setti.get('dexpe','') })
+                self.argo.temra.update({ 'toooo' : self.argo.setti.get('ovede','') })
+            elif self.argo.submo == 'inco':
+                self.argo.temra.update({ 'fromm' : self.argo.setti.get('genis','') })
+                self.argo.temra.update({ 'toooo' : self.argo.setti.get('dinco','') })
+                self.argo.temra.update({ 'klass' : self.argo.setti.get('incom','') })
+            elif self.argo.submo == 'tafe':
+                self.argo.temra.update({ 'klass' : self.argo.setti.get('tanfe','') })
+            intito = self.argo.temra
+
         print("[Devol]Create new record from \'"+self.argo.keywo+"\'")
         self.argo.recom = self.exper()
 
