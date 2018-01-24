@@ -233,19 +233,13 @@ class Excut:
             intito = self.argo.temra
 
         print("[Devol]Create new record from \'"+self.argo.keywo+"\'")
-        self.argo.recom = self.exper()
+        esurut = self.exper()
+        nimoru = self.numof()
+        esurut.update({ 'price' : nimoru })
+        esurut.update({ 'tpric' : nimoru })
+        # if esurut == {}:
 
-        if self.argo.recom != {}:
-            self.argo.submo = 'recom'
-            if self.argo.temra == modVariables.Argo().temra:
-                self.argo.temra.update(self.argo.recom)
-                if self.argo.temra.get('desci','') == '':
-                    self.argo.temra.update({ 'desci' : self.argo.keywo })
-                else:
-                    metasi = self.argo.temra.get('desci') + ' ' + self.argo.keywo
-                    self.argo.temra.update({ 'desci' : metasi })
-                print('[temra] Add')
-                pprint.pprint(self.argo.temra)
+        self.argo.submo = 'recom'
             else:
                 print('[recom] temra need to update')
                 pprint.pprint(self.argo.recom)
