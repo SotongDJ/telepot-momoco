@@ -240,16 +240,23 @@ class Excut:
         # if esurut == {}:
 
         self.argo.submo = 'recom'
+        if esurut != {}:
+            if esurut.get('desci','') == '':
+                esurut.update({ 'desci' : self.argo.keywo })
             else:
-                print('[recom] temra need to update')
-                pprint.pprint(self.argo.recom)
+                metasi = esurut.get('desci') + ' ' + self.argo.keywo
+                esurut.update({ 'desci' : metasi })
+            print('[recom] temra need to update')
+            pprint.pprint(esurut)
         else:
-            if self.argo.temra == modVariables.Argo().temra:
+            if self.argo.temra == intito:
                 self.argo.primo = ['']
+                self.argo.submo = ''
                 print('[Creo] Close')
             else:
-                print('[recom] required new keyword')
-                pprint.pprint(self.argo.recom)
+                print('[recom] required new keyword (seperate with space)')
+                pprint.pprint(esurut)
+
 
     def moRaw(self):
         """Initial Function"""
