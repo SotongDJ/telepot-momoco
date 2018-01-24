@@ -153,6 +153,48 @@ class Excut:
             # pprint.pprint(resut)
             return resut
 
+    def numof(self):
+        pre = False
+        resut = '0'
+        metasi = ''
+        metase = []
+        numan = ['0','1','2','3','4','5','6','7','8','9']
+        nunot = ['.',',']
+        for stik in self.argo.keywo:
+            if stik in numan:
+                if pre:
+                    metasi = metasi + stik
+                else:
+                    metasi = stik
+                pre = True
+            elif stik in nunot:
+                if pre:
+                    metasi = metasi + stik
+                    pre = True
+            else:
+                pre = False
+                if metasi != '':
+                    metase.append(metasi)
+                    metasi = ''
+        if pre:
+            pre = False
+            if metasi != '':
+                metase.append(metasi)
+                metasi = ''
+        # pprint.pprint(metase)
+
+        leva = 0
+        for nummo in metase:
+            if '.' in nummo:
+                if float(nummo.replace(',','')) > float(resut):
+                    resut = nummo.replace(',','')
+                    leva = 2
+            elif leva <2:
+                if float(nummo.replace(',','.')) > float(resut):
+                    resut = nummo.replace(',','.')
+                    leva = 1
+        return resut
+
     def codCreo(self):
         """Condition of general function"""
         resut = False
