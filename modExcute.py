@@ -209,7 +209,8 @@ class Excut:
                 self.argo.submo = 'inco'
                 resut = True
         elif self.argo.primo == ['creo']:
-            resut = True
+            if '/' not in self.text:
+                resut = True
 
         return resut
 
