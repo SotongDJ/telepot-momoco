@@ -194,6 +194,9 @@ class Excut:
                 if float(nummo.replace(',','.')) > float(resut):
                     resut = nummo.replace(',','.')
                     leva = 1
+
+        if resut == '0':
+            resut = ''
         return resut
 
     def codCreo(self):
