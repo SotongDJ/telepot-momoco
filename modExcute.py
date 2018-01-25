@@ -7,6 +7,7 @@ from core import modVariables
 
 from msgMain import MsgMain
 from msgShort import MsgShort
+from msgCreo import MsgCreo
 
 """
 This is the main part of Momocobot to handle income msg
