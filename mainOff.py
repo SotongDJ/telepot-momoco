@@ -48,6 +48,7 @@ class argo:
         self.setti = Setting
         self.veces = 0
         self.keywo = ''
+        self.recom = {}
         self.temra = defal.temra
 
 condi = True
