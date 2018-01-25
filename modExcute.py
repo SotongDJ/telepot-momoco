@@ -209,18 +209,56 @@ class Excut:
             elif "/income" in self.text:
                 self.argo.submo = 'inco'
                 resut = True
+
         elif self.argo.primo == ['creo']:
-            if '/' not in self.text:
+            if '/recom' in self.text:
+                numano = self.text.replace('/recom','')
+                metadi = self.argo.recom.get(numano,{})
+                for nan in metadi:
+                    if nan != 'solok':
+                        if nan == 'desci':
+                            if self.argo.temra.get('desci','') == '':
+                                self.argo.temra.update({ 'desci' : metadi.get('desci','') })
+                            else:
+                                metasi = self.argo.temra.get('desci','') + ' ' + metadi.get('desci','')
+                                self.argo.temra.update({ 'desci' : metasi })
+                        else:
+                            self.argo.temra.update({ nan : metadi.get(nan,'') })
+                self.argo.submo = 'temra'
+
+            elif '/' in self.text:
+                keywo = self.text[1:6]
+                numano = self.text.replace('/'+keywo,'')
+                if keywo in self.argo.temra.keys():
+                    metadi = self.argo.recom.get(numano,{})
+                    if metadi.get(keywo,'') != '':
+                        self.argo.temra.update({ keywo : metadi.get(keywo,'') })
+                        if self.argo.temra.get('desci','') == '':
+                            self.argo.temra.update({ 'desci' : metadi.get('desci','') })
+                        else:
+                            metasi = self.argo.temra.get('desci','') + ' ' + metadi.get('desci','')
+                            self.argo.temra.update({ 'desci' : metasi })
+                        self.argo.submo = 'temra'
+
+                    elif metadi.get('solok','') != '':
+                        self.argo.temra.update({ keywo : metadi.get('solok','') })
+                        if self.argo.temra.get('desci','') == '':
+                            self.argo.temra.update({ 'desci' : metadi.get('desci','') })
+                        else:
+                            metasi = self.argo.temra.get('desci','') + ' ' + metadi.get('desci','')
+                            self.argo.temra.update({ 'desci' : metasi })
+                        self.argo.submo = 'temra'
+
+            elif '/' not in self.text:
                 resut = True
 
         return resut
 
     def moCreo(self):
         """General functions"""
-        self.argo.primo = ['creo']
-
-        if self.argo.temra == modVariables.Argo().temra:
-            self.argo.temra.update({ 'datte' : tool.date(modde='1',text='-') })
+        msgCreo = MsgCreo(lingua=self.argo.lingua)
+        if self.argo.primo != ['creo']:
+            self.argo.temra.update({ 'datte' : tool.date(modde=1,text='-') })
             self.argo.temra.update({ 'karen' : self.argo.setti.get('karen','') })
             self.argo.temra.update({ 'tkare' : self.argo.setti.get('karen','') })
             if self.argo.submo == 'expe':
@@ -232,7 +270,7 @@ class Excut:
                 self.argo.temra.update({ 'klass' : self.argo.setti.get('incom','') })
             elif self.argo.submo == 'tafe':
                 self.argo.temra.update({ 'klass' : self.argo.setti.get('tanfe','') })
-            intito = self.argo.temra
+        self.argo.primo = ['creo']
 
         print("<Creo>Create new record from \'"+self.argo.keywo+"\'")
         esurut = self.exper()
@@ -240,23 +278,33 @@ class Excut:
         esurut.update({ 'price' : nimoru })
         esurut.update({ 'tpric' : nimoru })
         # if esurut == {}:
+        for numak in range(0,10000):
+            metanu = str(numak)
+            metanu = '0'*(4-len(metanu)) + metanu
+            if self.argo.recom.get(metanu,{}).get('solok','') == '':
+                numano = metanu
+                break
 
         self.argo.submo = 'recom'
-        if esurut != {}:
+        # pprint.pprint(esurut)
+        if esurut != {'price':'0','tpric':'0'}:
             if esurut.get('desci','') == '':
                 esurut.update({ 'desci' : self.argo.keywo })
             else:
                 metasi = esurut.get('desci') + ' ' + self.argo.keywo
                 esurut.update({ 'desci' : metasi })
             print('<recom> temra need to update')
+            esurut.update({ 'solok' : 'esurut' })
+            self.argo.recom.update({ numano : esurut })
+            self.mesut = [msgCreo.recoman(temra=self.argo.temra,esurut=esurut,numano=numano)]
+            esurut = {}
+
         else:
-            if self.argo.temra == intito:
-                self.argo.primo = ['']
-                self.argo.submo = ''
-                print('[Creo] Close')
-            else:
-                print('[recom] required new keyword (seperate with space)')
-                pprint.pprint(esurut)
+            print('<recom> required new keyword (seperate with space)')
+            esurut = { 'solok' : self.argo.keywo }
+            self.argo.recom.update({ numano : esurut })
+            self.mesut = [msgCreo.recoman(temra=self.argo.temra,esurut=esurut,numano=numano)]
+            esurut = {}
 
     def codTemra(self):
         resut = False
