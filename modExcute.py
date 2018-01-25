@@ -233,7 +233,7 @@ class Excut:
                 self.argo.temra.update({ 'klass' : self.argo.setti.get('tanfe','') })
             intito = self.argo.temra
 
-        print("[Devol]Create new record from \'"+self.argo.keywo+"\'")
+        print("<Creo>Create new record from \'"+self.argo.keywo+"\'")
         esurut = self.exper()
         nimoru = self.numof()
         esurut.update({ 'price' : nimoru })
@@ -247,8 +247,7 @@ class Excut:
             else:
                 metasi = esurut.get('desci') + ' ' + self.argo.keywo
                 esurut.update({ 'desci' : metasi })
-            print('[recom] temra need to update')
-            pprint.pprint(esurut)
+            print('<recom> temra need to update')
         else:
             if self.argo.temra == intito:
                 self.argo.primo = ['']
