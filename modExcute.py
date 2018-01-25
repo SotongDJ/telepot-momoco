@@ -258,10 +258,16 @@ class Excut:
                 print('[recom] required new keyword (seperate with space)')
                 pprint.pprint(esurut)
 
+    def codTemra(self):
+        resut = False
+        if self.argo.submo == 'temra':
+            resut = True
+        return resut
 
-    def moRaw(self):
-        """Initial Function"""
-        print('')
+    def moTemra(self):
+        msgCreo = MsgCreo(lingua=self.argo.lingua)
+        self.mesut = [msgCreo.temran(temra=self.argo.temra)]
+        self.argo.submo = 'recom'
 
     def __init__(self,msg,argon):
         self.text=msg
@@ -277,6 +283,9 @@ class Excut:
 
         elif self.codCreo():
             self.moCreo()
+
+        elif self.codTemra():
+            self.moTemra()
 
         else:
             self.bord()
