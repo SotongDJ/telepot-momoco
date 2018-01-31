@@ -202,6 +202,8 @@ class Excut:
     def codCreo(self):
         """Condition of general function"""
         resut = False
+        msgShort = MsgShort(self.argo.lingua)
+
         if self.argo.primo == ['']:
             if "/expense" in self.text:
                 self.argo.submo = 'expe'
@@ -252,6 +254,24 @@ class Excut:
                             self.argo.temra.update({ 'desci' : metasi })
                         self.argo.submo = 'temra'
 
+                elif self.text[0:6] == "/Temra":
+                    self.argo.submo = 'temra'
+                elif self.text[0:8] == "/Discard":
+                    self.argo.primo = ['']
+                    self.argo.submo = ''
+                    self.argo.temra = {}
+                    self.argo.recom = {}
+                    self.mesut.append(msgShort.empting)
+                elif self.text[0:5] == "/Save":
+                    if '' in self.argo.temra.values():
+                        self.bos = False
+                        self.argo.submo = 'temra'
+                        self.mesut.append(msgShort.emptylist)
+                    else:
+                        self.argo.submo = 'saved'
+                else:
+                    self.mesut.append(msgShort.wrong)
+                    self.argo.submo = 'temra'
             elif '/' not in self.text:
                 resut = True
 
@@ -314,8 +334,9 @@ class Excut:
 
     def codTemra(self):
         resut = False
-        if self.argo.submo == 'temra':
-            resut = True
+        if self.argo.primo == ['creo']:
+            if self.argo.submo == 'temra':
+                resut = True
         return resut
 
     def moTemra(self):
@@ -330,6 +351,8 @@ class Excut:
         self.mesut=[]
         self.cos=0
 
+        self.bos = True
+
         self.argo.lingua = self.argo.setti.get('lingua','SiMP')
 
         if self.codGen():
@@ -341,5 +364,5 @@ class Excut:
         elif self.codTemra():
             self.moTemra()
 
-        else:
+        elif self.bos:
             self.bord()
