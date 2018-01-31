@@ -4,7 +4,7 @@ from core import tool
 from core import modDatabase
 from core import modVariables
 
-import modSearch
+import modSearch,modRecom
 
 from msgMain import MsgMain
 from msgShort import MsgShort
@@ -54,151 +54,6 @@ class Excut:
         elif "/exit" in self.text:
             self.mesut.append(msgShort.bye)
             self.cos=1
-
-    def exper(self):
-        """Grab word from msg"""
-
-        keydb = modDatabase.opendb(self.argo.usrdir).get('key',{})
-        rawdb = modDatabase.opendb(self.argo.usrdir).get('raw',{})
-        keywolista = modDatabase.listKeywo(self.argo.usrdir)
-        # keywolista = {keywo: {class : [ uuid ]}}
-
-        kasdik = {} # {class : [keyword]}
-        udilis = [] # [uuid]
-        udidik = {} # {uuid : score }
-        secodi = {0:[0]} # {score : uuid}
-
-        for keyto in keywolista.keys():
-            if keyto in self.argo.keywo:
-                for kasse in keywolista.get(keyto).keys():
-                    metase = kasdik.get(kasse,[])
-                    metase.append(keyto)
-                    kasdik.update({ kasse : metase })
-                    udilis.extend(keywolista.get(keyto).get(kasse))
-        # pprint.pprint(kasdik)
-        nummo = 0
-        for uuid in udilis:
-            nummo = udidik.get(uuid,0)
-            nummo = nummo + 1
-            udidik.update({ uuid : nummo })
-
-        setta = []
-        for uuid in udidik:
-            nummo = udidik.get(uuid)
-            setta = secodi.get(nummo,[])
-            setta.append(uuid)
-            secodi.update({ nummo : setta })
-        # pprint.pprint(secodi)
-
-        finudi = [] # [uuid]
-        fikali = [] # [class]
-        fikeli = [] # [keyword]
-        fikasi = '' # class-class...
-        fudidi = {} # { keywo-keywo... : score}
-
-        kasse = ''
-        keywo = ''
-        finudi = secodi.get(max(sorted(list(secodi.keys()))))
-        if finudi == [0]:
-            return {}
-        else:
-            fikali = sorted(list(kasdik.keys()))
-            # pprint.pprint(fikeli)
-            for kasse in fikali:
-                if fikasi == "":
-                    fikasi = kasse
-                else:
-                    fikasi = fikasi + '@' + kasse
-            # print("fikasi:"+fikasi)
-            for kewoli in kasdik.values():
-                fikeli.extend(kewoli)
-            nummo = 0
-            for uuid in finudi:
-                metasi = ''
-                for kasse in fikali:
-                    keyta = rawdb.get(uuid).get(kasse)
-                    # print("keyta:"+keyta)
-                    if keyta not in fikeli:
-                        keyta = ''
-                    if metasi == '':
-                        if keyta == '':
-                            metasi = '@'
-                        else:
-                            metasi = keyta
-                    elif metasi == '@':
-                        metasi = metasi + keyta
-                    else:
-                        metasi = metasi + '@' + keyta
-                nummo = fudidi.get(metasi,0)
-                nummo = nummo + 1
-                fudidi.update({ metasi : nummo })
-            # pprint.pprint(fudidi)
-
-            resudi = {} # { score : last keywo-keywo}
-            for metakesi in fudidi.keys():
-                sekor = fudidi.get(metakesi)
-                resudi.update({ sekor : metakesi })
-
-            resut = {}
-            fikesi = resudi.get(max(sorted(list(resudi.keys()))))
-            fikase = fikasi.split('@')
-            fikese = fikesi.split('@')
-            if len(fikase) != len(fikese):
-                print("fikasi: "+fikasi)
-                print("fikesi: "+fikesi)
-                pprint.pprint(fikase)
-                pprint.pprint(fikese)
-            else:
-                for numelo in range(0,len(fikase)):
-                    if fikese[numelo] != '':
-                        resut.update({ fikase[numelo] : fikese[numelo] })
-            # pprint.pprint(resut)
-            return resut
-
-    def numof(self):
-        pre = False
-        resut = '0'
-        metasi = ''
-        metase = []
-        numan = ['0','1','2','3','4','5','6','7','8','9']
-        nunot = ['.',',']
-        for stik in self.argo.keywo:
-            if stik in numan:
-                if pre:
-                    metasi = metasi + stik
-                else:
-                    metasi = stik
-                pre = True
-            elif stik in nunot:
-                if pre:
-                    metasi = metasi + stik
-                    pre = True
-            else:
-                pre = False
-                if metasi != '':
-                    metase.append(metasi)
-                    metasi = ''
-        if pre:
-            pre = False
-            if metasi != '':
-                metase.append(metasi)
-                metasi = ''
-        # pprint.pprint(metase)
-
-        leva = 0
-        for nummo in metase:
-            if '.' in nummo:
-                if float(nummo.replace(',','')) > float(resut):
-                    resut = nummo.replace(',','')
-                    leva = 2
-            elif leva <2:
-                if float(nummo.replace(',','.')) > float(resut):
-                    resut = nummo.replace(',','.')
-                    leva = 1
-
-        if resut == '0':
-            resut = ''
-        return resut
 
     def codCreo(self):
         """Condition of general function"""
@@ -288,8 +143,8 @@ class Excut:
         self.argo.primo = ['creo']
 
         print("<Creo>Create new record from \'"+self.argo.keywo+"\'")
-        esurut = self.exper()
-        nimoru = self.numof()
+        esurut = modRecom.exper(self.argo.usrdir,self.argo.keywo)
+        nimoru = modRecom.numof(self.argo.keywo))
         esurut.update({ 'price' : nimoru })
         esurut.update({ 'tpric' : nimoru })
         # if esurut == {}:
