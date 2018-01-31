@@ -212,6 +212,17 @@ class Excut:
         self.argo.temra = {}
         self.argo.recom = {}
 
+    def codSearch(self):
+        resut = False
+        if self.argo.primo == ['']:
+            if "/search" in self.text:
+                self.argo.submo = 'expe'
+                resut = True
+        return resut
+
+    def moSearch(self):
+        self.mesut = ['HaHa']
+        
     def __init__(self,msg,argon):
         self.text=msg
         self.argo=argon
