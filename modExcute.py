@@ -23,7 +23,7 @@ class Excut:
     """
     def bord(self):
         msgMain = MsgMain(self.argo.lingua)
-        self.mesut=[msgMain.bored]
+        self.mesut.append(msgMain.bored)
 
     def codGen(self):
         """Condition of general function"""
@@ -39,19 +39,19 @@ class Excut:
         msgShort = MsgShort(self.argo.lingua)
         msgMain = MsgMain(self.argo.lingua)
         if "/start" in self.text:
-            mesut = msgMain.start
+            messa = msgMain.start
             if self.argo.primo == ['']:
-                mesut = mesut + msgShort.cof
-                self.mesut = [mesut]
+                messa = messa + msgShort.cof
+                self.mesut.append(messa)
                 self.cos=1
         elif "/help" in self.text:
-            mesut = msgMain.help
+            messa = msgMain.help
             if self.argo.primo == ['']:
-                mesut = mesut + msgShort.cof
-                self.mesut = [mesut]
+                messa = messa + msgShort.cof
+                self.mesut.append(messa)
                 self.cos=1
         elif "/exit" in self.text:
-            self.mesut = [msgShort.bye]
+            self.mesut.append(msgShort.bye)
             self.cos=1
 
     def exper(self):
@@ -299,7 +299,7 @@ class Excut:
             print('<recom> temra need to update')
             esurut.update({ 'solok' : '@esurut@' })
             self.argo.recom.update({ numano : esurut })
-            self.mesut = [msgCreo.recoman(esurut=esurut,numano=numano)]
+            self.mesut.append(msgCreo.recoman(esurut=esurut,numano=numano))
             esurut = {}
 
         else:
@@ -309,7 +309,7 @@ class Excut:
             for n in defal.temra.keys():
                 esurut.update({ n : self.argo.keywo })
             self.argo.recom.update({ numano : esurut })
-            self.mesut = [msgCreo.recoman(esurut=esurut,numano=numano)]
+            self.mesut.append(msgCreo.recoman(esurut=esurut,numano=numano))
             esurut = {}
 
     def codTemra(self):
@@ -320,7 +320,7 @@ class Excut:
 
     def moTemra(self):
         msgCreo = MsgCreo(lingua=self.argo.lingua)
-        self.mesut = [msgCreo.temran(temra=self.argo.temra)]
+        self.mesut.append(msgCreo.temran(temra=self.argo.temra))
         self.argo.submo = 'recom'
 
     def __init__(self,msg,argon):
