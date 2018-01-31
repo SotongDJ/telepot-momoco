@@ -70,7 +70,7 @@ class MsgCreo:
         resut = resut.replace('@lista@',lista)
 
         if esurut.get('solok','') == '@esurut@':
-            resut = resut.replace('@recomnumano@',"Replace All: \n"+"　/recom" + numano)
+            resut = resut.replace('@recomnumano@',"Replace All: \n"+"　/recom" + numano + "\n")
         else:
             resut = resut.replace('@recomnumano@',"")
         return resut
