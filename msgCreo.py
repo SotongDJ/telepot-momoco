@@ -74,3 +74,9 @@ class MsgCreo:
         else:
             resut = resut.replace('@recomnumano@',"")
         return resut
+
+    def savon(self,temra={}):
+        resut = open('descri/creoSaved.'+self.lingua).read()
+        for n in temra.keys():
+            resut = resut.replace('@'+n+'@',temra.get(n,"____"))
+        return resut

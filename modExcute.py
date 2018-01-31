@@ -344,6 +344,27 @@ class Excut:
         self.mesut.append(msgCreo.temran(temra=self.argo.temra))
         self.argo.submo = 'recom'
 
+    def codSave(self):
+        resut = False
+        if self.argo.primo == ['creo']:
+            if self.argo.submo == 'saved':
+                resut = True
+        return resut
+
+    def moSave(self):
+        msgCreo = MsgCreo(lingua=self.argo.lingua)
+        msgShort = MsgShort(self.argo.lingua)
+
+        modDatabase.addRaw(self.argo.usrdir,self.argo.temra)
+        modDatabase.refesdb(self.argo.usrdir)
+        self.mesut.append(msgShort.saved)
+        self.mesut.append(msgCreo.savon(temra=self.argo.temra))
+
+        self.argo.primo = ['']
+        self.argo.submo = ''
+        self.argo.temra = {}
+        self.argo.recom = {}
+
     def __init__(self,msg,argon):
         self.text=msg
         self.argo=argon
@@ -363,6 +384,9 @@ class Excut:
 
         elif self.codTemra():
             self.moTemra()
+
+        elif self.codSave():
+            self.moSave()
 
         elif self.bos:
             self.bord()

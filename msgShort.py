@@ -15,6 +15,7 @@ class MsgShort:
             self.refesfin = 'Refreshing Finished !\n～～～～～～～～～～\n'
             self.refka = 'Currency Rate Refreshing Finished !'
             self.rekeswd = '～～～～～～～～～～\nGive me a word or a number'
+            self.saved = "Record saved.\n"
             self.spitpre = '--- PREV MSG ---\n'
             self.spitpost = '\n--- NEXT MSG ---'
             self.whatsnow = 'Try /whats_now '
