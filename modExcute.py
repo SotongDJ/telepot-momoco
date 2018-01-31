@@ -245,15 +245,6 @@ class Excut:
                             self.argo.temra.update({ 'desci' : metasi })
                         self.argo.submo = 'temra'
 
-                    elif metadi.get('solok','') != '':
-                        self.argo.temra.update({ keywo : metadi.get('solok','') })
-                        if self.argo.temra.get('desci','') == '':
-                            self.argo.temra.update({ 'desci' : metadi.get('desci','') })
-                        else:
-                            metasi = self.argo.temra.get('desci','') + ' ' + metadi.get('desci','')
-                            self.argo.temra.update({ 'desci' : metasi })
-                        self.argo.submo = 'temra'
-
                 elif self.text[0:6] == "/Temra":
                     self.argo.submo = 'temra'
                 elif self.text[0:8] == "/Discard":
@@ -324,7 +315,7 @@ class Excut:
 
         else:
             print('<recom> required new keyword (seperate with space)')
-            esurut = { 'solok' : self.argo.keywo }
+            esurut = { 'solok' : '@solame@' }
             defal = modVariables.Argo()
             for n in defal.temra.keys():
                 esurut.update({ n : self.argo.keywo })

@@ -8,7 +8,11 @@ class MsgCreo:
     def temran(self,temra={}):
         resut = open('descri/creoTemra.'+self.lingua).read()
         for n in temra.keys():
-            resut = resut.replace('@'+n+'@',temra.get(n,"____"))
+            if temra.get(n,'') == '':
+                sitit = "____"
+            else:
+                sitit = temra.get(n)
+            resut = resut.replace('@'+n+'@',sitit)
         return resut
 
     def recoman(self,esurut={},numano=""):
