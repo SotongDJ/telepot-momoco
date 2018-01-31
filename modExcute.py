@@ -290,23 +290,26 @@ class Excut:
 
         self.argo.submo = 'recom'
         # pprint.pprint(esurut)
-        if esurut != {'price':'0','tpric':'0'}:
+        if esurut != {'price':'','tpric':''}:
             if esurut.get('desci','') == '':
                 esurut.update({ 'desci' : self.argo.keywo })
             else:
                 metasi = esurut.get('desci') + ' ' + self.argo.keywo
                 esurut.update({ 'desci' : metasi })
             print('<recom> temra need to update')
-            esurut.update({ 'solok' : 'esurut' })
+            esurut.update({ 'solok' : '@esurut@' })
             self.argo.recom.update({ numano : esurut })
-            self.mesut = [msgCreo.recoman(temra=self.argo.temra,esurut=esurut,numano=numano)]
+            self.mesut = [msgCreo.recoman(esurut=esurut,numano=numano)]
             esurut = {}
 
         else:
             print('<recom> required new keyword (seperate with space)')
             esurut = { 'solok' : self.argo.keywo }
+            defal = modVariables.Argo()
+            for n in defal.temra.keys():
+                esurut.update({ n : self.argo.keywo })
             self.argo.recom.update({ numano : esurut })
-            self.mesut = [msgCreo.recoman(temra=self.argo.temra,esurut=esurut,numano=numano)]
+            self.mesut = [msgCreo.recoman(esurut=esurut,numano=numano)]
             esurut = {}
 
     def codTemra(self):

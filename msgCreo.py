@@ -1,3 +1,6 @@
+import pprint
+from core import modVariables
+
 class MsgCreo:
     def __init__(self,lingua='SiMP'):
         self.lingua = lingua
@@ -8,23 +11,66 @@ class MsgCreo:
             resut = resut.replace('@'+n+'@',temra.get(n,"____"))
         return resut
 
-    def recoman(self,temra={},esurut={},numano=""):
+    def recoman(self,esurut={},numano=""):
         resut = open('descri/creoRecom.'+self.lingua).read()
-        for n in temra.keys():
-            if esurut.get(n,'') != '':
-                if temra.get(n,'') != '':
-                    testa = temra.get(n)+" <-- /"+ n + numano + " "+ esurut.get(n,'')
-                else:
-                    testa = "/" + n + numano + " "+ esurut.get(n,'')
-            else:
-                if esurut.get('solok','') != '' and esurut.get('solok','') != 'esurut':
-                    testa = "/" + n + numano + " "+ esurut.get('solok')
-                else:
-                    testa = "____"
-            resut = resut.replace('@'+n+'@',testa)
+        resut = resut.replace('@numano@',numano)
+        # pprint.pprint(temra)
 
-        if esurut.get('solok','') == 'esurut':
-            resut = resut.replace('@recomnumano@',"/recom" + numano)
+        lista = ''
+        if esurut.get('datte','') != '':
+            lista = lista +'Date: ('+esurut.get('datte')+')\n　/datte'+numano+'\n'
+        if esurut.get('namma','') != '':
+            lista = lista +'Name/Remind: ('+esurut.get('namma')+')\n　/namma'+numano+'\n'
+        if esurut.get('shoop','') != '':
+            lista = lista +'Shop/Agent: ('+esurut.get('shoop')+')\n　/shoop'+numano+'\n'
+        if esurut.get('klass','') != '':
+            lista = lista +'Class: ('+esurut.get('klass')+')\n　/klass'+numano+'\n'
+
+        focod = False
+        if esurut.get('fromm','') != '':
+            focod = True
+        if esurut.get('karen','') != '':
+            focod = True
+        if esurut.get('price','') != '':
+            focod = True
+        if focod:
+            lista = lista + '\nFrom: \n　('
+
+            if esurut.get('fromm','') != '':
+                lista = lista + '[' + esurut.get('fromm','') + ']　/fromm' + numano + '\n'
+            lista = lista + esurut.get('karen','___') + '　'
+            lista = lista + esurut.get('price','') + ')\n'
+            if esurut.get('karen','') != '':
+                lista = lista + '　/karen' + numano +'\n'
+            if esurut.get('price','') != '':
+                lista = lista + '　/price' + numano +'\n'
+
+        tocod = False
+        if esurut.get('toooo','') != '':
+            tocod = True
+        if esurut.get('tkare','') != '':
+            tocod = True
+        if esurut.get('tpric','') != '':
+            tocod = True
+        if tocod:
+            lista = lista + '\nTo: \n　('
+
+            if esurut.get('toooo','') != '':
+                lista = lista + '[' + esurut.get('toooo') + ']　/toooo' + numano + '\n'
+            lista = lista + '　' + esurut.get('tkare','___') + '　'
+            lista = lista + esurut.get('tpric','') + ')\n'
+            if esurut.get('tkare','') != '':
+                lista = lista + '　/tkare' + numano +'\n'
+            if esurut.get('tpric','') != '':
+                lista = lista + '　/tpric' + numano +'\n'
+
+        if esurut.get('desci','') != '':
+            lista = lista +'\nDescription:\n　'+esurut.get('desci')+'\n'
+
+        resut = resut.replace('@lista@',lista)
+
+        if esurut.get('solok','') == '@esurut@':
+            resut = resut.replace('@recomnumano@',"Replace All: \n"+"　/recom" + numano)
         else:
-            resut = resut.replace('@recomnumano@',"not available")
+            resut = resut.replace('@recomnumano@',"")
         return resut

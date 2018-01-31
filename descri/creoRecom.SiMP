@@ -1,24 +1,10 @@
 Recommendation Card
 (Serial no. @numano@)
 ——————————
-Date:
-　@datte@
-Name/Remind:
-　@namma@
-Shop/Agent:
-　@shoop@
-Class:
-　@klass@
-
-From:
-[@fromm@] @karen@ @price@
-To:
-[@toooo@] @tkare@ @tpric@
-
-Description:
-　@desci@
+@lista@
 ——————————
-Replace All
-　@recomnumano@
+@recomnumano@
 Remind:
-　Click command "/*" to replace
+　Click command "/somthing" to replace
+　"*" mean entry remain unchanged
+　"<--" mean will change from left to right
