@@ -144,7 +144,7 @@ class Excut:
 
         print("<Creo>Create new record from \'"+self.argo.keywo+"\'")
         esurut = modRecom.exper(self.argo.usrdir,self.argo.keywo)
-        nimoru = modRecom.numof(self.argo.keywo))
+        nimoru = modRecom.numof(self.argo.keywo)
         esurut.update({ 'price' : nimoru })
         esurut.update({ 'tpric' : nimoru })
         # if esurut == {}:
@@ -216,13 +216,12 @@ class Excut:
         resut = False
         if self.argo.primo == ['']:
             if "/search" in self.text:
-                self.argo.submo = 'expe'
                 resut = True
         return resut
 
     def moSearch(self):
         self.mesut = ['HaHa']
-        
+
     def __init__(self,msg,argon):
         self.text=msg
         self.argo=argon
@@ -245,6 +244,9 @@ class Excut:
 
         elif self.codSave():
             self.moSave()
+
+        elif self.codSearch():
+            self.moSearch()
 
         elif self.bos:
             self.bord()
