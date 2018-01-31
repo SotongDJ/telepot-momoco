@@ -2,8 +2,9 @@ import pprint
 
 from core import tool
 from core import modDatabase
-from core import modSearch
 from core import modVariables
+
+import modSearch
 
 from msgMain import MsgMain
 from msgShort import MsgShort

@@ -2,8 +2,9 @@ import sys, os, traceback, telepot, time, json, random, pprint
 
 from core import tool
 from core import modDatabase
-from core import modSearch
 from core import modVariables
+
+import modSearch
 
 from modHandle import Hande
 from modExcute import Excut
