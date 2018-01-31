@@ -101,9 +101,9 @@ class Excut:
                             self.argo.temra.update({ 'desci' : metasi })
                         self.argo.submo = 'temra'
 
-                elif self.text[0:6] == "/Temra":
+                elif self.text[0:6] == "/temra":
                     self.argo.submo = 'temra'
-                elif self.text[0:8] == "/Discard":
+                elif self.text[0:8] == "/discard":
                     self.argo.primo = ['']
                     self.argo.submo = ''
                     self.argo.temra = {}
