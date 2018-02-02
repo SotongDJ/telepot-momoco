@@ -1,7 +1,8 @@
 from core import modDatabase
+from core import tool
 
 def listKeywo(usrdir):
-    print('modDatabase.listKeywo: '+usrdir)
+    print('modDatabase.listKeywo: '+tool.mask(usrdir))
     keydb = modDatabase.opendb(usrdir).get('key',{})
     resut = {}
     for kas in keydb.keys():
