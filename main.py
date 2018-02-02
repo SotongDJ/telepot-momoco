@@ -79,7 +79,7 @@ class User(telepot.helper.ChatHandler):
                 self.close()
 
         elif "/" not in initial_msg["text"]:
-            keywo = initial_msg["text"].replace(" ","_")
+            keywo = initial_msg["text"]
             self.argo.keywo = keywo
             self.sending(mesag=[msgMain.home({'keywo':keywo})])
 
