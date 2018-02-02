@@ -18,25 +18,26 @@ msgMain = MsgMain(lingua)
 defal = modVariables.Argo()
 
 class argo:
-    def sending(self,mesag=['']):
+    def sending(self,primo='',submo='',mesag=['']):
         msgShort = MsgShort(self.lingua)
+        outputes = '[output{'+primo+':'+submo+'}]'
         for wuerd in mesag:
             if len(wuerd) >=4069:
                 parta = [ wuerd[i:i+4000] for i in range(0, len(wuerd), 4000) ]
                 for numo in range(0,len(parta)):
                     if numo == 0:
-                        sentes = '[output]' + parta[numo] + msgShort.spitpost
+                        sentes = outputes + parta[numo] + msgShort.spitpost
                         print(sentes)
                     elif numo == len(parta) - 1:
-                        sentes = '[output]' + msgShort.spitpre + parta[numo]
+                        sentes = outputes + msgShort.spitpre + parta[numo]
                         print(sentes)
                     else:
-                        sentes = '[output]' + msgShort.spitpre + parta[numo]
+                        sentes = outputes + msgShort.spitpre + parta[numo]
                         sentes = sentes + msgShort.spitpost
                         print(sentes)
                     time.sleep(1)
             else:
-                print('[output]' + wuerd)
+                print(outputes + wuerd)
                 time.sleep(1)
 
     def __init__(self):
@@ -60,7 +61,7 @@ while condi:
     if "/" in testa:
         resul = Excut(testa,Argon)
 
-        Argon.sending(mesag=resul.mesut)
+        Argon.sending(primo=Argon.primo[-1],submo=Argon.submo,mesag=resul.mesut)
         Argon = resul.argo
         if resul.cos == 1:
             condi = False
