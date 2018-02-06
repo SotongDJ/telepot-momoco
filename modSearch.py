@@ -67,9 +67,20 @@ def exper(usrdir,mesag,btempo='',ftempo=''):
                 else:
                     metasi = metasi + '@' + keyta
 
-            metaso = fudidi.get(metasi,[])
-            metaso.append(uuid)
-            fudidi.update({ metasi : metaso })
+            statu = 0
+            for mesol in mesalista:
+                if mesol in metasi:
+                    if statu == 0:
+                        statu = 2
+                else:
+                    if statu == 2:
+                        statu = 1
+                    elif statu == 0:
+                        statu = 1
+            if statu == 2:
+                metaso = fudidi.get(metasi,[])
+                metaso.append(uuid)
+                fudidi.update({ metasi : metaso })
     # pprint.pprint(fudidi)
 
     resut = {}
