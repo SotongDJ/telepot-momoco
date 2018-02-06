@@ -20,7 +20,7 @@ defal = modVariables.Argo()
 class argo:
     def sending(self,primo='',submo='',mesag=['']):
         msgShort = MsgShort(self.lingua)
-        outputes = '[output{'+primo+':'+submo+'}]'
+        outputes = '\n[output{'+primo+':'+submo+'}]'
         for wuerd in mesag:
             if len(wuerd) >=4069:
                 parta = [ wuerd[i:i+4000] for i in range(0, len(wuerd), 4000) ]
@@ -56,7 +56,7 @@ class argo:
 condi = True
 Argon = argo()
 while condi:
-    testa = input('[input{'+Argon.primo[-1]+':'+Argon.submo+'}]')
+    testa = input('\n[input{'+Argon.primo[-1]+':'+Argon.submo+'}]')
 
     if "/" in testa:
         resul = Excut(testa,Argon)
