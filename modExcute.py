@@ -220,6 +220,9 @@ class Excut:
         return resut
 
     def moSearch(self):
+        if self.argo.primo != ['sachi']:
+            self.argo.primo = ['sachi']
+
         self.mesut = ['HaHa']
 
     def __init__(self,msg,argon):
