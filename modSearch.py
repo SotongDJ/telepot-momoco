@@ -6,7 +6,7 @@ import modKeywo,pprint
 def exper(usrdir,mesag,btempo='',ftempo=''):
     """Grab word from msg"""
     print('modRecom.exper: '+tool.mask(usrdir))
-    datte = modDatabase.timra(usrdir,btempo=btempo,ftempo=btempo,modde='uuid')
+    datte = modDatabase.timra(usrdir,btempo=btempo,ftempo=ftempo,modde='uuid')
     rawdb = modDatabase.opendb(usrdir).get('raw',{})
     kewulista = modKeywo.listKeywo(usrdir)
     # kewulista = {keywo: {class : [ uuid ]}}
