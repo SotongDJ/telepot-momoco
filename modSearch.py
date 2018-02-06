@@ -16,13 +16,15 @@ def exper(usrdir,mesag,btempo='',ftempo=''):
     udilis = [] # [uuid]
 
     for keyto in kewulista.keys():
-        if keyto in mesag:
-            for kasse in kewulista.get(keyto).keys():
-                metase = mesdik.get(kasse,[])
-                metase.append(keyto)
-                mesdik.update({ kasse : metase })
-                udilis.extend(kewulista.get(keyto).get(kasse))
+        for mesol in mesalista:
+            if mesol in keyto:
+                for kasse in kewulista.get(keyto).keys():
+                    metase = mesdik.get(kasse,[])
+                    metase.append(keyto)
+                    mesdik.update({ kasse : metase })
+                    udilis.extend(kewulista.get(keyto).get(kasse))
     # pprint.pprint(mesdik)
+    # pprint.pprint(udilis)
 
     finudi = [] # [uuid]
     fikali = [] # [class]
@@ -32,6 +34,7 @@ def exper(usrdir,mesag,btempo='',ftempo=''):
 
     kasse = ''
     finudi = sorted(list(udilis))
+    # pprint.pprint(finudi)
     fikali = sorted(list(mesdik.keys()))
     # pprint.pprint(fikali)
     for kewoli in mesdik.values():
@@ -43,13 +46,14 @@ def exper(usrdir,mesag,btempo='',ftempo=''):
         else:
             fikasi = fikasi + '@' + kasse
     # print("fikasi:"+fikasi)
-    nummo = 0
+
     for uuid in finudi:
         if uuid in datte:
             metasi = ''
+
             for kasse in fikali:
                 keyta = rawdb.get(uuid).get(kasse)
-                # print("keyta:"+keyta)
+
                 if keyta not in fikeli:
                     keyta = ''
 
