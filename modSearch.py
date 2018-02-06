@@ -3,10 +3,10 @@ from core import tool
 
 import modKeywo,pprint
 
-def exper(usrdir,mesag):
+def exper(usrdir,mesag,btempo='',ftempo=''):
     """Grab word from msg"""
     print('modRecom.exper: '+tool.mask(usrdir))
-    keydb = modDatabase.opendb(usrdir).get('key',{})
+    datte = modDatabase.timra(usrdir,btempo=btempo,ftempo=btempo,modde='uuid')
     rawdb = modDatabase.opendb(usrdir).get('raw',{})
     kewulista = modKeywo.listKeywo(usrdir)
     # kewulista = {keywo: {class : [ uuid ]}}
@@ -45,26 +45,27 @@ def exper(usrdir,mesag):
     # print("fikasi:"+fikasi)
     nummo = 0
     for uuid in finudi:
-        metasi = ''
-        for kasse in fikali:
-            keyta = rawdb.get(uuid).get(kasse)
-            # print("keyta:"+keyta)
-            if keyta not in fikeli:
-                keyta = ''
+        if uuid in datte:
+            metasi = ''
+            for kasse in fikali:
+                keyta = rawdb.get(uuid).get(kasse)
+                # print("keyta:"+keyta)
+                if keyta not in fikeli:
+                    keyta = ''
 
-            if metasi == '':
-                if keyta == '':
-                    metasi = '@'
+                if metasi == '':
+                    if keyta == '':
+                        metasi = '@'
+                    else:
+                        metasi = keyta
+                elif metasi == '@':
+                    metasi = metasi + keyta
                 else:
-                    metasi = keyta
-            elif metasi == '@':
-                metasi = metasi + keyta
-            else:
-                metasi = metasi + '@' + keyta
+                    metasi = metasi + '@' + keyta
 
-        metaso = fudidi.get(metasi,[])
-        metaso.append(uuid)
-        fudidi.update({ metasi : metaso })
+            metaso = fudidi.get(metasi,[])
+            metaso.append(uuid)
+            fudidi.update({ metasi : metaso })
     # pprint.pprint(fudidi)
 
     resut = {}
