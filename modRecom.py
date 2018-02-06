@@ -3,12 +3,12 @@ from core import tool
 
 import modKeywo
 
-def exper(usrdir,keywo):
+def exper(usrdir,mesag):
     """Grab word from msg"""
-
+    print('modRecom.exper: '+tool.mask(usrdir))
     keydb = modDatabase.opendb(usrdir).get('key',{})
     rawdb = modDatabase.opendb(usrdir).get('raw',{})
-    kewulista = modDatabase.listKeywo(usrdir)
+    kewulista = modKeywo.listKeywo(usrdir)
     # kewulista = {keywo: {class : [ uuid ]}}
 
     kasdik = {} # {class : [keyword]}
@@ -17,7 +17,7 @@ def exper(usrdir,keywo):
     secodi = {0:[0]} # {score : uuid}
 
     for keyto in kewulista.keys():
-        if keyto in keywo:
+        if keyto in mesag:
             for kasse in kewulista.get(keyto).keys():
                 metase = kasdik.get(kasse,[])
                 metase.append(keyto)
@@ -102,14 +102,16 @@ def exper(usrdir,keywo):
         # pprint.pprint(resut)
         return resut
 
-def numof(keywo):
+def numof(mesag):
+    print('modRecom.numof')
+    print('mesag: '+mesag)
     pre = False
     resut = '0'
     metasi = ''
     metase = []
     numan = ['0','1','2','3','4','5','6','7','8','9']
     nunot = ['.',',']
-    for stik in keywo:
+    for stik in mesag:
         if stik in numan:
             if pre:
                 metasi = metasi + stik
