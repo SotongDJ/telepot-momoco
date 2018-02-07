@@ -29,7 +29,7 @@ class Excut:
     def codGen(self):
         """Condition of general function"""
         resut = False
-        keyse = ["/start","/help","/exit"]
+        keyse = ["/start","/help","/exit","/mem"]
         for keywo in keyse:
             if keywo in self.text:
                 resut = True
@@ -53,6 +53,8 @@ class Excut:
         elif "/exit" in self.text:
             self.mesut.append(msgShort.bye)
             self.cos=1
+        elif "/mem" in self.text:
+            self.mesut.append(pprint.pformat(self.argo.database))
 
     def codCreo(self):
         """Condition of general function"""
