@@ -3,10 +3,11 @@ from core import tool
 
 import modKeywo,pprint
 
-def exper(usrdir,mesag,btempo='',ftempo=''):
+def exper(usrdir,mesag,btempo='',ftempo='',preudi=[]):
     """Grab word from msg"""
     print('modRecom.exper: '+tool.mask(usrdir))
-    datte = modDatabase.timra(usrdir,btempo=btempo,ftempo=ftempo,modde='uuid')
+    if preudi == []:
+        preudi = modDatabase.timra(usrdir,btempo=btempo,ftempo=ftempo,modde='uuid')
     rawdb = modDatabase.opendb(usrdir).get('raw',{})
     kewulista = modKeywo.listKeywo(usrdir)
     # kewulista = {keywo: {class : [ uuid ]}}
@@ -31,6 +32,7 @@ def exper(usrdir,mesag,btempo='',ftempo=''):
     fikeli = [] # [keyword]
     fikasi = '' # class-class...
     fudidi = {} # { keywo-keywo... : [uuid]}
+    resudi = [] # [uuid] for preudi
 
     kasse = ''
     finudi = sorted(list(udilis))
@@ -48,7 +50,7 @@ def exper(usrdir,mesag,btempo='',ftempo=''):
     # print("fikasi:"+fikasi)
 
     for uuid in finudi:
-        if uuid in datte:
+        if uuid in preudi:
             metasi = ''
 
             for kasse in fikali:
@@ -77,14 +79,19 @@ def exper(usrdir,mesag,btempo='',ftempo=''):
                         statu = 1
                     elif statu == 0:
                         statu = 1
+
             if statu == 2:
                 metaso = fudidi.get(metasi,[])
                 metaso.append(uuid)
+                metaso = sorted(list(set(metaso)))
+                resudi.append(uuid)
                 fudidi.update({ metasi : metaso })
     # pprint.pprint(fudidi)
+    resudi = sorted(list(set(resudi)))
 
     resut = {}
     resut.update({ 'fikasi' : fikasi})
     resut.update({ 'fudidi' : fudidi})
+    resut.update({ 'resudi' : resudi})
 
     return resut
