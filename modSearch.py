@@ -150,15 +150,19 @@ def exper(usrdir,mesag,preudi=[]):
                         statu = 1
                     elif statu == 0:
                         statu = 1
-
-            if statu == 2:
+            if statu == 1:
+                falson.append(metasi)
+            elif statu == 2:
                 metaso = fudidi.get(metasi,[])
                 metaso.append(uuid)
                 metaso = sorted(list(set(metaso)))
                 resudi.append(uuid)
                 fudidi.update({ metasi : metaso })
     # pprint.pprint(fudidi)
+    falson = sorted(list(set(falson)))
+    # pprint.pprint(falson)
     resudi = sorted(list(set(resudi)))
+    print('resudi: ' + str(len(resudi)) + ' record(s)')
 
     resut = {}
     resut.update({ 'fikasi' : fikasi})
