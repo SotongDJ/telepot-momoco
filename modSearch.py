@@ -71,7 +71,8 @@ def exper(usrdir,mesag,preudi=[]):
     if preudi == []:
         preudi = modDatabase.timra(usrdir,btempo=btempo,ftempo=ftempo,modde='uuid')
     rawdb = modDatabase.opendb(usrdir).get('raw',{})
-    kewulista = modKeywo.listKeywo(usrdir)
+    limit = ['datte']
+    kewulista = modKeywo.listKeywo(usrdir,limit=limit)
     # kewulista = {keywo: {class : [ uuid ]}}
 
     mesalista = mesag.split(' ')
