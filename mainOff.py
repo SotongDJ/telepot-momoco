@@ -15,7 +15,6 @@ usrdir = 'database/usr/'+str(auth.id())
 Setting = modDatabase.openSetting(usrdir=usrdir)
 lingua = Setting.get('lingua','enMY')
 msgMain = MsgMain(lingua)
-defal = modVariables.Argo()
 
 class argo:
     def sending(self,primo='',submo='',mesag=['']):
@@ -43,26 +42,29 @@ class argo:
     def __init__(self):
         self.usrdir = usrdir
         self.lingua = lingua
-        self.catid = auth.id()
-        self.cotyp = 'text'
-        self.primo = ['']
-        self.submo = ''
+        defal = modVariables.Argo()
+        self.database = defal.database
+        chatdata = self.database.get('chat')
+        chatdata.update({ 'chatid' : auth.id() })
+        chatdata.update({ 'content_type' : 'text' })
         self.setti = Setting
         self.veces = 0
         self.keywo = ''
-        self.recom = {}
-        self.temra = defal.temra
 
 condi = True
 Argon = argo()
 while condi:
-    testa = input('\n[input{'+Argon.primo[-1]+':'+Argon.submo+'}]')
+    modde = Argon.database.get('mode',{})
+    primo = modde.get(max(modde.keys()),'')
+    specdata = Argon.database.get(primo,{})
+    submo = specdata.get('submode','')
+    testa = input('\n[input{'+ primo +':'+ submo +'}]')
 
     if "/" in testa:
         resul = Excut(testa,Argon)
 
-        Argon.sending(primo=Argon.primo[-1],submo=Argon.submo,mesag=resul.mesut)
         Argon = resul.argo
+        Argon.sending(primo=primo,submo=submo,mesag=resul.mesut)
         if resul.cos == 1:
             condi = False
             print('[stop]')
@@ -70,16 +72,16 @@ while condi:
     elif "/" not in testa:
         resul = Hande(testa,Argon)
 
-        Argon.sending(mesag=resul.resut)
         Argon = resul.argo
+        Argon.sending(mesag=resul.resut)
         if resul.cos == 1:
             condi = False
             print('[stop]')
         elif resul.ekgu == 1:
             resul = Excut(testa,Argon)
 
-            Argon.sending(mesag=resul.mesut)
             Argon = resul.argo
+            Argon.sending(mesag=resul.mesut)
             if resul.cos == 1:
                 condi = False
                 print('[stop]')

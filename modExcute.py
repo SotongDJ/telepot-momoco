@@ -39,18 +39,17 @@ class Excut:
         """General functions"""
         msgShort = MsgShort(self.argo.lingua)
         msgMain = MsgMain(self.argo.lingua)
+        primo = self.argo.database.get('mode',{ 0 : '' })
         if "/start" in self.text:
             messa = msgMain.start
-            if self.argo.primo == ['']:
+            if max(primo.keys()) == 0:
                 messa = messa + msgShort.cof
                 self.mesut.append(messa)
-                self.cos=1
         elif "/help" in self.text:
             messa = msgMain.help
-            if self.argo.primo == ['']:
+            if max(primo.keys()) == 0:
                 messa = messa + msgShort.cof
                 self.mesut.append(messa)
-                self.cos=1
         elif "/exit" in self.text:
             self.mesut.append(msgShort.bye)
             self.cos=1
@@ -59,66 +58,70 @@ class Excut:
         """Condition of general function"""
         resut = False
         msgShort = MsgShort(self.argo.lingua)
+        primo = self.argo.database.get('mode',{ 0 : '' })
+        creodata = self.argo.database.get('creo',{})
+        recomdata = creodata.get('recom',{})
+        temradata = creodata.get('temra',{})
 
-        if self.argo.primo == ['']:
+        if max(primo.keys()) == 0:
             if "/expense" in self.text:
-                self.argo.submo = 'expe'
+                creodata.update({ 'submode' : 'expe' })
                 resut = True
             elif "/transfer" in self.text:
-                self.argo.submo = 'tafe'
+                creodata.update({ 'submode' : 'tafe' })
                 resut = True
             elif "/income" in self.text:
-                self.argo.submo = 'inco'
+                creodata.update({ 'submode' : 'inco' })
                 resut = True
 
-        elif self.argo.primo == ['creo']:
+        elif primo.get(max(primo.keys()),'') == 'creo' :
             if '/recom' in self.text:
                 numano = self.text.replace('/recom','')
-                metadi = self.argo.recom.get(numano,{})
+                metadi = recomdata.get(numano,{})
                 for nan in metadi:
                     if nan != 'solok':
                         if nan == 'desci':
-                            if self.argo.temra.get('desci','') == '':
-                                self.argo.temra.update({ 'desci' : metadi.get('desci','') })
+                            if temradata.get('desci','') == '':
+                                temradata.update({ 'desci' : metadi.get('desci','') })
                             else:
-                                metasi = self.argo.temra.get('desci','') + ' ' + metadi.get('desci','')
-                                self.argo.temra.update({ 'desci' : metasi })
+                                metasi = temradata.get('desci','') + ' ' + metadi.get('desci','')
+                                temradata.update({ 'desci' : metasi })
                         else:
-                            self.argo.temra.update({ nan : metadi.get(nan,'') })
-                self.argo.submo = 'temra'
+                            temradata.update({ nan : metadi.get(nan,'') })
+                creodata.update({ 'submode' : 'temra' })
 
             elif '/' in self.text:
                 keywo = self.text[1:6]
                 numano = self.text.replace('/'+keywo,'')
-                if keywo in self.argo.temra.keys():
-                    metadi = self.argo.recom.get(numano,{})
+                if keywo in temradata.keys():
+                    metadi = recomdata.get(numano,{})
                     if metadi.get(keywo,'') != '':
-                        self.argo.temra.update({ keywo : metadi.get(keywo,'') })
-                        if self.argo.temra.get('desci','') == '':
-                            self.argo.temra.update({ 'desci' : metadi.get('desci','') })
+                        temradata.update({ keywo : metadi.get(keywo,'') })
+                        if temradata.get('desci','') == '':
+                            temradata.update({ 'desci' : metadi.get('desci','') })
                         else:
-                            metasi = self.argo.temra.get('desci','') + ' ' + metadi.get('desci','')
-                            self.argo.temra.update({ 'desci' : metasi })
-                        self.argo.submo = 'temra'
+                            metasi = temradata.get('desci','') + ' ' + metadi.get('desci','')
+                            temradata.update({ 'desci' : metasi })
+                        creodata.update({ 'submode' : 'temra' })
 
                 elif self.text[0:6] == "/temra":
-                    self.argo.submo = 'temra'
+                    creodata.update({ 'submode' : 'temra' })
                 elif self.text[0:8] == "/discard":
-                    self.argo.primo = ['']
-                    self.argo.submo = ''
-                    self.argo.temra = {}
-                    self.argo.recom = {}
+                    null = primo.pop(max(primo.keys()))
+                    defal = modVariables.Argo()
+                    creodata = defal.database.get('creo')
+                    self.argo.database.update({'creo' : creodata})
                     self.mesut.append(msgShort.empting)
                 elif self.text[0:5] == "/Save":
-                    if '' in self.argo.temra.values():
+                    if '' in temradata.values():
                         self.bos = False
-                        self.argo.submo = 'temra'
+                        creodata.update({ 'submode' : 'temra' })
                         self.mesut.append(msgShort.emptylist)
                     else:
-                        self.argo.submo = 'saved'
+                        creodata.update({ 'submode' : 'saved' })
                 else:
                     self.mesut.append(msgShort.wrong)
-                    self.argo.submo = 'temra'
+                    creodata.update({ 'submode' : 'temra' })
             elif '/' not in self.text:
                 resut = True
 
@@ -127,20 +130,27 @@ class Excut:
     def moCreo(self):
         """General functions"""
         msgCreo = MsgCreo(lingua=self.argo.lingua)
-        if self.argo.primo != ['creo']:
-            self.argo.temra.update({ 'datte' : tool.date(modde=1,text='-') })
-            self.argo.temra.update({ 'karen' : self.argo.setti.get('karen','') })
-            self.argo.temra.update({ 'tkare' : self.argo.setti.get('karen','') })
-            if self.argo.submo == 'expe':
-                self.argo.temra.update({ 'fromm' : self.argo.setti.get('dexpe','') })
-                self.argo.temra.update({ 'toooo' : self.argo.setti.get('ovede','') })
-            elif self.argo.submo == 'inco':
-                self.argo.temra.update({ 'fromm' : self.argo.setti.get('genis','') })
-                self.argo.temra.update({ 'toooo' : self.argo.setti.get('dinco','') })
-                self.argo.temra.update({ 'klass' : self.argo.setti.get('incom','') })
-            elif self.argo.submo == 'tafe':
-                self.argo.temra.update({ 'klass' : self.argo.setti.get('tanfe','') })
-        self.argo.primo = ['creo']
+
+        primo = self.argo.database.get('mode',{ 0 : '' })
+        creodata = self.argo.database.get('creo',{})
+        submo = creodata.get('submode','')
+        recomdata = creodata.get('recom',{})
+        temradata = creodata.get('temra',{})
+
+        if primo.get(max(primo.keys()),'') != 'creo':
+            temradata.update({ 'datte' : tool.date(modde=1,text='-') })
+            temradata.update({ 'karen' : self.argo.setti.get('karen','') })
+            temradata.update({ 'tkare' : self.argo.setti.get('karen','') })
+            if submo == 'expe':
+                temradata.update({ 'fromm' : self.argo.setti.get('dexpe','') })
+                temradata.update({ 'toooo' : self.argo.setti.get('ovede','') })
+            elif submo == 'inco':
+                temradata.update({ 'fromm' : self.argo.setti.get('genis','') })
+                temradata.update({ 'toooo' : self.argo.setti.get('dinco','') })
+                temradata.update({ 'klass' : self.argo.setti.get('incom','') })
+            elif submo == 'tafe':
+                temradata.update({ 'klass' : self.argo.setti.get('tanfe','') })
+            primo.update({ max(primo.keys())+1 : 'creo'})
 
         print("<Creo>Create new record from \'"+self.argo.keywo+"\'")
         esurut = modRecom.exper(self.argo.usrdir,self.argo.keywo)
@@ -151,11 +161,11 @@ class Excut:
         for numak in range(0,10000):
             metanu = str(numak)
             metanu = '0'*(4-len(metanu)) + metanu
-            if self.argo.recom.get(metanu,{}).get('solok','') == '':
+            if recomdata.get(metanu,{}).get('solok','') == '':
                 numano = metanu
                 break
 
-        self.argo.submo = 'recom'
+        submo = 'recom'
         # pprint.pprint(esurut)
         if esurut != {'price':'','tpric':''}:
             if esurut.get('desci','') == '':
@@ -165,7 +175,7 @@ class Excut:
                 esurut.update({ 'desci' : metasi })
             print('<recom> temra need to update')
             esurut.update({ 'solok' : '@esurut@' })
-            self.argo.recom.update({ numano : esurut })
+            recomdata.update({ numano : esurut })
             self.mesut.append(msgCreo.recoman(esurut=esurut,numano=numano))
             esurut = {}
 
@@ -175,26 +185,37 @@ class Excut:
             defal = modVariables.Argo()
             for n in defal.temra.keys():
                 esurut.update({ n : self.argo.keywo })
-            self.argo.recom.update({ numano : esurut })
+            recomdata.update({ numano : esurut })
             self.mesut.append(msgCreo.recoman(esurut=esurut,numano=numano))
             esurut = {}
 
     def codTemra(self):
+        primo = self.argo.database.get('mode',{ 0 : '' })
+        creodata = self.argo.database.get('creo',{})
+        submo = creodata.get('submode','')
+
         resut = False
-        if self.argo.primo == ['creo']:
-            if self.argo.submo == 'temra':
+        if primo.get(max(primo.keys())) == 'creo':
+            if submo == 'temra':
                 resut = True
         return resut
 
     def moTemra(self):
+        creodata = self.argo.database.get('creo',{})
+        temradata = creodata.get('temra',{})
         msgCreo = MsgCreo(lingua=self.argo.lingua)
-        self.mesut.append(msgCreo.temran(temra=self.argo.temra))
-        self.argo.submo = 'recom'
+        self.mesut.append(msgCreo.temran(temra=temradata))
+        creodata = self.argo.database.get('creo',{})
+        creodata.update({ 'submode' : 'recom' })
 
     def codSave(self):
+        primo = self.argo.database.get('mode',{ 0 : '' })
+        creodata = self.argo.database.get('creo',{})
+        submo = creodata.get('submode','')
+
         resut = False
-        if self.argo.primo == ['creo']:
-            if self.argo.submo == 'saved':
+        if primo.get(max(primo.keys())) == 'creo':
+            if submo == 'saved':
                 resut = True
         return resut
 
@@ -202,26 +223,32 @@ class Excut:
         msgCreo = MsgCreo(lingua=self.argo.lingua)
         msgShort = MsgShort(self.argo.lingua)
 
-        modDatabase.addRaw(self.argo.usrdir,self.argo.temra)
+        primo = self.argo.database.get('mode',{})
+        creodata = self.argo.database.get('creo',{})
+        temradata = creodata.get('temra',{})
+
+        modDatabase.addRaw(self.argo.usrdir,temradata)
         modDatabase.refesdb(self.argo.usrdir)
         self.mesut.append(msgShort.saved)
-        self.mesut.append(msgCreo.savon(temra=self.argo.temra))
+        self.mesut.append(msgCreo.savon(temra=temradata))
 
-        self.argo.primo = ['']
-        self.argo.submo = ''
-        self.argo.temra = {}
-        self.argo.recom = {}
+        null = primo.pop(max(primo.keys()))
+        defal = modVariables.Argo()
+        creodata = defal.database.get('creo')
+        self.argo.database.update({'creo' : creodata})
 
     def codSearch(self):
+        primo = self.argo.database.get('mode',{ 0 : '' })
+
         resut = False
-        if self.argo.primo == ['']:
+        if primo.get(max(primo.keys())) == '':
             if "/search" in self.text:
                 resut = True
         return resut
 
     def moSearch(self):
-        if self.argo.primo != ['sachi']:
-            self.argo.primo = ['sachi']
+        if primo.get(max(primo.keys())) != 'sachi':
+            primo.update({ max(primo.keys())+1 : 'sachi' })
 
         self.mesut = ['HaHa']
 

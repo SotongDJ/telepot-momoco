@@ -54,14 +54,17 @@ class User(telepot.helper.ChatHandler):
         content_type, chat_type, chat_id = telepot.glance(initial_msg)
         usrdir = 'database/usr/'+str(chat_id)
         lingua = modDatabase.openSetting(usrdir=usrdir).get('lingua','enMY')
+        defal = modVariables.Argo()
         msgMain = MsgMain(lingua)
+
         self.argo.usrdir = usrdir
         self.argo.lingua = lingua
-        self.argo.catid = chat_id
-        self.argo.catyp = chat_type
-        self.argo.cotyp = content_type
-        self.argo.primo = ['']
-        self.argo.submo = ''
+        chatdata = self.argo.database.get('chat',{})
+        chatdata.update({ 'chatid' : chat_id })
+        chatdata.update({ 'chattype' : chat_type })
+        chatdata.update({ 'content_type' : content_type })
+        self.argo.database.update({ 'chat' : chatdata })
+        self.argo.database.update({ 'mode' : { 0 : '' } })
         self.argo.setti = modDatabase.openSetting(usrdir=usrdir)
         self.argo.veces = 0
 
@@ -92,9 +95,11 @@ class User(telepot.helper.ChatHandler):
         msgMain = MsgMain(lingua)
         self.argo.usrdir = usrdir
         self.argo.lingua = lingua
-        self.argo.catid = chat_id
-        self.argo.catyp = chat_type
-        self.argo.cotyp = content_type
+        chatdata = self.argo.database.get('chat',{})
+        chatdata.update({ 'chatid' : chat_id })
+        chatdata.update({ 'chattype' : chat_type })
+        chatdata.update({ 'content_type' : content_type })
+        self.argo.database.update({ 'chat' : chatdata })
         self.argo.veces = 0
 
         if content_type != 'text':
