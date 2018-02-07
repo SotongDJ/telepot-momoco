@@ -70,6 +70,7 @@ def exper(usrdir,mesag,preudi=[]):
     datese = tempo.get('datese','')
     if preudi == []:
         preudi = modDatabase.timra(usrdir,btempo=btempo,ftempo=ftempo,modde='uuid')
+    print('preudi: ' + str(len(preudi)) + ' record(s)')
     rawdb = modDatabase.opendb(usrdir).get('raw',{})
     limit = ['datte']
     kewulista = modKeywo.listKeywo(usrdir,limit=limit)
@@ -101,6 +102,7 @@ def exper(usrdir,mesag,preudi=[]):
     fikeli = [] # [keyword]
     fikasi = '' # class-class...
     fudidi = {} # { keywo-keywo... : [uuid]}
+    falson = []
     resudi = [] # [uuid] for preudi
 
     kasse = ''
