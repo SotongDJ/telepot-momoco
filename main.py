@@ -4,7 +4,7 @@ from core import tool
 from core import modDatabase
 from core import modVariables
 
-import modSearch
+import modSearch, auth
 
 from modHandle import Hande
 from modExcute import Excut
@@ -131,7 +131,7 @@ class User(telepot.helper.ChatHandler):
                     self.close()
 
     def on__idle(self, event): # Timeout Region
-        usrdir = 'database/usr/'+str(self.argo.get('catid','admin'))
+        usrdir = 'database/usr/'+str(self.argo.database.get('chat',{}).get('chatid',auth.id()))
         lingua = modDatabase.openSetting(usrdir=usrdir).get('lingua','enMY')
         self.sending(mesag=[msgMain.timesout + msgShort.cof])
         self.close()
