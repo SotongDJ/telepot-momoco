@@ -75,12 +75,18 @@ def exper(usrdir,mesag,preudi=[]):
     # kewulista = {keywo: {class : [ uuid ]}}
 
     mesalista = mesag.split(' ')
+    mesalista = list(set(mesalista))
+    for mesol in mesalista:
+        if mesol in datese:
+            null = mesalista.pop(mesalista.index(mesol))
     mesdik = {} # {class : [keyword]}
     udilis = [] # [uuid]
+    mesodi = [] # [mesol]
 
     for keyto in kewulista.keys():
         for mesol in mesalista:
             if mesol in keyto:
+                mesodi.append(mesol)
                 for kasse in kewulista.get(keyto).keys():
                     metase = mesdik.get(kasse,[])
                     metase.append(keyto)
@@ -132,7 +138,7 @@ def exper(usrdir,mesag,preudi=[]):
                     metasi = metasi + '@' + keyta
 
             statu = 0
-            for mesol in mesalista:
+            for mesol in mesodi:
                 if mesol in metasi:
                     if statu == 0:
                         statu = 2
