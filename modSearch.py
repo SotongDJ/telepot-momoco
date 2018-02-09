@@ -86,6 +86,12 @@ def kenwo(mesag):
 def exper(usrdir,mesag,preudi=[]):
     """Grab word from msg"""
     print('modSearch.exper: '+tool.mask(usrdir))
+
+    rawdb = modDatabase.opendb(usrdir).get('raw',{})
+    limit = ['datte']
+    kewulista = modKeywo.listKeywo(usrdir,limit=limit)
+    # kewulista = {keywo: {class : [ uuid ]}}
+
     tempo = numof(mesag)
     btempo = tempo.get('btempo','')
     ftempo = tempo.get('ftempo','')
@@ -93,15 +99,26 @@ def exper(usrdir,mesag,preudi=[]):
     if preudi == []:
         preudi = modDatabase.timra(usrdir,btempo=btempo,ftempo=ftempo,modde='uuid')
     print('preudi: ' + str(len(preudi)) + ' record(s)')
-    rawdb = modDatabase.opendb(usrdir).get('raw',{})
-    limit = ['datte']
-    kewulista = modKeywo.listKeywo(usrdir,limit=limit)
-    # kewulista = {keywo: {class : [ uuid ]}}
+
+    kenwon = kenwo(mesag)
+    ketase = kenwon.get('ketase',[])
+    temran = kenwon.get('temran',{})
+    for uuid in preudi:
+        tendra = rawdb.get(uuid,{})
+        status = False
+        for kasso in set(temran.keys()):
+            fronto = tendra.get(kasso,'')
+            if fronto != temran.get(kasso,0):
+                status = True
+        if status:
+            preudi = list(set(preudi))
+            null = preudi.pop(preudi.index(uuid))
 
     mesalista = mesag.split(' ')
     mesalista = list(set(mesalista))
+    tratas = list(set(datese+ketase))
     for mesol in mesalista:
-        if mesol in datese:
+        if mesol in tratas:
             null = mesalista.pop(mesalista.index(mesol))
     mesdik = {} # {class : [keyword]}
     udilis = [] # [uuid]
