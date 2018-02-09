@@ -1,5 +1,4 @@
-from core import modDatabase
-from core import tool
+from core import modDatabase, tool, modVariables
 
 import modKeywo,pprint
 
@@ -60,7 +59,30 @@ def numof(mesag):
     }
     return resut
 
+def kenwo(mesag):
+    metase = []
+    defal = modVariables.Argo()
+    temran = defal.temra
 
+    mesalista = mesag.split(' ')
+    for kasso in set(defal.temra.keys()):
+        for mesol in mesalista:
+            print(kasso+" vs. "+mesol)
+            if '#'+kasso in mesol:
+                keywo = mesol.replace('#'+kasso,'')
+                metase.append(mesol)
+                pprint.pprint(metase)
+                temran.update({ kasso : keywo })
+
+    for kasso in set(temran.keys()):
+        if temran.get(kasso,'') == '':
+            null = temran.pop(kasso)
+
+    resut = {
+        'ketase':metase,
+        'temran':temran,
+    }
+    return resut
 def exper(usrdir,mesag,preudi=[]):
     """Grab word from msg"""
     print('modSearch.exper: '+tool.mask(usrdir))
