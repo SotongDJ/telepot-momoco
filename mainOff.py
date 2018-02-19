@@ -2,9 +2,8 @@ import auth,time
 
 from core import tool
 from core import modDatabase
-from core import modVariables
 
-import modSearch
+import modSearch,modArgona
 
 from modHandle import Hande
 from modExcute import Excut
@@ -42,7 +41,7 @@ class argo:
     def __init__(self):
         self.usrdir = usrdir
         self.lingua = lingua
-        defal = modVariables.Argo()
+        defal = modArgona.Argo()
         self.database = defal.database
         chatdata = self.database.get('chat')
         chatdata.update({ 'chatid' : auth.id() })

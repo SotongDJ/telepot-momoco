@@ -1,8 +1,7 @@
 from core import tool
 from core import modDatabase
-from core import modVariables
 
-import modSearch
+import modArgona
 
 from msgMain import MsgMain
 from msgShort import MsgShort

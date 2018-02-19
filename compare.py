@@ -1,8 +1,8 @@
-import modSearch, auth, pprint
-from core import modDatabase, modVariables
+import modSearch, modArgona, auth, pprint
+from core import modDatabase
 usrdir = 'database/usr/'+str(auth.id())
 rawdb = modDatabase.opendb(usrdir).get('raw')
-defal = modVariables.Argo()
+defal = modArgona.Argo()
 tamta = defal.tamta
 ma = input('dynamic(two subject): ')
 mam = ma.split(' ')

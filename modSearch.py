@@ -1,6 +1,6 @@
-from core import modDatabase, tool, modVariables
+from core import modDatabase, tool
 
-import modKeywo,pprint
+import modKeywo, modArgona, pprint
 
 def numof(mesag):
     print('modSearch.numof')
@@ -61,7 +61,7 @@ def numof(mesag):
 
 def kenwo(mesag):
     metase = []
-    defal = modVariables.Argo()
+    defal = modArgona.Argo()
     temran = defal.temra
 
     mesalista = mesag.split(' ')

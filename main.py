@@ -2,9 +2,8 @@ import sys, os, traceback, telepot, time, json, random, pprint
 
 from core import tool
 from core import modDatabase
-from core import modVariables
 
-import modSearch, auth
+import modSearch, modArgona, auth
 
 from modHandle import Hande
 from modExcute import Excut
@@ -26,7 +25,7 @@ exit - Close conversation
 class User(telepot.helper.ChatHandler):
     def __init__(self, *args, **kwargs):
         super(User, self).__init__(*args, **kwargs)
-        self.argo = modVariables.Argo()
+        self.argo = modArgona.Argo()
 
     def sending(self,mesag=['']):
         lingua = self.argo.setti.get('lingua','enMY')
@@ -54,7 +53,7 @@ class User(telepot.helper.ChatHandler):
         content_type, chat_type, chat_id = telepot.glance(initial_msg)
         usrdir = 'database/usr/'+str(chat_id)
         lingua = modDatabase.openSetting(usrdir=usrdir).get('lingua','enMY')
-        defal = modVariables.Argo()
+        defal = modArgona.Argo()
         msgMain = MsgMain(lingua)
 
         self.argo.usrdir = usrdir

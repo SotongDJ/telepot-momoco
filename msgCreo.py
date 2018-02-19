@@ -1,5 +1,4 @@
-import pprint
-from core import modVariables
+import pprint, modArgona
 
 class MsgCreo:
     def __init__(self,lingua='SiMP'):

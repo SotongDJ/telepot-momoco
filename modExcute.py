@@ -2,9 +2,8 @@ import pprint
 
 from core import tool
 from core import modDatabase
-from core import modVariables
 
-import modSearch,modRecom
+import modSearch, modRecom, modArgona
 
 from msgMain import MsgMain
 from msgShort import MsgShort
@@ -110,7 +109,7 @@ class Excut:
                     creodata.update({ 'submode' : 'temra' })
                 elif self.text[0:8] == "/discard":
                     null = primo.pop(max(primo.keys()))
-                    defal = modVariables.Argo()
+                    defal = modArgona.Argo()
                     creodata = defal.database.get('creo')
                     self.argo.database.update({'creo' : creodata})
                     self.mesut.append(msgShort.empting)
@@ -184,7 +183,7 @@ class Excut:
         else:
             print('<recom> required new keyword (seperate with space)')
             esurut = { 'solok' : '@solame@' }
-            defal = modVariables.Argo()
+            defal = modArgona.Argo()
             for n in defal.temra.keys():
                 esurut.update({ n : self.argo.keywo })
             recomdata.update({ numano : esurut })
@@ -235,7 +234,7 @@ class Excut:
         self.mesut.append(msgCreo.savon(temra=temradata))
 
         null = primo.pop(max(primo.keys()))
-        defal = modVariables.Argo()
+        defal = modArgona.Argo()
         creodata = defal.database.get('creo')
         self.argo.database.update({'creo' : creodata})
 
