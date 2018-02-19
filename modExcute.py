@@ -167,7 +167,7 @@ class Excut:
                 numano = metanu
                 break
 
-        submo = 'recom'
+        creodata.update({ 'submode' : 'recom' })
         # pprint.pprint(esurut)
         if esurut != {'price':'','tpric':''}:
             if esurut.get('desci','') == '':
@@ -241,18 +241,42 @@ class Excut:
 
     def codSearch(self):
         primo = self.argo.database.get('mode',{ 0 : '' })
+        sacidata = self.argo.database.get('saci',{})
+        setiodata = sacidata.get('setio',{})
 
         resut = False
         if primo.get(max(primo.keys())) == '':
             if "/search" in self.text:
+                sacidata.update({ 'submode' : 'setio' })
                 resut = True
+        elif primo.get(max(primo.keys()),'') == 'saci' :
+            if '/' not in self.text:
+                sacidata.update({ 'submode' : 'setio' })
+                resut = True
+
         return resut
 
     def moSearch(self):
-        if primo.get(max(primo.keys())) != 'sachi':
-            primo.update({ max(primo.keys())+1 : 'sachi' })
+        primo = self.argo.database.get('mode',{ 0 : '' })
+        sacidata = self.argo.database.get('saci',{})
+        submo = sacidata.get('submode','')
+        setiodata = sacidata.get('setio',{})
 
-        self.mesut = ['HaHa']
+        if primo.get(max(primo.keys())) != 'saci':
+            primo.update({ max(primo.keys())+1 : 'saci' })
+
+        print("<Sachi>Search record with \'"+self.argo.keywo+"\'")
+        trase = modSearch.exper(self.argo.usrdir,self.argo.keywo)
+
+        for numak in range(0,10000):
+            metanu = str(numak)
+            metanu = '0'*(4-len(metanu)) + metanu
+            if setiodata.get(metanu,{}) == {}:
+                numano = metanu
+                break
+
+        setiodata.update({ numano : trase })
+        pprint.pprint(setiodata)
 
     def __init__(self,msg,argon):
         self.text=msg

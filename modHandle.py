@@ -33,6 +33,7 @@ class Hande:
         if max(primo.keys()) == 0 :
             self.resut = [msgMain.home({'keywo':self.text})]
             self.argo.keywo = self.text
+
         elif primo.get(max(primo.keys())) == 'creo':
             creodata = self.argo.database.get('creo',{})
             submo = creodata.get('submode','')
@@ -41,5 +42,16 @@ class Hande:
                 self.argo.keywo = self.text
                 self.ekgu = 1
             elif submo == 'recom':
+                self.argo.keywo = self.text
+                self.ekgu = 1
+
+        elif primo.get(max(primo.keys())) == 'saci':
+            sacidata = self.argo.database.get('saci',{})
+            submo = sacidata.get('submode','')
+            if submo == '':
+                self.resut = [msgMain.home({'keywo':self.text})]
+                self.argo.keywo = self.text
+                self.ekgu = 1
+            elif submo == 'setio':
                 self.argo.keywo = self.text
                 self.ekgu = 1
