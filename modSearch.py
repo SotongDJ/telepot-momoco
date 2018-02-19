@@ -67,11 +67,11 @@ def kenwo(mesag):
     mesalista = mesag.split(' ')
     for kasso in set(defal.temra.keys()):
         for mesol in mesalista:
-            print(kasso+" vs. "+mesol)
+            # print(kasso+" vs. "+mesol)
             if '#'+kasso in mesol:
                 keywo = mesol.replace('#'+kasso,'')
                 metase.append(mesol)
-                pprint.pprint(metase)
+                # pprint.pprint(metase)
                 temran.update({ kasso : keywo })
 
     for kasso in set(temran.keys()):
@@ -83,6 +83,7 @@ def kenwo(mesag):
         'temran':temran,
     }
     return resut
+
 def exper(usrdir,mesag,preudi=[]):
     """Grab word from msg"""
     print('modSearch.exper: '+tool.mask(usrdir))
