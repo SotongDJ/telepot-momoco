@@ -8,6 +8,7 @@
         },
         'saci' : {
             'submode' : '',  # secondary mode, replace submo
+            'setio' : '', # set detail of records
         },
         'chat' : {
             'chatid' : '',  # chat id
