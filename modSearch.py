@@ -116,7 +116,7 @@ def exper(usrdir,mesag,preudi=[]):
             null = preudi.pop(preudi.index(uuid))
 
     mesalista = mesag.split(' ')
-    mesalista = list(set(mesalista))
+    mesalista = list(set(mesalista+list(temran.values())))
     tratas = list(set(datese+ketase))
     for mesol in mesalista:
         if mesol in tratas:
