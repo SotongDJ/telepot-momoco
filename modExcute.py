@@ -266,15 +266,19 @@ class Excut:
 
         print("<Sachi>Search record with \'"+self.argo.keywo+"\'")
         trase = modSearch.exper(self.argo.usrdir,self.argo.keywo)
-
-        for numak in range(0,10000):
-            metanu = str(numak)
-            metanu = '0'*(4-len(metanu)) + metanu
-            if setiodata.get(metanu,{}) == {}:
-                numano = metanu
-                break
-
-        setiodata.update({ numano : trase })
+        fikasi = trase.get('fikasi','')
+        for namna in trase.get('fudidi',{}).keys():
+            for numak in range(0,10000):
+                metanu = str(numak)
+                metanu = '0'*(4-len(metanu)) + metanu
+                if setiodata.get(metanu,{}) == {}:
+                    numano = metanu
+                    break
+            danno = {}
+            danno.update({ 'fikasi' : fikasi })
+            danno.update({ 'namnan' : namna })
+            danno.update({ 'fudidi' : trase.get('fudidi',{}).get(namna,{}) })
+            setiodata.update({ numano : danno })
         pprint.pprint(setiodata)
 
     def __init__(self,msg,argon):
