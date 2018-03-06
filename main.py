@@ -72,7 +72,8 @@ class User(telepot.helper.ChatHandler):
             self.close()
             return
 
-        if "/" in initial_msg['text']:
+        # if "/" in initial_msg['text']:
+        if initial_msg['text'][0] == "/":
             resul = Excut(initial_msg['text'],self.argo)
 
             self.sending(mesag=resul.mesut)
@@ -80,7 +81,8 @@ class User(telepot.helper.ChatHandler):
             if resul.cos == 1:
                 self.close()
 
-        elif "/" not in initial_msg["text"]:
+        # elif "/" not in initial_msg["text"]:
+        else:
             keywo = initial_msg["text"]
             self.argo.keywo = keywo
             self.sending(mesag=[msgMain.home({'keywo':keywo})])
@@ -106,7 +108,8 @@ class User(telepot.helper.ChatHandler):
             self.close()
             return
 
-        if "/" in msg['text']:
+        # if "/" in msg['text']:
+        if msg['text'][0] == "/":
             resul = Excut(msg['text'],self.argo)
 
             self.sending(mesag=resul.mesut)
@@ -114,7 +117,8 @@ class User(telepot.helper.ChatHandler):
             if resul.cos == 1:
                 self.close()
 
-        elif "/" not in msg["text"]:
+        # elif "/" not in msg["text"]:
+        else:
             resul = Hande(msg['text'],self.argo)
 
             self.sending(mesag=resul.resut)
