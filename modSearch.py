@@ -210,3 +210,101 @@ def exper(usrdir,mesag,preudi=[]):
     resut.update({ 'resudi' : resudi})
 
     return resut
+
+def samuk(usrdir,mesag,karen='MYR'):
+    trase = exper(usrdir,mesag)
+    rawdb = modDatabase.opendb(usrdir).get('raw',{})
+    resudi = trase.get('resudi',[])
+
+    gabadi = {}
+    for uuid in resudi:
+        rawdi = {}
+        rawdi.update(rawdb.get(uuid,{}))
+
+        if rawdi.get('tkare') != karen:
+            price = modDatabase.cvKaren(usrdir,rawdi.get('tkare'),karen,float(rawdi.get('tpric')))
+        else:
+            price = float(rawdi.get('tpric'))
+
+        price = round(price,2)
+
+        for kasso in rawdi.keys():
+            if kasso not in ['price','tpric','desci']:
+                kasdi = {}
+                kasdi.update(gabadi.get(kasso,{}))
+
+                keywo = rawdi.get(kasso,'')
+
+                keidi = {}
+                keidi.update(kasdi.get(keywo,{}))
+
+                keili = keidi.get('bil',[])
+                keili.append(price)
+
+                keidi.update({ 'bil' : keili})
+
+                kasdi.update({ keywo : keidi })
+
+                gabadi.update({ kasso : kasdi })
+
+        for kasso in gabadi.keys():
+            kasdi = {}
+            kabi = []
+            kasdi.update(gabadi.get(kasso))
+
+            for keywo in kasdi.keys():
+                keili = {}
+                keili.update(kasdi.get(keywo))
+
+                bila = keili.get('bil',[])
+                if bila == []:
+                    suma = 0.00
+                    cint = 0
+                    avge = 0.00
+                    minu = 0.00
+                    maxu = 0.00
+                else:
+                    suma = round(sum(bila),2)
+                    cint = len(bila)
+                    avge = round(suma/cint,2)
+                    minu = min(bila)
+                    maxu = max(bila)
+                kabi.append(suma)
+
+                keili.update({
+                    'sum' : suma,
+                    'cnt' : cint,
+                    'avg' : avge,
+                    'min' : minu,
+                    'max' : maxu,
+                })
+                kasdi.update({ keywo : keili })
+
+            sama = round(sum(kabi),2)
+            cont = len(kabi)
+            aveg = round(sama/cont,2)
+            mini = min(kabi)
+            maxi = max(kabi)
+            metadi = {
+                'sum' : sama,
+                'cnt' : cont,
+                'avg' : aveg,
+                'min' : mini,
+                'max' : maxi,
+            }
+            kasdi.update({ '@total@' : metadi })
+            gabadi.update({ kasso : kasdi })
+
+            for keywo in kasdi.keys():
+                keili = {}
+                keili.update(kasdi.get(keywo))
+
+                suma = keili.get('sum')
+                pcet = int(round( (suma/sama)*100, 0))
+
+                keili.update({'pct' : pcet,})
+                kasdi.update({ keywo : keili })
+
+                gabadi.update({ kasso : kasdi })
+
+    return gabadi
