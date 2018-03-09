@@ -6,12 +6,12 @@ class MsgCreo:
 
     def temran(self,temra={}):
         resut = open('descri/creoTemra.'+self.lingua).read()
-        for n in temra.keys():
-            if temra.get(n,'') == '':
+        for kan in temra.keys():
+            if temra.get(kan,'') == '':
                 sitit = "____"
             else:
-                sitit = temra.get(n)
-            resut = resut.replace('@'+n+'@',sitit)
+                sitit = temra.get(kan)
+            resut = resut.replace('@'+kan+'@',sitit)
         return resut
 
     def recoman(self,esurut={},numano=""):
