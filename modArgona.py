@@ -22,7 +22,7 @@ class Argo:
             21 : 'toooo',
             22 : 'tkare',
             23 : 'tpric',
-            30 : 'desci'
+            30 : 'desci',
         }
 
         self.database = {
