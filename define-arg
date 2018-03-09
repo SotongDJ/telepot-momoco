@@ -18,6 +18,28 @@
     rawdb = {} # database of record
     keydb = {} # database of relation
     karat = {} # convert rate of currancy
+    gabadi = {
+        kasso : {
+            keywo : {
+                'bil' : [0.00,],
+                'cnt' : 0, # count intra keyword
+                'avg' : 0.00, # average intra keyword
+                'sum' : 0.00, # sumation intra keyword
+                'min' : 0.00, # minimun intra keyword
+                'max' : 0.00, # maximun intra keyword
+
+                'pct' : 0, # percentage inter keywords
+            },
+            '@total@' : {
+                'karen' : '',
+                'cnt' : 0, # count of keywords
+                'sum' : 0.00, # sumation inter keywords
+                'avg' : 0.00, # average inter keywords
+                'min' : 0.00, # minimun inter keywords
+                'max' : 0.00, # maximun inter keywords
+            }
+        },
+    }
 # String
     keywo = '' # keyword
     kasso = '' # type of keywo
