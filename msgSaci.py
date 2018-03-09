@@ -1,4 +1,5 @@
 import pprint, modArgona
+from core import modDatabase
 
 class MsgSaci:
     def __init__(self,lingua='SiMP'):
@@ -119,10 +120,11 @@ class MsgSaci:
         # print(filta)
         return filta
 
-    def setion(self,danno={},rawdi={}):
+    def setion(self,usrdir,danno={}):
         resut = open('descri/saciSetion.'+self.lingua).read()
         kassi = danno.get('fikasi','').split('@')
         kessi = danno.get('namnan','').split('@')
+        rawdb = modDatabase.opendb(usrdir).get('raw',{})
 
         setto = {}
         n = 0
@@ -142,7 +144,7 @@ class MsgSaci:
         udise = danno.get('fudidi',[])
         resal = ''
         for uuid in udise:
-            udidi = rawdi.get(uuid,{})
+            udidi = rawdb.get(uuid,{})
             for kassi in list(setto.keys()):
                 if kassi not in ['fromm','karen','price','toooo','tkare','tpric']:
                     if setto.get(kassi,'-') == udidi.get(kassi,'='):
