@@ -21,13 +21,13 @@ class MsgCreo:
 
         lista = ''
         if esurut.get('datte','') != '':
-            lista = lista +'Date: ('+esurut.get('datte')+')\n　/datte'+numano+'\n'
+            lista = lista +'Date: ('+esurut.get('datte')+')\n　/datteR' + numano+'\n'
         if esurut.get('namma','') != '':
-            lista = lista +'Name/Remind: ('+esurut.get('namma')+')\n　/namma'+numano+'\n'
+            lista = lista +'Name/Remind: ('+esurut.get('namma')+')\n　/nammaR' + numano+'\n'
         if esurut.get('shoop','') != '':
-            lista = lista +'Shop/Agent: ('+esurut.get('shoop')+')\n　/shoop'+numano+'\n'
+            lista = lista +'Shop/Agent: ('+esurut.get('shoop')+')\n　/shoopR' + numano+'\n'
         if esurut.get('klass','') != '':
-            lista = lista +'Class: ('+esurut.get('klass')+')\n　/klass'+numano+'\n'
+            lista = lista +'Class: ('+esurut.get('klass')+')\n　/klassR' + numano+'\n'
 
         focod = False
         if esurut.get('fromm','') != '':
@@ -40,13 +40,13 @@ class MsgCreo:
             lista = lista + '\nFrom: \n　('
 
             if esurut.get('fromm','') != '':
-                lista = lista + '[' + esurut.get('fromm','') + ']　/fromm' + numano + '\n'
+                lista = lista + '[' + esurut.get('fromm','') + ']　/frommR' + numano + '\n'
             lista = lista + esurut.get('karen','___') + '　'
             lista = lista + esurut.get('price','') + ')\n'
             if esurut.get('karen','') != '':
-                lista = lista + '　/karen' + numano +'\n'
+                lista = lista + '　/karenR' + numano +'\n'
             if esurut.get('price','') != '':
-                lista = lista + '　/price' + numano +'\n'
+                lista = lista + '　/priceR' + numano +'\n'
 
         tocod = False
         if esurut.get('toooo','') != '':
@@ -59,27 +59,30 @@ class MsgCreo:
             lista = lista + '\nTo: \n　('
 
             if esurut.get('toooo','') != '':
-                lista = lista + '[' + esurut.get('toooo') + ']　/toooo' + numano + '\n'
+                lista = lista + '[' + esurut.get('toooo') + ']　/tooooR' + numano + '\n'
             lista = lista + '　' + esurut.get('tkare','___') + '　'
             lista = lista + esurut.get('tpric','') + ')\n'
             if esurut.get('tkare','') != '':
-                lista = lista + '　/tkare' + numano +'\n'
+                lista = lista + '　/tkareR' + numano +'\n'
             if esurut.get('tpric','') != '':
-                lista = lista + '　/tpric' + numano +'\n'
+                lista = lista + '　/tpricR' + numano +'\n'
 
         if esurut.get('desci','') != '':
             lista = lista +'\nDescription:\n　'+esurut.get('desci')+'\n'
 
-        resut = resut.replace('@lista@',lista)
-
-        if esurut.get('solok','') == '@esurut@':
-            resut = resut.replace('@recomnumano@',"Replace All: \n"+"　/recom" + numano + "\n")
-        else:
+        if lista == '':
+            lista = '　No recomandation'
             resut = resut.replace('@recomnumano@',"")
+        else:
+            resut = resut.replace('@recomnumano@',"Replace All: \n"+"　/recom" + numano + "\n")
+
+        resut = resut.replace('@lista@',lista)
+        resut = resut.replace('@keywo@',esurut.get('keywo',''))
+
         return resut
 
     def savon(self,temra={}):
         resut = open('descri/creoSaved.'+self.lingua).read()
         for n in temra.keys():
-            resut = resut.replace('@'+n+'@',temra.get(n,"____"))
+            resut = resut.replace('@R' + n+'@',temra.get(n,"____"))
         return resut

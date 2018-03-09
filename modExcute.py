@@ -80,7 +80,7 @@ class Excut:
                 numano = self.text.replace('/recom','')
                 metadi = recomdata.get(numano,{})
                 for nan in metadi:
-                    if nan != 'solok':
+                    if nan != 'keywo':
                         if nan == 'desci':
                             if temradata.get('desci','') == '':
                                 temradata.update({ 'desci' : metadi.get('desci','') })
@@ -93,15 +93,28 @@ class Excut:
 
             elif '/' in self.text:
                 keywo = self.text[1:6]
-                numano = self.text.replace('/'+keywo,'')
+                statu = self.text[6:7]
+                numano = self.text[7:len(self.text)]
                 if keywo in temradata.keys():
                     metadi = recomdata.get(numano,{})
-                    if metadi.get(keywo,'') != '':
-                        temradata.update({ keywo : metadi.get(keywo,'') })
+                    stana = False
+                    
+                    if statu == 'R':
+                        if metadi.get(keywo,'') != '':
+                            desmi = metadi.get('desci','')
+                            temradata.update({ keywo : metadi.get(keywo,'') })
+                            stana = True
+                    elif statu == 'K':
+                        if metadi.get('keywo','') != '':
+                            desmi = metadi.get('keywo','')
+                            temradata.update({ keywo : metadi.get('keywo','') })
+                            stana = True
+
+                    if stana:
                         if temradata.get('desci','') == '':
-                            temradata.update({ 'desci' : metadi.get('desci','') })
+                            temradata.update({ 'desci' : desmi })
                         else:
-                            metasi = temradata.get('desci','') + ' ' + metadi.get('desci','')
+                            metasi = temradata.get('desci','') + ' - ' + desmi
                             temradata.update({ 'desci' : metasi })
                         creodata.update({ 'submode' : 'temra' })
 
@@ -162,7 +175,7 @@ class Excut:
         for numak in range(0,10000):
             metanu = str(numak)
             metanu = '0'*(4-len(metanu)) + metanu
-            if recomdata.get(metanu,{}).get('solok','') == '':
+            if recomdata.get(metanu,{}).get('keywo','') == '':
                 numano = metanu
                 break
 
@@ -174,21 +187,12 @@ class Excut:
             else:
                 metasi = esurut.get('desci') + ' ' + self.argo.keywo
                 esurut.update({ 'desci' : metasi })
-            print('<recom> temra need to update')
-            esurut.update({ 'solok' : '@esurut@' })
-            recomdata.update({ numano : esurut })
-            self.mesut.append(msgCreo.recoman(esurut=esurut,numano=numano))
-            esurut = {}
-
-        else:
-            print('<recom> required new keyword (seperate with space)')
-            esurut = { 'solok' : '@solame@' }
-            defal = modArgona.Argo()
-            for n in defal.temra.keys():
-                esurut.update({ n : self.argo.keywo })
-            recomdata.update({ numano : esurut })
-            self.mesut.append(msgCreo.recoman(esurut=esurut,numano=numano))
-            esurut = {}
+            print('<recom> update info to recom '+numano)
+        print('<recom> add keywo to recom '+numano)
+        esurut.update({ 'keywo' : self.argo.keywo })
+        recomdata.update({ numano : esurut })
+        self.mesut.append(msgCreo.recoman(esurut=esurut,numano=numano))
+        esurut = {}
 
     def codTemra(self):
         primo = self.argo.database.get('mode',{ 0 : '' })
@@ -204,6 +208,7 @@ class Excut:
     def moTemra(self):
         creodata = self.argo.database.get('creo',{})
         temradata = creodata.get('temra',{})
+        # pprint.pprint(creodata)
         msgCreo = MsgCreo(lingua=self.argo.lingua)
         self.mesut.append(msgCreo.temran(temra=temradata))
         creodata = self.argo.database.get('creo',{})
