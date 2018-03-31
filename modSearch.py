@@ -50,8 +50,14 @@ def numof(mesag):
         if len(domun) < 8 :
             domun = domun + '0'*(8-len(domun))
         metadi.update({int(domun):numdo})
-    btempo = metadi.get(min(metadi.keys()))
-    ftempo = metadi.get(max(metadi.keys()))
+
+    if len(metadi) != 0:
+        btempo = metadi.get(min(metadi.keys()))
+        ftempo = metadi.get(max(metadi.keys()))
+    else:
+        btempo = ''
+        ftempo = ''
+
     resut = {
         'datese' : metase,
         'btempo' : btempo,
